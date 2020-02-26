@@ -1,0 +1,6 @@
+{
+  "singleQuote": true,
+  "endOfLine": "auto",
+  "printWidth": 80,
+  "spaceBeforeFunctionParen": true
+}
