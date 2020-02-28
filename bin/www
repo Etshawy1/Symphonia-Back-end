@@ -27,6 +27,8 @@ const server = http.createServer(app);
 server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
+process.on('unhandledRejection', onRejection);
+process.on('uncaughtException', onException);
 
 /**
  * Normalize a port into a number, string, or false.
@@ -86,4 +88,26 @@ function onListening() {
     'pipe ' + addr :
     'port ' + addr.port;
   debug('Listening on ' + bind);
+}
+
+/**
+ * Event listener for unhandledexceptions
+ */
+
+function onException() {
+  __logger.error('UNCAUGHT EXCEPTION! Shutting down...');
+  __logger.error(err.name, err.message);
+  process.exit(1);
+}
+
+/**
+ * Event listener for unhandledRejection
+ */
+
+function onRejection() {
+  __logger.error('UNHANDLED REJECTION! Shutting down...');
+  __logger.error(err.name, err.message);
+  server.close(() => {
+    process.exit(1);
+  });
 }

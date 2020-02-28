@@ -1,6 +1,5 @@
 const winston = require('winston');
 const morgan = require('morgan');
-require('express-async-errors');
 
 module.exports = function (app) {
   const logger = winston.createLogger({
@@ -17,14 +16,10 @@ module.exports = function (app) {
         filename: './logs/error.log',
         level: 'error'
       }),
-      new winston.transports.File({
-        filename: './logs/combined.log'
-      })
+      new winston.transports.File({ filename: './logs/combined.log' })
     ],
     exceptionHandlers: [
-      new winston.transports.File({
-        filename: 'exceptions.log'
-      })
+      new winston.transports.File({ filename: './logs/exceptions.log' })
     ]
   });
 
@@ -39,11 +34,13 @@ module.exports = function (app) {
       })
     );
   }
-
+  process.on('unhandledRejection', ex => {
+    throw ex;
+  });
   app.use(
-    morgan('dev', {
+    morgan('combined', {
       stream: {
-        write: function (message, encoding) {
+        write: function (message) {
           logger.info(message);
         }
       }
