@@ -1,7 +1,8 @@
 const winston = require('winston');
+const morgan = require('morgan');
 require('express-async-errors');
 
-module.exports = function () {
+module.exports = function (app) {
   const logger = winston.createLogger({
     level: 'info',
     format: winston.format.combine(
@@ -12,11 +13,18 @@ module.exports = function () {
     transports: [
       // - Write to all logs with level `info` and below to `combined.log`
       // - Write all logs error (and below) to `error.log`.
-      new winston.transports.File({ filename: './logs/error.log', level: 'error' }),
-      new winston.transports.File({ filename: './logs/combined.log' })
+      new winston.transports.File({
+        filename: './logs/error.log',
+        level: 'error'
+      }),
+      new winston.transports.File({
+        filename: './logs/combined.log'
+      })
     ],
     exceptionHandlers: [
-      new winston.transports.File({ filename: 'exceptions.log' })
+      new winston.transports.File({
+        filename: 'exceptions.log'
+      })
     ]
   });
 
@@ -32,11 +40,15 @@ module.exports = function () {
     );
   }
 
-  logger.stream = {
-    write: function (message, encoding) {
-      logger.info(message);
-    }
-  };
+  app.use(
+    morgan('dev', {
+      stream: {
+        write: function (message, encoding) {
+          logger.info(message);
+        }
+      }
+    })
+  );
 
   global.__logger = logger;
 };
