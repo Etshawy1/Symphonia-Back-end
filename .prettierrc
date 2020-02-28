@@ -1,11 +1,10 @@
 {
   "endOfLine": "auto",
-  "printWidth": 80,
   "spaceBeforeFunctionParen": true,
   "printWidth": 80,
   "eslintIntegration": true,
   "stylelintIntegration": true,
   "tabWidth": 2,
   "singleQuote": true,
-  "semi": false
+  "semi": true
 }

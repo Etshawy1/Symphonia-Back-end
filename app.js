@@ -1,13 +1,10 @@
+require('dotenv').config();
 const express = require('express');
-const logger = require('morgan');
 
 const app = express();
-
-app.use(logger('dev'));
+require('./startup/logging')();
+app.use(require('morgan')('dev', { stream: __logger.stream }));
 require('./startup/routes')(app);
-require('./middleware/error')(app);
+require('./startup/db')();
 
-// add those lines in your vscode settings.json
-//  "files.insertFinalNewline": true,
-//  "javascript.format.insertSpaceAfterFunctionKeywordForAnonymousFunctions": false
 module.exports = app;

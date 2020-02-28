@@ -11,6 +11,7 @@ module.exports = function (app) {
     // set locals, only providing error in development
     res.locals.message = err.message;
     res.locals.error = req.app.get('env') === 'development' ? err : {};
+    __logger.error(err.message, err);
 
     // render the error page
     res.status(err.status || 500);
