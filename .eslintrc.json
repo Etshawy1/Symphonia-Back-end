@@ -1,6 +1,7 @@
 {
   "extends": ["airbnb", "prettier", "plugin:node/recommended"],
   "plugins": ["prettier"],
+  "globals": {"__logger": true},
   "rules": {
     "spaced-comment": "off",
     "no-console": "warn",

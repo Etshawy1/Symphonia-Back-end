@@ -1,6 +1,7 @@
 const express = require('express');
 const helmet = require('helmet');
 const indexRouter = require('../routes/index');
+const error = require('../middleware/error');
 
 module.exports = function (app) {
   app.use(express.json());
@@ -9,4 +10,5 @@ module.exports = function (app) {
   }));
   app.use(helmet());
   app.use('/', indexRouter);
+  error(app);
 };
