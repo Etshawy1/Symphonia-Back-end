@@ -1,7 +1,11 @@
 require('dotenv').config();
+const path = require('path');
 const express = require('express');
 
 const app = express();
+
+app.set('view engine', 'pug');
+app.set('views', path.join(__dirname, 'views'));
 require('./startup/logging')(app);
 require('./startup/ratelimit')(app);
 require('./startup/routes')(app);
