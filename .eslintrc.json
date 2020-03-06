@@ -16,13 +16,25 @@
     "no-underscore-dangle": "off",
     "class-methods-use-this": "off",
     "object-curly-newline": "off",
-    "prefer-destructuring": ["error", {
-      "object": true,
-      "array": false
-    }],
-    "no-unused-vars": ["error", {
-      "argsIgnorePattern": "req|res|next|val"
-    }],
+    "prefer-destructuring": [
+      "error",
+      {
+        "object": true,
+        "array": false
+      }
+    ],
+    "node/no-unpublished-require": [
+      "error",
+      {
+        "allowModules": ["swagger-jsdoc", "swagger-ui-express"]
+      }
+    ],
+    "no-unused-vars": [
+      "error",
+      {
+        "argsIgnorePattern": "req|res|next|val"
+      }
+    ],
     "node/no-unsupported-features/es-syntax": "off",
     "prettier/prettier": [
       "warn",

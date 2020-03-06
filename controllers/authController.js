@@ -14,11 +14,15 @@ const AppError = require('../utils/appError');
 const Email = require('../utils/email');
 
 const signToken = id => {
-  return jwt.sign({
-    id
-  }, process.env.JWT_SECRET_KEY, {
-    expiresIn: process.env.JWT_VALID_FOR
-  });
+  return jwt.sign(
+    {
+      id
+    },
+    process.env.JWT_SECRET_KEY,
+    {
+      expiresIn: process.env.JWT_VALID_FOR
+    }
+  );
 };
 
 const createSendToken = (user, statusCode, res) => {
@@ -47,7 +51,7 @@ exports.signup = catchAsync(async (req, res, next) => {
 
   const url = `${req.protocol}://${req.get('host')}`;
   // console.log(url);
-  await new Email(newUser, url).sendWelcome();
+  //await new Email(newUser, url).sendWelcome();
 
   createSendToken(newUser, 201, res);
 });
