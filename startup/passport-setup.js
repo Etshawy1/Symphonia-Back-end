@@ -10,12 +10,11 @@ passport.use(new GoogleStrategy({
     callbackURL: 'http://localhost:3000/api/v1/users/auth/google/Symphonia',
     clientID: process.env.CLIENT_ID_GOOGLE,
     clientSecret: process.env.CLIENT_SECRET_GOOGLE
-
 }, catchAsync(async (accessToken, refreshToken, profile, done) => {
     __logger.info(JSON.stringify(profile));
     __logger.info(accessToken);
     const existinguser = await User.findOne({
-        facebookId: profile.id
+        googleId: profile.id
     });
 
     if (existinguser) {
@@ -24,8 +23,8 @@ passport.use(new GoogleStrategy({
         const newuser = new User({
             email: profile.emails[0].value,
             name: profile.displayName,
-            facebookId: profile.id,
-            PhotoPath: `${profile.photos[0].value}`,
+            googleId: profile.id,
+            imageUrl: `${profile.photos[0].value}`,
             last_login: Date.now(),
         });
         newuser.save({
@@ -38,7 +37,7 @@ passport.use(new FeacbookStrategy({
     callbackURL: 'http://localhost:3000/api/v1/users/auth/facebook/Symphonia',
     clientID: process.env.CLIENT_ID_FACEBOOK,
     clientSecret: process.env.CLIENT_SECRET_FACEBOOK,
-    profileFields: ['id', 'displayName', 'photos', 'email']
+    profileFields: ['id', 'displayName', 'name', 'photos', 'email', 'friends']
 }, catchAsync(async (accessToken, refreshToken, profile, done) => {
     __logger.info(JSON.stringify(profile));
     __logger.info(accessToken);
@@ -53,7 +52,7 @@ passport.use(new FeacbookStrategy({
             email: profile.emails[0].value,
             name: profile.displayName,
             facebookId: profile.id,
-            PhotoPath: `${profile.photos[0].value}`,
+            imageUrl: `${profile.photos[0].value}`,
             last_login: Date.now(),
         });
         newuser.save({

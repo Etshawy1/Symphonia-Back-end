@@ -13,13 +13,13 @@ router.post('/login', authController.login);
 router.get('/auth/facebook',
   passport.authenticate('facebook', {
     "session": false,
-    scope: ['email']
+    scope: ['email', 'user_friends']
   }));
 router.get('/auth/facebook/Symphonia',
   passport.authenticate('facebook', {
     failureRedirect: '/login',
     successRedirect: '/',
-    scope: ['email']
+    scope: ['email', 'user_friends']
   }), (req, res) => {
     res.status(200).json({
       success: true,
@@ -30,13 +30,13 @@ router.get('/auth/facebook/Symphonia',
 router.get('/auth/google',
   passport.authenticate('google', {
     "session": false,
-    scope: ['profile']
+    scope: ['profile', 'email']
   }));
 
 router.get('/auth/google/Symphonia',
   passport.authenticate('google', {
     failureRedirect: '/login',
-    scope: ['profile']
+    scope: ['profile', 'email']
   }),
   function (req, res) {
     // Successful authentication, redirect home.

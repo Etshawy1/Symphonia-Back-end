@@ -49,7 +49,7 @@ const userSchema = new mongoose.Schema({
   passwordResetExpires: Date,
   googleId: String,
   facebookId: String,
-  PhotoPath: String,
+  imageUrl: String,
   last_login: Date,
   active: {
     type: Boolean,
