@@ -7,31 +7,40 @@ const router = express.Router();
 
 router.post('/signup', authController.signup);
 router.post('/login', authController.login);
-router.get('/auth/google', passport.authenticate('google', {
-  "session": false
-}, {
-  scope: ['profile', 'https://www.googleapis.com/auth/user.emails.read', 'https://www.googleapis.com/auth/user.phonenumbers.read']
-}));
-router.get('/auth/google/Symphonia', passport.authenticate('google', {
-  failureRedirect: '/login'
-}), (req, res) => {
-  res.redirect('/');
-});
-router.get('/auth/facebook', passport.authenticate('facebook', {
-  "session": false
-}, {
-  scope: ['email']
-}));
-//http://localhost:3000/api/v1/users/auth/facebook/Symphonia
+
+
+
+router.get('/auth/facebook',
+  passport.authenticate('facebook', {
+    "session": false,
+    scope: ['email']
+  }));
 router.get('/auth/facebook/Symphonia',
   passport.authenticate('facebook', {
     failureRedirect: '/login',
-    successRedirect: '/'
+    successRedirect: '/',
+    scope: ['email']
   }), (req, res) => {
     res.status(200).json({
       success: true,
       message: 'OAuth is now active'
     });
+  });
+
+router.get('/auth/google',
+  passport.authenticate('google', {
+    "session": false,
+    scope: ['profile']
+  }));
+
+router.get('/auth/google/Symphonia',
+  passport.authenticate('google', {
+    failureRedirect: '/login',
+    scope: ['profile']
+  }),
+  function (req, res) {
+    // Successful authentication, redirect home.
+    res.redirect('/');
   });
 router.post('/forgotpassword', authController.forgotPassword);
 router.patch('/resetpassword/:token', authController.resetPassword);
