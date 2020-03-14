@@ -1,23 +1,20 @@
 const crypto = require('crypto');
-const {
-  promisify
-} = require('util');
+const { promisify } = require('util');
 const _ = require('lodash');
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
-const {
-  User,
-  validate
-} = require('../models/userModel');
+const { User, validate } = require('../models/userModel');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 const Email = require('../utils/email');
 
 const signToken = id => {
-  return jwt.sign({
+  return jwt.sign(
+    {
       id
     },
-    process.env.JWT_SECRET_KEY, {
+    process.env.JWT_SECRET_KEY,
+    {
       expiresIn: process.env.JWT_VALID_FOR
     }
   );
@@ -48,17 +45,13 @@ exports.signup = catchAsync(async (req, res, next) => {
   );
 
   const url = `${req.protocol}://${req.get('host')}`;
-  // console.log(url);
-  //await new Email(newUser, url).sendWelcome();
+  await new Email(newUser, url).sendWelcome();
 
   createSendToken(newUser, 201, res);
 });
 
 exports.login = catchAsync(async (req, res, next) => {
-  const {
-    email,
-    password
-  } = req.body;
+  const { email, password } = req.body;
 
   // Check if email and password exist
   if (!email || !password) {
@@ -78,7 +71,11 @@ exports.login = catchAsync(async (req, res, next) => {
 });
 exports.googleOAuth = catchAsync(async (req, res, next) => {
   passport.authenticate('google', {
-    scope: ['profile', 'https://www.googleapis.com/auth/user.emails.read', 'https://www.googleapis.com/auth/user.phonenumbers.read']
+    scope: [
+      'profile',
+      'https://www.googleapis.com/auth/user.emails.read',
+      'https://www.googleapis.com/auth/user.phonenumbers.read'
+    ]
   });
 });
 

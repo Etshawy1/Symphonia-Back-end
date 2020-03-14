@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-module.exports = function () {
+module.exports = function() {
   const DB = process.env.DATABASE.replace(
     '<PASSWORD>',
     process.env.DATABASE_PASSWORD

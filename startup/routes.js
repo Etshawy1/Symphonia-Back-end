@@ -5,7 +5,7 @@ const meRouter = require('../routes/meRouter');
 const AppError = require('../utils/appError');
 const globalErrorHandler = require('../controllers/errorController');
 
-module.exports = function (app) {
+module.exports = function(app) {
   app.use(express.json());
   app.use(
     express.urlencoded({
