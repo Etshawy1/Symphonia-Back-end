@@ -5,7 +5,7 @@ const meController = require('../controllers/meController');
 
 const router = express.Router();
 
-router.get('/player/tracks/:artist_id/:track_id', authController.protect, meController.playTrack);
+router.get('/player/tracks/:artist_id/:track_id', meController.playTrack);
 
 //thsi just for testing the player
 router.get('/gamed', function (req, res) {

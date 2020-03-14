@@ -6,17 +6,18 @@ const catchAsync = require('../utils/catchAsync');
 const {
     User
 } = require('./../models/userModel');
+
 passport.use(new GoogleStrategy({
     callbackURL: 'http://localhost:3000/api/v1/users/auth/google/Symphonia',
     clientID: process.env.CLIENT_ID_GOOGLE,
     clientSecret: process.env.CLIENT_SECRET_GOOGLE
 }, catchAsync(async (accessToken, refreshToken, profile, done) => {
     __logger.info(JSON.stringify(profile));
+    __logger.info(JSON.stringify(done));
     __logger.info(accessToken);
     const existinguser = await User.findOne({
         googleId: profile.id
     });
-
     if (existinguser) {
         done(null, existinguser);
     } else {
@@ -40,6 +41,7 @@ passport.use(new FeacbookStrategy({
     profileFields: ['id', 'displayName', 'name', 'photos', 'email', 'friends']
 }, catchAsync(async (accessToken, refreshToken, profile, done) => {
     __logger.info(JSON.stringify(profile));
+    __logger.info(JSON.stringify(done));
     __logger.info(accessToken);
     const existinguser = await User.findOne({
         facebookId: profile.id

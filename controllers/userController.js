@@ -1,5 +1,7 @@
 const _ = require('lodash');
-const { User } = require('./../models/userModel');
+const {
+  User
+} = require('./../models/userModel');
 const catchAsync = require('./../utils/catchAsync');
 const AppError = require('./../utils/appError');
 
@@ -45,7 +47,9 @@ exports.updateMe = catchAsync(async (req, res, next) => {
 });
 
 exports.deleteMe = catchAsync(async (req, res, next) => {
-  await User.findByIdAndUpdate(req.user.id, { active: false });
+  await User.findByIdAndUpdate(req.user.id, {
+    active: false
+  });
 
   res.status(204).json({
     status: 'success',

@@ -13,7 +13,7 @@ router.post('/login', authController.login);
 router.get('/auth/facebook',
   passport.authenticate('facebook', {
     "session": false,
-    scope: ['email', 'user_friends']
+    scope: ['email', 'user_friends'],
   }));
 router.get('/auth/facebook/Symphonia',
   passport.authenticate('facebook', {

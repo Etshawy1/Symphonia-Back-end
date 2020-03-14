@@ -5,15 +5,11 @@ const catchAsync = require('./../utils/catchAsync');
 const AppError = require('./../utils/appError');
 
 const mimeNames = {
-    '.css': 'text/css',
-    '.html': 'text/html',
-    '.js': 'application/javascript',
     '.mp3': 'audio/mpeg',
     '.mp4': 'video/mp4',
     '.ogg': 'application/ogg',
     '.ogv': 'video/ogg',
     '.oga': 'audio/ogg',
-    '.txt': 'text/plain',
     '.wav': 'audio/x-wav',
     '.webm': 'video/webm'
 };
@@ -33,8 +29,6 @@ function sendResponse(response, responseStatus, responseHeaders, readable) {
 
 function getMimeNameFromExt(ext) {
     let result = mimeNames[ext.toLowerCase()];
-
-    // It's better to give a default value.
     if (result == null)
         result = 'application/octet-stream';
     return result;
