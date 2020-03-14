@@ -3,6 +3,7 @@ const {
   promisify
 } = require('util');
 const _ = require('lodash');
+const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const {
   User,
@@ -76,6 +77,11 @@ exports.login = catchAsync(async (req, res, next) => {
 
   // If everything ok, send token to client
   createSendToken(user, 200, res);
+});
+exports.googleOAuth = catchAsync(async (req, res, next) => {
+  passport.authenticate('google', {
+    scope: ['profile', 'https://www.googleapis.com/auth/user.emails.read', 'https://www.googleapis.com/auth/user.phonenumbers.read']
+  });
 });
 
 exports.protect = catchAsync(async (req, res, next) => {

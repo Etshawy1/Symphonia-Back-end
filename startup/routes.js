@@ -14,7 +14,6 @@ module.exports = function (app) {
 
   app.use('/', indexRouter);
   app.use('/api/v1/users', userRouter);
-
   app.all('*', (req, res, next) => {
     next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
   });

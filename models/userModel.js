@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const Joi = require('@hapi/joi');
 const validator = require('validator');
 const bcrypt = require('bcrypt');
+const findOrCreate = require('mongoose-findorcreate');
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -46,13 +47,17 @@ const userSchema = new mongoose.Schema({
   passwordChangedAt: Date,
   passwordResetToken: String,
   passwordResetExpires: Date,
+  googleId: String,
+  facebookId: String,
+  PhotoPath: String,
+  last_login: Date,
   active: {
     type: Boolean,
     defult: true,
     select: false
   }
 });
-
+userSchema.plugin(findOrCreate);
 userSchema.pre('save', async function (next) {
   // if password was not modified
   if (!this.isModified('password')) return next();
@@ -77,7 +82,11 @@ userSchema.pre('save', function (next) {
 // we use regex to make this function apply on all that start with 'find'
 userSchema.pre(/^find/, function (next) {
   // this points to the current query
-  this.find({ active: { $ne: false } });
+  this.find({
+    active: {
+      $ne: false
+    }
+  });
   next();
 });
 
@@ -111,7 +120,9 @@ userSchema.methods.createPasswordResetToken = function () {
     .update(resetToken)
     .digest('hex');
 
-  __logger.info({ resetToken }, this.passwordResetToken);
+  __logger.info({
+    resetToken
+  }, this.passwordResetToken);
 
   // the token to reset the password is valit only for 10 minutes
   this.passwordResetExpires = Date.now() + 10 * 60 * 1000;
@@ -121,7 +132,7 @@ userSchema.methods.createPasswordResetToken = function () {
 
 const User = mongoose.model('User', userSchema);
 
-async function validateUser (user) {
+async function validateUser(user) {
   const schema = Joi.object({
     name: Joi.string()
       .min(3)

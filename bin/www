@@ -94,7 +94,7 @@ function onListening() {
  * Event listener for unhandledexceptions
  */
 
-function onException() {
+function onException(err) {
   __logger.error('UNCAUGHT EXCEPTION! Shutting down...');
   __logger.error(err.name, err.message);
   process.exit(1);
