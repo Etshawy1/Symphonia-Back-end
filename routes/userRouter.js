@@ -12,11 +12,9 @@ router.get(
   '/auth/facebook',
   passport.authenticate('facebook', {
     session: false,
-    scope: ['email', 'user_friends']
-  })
-);
-router.get(
-  '/auth/facebook/Symphonia',
+    scope: ['email', 'user_friends'],
+  }));
+router.get('/auth/facebook/Symphonia',
   passport.authenticate('facebook', {
     failureRedirect: '/login',
     successRedirect: '/',
@@ -44,7 +42,7 @@ router.get(
     failureRedirect: '/login',
     scope: ['profile', 'email']
   }),
-  function(req, res) {
+  function (req, res) {
     // Successful authentication, redirect home.
     res.redirect('/');
   }
