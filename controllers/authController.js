@@ -14,12 +14,10 @@ const AppError = require('../utils/appError');
 const Email = require('../utils/email');
 
 const signToken = id => {
-  return jwt.sign(
-    {
+  return jwt.sign({
       id
     },
-    process.env.JWT_SECRET_KEY,
-    {
+    process.env.JWT_SECRET_KEY, {
       expiresIn: process.env.JWT_VALID_FOR
     }
   );
@@ -123,7 +121,6 @@ exports.protect = catchAsync(async (req, res, next) => {
       new AppError('User recently changed password! Please log in again.', 401)
     );
   }
-
   // GRANT ACCESS TO PROTECTED ROUTE
   req.user = currentUser;
   next();
