@@ -33,7 +33,7 @@ const userSchema = new mongoose.Schema({
     required: [true, 'Please confirm your password'],
     validate: {
       // This only works on CREATE and SAVE!!!
-      validator: function(el) {
+      validator: function (el) {
         return el === this.password;
       },
       message: 'Passwords are not the same!'
@@ -49,7 +49,8 @@ const userSchema = new mongoose.Schema({
   passwordResetExpires: Date,
   googleId: String,
   facebookId: String,
-  imageUrl: String,
+  imageFacebookUrl: String,
+  imageGoogleUrl: String,
   last_login: Date,
   active: {
     type: Boolean,
@@ -58,7 +59,7 @@ const userSchema = new mongoose.Schema({
   }
 });
 userSchema.plugin(findOrCreate);
-userSchema.pre('save', async function(next) {
+userSchema.pre('save', async function (next) {
   // if password was not modified
   if (!this.isModified('password')) return next();
 
@@ -69,7 +70,7 @@ userSchema.pre('save', async function(next) {
   next();
 });
 
-userSchema.pre('save', function(next) {
+userSchema.pre('save', function (next) {
   if (!this.isModified('password') || this.isNew) return next();
 
   // to make sure the token is created after the password has been modified
@@ -80,7 +81,7 @@ userSchema.pre('save', function(next) {
 
 // to not get the inactive users from queries
 // we use regex to make this function apply on all that start with 'find'
-userSchema.pre(/^find/, function(next) {
+userSchema.pre(/^find/, function (next) {
   // this points to the current query
   this.find({
     active: {
@@ -91,14 +92,14 @@ userSchema.pre(/^find/, function(next) {
 });
 
 // this function is to compare a provided password with the stored one
-userSchema.methods.correctPassword = async function(
+userSchema.methods.correctPassword = async function (
   candidatePassword,
   userPassword
 ) {
   return await bcrypt.compare(candidatePassword, userPassword);
 };
 
-userSchema.methods.changedPasswordAfter = function(JWTTimestamp) {
+userSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
   if (this.passwordChangedAt) {
     const changedTimestamp = parseInt(
       this.passwordChangedAt.getTime() / 1000,
@@ -112,7 +113,7 @@ userSchema.methods.changedPasswordAfter = function(JWTTimestamp) {
   return false;
 };
 
-userSchema.methods.createPasswordResetToken = function() {
+userSchema.methods.createPasswordResetToken = function () {
   const resetToken = crypto.randomBytes(32).toString('hex');
 
   this.passwordResetToken = crypto
@@ -120,8 +121,7 @@ userSchema.methods.createPasswordResetToken = function() {
     .update(resetToken)
     .digest('hex');
 
-  __logger.info(
-    {
+  __logger.info({
       resetToken
     },
     this.passwordResetToken

@@ -12,20 +12,14 @@ router.get(
   '/auth/facebook',
   passport.authenticate('facebook', {
     session: false,
-    scope: ['email', 'user_friends'],
+    scope: ['email', 'user_friends']
   }));
 router.get('/auth/facebook/Symphonia',
   passport.authenticate('facebook', {
     failureRedirect: '/login',
-    successRedirect: '/',
     scope: ['email', 'user_friends']
   }),
-  (req, res) => {
-    res.status(200).json({
-      success: true,
-      message: 'OAuth is now active'
-    });
-  }
+  authController.facebookOauth
 );
 
 router.get(
@@ -42,11 +36,12 @@ router.get(
     failureRedirect: '/login',
     scope: ['profile', 'email']
   }),
-  function (req, res) {
-    // Successful authentication, redirect home.
-    res.redirect('/');
-  }
+  authController.googleOauth
 );
+
+router.post('/unlinkfacebook', authController.facebookUnlink);
+router.post('/unlinkfacebook', authController.googleUnlink);
+
 router.post('/forgotpassword', authController.forgotPassword);
 router.patch('/resetpassword/:token', authController.resetPassword);
 

@@ -2,11 +2,12 @@ const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20');
 const FeacbookStrategy = require('passport-facebook');
 
-const { User } = require('./../models/userModel');
+const {
+  User
+} = require('./../models/userModel');
 
 passport.use(
-  new GoogleStrategy(
-    {
+  new GoogleStrategy({
       callbackURL: 'http://localhost:3000/api/v1/users/auth/google/Symphonia',
       clientID: process.env.CLIENT_ID_GOOGLE,
       clientSecret: process.env.CLIENT_SECRET_GOOGLE
@@ -17,26 +18,41 @@ passport.use(
       });
 
       if (existingUser) {
+        existingUser.status = 200;
         done(null, existingUser);
       } else {
-        const newUser = new User({
-          email: profile.emails[0].value,
-          name: profile.displayName,
-          googleId: profile.id,
-          imageUrl: `${profile.photos[0].value}`,
-          last_login: Date.now()
+        const existedEmail = await User.findOne({
+          email: profile.emails[0].value
         });
-        newUser.save({
-          validateBeforeSave: false
-        });
-        done(null, newUser);
+        if (existedEmail) {
+          existedEmail.googleId = profile.id;
+          existedEmail.imageGoogleUrl = profile.photos[0].value;
+          existedEmail.last_login = Date.now();
+          existedEmail.save({
+            validateBeforeSave: false
+          });
+          existedEmail.status = 200;
+          done(null, existedEmail);
+        } else {
+          const newUser = new User({
+            email: profile.emails[0].value,
+            name: profile.displayName,
+            googleId: profile.id,
+            imageGoogleUrl: `${profile.photos[0].value}`,
+            last_login: Date.now()
+          });
+          newUser.save({
+            validateBeforeSave: false
+          });
+          newUser.status = 201;
+          done(null, newUser);
+        }
       }
     }
   )
 );
 passport.use(
-  new FeacbookStrategy(
-    {
+  new FeacbookStrategy({
       callbackURL: 'http://localhost:3000/api/v1/users/auth/facebook/Symphonia',
       clientID: process.env.CLIENT_ID_FACEBOOK,
       clientSecret: process.env.CLIENT_SECRET_FACEBOOK,
@@ -48,28 +64,44 @@ passport.use(
       });
 
       if (existingUser) {
+        existingUser.status = 200;
         done(null, existingUser);
       } else {
-        const newUser = new User({
-          email: profile.emails[0].value,
-          name: profile.displayName,
-          facebookId: profile.id,
-          imageUrl: `${profile.photos[0].value}`,
-          last_login: Date.now()
+        const existedEmail = await User.findOne({
+          email: profile.emails[0].value
         });
-        newUser.save({
-          validateBeforeSave: false
-        });
-        done(null, newUser);
+        if (existedEmail) {
+          existedEmail.facebookId = profile.id;
+          existedEmail.imageFacebookUrl = profile.photos[0].value;
+          existedEmail.last_login = Date.now();
+          existedEmail.save({
+            validateBeforeSave: false
+          });
+          existedEmail.status = 200;
+          done(null, existedEmail);
+        } else {
+          const newUser = new User({
+            email: profile.emails[0].value,
+            name: profile.displayName,
+            facebookId: profile.id,
+            imageFacebookUrl: `${profile.photos[0].value}`,
+            last_login: Date.now()
+          });
+          newUser.save({
+            validateBeforeSave: false
+          });
+          newUser.status = 201;
+          done(null, newUser);
+        }
       }
     }
   )
 );
 
-passport.serializeUser(function(user, done) {
+passport.serializeUser(function (user, done) {
   done(null, user);
 });
 
-passport.deserializeUser(function(user, done) {
+passport.deserializeUser(function (user, done) {
   done(null, user);
 });
