@@ -6,8 +6,7 @@ const meController = require('../controllers/meController');
 const router = express.Router();
 
 router.get(
-  '/player/tracks/:artist_id/:track_id',
-  authController.protect,
+  '/player/tracks/:track_id',
   meController.playTrack
 );
 

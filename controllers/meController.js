@@ -1,6 +1,10 @@
 const path = require('path');
 const fs = require('fs');
 const catchAsync = require('./../utils/catchAsync');
+const {
+  Track,
+  validate
+} = require('./../models/trackModel');
 const AppError = require('./../utils/appError');
 
 const mimeNames = {
@@ -23,19 +27,19 @@ function sendResponse(response, responseStatus, responseHeaders, readable) {
       readable.pipe(response);
     });
   }
-
   return null;
 }
 
 function getMimeNameFromExt(ext) {
   let result = mimeNames[ext.toLowerCase()];
-  if (result == null)
+  if (result) {
     result = 'application/octet-stream';
+  }
   return result;
 }
 
 function readRangeHeader(range, totalLength) {
-  if (range == null || range.length === 0) {
+  if (range || range.length === 0) {
     return null;
   }
 
@@ -60,9 +64,11 @@ function readRangeHeader(range, totalLength) {
   return result;
 }
 
-// this will be modified later when add the models
 exports.playTrack = catchAsync(async (req, res, next) => {
-  const trackPath = `assets/${req.params.artist_id}/${req.params.track_id}`;
+  const track = await Track.findById(req.params.track_id);
+  const {
+    trackPath
+  } = track;
   __logger.info(trackPath);
   // Check if file exists. If not, will return the 404 'Not Found'.
   if (!fs.existsSync(trackPath)) {

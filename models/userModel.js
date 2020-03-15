@@ -3,7 +3,6 @@ const mongoose = require('mongoose');
 const Joi = require('@hapi/joi');
 const validator = require('validator');
 const bcrypt = require('bcrypt');
-const findOrCreate = require('mongoose-findorcreate');
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -51,6 +50,7 @@ const userSchema = new mongoose.Schema({
   facebookId: String,
   imageFacebookUrl: String,
   imageGoogleUrl: String,
+  imageUrl: String,
   last_login: Date,
   active: {
     type: Boolean,
@@ -58,7 +58,6 @@ const userSchema = new mongoose.Schema({
     select: false
   }
 });
-userSchema.plugin(findOrCreate);
 userSchema.pre('save', async function (next) {
   // if password was not modified
   if (!this.isModified('password')) return next();
