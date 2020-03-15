@@ -7,6 +7,7 @@ const router = express.Router();
 
 router.get(
   '/player/tracks/:track_id',
+  authController.protect,
   meController.playTrack
 );
 
