@@ -2,20 +2,19 @@
 // const _ = require('lodash');
 // const User = require('./models/userModel');
 
-
-const firebaseConfig = {
-    apiKey: "AIzaSyBc9eQpKYi7CuXkIXOa0oMLpVCeObjiJqQ",
-    authDomain: "symphonia-44ba7.firebaseapp.com",
-    databaseURL: "https://symphonia-44ba7.firebaseio.com",
-    projectId: "symphonia-44ba7",
-    storageBucket: "symphonia-44ba7.appspot.com",
-    messagingSenderId: "127101148812",
-    appId: "1:127101148812:web:325324d331e46deefc65a9",
-    measurementId: "G-SLSGQNP2T8"
-};
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
-firebase.analytics();
+// const firebaseConfig = {
+//     apiKey: "AIzaSyBc9eQpKYi7CuXkIXOa0oMLpVCeObjiJqQ",
+//     authDomain: "symphonia-44ba7.firebaseapp.com",
+//     databaseURL: "https://symphonia-44ba7.firebaseio.com",
+//     projectId: "symphonia-44ba7",
+//     storageBucket: "symphonia-44ba7.appspot.com",
+//     messagingSenderId: "127101148812",
+//     appId: "1:127101148812:web:325324d331e46deefc65a9",
+//     measurementId: "G-SLSGQNP2T8"
+// };
+// // Initialize Firebase
+// firebase.initializeApp(firebaseConfig);
+// firebase.analytics();
 
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
@@ -84,3 +83,6 @@ firebase.analytics();
 //     consle.log("Hello!");
 //     response.send("Hello from Firebase!");
 // });
+
+// the firebase code didn't work for me so i replaced it with the one below
+const app = require('./bin/www');

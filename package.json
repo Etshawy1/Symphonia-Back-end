@@ -23,6 +23,7 @@
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.15",
     "mongoose": "^5.9.4",
+    "mongoose-findorcreate": "^3.0.0",
     "morgan": "~1.9.1",
     "ndb": "^1.1.5",
     "nodemailer": "^6.4.5",
@@ -32,6 +33,7 @@
     "passport-google-oauth20": "^2.0.0",
     "passport-google-plus-token": "^2.1.0",
     "pug": "^2.0.4",
+    "reinstall": "^2.0.0",
     "validator": "^12.2.0",
     "winston": "^3.2.1",
     "xss-clean": "^0.1.1"
