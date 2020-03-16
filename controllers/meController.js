@@ -1,10 +1,7 @@
 const path = require('path');
 const fs = require('fs');
 const catchAsync = require('./../utils/catchAsync');
-const {
-  Track,
-  validate
-} = require('./../models/trackModel');
+const { Track, validate } = require('./../models/trackModel');
 const AppError = require('./../utils/appError');
 
 const mimeNames = {
@@ -23,7 +20,7 @@ function sendResponse(response, responseStatus, responseHeaders, readable) {
   if (readable == null) {
     response.end();
   } else {
-    readable.on('open', function () {
+    readable.on('open', function() {
       readable.pipe(response);
     });
   }
@@ -66,9 +63,7 @@ function readRangeHeader(range, totalLength) {
 
 exports.playTrack = catchAsync(async (req, res, next) => {
   const track = await Track.findById(req.params.track_id);
-  const {
-    trackPath
-  } = track;
+  const { trackPath } = track;
   __logger.info(trackPath);
   // Check if file exists. If not, will return the 404 'Not Found'.
   if (!fs.existsSync(trackPath)) {
