@@ -23,6 +23,10 @@ const trackSchema = new mongoose.Schema({
       message: 'Duration must be More than 3000 milleseconds!'
     }
   },
+  category: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Category'
+  },
   trackImageUrl: String,
   trackPath: String
 });
