@@ -13,8 +13,10 @@ router.get(
   passport.authenticate('facebook', {
     session: false,
     scope: ['email', 'user_friends']
-  }));
-router.get('/auth/facebook/Symphonia',
+  })
+);
+router.get(
+  '/auth/facebook/Symphonia',
   passport.authenticate('facebook', {
     failureRedirect: '/login',
     scope: ['email', 'user_friends']

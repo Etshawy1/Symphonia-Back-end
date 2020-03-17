@@ -2,7 +2,7 @@ require('dotenv').config();
 const path = require('path');
 const express = require('express');
 const passport = require('passport');
-const passportSetUp = require('./startup/passport-setup');
+//const passportSetUp = require('./startup/passport-setup');
 
 const app = express();
 
@@ -14,6 +14,5 @@ require('./startup/ratelimit')(app);
 require('./startup/routes')(app);
 require('./startup/sanitization')(app);
 require('./startup/db')();
-
 
 module.exports = app;
