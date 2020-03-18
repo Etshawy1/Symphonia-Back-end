@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const albumSchema = new mongoose.Schema({
   name: {
     type: String,
+    unique: true,
     required: [true, 'Album must have name'],
     minlength: 2,
     maxlength: 255
@@ -23,7 +24,11 @@ const albumSchema = new mongoose.Schema({
   tracks: {
     type: [mongoose.Schema.Types.ObjectId],
     ref: 'Track',
-    required: [true, 'Album should have track']
+    required: true, //[{ type: true }, { message: 'Album should have track' }]
+    validate: function(val) {
+      if (Array.isArray(val) && val.length === 0)
+        throw new Error('Album should have track');
+    }
   }
 });
 
