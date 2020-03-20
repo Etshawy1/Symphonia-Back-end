@@ -166,7 +166,7 @@ async function validateUser (user) {
       .required()
   });
   try {
-    return schema.validateAsync(user);
+    return await schema.validateAsync(user);
   } catch (err) {
     throw err;
   }
