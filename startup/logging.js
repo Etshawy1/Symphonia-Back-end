@@ -1,7 +1,7 @@
 const winston = require('winston');
 const morgan = require('morgan');
 
-module.exports = function(app) {
+module.exports = function (app) {
   const logger = winston.createLogger({
     level: 'info',
     format: winston.format.combine(
@@ -40,7 +40,7 @@ module.exports = function(app) {
   app.use(
     morgan('combined', {
       stream: {
-        write: function(message) {
+        write: function (message) {
           logger.info(message);
         }
       }

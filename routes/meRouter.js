@@ -16,7 +16,7 @@ router.get(
 );
 
 // this just for testing the player
-router.get('/gamed', function(req, res) {
+router.get('/gamed', function (req, res) {
   res.sendFile(path.join(`${__dirname}/../views/index.html`));
 });
 

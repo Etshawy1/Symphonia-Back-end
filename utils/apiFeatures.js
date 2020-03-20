@@ -1,10 +1,10 @@
 class APIFeatures {
-  constructor(query, queryString) {
+  constructor (query, queryString) {
     this.query = query;
     this.queryString = queryString;
   }
 
-  filter() {
+  filter () {
     const queryObj = {
       ...this.queryString
     }; /* this assignment becauese javascript make any object by reference where assignment with just the equal operatour */
@@ -22,7 +22,7 @@ class APIFeatures {
     return this;
   }
 
-  sort() {
+  sort () {
     if (this.queryString.sort) {
       const sortBy = this.queryString.sort.split(',').join(' ');
       this.query = this.query.sort(sortBy);
@@ -33,7 +33,7 @@ class APIFeatures {
     return this;
   }
 
-  limitFields() {
+  limitFields () {
     if (this.queryString.fields) {
       const fields = this.queryString.fields.split(',').join(' ');
       this.query = this.query.select(fields);
@@ -44,7 +44,7 @@ class APIFeatures {
     return this;
   }
 
-  paginate() {
+  paginate () {
     const page = this.queryString.page * 1 || 1; // the page number
     const limit = this.queryString.limit * 1 || 100; // the number of result in each page
     const skip = (page - 1) * limit;

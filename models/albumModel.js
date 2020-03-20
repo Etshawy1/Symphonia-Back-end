@@ -25,7 +25,7 @@ const albumSchema = new mongoose.Schema({
     type: [mongoose.Schema.Types.ObjectId],
     ref: 'Track',
     required: true, //[{ type: true }, { message: 'Album should have track' }]
-    validate: function(val) {
+    validate: function (val) {
       if (Array.isArray(val) && val.length === 0)
         throw new Error('Album should have track');
     }
