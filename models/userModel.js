@@ -131,13 +131,6 @@ userSchema.methods.createPasswordResetToken = function () {
     .update(resetToken)
     .digest('hex');
 
-  __logger.info(
-    {
-      resetToken
-    },
-    this.passwordResetToken
-  );
-
   // the token to reset the password is valit only for 10 minutes
   this.passwordResetExpires = Date.now() + 10 * 60 * 1000;
 
@@ -172,8 +165,11 @@ async function validateUser (user) {
       .valid('male', 'female')
       .required()
   });
-
-  return schema.validateAsync(user);
+  try {
+    return schema.validateAsync(user);
+  } catch (err) {
+    throw err;
+  }
 }
 
 exports.User = User;
