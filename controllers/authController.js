@@ -35,7 +35,14 @@ exports.signup = catchAsync(async (req, res, next) => {
   await validate(req.body);
   // insert the user data in the database
   const newUser = await User.create(
-    _.pick(req.body, ['email', 'password', 'name', 'passwordConfirm'])
+    _.pick(req.body, [
+      'email',
+      'password',
+      'name',
+      'passwordConfirm',
+      'dateOfBirth',
+      'gender'
+    ])
   );
   const url = `${req.protocol}://${req.get('host')}`;
   await new Email(newUser, url).sendWelcome();
