@@ -83,6 +83,3 @@
 //     consle.log("Hello!");
 //     response.send("Hello from Firebase!");
 // });
-
-// the firebase code didn't work for me so i replaced it with the one below
-const app = require('./bin/www');

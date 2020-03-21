@@ -1,6 +1,6 @@
 const crypto = require('crypto');
 const mongoose = require('mongoose');
-const Joi = require('@hapi/joi');
+const Joi = require('@hapi/joi').extend(require('@hapi/joi-date'));
 const validator = require('validator');
 const bcrypt = require('bcrypt');
 
@@ -9,7 +9,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, 'please provide your name'],
     minlength: 3,
-    maxlength: 255
+    maxlength: 30
   },
   email: {
     type: String,
@@ -23,7 +23,7 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: [true, 'please provide a password'],
-    minlength: 5,
+    minlength: 8,
     maxlength: 1024,
     select: false
   },
@@ -42,6 +42,17 @@ const userSchema = new mongoose.Schema({
     type: String,
     enum: ['user', 'premium-user', 'artist', 'admin'],
     defult: 'user'
+  },
+  gender: {
+    type: String,
+    enum: ['male', 'female'],
+    required: [true, 'please provide the gender']
+  },
+  dateOfBirth: {
+    type: Date,
+    min: '1-1-1900',
+    max: '1-1-2000',
+    required: [true, 'please provide your date of birth']
   },
   passwordChangedAt: Date,
   passwordResetToken: String,
@@ -120,12 +131,6 @@ userSchema.methods.createPasswordResetToken = function () {
     .update(resetToken)
     .digest('hex');
 
-  __logger.info({
-      resetToken
-    },
-    this.passwordResetToken
-  );
-
   // the token to reset the password is valit only for 10 minutes
   this.passwordResetExpires = Date.now() + 10 * 60 * 1000;
 
@@ -134,11 +139,11 @@ userSchema.methods.createPasswordResetToken = function () {
 
 const User = mongoose.model('User', userSchema);
 
-async function validateUser(user) {
+async function validateUser (user) {
   const schema = Joi.object({
     name: Joi.string()
       .min(3)
-      .max(255)
+      .max(30)
       .required(),
     email: Joi.string()
       .min(5)
@@ -146,17 +151,25 @@ async function validateUser(user) {
       .required()
       .email(),
     password: Joi.string()
-      .min(5)
-      .max(255)
+      .min(8)
+      .max(30)
       .required(),
-    passwordConfirm: Joi.string()
-      .min(5)
-      .max(255)
+    passwordConfirm: Joi.ref('password'),
+    dateOfBirth: Joi.date()
+      .format('YYYY-MM-DD')
+      .utc()
+      .greater('1-1-1900')
+      .less('1-1-2000')
+      .required(),
+    gender: Joi.string()
+      .valid('male', 'female')
       .required()
-      .valid(Joi.ref('password'))
   });
-
-  return schema.validateAsync(user);
+  try {
+    return await schema.validateAsync(user);
+  } catch (err) {
+    throw err;
+  }
 }
 
 exports.User = User;

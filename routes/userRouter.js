@@ -13,8 +13,10 @@ router.get(
   passport.authenticate('facebook', {
     session: false,
     scope: ['email', 'user_friends']
-  }));
-router.get('/auth/facebook/Symphonia',
+  })
+);
+router.get(
+  '/auth/facebook/Symphonia',
   passport.authenticate('facebook', {
     failureRedirect: '/login',
     scope: ['email', 'user_friends']
@@ -45,13 +47,11 @@ router.post('/unlinkfacebook', authController.googleUnlink);
 router.post('/forgotpassword', authController.forgotPassword);
 router.patch('/resetpassword/:token', authController.resetPassword);
 
-router.patch(
-  '/updatepassword',
-  authController.protect,
-  authController.updatePassword
-);
+// any endpoint written after the following line is protected
+router.use(authController.protect);
 
-router.patch('/updateMe', authController.protect, userController.updateMe);
-router.delete('/updateMe', authController.protect, userController.deleteMe);
+router.patch('/updatepassword', authController.updatePassword);
+router.patch('/updateMe', userController.updateMe);
+router.delete('/updateMe', userController.deleteMe);
 
 module.exports = router;

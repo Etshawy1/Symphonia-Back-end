@@ -1,75 +1,47 @@
 const mongoose = require('mongoose');
-const slugify = require('slugify');
 
-const albumSchema = new mongoose.Schema(
-  {
-    album_type: {
-      type: String,
-      enum: {
-        values: ['album', 'single', 'compilation'],
-        message:
-          'The type of the album: one of "album" , "single" , or "compilation".'
-      }
-    },
-    collaborative: {
-      type: Boolean
-    },
-    artists: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User'
-    },
-    available_markets: [String],
-    copyright: new mongoose.Schema({
-      text: String,
-      type: {
-        type: String,
-        enum: {
-          values: ['P', 'C'],
-          message:
-            'copy right type must be one of the following C = the copyright, P = the sound recording (performance) copyright.'
-        }
-      }
-    }),
-    release_date: {
-      type: Date
-    },
-    release_date_precesion: {
-      type: String,
-      enum: {
-        values: ['year', 'month', 'day'],
-        message:
-          'The precision with which release_date value is known: "year" , "month" , or "day".'
-      }
-    },
-    tracks: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Track'
-    },
-    generes: [String]
+//const Joi = require('@hapi/joi');
+//Joi.ObjectId = require('joi-objectid');  install it before you use it
+
+const albumSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    unique: true,
+    required: [true, 'Album must have name'],
+    minlength: 2,
+    maxlength: 255
   },
-  {
-    toJSON: { virtuals: true },
-    toObject: { virtuals: true }
+  year: {
+    type: Number,
+    min: 1800,
+    max: 3000
+  },
+  image: String,
+  artist: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Artist',
+    required: [true, 'Album must have Artist']
+  },
+  tracks: {
+    type: [mongoose.Schema.Types.ObjectId],
+    ref: 'Track',
+    required: true, //[{ type: true }, { message: 'Album should have track' }]
+    validate: function(val) {
+      if (Array.isArray(val) && val.length === 0)
+        throw new Error('Album should have track');
+    }
   }
-);
-// Note:
-// i didn't implemnent the uri field mostly itisn't needed
-
-// the type field is required
-albumSchema.virtual('type').get(function() {
-  return 'album';
-});
-albumSchema.virtual('href').get(function() {
-  const href = `url/${slugify(this.name, { lower: true })}`;
-  return href;
 });
 
-const album = mongoose.model('Album', albumSchema);
-exports.album = album;
+const Album = mongoose.model('Album', albumSchema);
 
-//TODO: some fields not implemented yet because the need
-// some not yet definded objects like
-//1. imageObjectSche
-//2. copyright object
-//3. external id objects
-//4. external url object
+// function validateAlbum(album){
+//   const schema = {
+//     artist: Joi.ObjectId.required(),
+//     tracks: [Joi.ObjectId.required()]
+//   };
+//   return Joi.validate(album, schema);
+// }
+
+module.exports = Album;
+//module.exports = validateAlbum;

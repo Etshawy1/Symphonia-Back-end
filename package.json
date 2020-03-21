@@ -2,16 +2,22 @@
   "name": "symphonia",
   "version": "0.0.0",
   "private": true,
+  "derectories": {
+    "test": "tests"
+  },
   "scripts": {
     "start": "nodemon ./bin/www",
-    "debug": "ndb ./bin/www"
+    "debug": "ndb ./bin/www",
+    "test": "jest --watchAll --verbose --coverage"
+  },
+  "jest": {
+    "testEnvironment": "node"
   },
   "dependencies": {
     "@hapi/joi": "^17.1.0",
+    "@hapi/joi-date": "^2.0.1",
     "bcrypt": "^4.0.1",
-    "cookie-parser": "~1.4.4",
-    "cookie-session": "^1.4.0",
-    "debug": "~4.1.1",
+    "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "~4.17.1",
     "express-mongo-sanitize": "^1.3.2",
@@ -25,7 +31,6 @@
     "mongoose": "^5.9.4",
     "mongoose-findorcreate": "^3.0.0",
     "morgan": "~1.9.1",
-    "ndb": "^1.1.5",
     "nodemailer": "^6.4.5",
     "passport": "^0.4.1",
     "passport-facebook": "^3.0.0",
@@ -40,6 +45,9 @@
     "xss-clean": "^0.1.1"
   },
   "devDependencies": {
+    "@shelf/jest-mongodb": "^1.1.3",
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
     "eslint": "^6.8.0",
     "eslint-config-airbnb": "^18.0.1",
     "eslint-config-node": "^4.0.0",
@@ -53,7 +61,10 @@
     "eslint-plugin-react-hooks": "^1.7.0",
     "jest": "^25.1.0",
     "jsdoc": "^3.6.3",
+    "ndb": "^1.1.5",
     "prettier": "^1.19.1",
-    "semistandard": "^14.2.0"
+    "semistandard": "^14.2.0",
+    "superagent": "^5.2.2",
+    "supertest": "^4.0.2"
   }
 }
