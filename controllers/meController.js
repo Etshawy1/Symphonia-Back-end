@@ -14,20 +14,20 @@ const mimeNames = {
   '.webm': 'video/webm'
 };
 
-function sendResponse(response, responseStatus, responseHeaders, readable) {
+function sendResponse (response, responseStatus, responseHeaders, readable) {
   response.writeHead(responseStatus, responseHeaders);
 
   if (readable == null) {
     response.end();
   } else {
-    readable.on('open', function() {
+    readable.on('open', function () {
       readable.pipe(response);
     });
   }
   return null;
 }
 
-function getMimeNameFromExt(ext) {
+function getMimeNameFromExt (ext) {
   let result = mimeNames[ext.toLowerCase()];
   if (result) {
     result = 'application/octet-stream';
@@ -35,7 +35,7 @@ function getMimeNameFromExt(ext) {
   return result;
 }
 
-function readRangeHeader(range, totalLength) {
+function readRangeHeader (range, totalLength) {
   if (range || range.length === 0) {
     return null;
   }

@@ -15,7 +15,7 @@ router.get(
   meController.playTrack
 );
 
-// thsi just for testing the player
+// this just for testing the player
 router.get('/gamed', function(req, res) {
   res.sendFile(path.join(`${__dirname}/../views/index.html`));
 });

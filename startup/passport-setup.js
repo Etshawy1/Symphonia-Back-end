@@ -2,12 +2,11 @@ const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20');
 const FeacbookStrategy = require('passport-facebook');
 
-const {
-  User
-} = require('./../models/userModel');
+const { User } = require('./../models/userModel');
 
 passport.use(
-  new GoogleStrategy({
+  new GoogleStrategy(
+    {
       callbackURL: 'http://localhost:3000/api/v1/users/auth/google/Symphonia',
       clientID: process.env.CLIENT_ID_GOOGLE,
       clientSecret: process.env.CLIENT_SECRET_GOOGLE
@@ -52,7 +51,8 @@ passport.use(
   )
 );
 passport.use(
-  new FeacbookStrategy({
+  new FeacbookStrategy(
+    {
       callbackURL: 'http://localhost:3000/api/v1/users/auth/facebook/Symphonia',
       clientID: process.env.CLIENT_ID_FACEBOOK,
       clientSecret: process.env.CLIENT_SECRET_FACEBOOK,

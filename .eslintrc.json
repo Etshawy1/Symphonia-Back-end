@@ -1,6 +1,12 @@
 {
-  "extends": ["airbnb", "prettier", "plugin:node/recommended"],
-  "plugins": ["prettier"],
+  "extends": [
+    "airbnb",
+    "prettier",
+    "prettier/react",
+    "plugin:node/recommended",
+    "prettier/standard"
+  ],
+  "plugins": ["prettier", "react", "standard"],
   "globals": {
     "__logger": true
   },
@@ -18,6 +24,15 @@
     "no-underscore-dangle": "off",
     "class-methods-use-this": "off",
     "object-curly-newline": "off",
+    "max-len": ["error", { "code": 80, "ignoreUrls": true }],
+    "space-before-function-paren": [
+      "error",
+      {
+        "anonymous": "always",
+        "named": "always",
+        "asyncArrow": "always"
+      }
+    ],
     "prefer-destructuring": [
       "error",
       {
@@ -37,14 +52,9 @@
         "argsIgnorePattern": "req|res|next|val"
       }
     ],
+
     "node/no-unsupported-features/es-syntax": "off",
-    "prettier/prettier": [
-      "warn",
-      {},
-      {
-        "usePrettierrc": true,
-        "spaceBeforeFunctionParen": true
-      }
-    ]
-  }
+    "prettier/prettier": "warn"
+  },
+  "space-before-function-paren": "error"
 }

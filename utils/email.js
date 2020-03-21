@@ -3,14 +3,14 @@ const pug = require('pug');
 const htmlToText = require('html-to-text');
 
 module.exports = class Email {
-  constructor(user, url) {
+  constructor (user, url) {
     this.to = user.email;
     this.firstName = user.name.split(' ')[0];
     this.url = url;
     this.from = `Muhammad Alaa <${process.env.EMAIL_FROM}>`;
   }
 
-  newTransport() {
+  newTransport () {
     if (process.env.NODE_ENV === 'production') {
       // Sendgrid
       return nodemailer.createTransport({
@@ -33,7 +33,7 @@ module.exports = class Email {
   }
 
   // Send the actual email
-  async send(template, subject) {
+  async send (template, subject) {
     // 1) Render HTML based on a pug template
     const html = pug.renderFile(`${__dirname}/../views/email/${template}.pug`, {
       firstName: this.firstName,
@@ -54,11 +54,11 @@ module.exports = class Email {
     await this.newTransport().sendMail(mailOptions);
   }
 
-  async sendWelcome() {
+  async sendWelcome () {
     await this.send('welcome', 'Welcome to the Symphonia Family!');
   }
 
-  async sendPasswordReset() {
+  async sendPasswordReset () {
     await this.send(
       'passwordReset',
       'Your password reset token (valid for only 10 minutes)'
