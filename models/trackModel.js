@@ -24,8 +24,31 @@ const trackSchema = new mongoose.Schema({
     }
   },
   category: {
+    type: [mongoose.Schema.Types.ObjectId],
+    ref: 'Category',
+    required: true,
+    validate: function (val) {
+      if (Array.isArray(val) && val.length === 0)
+        throw new Error('track should have a Category');
+    }
+  },
+  album: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Category'
+    ref: 'Album'
+    // required: [true, "track should be in Album"]
+  },
+  artist: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Artist',
+    required: [true, 'track should have an Artist']
+  },
+  playlists: {
+    type: [mongoose.Schema.Types.ObjectId],
+    ref: 'Playlist'
+  },
+  users: {
+    type: [mongoose.Schema.Types.ObjectId],
+    ref: 'User'
   },
   trackImageUrl: String,
   trackPath: String
