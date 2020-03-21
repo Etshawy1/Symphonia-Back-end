@@ -17,7 +17,7 @@ const mimeNames = {
 function sendResponse (response, responseStatus, responseHeaders, readable) {
   response.writeHead(responseStatus, responseHeaders);
 
-  if (readable == null) {
+  if (!readable) {
     response.end();
   } else {
     readable.on('open', function () {
@@ -27,16 +27,16 @@ function sendResponse (response, responseStatus, responseHeaders, readable) {
   return null;
 }
 
-function getMimeNameFromExt (ext) {
+exports.getMimeNameFromExt = function getMimeNameFromExt (ext) {
   let result = mimeNames[ext.toLowerCase()];
-  if (result) {
+  if (!result) {
     result = 'application/octet-stream';
   }
   return result;
-}
+};
 
-function readRangeHeader (range, totalLength) {
-  if (range || range.length === 0) {
+exports.readRangeHeader = function readRangeHeader (range, totalLength) {
+  if (!range || range.length === 0) {
     return null;
   }
 
@@ -59,9 +59,9 @@ function readRangeHeader (range, totalLength) {
   }
 
   return result;
-}
+};
 
-exports.playTrack = catchAsync(async (req, res, next) => {
+exports.playTrack = catchAsync(async (req, res) => {
   const track = await Track.findById(req.params.track_id);
   const { trackPath } = track;
   __logger.info(trackPath);
