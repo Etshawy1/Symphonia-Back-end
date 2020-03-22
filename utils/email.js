@@ -40,7 +40,6 @@ module.exports = class Email {
       url: this.url,
       subject
     });
-
     // 2) Define email options
     const mailOptions = {
       from: this.from,
@@ -56,6 +55,9 @@ module.exports = class Email {
 
   async sendWelcome () {
     await this.send('welcome', 'Welcome to the Symphonia Family!');
+  }
+  async sendArtistApplication () {
+    await this.send('artist', 'You are applying to be an artist!');
   }
 
   async sendPasswordReset () {
