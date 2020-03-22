@@ -12,14 +12,14 @@ router.get(
   '/auth/facebook',
   passport.authenticate('facebook', {
     session: false,
-    scope: ['email', 'user_friends']
+    scope: ['email', 'user_friends', 'user_gender', 'user_birthday']
   })
 );
 router.get(
   '/auth/facebook/Symphonia',
   passport.authenticate('facebook', {
     failureRedirect: '/login',
-    scope: ['email', 'user_friends']
+    scope: ['email', 'user_friends', 'user_gender', 'user_birthday']
   }),
   authController.facebookOauth
 );
