@@ -25,6 +25,10 @@ passport.use(
       });
 
       if (existingUser) {
+        existingUser.last_login = Date.now();
+        await existingUser.save({
+          validateBeforeSave: false
+        });
         existingUser.status = 200;
         done(null, existingUser);
       } else {
@@ -35,7 +39,7 @@ passport.use(
           existedEmail.googleId = profile.id;
           existedEmail.imageGoogleUrl = profile.photos[0].value;
           existedEmail.last_login = Date.now();
-          existedEmail.save({
+          await existedEmail.save({
             validateBeforeSave: false
           });
           existedEmail.status = 200;
@@ -70,8 +74,11 @@ passport.use(
       const existingUser = await User.findOne({
         facebookId: profile.id
       });
-
       if (existingUser) {
+        existingUser.last_login = Date.now();
+        await existingUser.save({
+          validateBeforeSave: false
+        });
         existingUser.status = 200;
         done(null, existingUser);
       } else {
@@ -82,7 +89,7 @@ passport.use(
           existedEmail.facebookId = profile.id;
           existedEmail.imageFacebookUrl = profile.photos[0].value;
           existedEmail.last_login = Date.now();
-          existedEmail.save({
+          await existedEmail.save({
             validateBeforeSave: false
           });
           existedEmail.status = 200;
