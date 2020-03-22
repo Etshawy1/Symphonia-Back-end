@@ -42,13 +42,11 @@ const trackSchema = new mongoose.Schema({
     ref: 'Artist',
     required: [true, 'track should have an Artist']
   },
-  playlists: {
-    type: [mongoose.Schema.Types.ObjectId],
-    ref: 'Playlist'
+  playlistsCount: {
+    type: Number
   },
-  users: {
-    type: [mongoose.Schema.Types.ObjectId],
-    ref: 'User'
+  usersCount: {
+    type: Number
   },
   trackImageUrl: String,
   trackPath: String

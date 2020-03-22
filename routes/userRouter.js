@@ -41,15 +41,14 @@ router.get(
   authController.googleOauth
 );
 
-router.post('/unlinkfacebook', authController.facebookUnlink);
-router.post('/unlinkfacebook', authController.googleUnlink);
-
 router.post('/forgotpassword', authController.forgotPassword);
 router.patch('/resetpassword/:token', authController.resetPassword);
 
 // any endpoint written after the following line is protected
 router.use(authController.protect);
 
+router.post('/unlinkfacebook', authController.facebookUnlink);
+router.post('/unlinkfacebook', authController.googleUnlink);
 router.patch('/updatepassword', authController.updatePassword);
 router.patch('/updateMe', userController.updateMe);
 router.delete('/updateMe', userController.deleteMe);

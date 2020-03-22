@@ -1,11 +1,12 @@
 const path = require('path');
 const fs = require('fs');
 const catchAsync = require('./../utils/catchAsync').threeArg;
-const { Track, validate } = require('./../models/trackModel');
 const AppError = require('./../utils/appError');
+const { Track } = require('./../models/trackModel');
 const { User } = require('./../models/userModel');
 const { promisify } = require('util');
 const jwt = require('jsonwebtoken');
+const APIFeatures = require('./../utils/apiFeatures');
 
 const mimeNames = {
   '.mp3': 'audio/mpeg',
@@ -24,6 +25,13 @@ async function getProfileInfo (userId) {
     .select('-passwordChangedAt')
     .select('-passwordResetToken')
     .select('-active');
+}
+async function getTopArtistsAndTracks (Model, query) {
+  const top = new APIFeatures(Model.find().sort({ usersCount: -1 }), query)
+    .filter()
+    .limitFields()
+    .paginate();
+  return await top.query;
 }
 
 function sendResponse (response, responseStatus, responseHeaders, readable) {
@@ -155,6 +163,20 @@ exports.currentUserProfile = catchAsync(async (req, res, next) => {
     status: 'success',
     data: {
       currentUser
+    }
+  });
+});
+//this will be modified later after adding the astisit model
+exports.topTracksAndArtists = catchAsync(async (req, res, next) => {
+  // if (req.params.type === 'track') {
+  const doc = await getTopArtistsAndTracks(Track, req.query);
+  // } else {
+  // const doc = await getTopArtistsAndTracks(Artist);
+  // }
+  res.status(200).json({
+    status: 'success',
+    data: {
+      doc
     }
   });
 });
