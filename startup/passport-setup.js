@@ -1,8 +1,16 @@
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20');
 const FeacbookStrategy = require('passport-facebook');
-
+const catchAsync = require('./../utils/catchAsync').fourArg;
 const { User } = require('./../models/userModel');
+
+passport.serializeUser(function (user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function (user, done) {
+  done(null, user);
+});
 
 passport.use(
   new GoogleStrategy(
@@ -11,7 +19,7 @@ passport.use(
       clientID: process.env.CLIENT_ID_GOOGLE,
       clientSecret: process.env.CLIENT_SECRET_GOOGLE
     },
-    async (accessToken, refreshToken, profile, done) => {
+    catchAsync(async (accessToken, refreshToken, profile, done) => {
       const existingUser = await User.findOne({
         googleId: profile.id
       });
@@ -47,7 +55,7 @@ passport.use(
           done(null, newUser);
         }
       }
-    }
+    })
   )
 );
 passport.use(
@@ -58,7 +66,7 @@ passport.use(
       clientSecret: process.env.CLIENT_SECRET_FACEBOOK,
       profileFields: ['id', 'displayName', 'name', 'photos', 'email', 'friends']
     },
-    async (accessToken, refreshToken, profile, done) => {
+    catchAsync(async (accessToken, refreshToken, profile, done) => {
       const existingUser = await User.findOne({
         facebookId: profile.id
       });
@@ -94,14 +102,6 @@ passport.use(
           done(null, newUser);
         }
       }
-    }
+    })
   )
 );
-
-passport.serializeUser(function (user, done) {
-  done(null, user);
-});
-
-passport.deserializeUser(function (user, done) {
-  done(null, user);
-});

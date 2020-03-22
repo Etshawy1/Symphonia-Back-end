@@ -16,9 +16,11 @@ router.get(
 );
 
 // this just for testing the player
-router.get('/gamed', function(req, res) {
+router.get('/gamed', function (req, res) {
   res.sendFile(path.join(`${__dirname}/../views/index.html`));
 });
+router.get('/:user_id', meController.userProfile);
+router.get('/', authController.protect, meController.currentUserProfile);
 
 // section: follow routes
 // Description: check if the current user follows a another user(partist or normal user)

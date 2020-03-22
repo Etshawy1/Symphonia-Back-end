@@ -1,8 +1,11 @@
 const path = require('path');
 const fs = require('fs');
-const catchAsync = require('./../utils/catchAsync');
+const catchAsync = require('./../utils/catchAsync').threeArg;
 const { Track, validate } = require('./../models/trackModel');
 const AppError = require('./../utils/appError');
+const { User } = require('./../models/userModel');
+const { promisify } = require('util');
+const jwt = require('jsonwebtoken');
 
 const mimeNames = {
   '.mp3': 'audio/mpeg',
@@ -13,6 +16,15 @@ const mimeNames = {
   '.wav': 'audio/x-wav',
   '.webm': 'video/webm'
 };
+
+async function getProfileInfo (userId) {
+  return await User.findById(userId)
+    .select('-password')
+    .select('-passwordConfirm')
+    .select('-passwordChangedAt')
+    .select('-passwordResetToken')
+    .select('-active');
+}
 
 function sendResponse (response, responseStatus, responseHeaders, readable) {
   response.writeHead(responseStatus, responseHeaders);
@@ -118,4 +130,31 @@ exports.playTrack = catchAsync(async (req, res) => {
       end: end
     })
   );
+});
+exports.userProfile = catchAsync(async (req, res, next) => {
+  const currentUser = await getProfileInfo(req.params.user_id);
+  if (!currentUser._id) {
+    return next(new AppError('No user found', 404));
+  }
+  res.status(200).json({
+    status: 'success',
+    data: {
+      currentUser
+    }
+  });
+});
+exports.currentUserProfile = catchAsync(async (req, res, next) => {
+  let token = req.headers.authorization.split(' ')[1];
+  const decoded = await promisify(jwt.verify)(
+    token,
+    process.env.JWT_SECRET_KEY
+  );
+  __logger.info(decoded.id);
+  const currentUser = await getProfileInfo(decoded.id);
+  res.status(200).json({
+    status: 'success',
+    data: {
+      currentUser
+    }
+  });
 });

@@ -2,7 +2,7 @@
 //const {Album,validateAlbum} = require('./../models/albumModel');
 const Album = require('./../models/albumModel');
 const APIFeatures = require('./../utils/apiFeatures');
-const catchAsync = require('./../utils/catchAsync');
+const catchAsync = require('./../utils/catchAsync').threeArg;
 
 exports.getAllAlbums = catchAsync(async (req, res, next) => {
   const features = new APIFeatures(Album.find(), req.query)

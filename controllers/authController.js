@@ -4,7 +4,7 @@ const _ = require('lodash');
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const { User, validate } = require('../models/userModel');
-const catchAsync = require('../utils/catchAsync');
+const catchAsync = require('../utils/catchAsync').threeArg;
 const AppError = require('../utils/appError');
 const Email = require('../utils/email');
 const signToken = id => {
