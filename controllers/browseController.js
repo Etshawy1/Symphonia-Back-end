@@ -61,7 +61,6 @@ exports.createCategory = catchAsync(async (req, res, next) => {
     icons: req.body.icons
   });
 
-  console.log(category);
   res.status(200).json({
     status: 'success',
     data: {
