@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const app = require('../../../app'); // Link to your server file
+const { User } = require('../../../models/userModel');
 const request = require('supertest');
 const _ = require('lodash');
 
@@ -15,6 +16,7 @@ describe('Sign up', () => {
         }
       }
     );
+    User.deleteMany({});
   });
 
   afterAll(async () => {
@@ -24,7 +26,7 @@ describe('Sign up', () => {
   it('should sign up the valid user successfully and return its data and a JWT token', async () => {
     user = {
       name: 'etsh',
-      email: 'test4@test.com',
+      email: 'test52@test.com',
       password: 'password',
       passwordConfirm: 'password',
       dateOfBirth: '1999-12-31',
