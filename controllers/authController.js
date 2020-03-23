@@ -22,6 +22,7 @@ const createSendToken = (user, statusCode, res) => {
   const token = signToken(user._id);
   // Remove password from output
   user.password = undefined;
+  user.tracks = undefined;
   res.status(statusCode).json({
     status: 'success',
     token,

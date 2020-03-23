@@ -56,7 +56,8 @@ const userSchema = new mongoose.Schema({
   },
   tracks: {
     type: [mongoose.Schema.Types.ObjectId],
-    ref: 'Track'
+    ref: 'Track',
+    select: false
   },
   passwordChangedAt: Date,
   passwordResetToken: String,
