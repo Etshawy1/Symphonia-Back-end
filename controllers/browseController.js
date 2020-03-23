@@ -1,36 +1,71 @@
-exports.getCategory = async (req, res) => {
-  console.log(req.params);
-  res.status(200).json({
-    message: 'not implementedd yet getCategory'
-  });
-};
+const Category = require('./../models/categoryModel');
 
-exports.getCategoriesPlaylists = async (req, res) => {
+const APIFeatures = require('./../utils/apiFeatures');
+const catchAsync = require('./../utils/catchAsync');
+
+exports.getCategory = catchAsync(async (req, res, next) => {
+  console.log(req.params);
+  category = await Category.findOne({
+    id: req.params.id
+  }).select('-_id -__v');
+
+  res.status(200).json({
+    category
+  });
+});
+
+exports.getCategoriesPlaylists = catchAsync(async (req, res, next) => {
   res.status(200).json({
     message: 'not implementedd yet getCategoriesPlaylists'
   });
-};
+});
 
-exports.getCategories = async (req, res) => {
+exports.getCategories = catchAsync(async (req, res, next) => {
+  const features = new APIFeatures(Category.find(), req.query)
+    .filter()
+    .sort()
+    .limitFields()
+    .paginate();
+  const categorys = await features.query;
+
   res.status(200).json({
-    message: 'not implementedd yet getCategories'
+    status: 'success',
+    results: categorys.length,
+    data: {
+      categorys
+    }
   });
-};
+});
 
-exports.getFeaturedPlaylists = async (req, res) => {
+exports.getFeaturedPlaylists = catchAsync(async (req, res, next) => {
   res.status(200).json({
     message: 'not implementedd yet getFeaturedPlaylists'
   });
-};
+});
 
-exports.getNewRelease = async (req, res) => {
+exports.getNewRelease = catchAsync(async (req, res, next) => {
   res.status(200).json({
     message: 'not implementedd yet getNewRelease'
   });
-};
+});
 
-exports.getRecommendations = async (req, res) => {
+exports.getRecommendations = catchAsync(async (req, res, next) => {
   res.status(200).json({
     message: 'not implementedd yet getRecommendations'
   });
-};
+});
+
+exports.createCategory = catchAsync(async (req, res, next) => {
+  const category = await Category.create({
+    name: req.body.name,
+    icons: req.body.icons
+  });
+
+  console.log(category);
+  res.status(200).json({
+    status: 'success',
+    data: {
+      category
+    }
+  });
+});

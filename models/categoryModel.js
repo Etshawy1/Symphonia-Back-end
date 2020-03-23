@@ -10,6 +10,10 @@ const categorySchema = new mongoose.Schema(
       minlength: 2,
       maxlength: 255
     },
+    id: {
+      type: String,
+      unique: [true, 'category name already exists']
+    },
     icons: [String]
   },
   {
@@ -18,10 +22,14 @@ const categorySchema = new mongoose.Schema(
   }
 );
 
+categorySchema.pre('save', function() {
+  this.id = slugify(this.name, { lower: true });
+});
+
 categorySchema.virtual('href').get(function() {
   const href = `url/${slugify(this.name, { lower: true })}`;
   return href;
 });
 
-const category = mongoose.model('Category', categorySchema);
-exports.category = category;
+const Category = mongoose.model('Category', categorySchema);
+module.exports = Category;
