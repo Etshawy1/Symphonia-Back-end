@@ -13,7 +13,7 @@ describe('User Model Test', () => {
         }
       }
     );
-    User.deleteMany({});
+    await User.deleteMany({});
   });
 
   afterAll(async () => {

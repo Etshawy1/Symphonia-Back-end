@@ -16,7 +16,7 @@ describe('Sign up', () => {
         }
       }
     );
-    User.deleteMany({});
+    await User.deleteMany({});
   });
 
   afterAll(async () => {
