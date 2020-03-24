@@ -203,3 +203,70 @@ exports.addTracksToPlaylist = catchAsync(async (req, res, next) => {
     }
   });
 });
+
+exports.changePlaylistDetails = catchAsync(async (req, res, next) => {
+  const playlist = await Playlist.findByIdAndUpdate(
+    req.params.id,
+    {
+      name: req.body.name,
+      collaborative: req.body.collaborative,
+      public: req.body.public,
+      description: req.body.description
+    },
+    { new: true }
+  );
+  if (!playlist) return res.status(404).send('This Playlist is not found!');
+
+  res.status(200).json({
+    status: 'success',
+    results: playlist.length,
+    data: {
+      playlist
+    }
+  });
+});
+exports.replacePlaylistTracks = catchAsync(async (req, res, next) => {
+  const playlist = await Playlist.findByIdAndUpdate(
+    req.params.id,
+    {
+      tracks: req.body.tracks
+    },
+    { new: true }
+  );
+
+  if (!playlist)
+    return res
+      .status(404)
+      .send('The playlist with the given ID was not found.');
+
+  res.status(200).json({
+    status: 'success',
+    results: playlist.length,
+    data: {
+      playlist
+    }
+  });
+});
+
+exports.uploadCustomPlaylistCoverImage = catchAsync(async (req, res, next) => {
+  const playlist = await Playlist.findByIdAndUpdate(
+    req.params.id,
+    {
+      images: req.body.images
+    },
+    { new: true }
+  );
+
+  if (!playlist)
+    return res
+      .status(404)
+      .send('The playlist with the given ID was not found.');
+
+  res.status(200).json({
+    status: 'success',
+    results: playlist.length,
+    data: {
+      playlist
+    }
+  });
+});

@@ -17,8 +17,16 @@ router.get('/:id/tracks', playlistController.getPlaylistTracks);
 router.delete('/:id/tracks', playlistController.removePlaylistTracks);
 //Description: Add one or more tracks to a user’s playlist
 router.post('/:id/tracks', playlistController.addTracksToPlaylist);
+//Description: Change a playlist’s name and public/private state. (The user must, of course, own the playlist.)
+router.patch('/:id/', playlistController.changePlaylistDetails);
+//Description: Replace all the tracks in a playlist, overwriting its existing tracks
+//              This powerful request can be useful for replacing tracks, re-ordering existing tracks, or clearing the playlist.
+router.patch('/:id/tracks', playlistController.replacePlaylistTracks);
+//Description: Replace the image used to represent a specific playlist.
+router.patch('/:id/images', playlistController.uploadCustomPlaylistCoverImage);
 
 // section: follow routes
+
 // check if user follows a playlist
 router.get('/:id/followers/contains', followController.checkIfPlaylistFollower);
 // Description: follow a playlist
