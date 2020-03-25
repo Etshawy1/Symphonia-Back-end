@@ -54,6 +54,11 @@ const userSchema = new mongoose.Schema({
     max: '1-1-2000',
     required: [true, 'please provide your date of birth']
   },
+  tracks: {
+    type: [mongoose.Schema.Types.ObjectId],
+    ref: 'Track',
+    select: false
+  },
   passwordChangedAt: Date,
   passwordResetToken: String,
   passwordResetExpires: Date,
@@ -139,7 +144,7 @@ userSchema.methods.createPasswordResetToken = function() {
 
 const User = mongoose.model('User', userSchema);
 
-async function validateUser(user) {
+async function validateUser (user) {
   const schema = Joi.object({
     name: Joi.string()
       .min(3)

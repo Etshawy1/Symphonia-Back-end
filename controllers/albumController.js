@@ -2,7 +2,7 @@
 //const {Album,validateAlbum} = require('./../models/albumModel');
 const Album = require('./../models/albumModel');
 const APIFeatures = require('./../utils/apiFeatures');
-const catchAsync = require('./../utils/catchAsync');
+const catchAsync = require('./../utils/catchAsync').threeArg;
 
 exports.getAllAlbums = catchAsync(async (req, res, next) => {
   const features = new APIFeatures(Album.find(), req.query)
@@ -22,6 +22,8 @@ exports.getAllAlbums = catchAsync(async (req, res, next) => {
 });
 
 exports.getAlbum = catchAsync(async (req, res, next) => {
+  const check = await Album.findById(req.params.id);
+  if (!check) return res.status(404).send('This Album is not found!');
   const features = new APIFeatures(Album.findById(req.params.id), req.query)
     .filter()
     .sort()
@@ -38,6 +40,8 @@ exports.getAlbum = catchAsync(async (req, res, next) => {
 });
 
 exports.getAlbumTracks = catchAsync(async (req, res, next) => {
+  const check = await Album.findById(req.params.id);
+  if (!check) return res.status(404).send('This Album is not found!');
   const features = new APIFeatures(
     Album.findById(req.params.id).select('tracks'),
     req.query

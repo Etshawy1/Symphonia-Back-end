@@ -7,18 +7,20 @@ const meController = require('../controllers/meController');
 const followController = require('../controllers/followController');
 const libraryController = require('../controllers/libraryController');
 
-const router = express.Router();
+const playlistController = require('./../controllers/playlistController');
 
-router.get(
-  '/player/tracks/:track_id',
-  authController.protect,
-  meController.playTrack
-);
+const router = express.Router();
+router.get('/:user_id', meController.userProfile);
+router.use(authController.protect);
+router.get('/player/tracks/:track_id', meController.playTrack);
 
 // this just for testing the player
 router.get('/gamed', function(req, res) {
   res.sendFile(path.join(`${__dirname}/../views/index.html`));
 });
+router.get('/', meController.currentUserProfile);
+
+router.get('/top/:type', meController.topTracksAndArtists);
 
 // section: follow routes
 // Description: check if the current user follows a another user(partist or normal user)
@@ -57,5 +59,10 @@ router.delete('/tracks', libraryController.removeCurrentUserSavedTracks);
 router.put('/albums', libraryController.saveCurrentUserAlbums);
 //Description:Save one or more tracks to the current user’s ‘Your Music’ library.
 router.put('/tracks', libraryController.saveCurrentUserTracks);
+
+//section: Playlist routes
+
+//Description: Get a list of the playlists owned or followed by the current Symphonia user.
+router.get('/playlists', playlistController.getCurrentUserPlaylists);
 
 module.exports = router;

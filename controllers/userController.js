@@ -1,6 +1,6 @@
 const _ = require('lodash');
 const { User } = require('./../models/userModel');
-const catchAsync = require('./../utils/catchAsync');
+const catchAsync = require('./../utils/catchAsync').threeArg;
 const AppError = require('./../utils/appError');
 
 exports.getAllUsers = catchAsync(async (req, res, next) => {
