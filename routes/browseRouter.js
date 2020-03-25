@@ -8,7 +8,14 @@ const router = express.Router();
 router.post(
   '/categories',
   authController.protect,
-  uploader.array('icons', 12),
+  uploader.fields([
+    { name: 'icon_sm', maxCount: 1 },
+    { name: 'icon_md', maxCount: 1 },
+    {
+      name: 'icon_lg',
+      maxCount: 1
+    }
+  ]),
   browseController.createCategory
 );
 
