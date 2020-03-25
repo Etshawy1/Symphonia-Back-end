@@ -156,44 +156,33 @@ exports.getPlaylistTracks = catchAsync(async (req, res, next) => {
 });
 
 exports.removePlaylistTracks = catchAsync(async (req, res, next) => {
-  // const tracks = await Playlist.findById(req.params.id).select('tracks');
-  // tracks.length = 0;
-  let tracks = await Playlist.findById(req.params.id).select('tracks');
-
-  if (!tracks)
-    return res
-      .status(404)
-      .send('The playlist with the given ID was not found.');
-
-  tracks.overwrite('');
-
-  tracks = await tracks.save();
+  let playlist = await Playlist.update(
+    { _id: req.params.id },
+    { $unset: { tracks: '' } },
+    { multi: true }
+  );
 
   res.status(200).json({
     status: 'success',
-    results: tracks.length,
-    data: {
-      tracks
-    }
+    results: playlist.length
   });
 });
 
 exports.addTracksToPlaylist = catchAsync(async (req, res, next) => {
-  // const preplaylist = await Playlist.findById(req.params.id);
-  // var pretracks = preplaylist.tracks;
-  // pretracks.push(req.body.tracks);
-  const playlist = await Playlist.findByIdAndUpdate(
+  let check = await Playlist.findById(req.params.id);
+  if (!check)
+    return res
+      .status(404)
+      .send('The playlist with the given ID was not found.');
+  let playlist = await Playlist.findByIdAndUpdate(
     req.params.id,
     {
-      tracks: req.body.tracks //pretracks.push(req.body.tracks)
+      $push: { tracks: req.body.tracks }
     },
     { new: true }
   );
 
-  if (!playlist)
-    return res
-      .status(404)
-      .send('The playlist with the given ID was not found.');
+  await playlist.save();
 
   res.status(200).json({
     status: 'success',
