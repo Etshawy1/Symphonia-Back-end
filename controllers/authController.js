@@ -7,20 +7,10 @@ const { User, validate } = require('../models/userModel');
 const catchAsync = require('../utils/catchAsync').threeArg;
 const AppError = require('../utils/appError');
 const Email = require('../utils/email');
-const signToken = id => {
-  return jwt.sign(
-    {
-      id
-    },
-    process.env.JWT_SECRET_KEY,
-    {
-      expiresIn: process.env.JWT_VALID_FOR
-    }
-  );
-};
+
 const createSendToken = (user, statusCode, res) => {
-  const token = signToken(user._id);
-  // Remove password from output
+  const token = user.signToken();
+  // Remove password and tracks from output
   user.password = undefined;
   user.tracks = undefined;
   res.status(statusCode).json({

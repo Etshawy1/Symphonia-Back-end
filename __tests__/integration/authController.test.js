@@ -1,9 +1,11 @@
 const mongoose = require('mongoose');
-const app = require('../../../app'); // Link to your server file
-const { User } = require('../../../models/userModel');
+const { User } = require('../../models/userModel');
 const request = require('supertest');
 const _ = require('lodash');
 
+let app;
+
+jest.setTimeout(15000);
 describe('Sign up', () => {
   beforeAll(async () => {
     await mongoose.connect(
@@ -19,8 +21,11 @@ describe('Sign up', () => {
     await User.deleteMany({});
   });
 
-  afterAll(async () => {
-    await mongoose.connection.close();
+  beforeEach(() => {
+    app = require('../../app');
+  });
+  afterEach(async () => {
+    await User.deleteMany({});
   });
 
   it('should sign up the valid user successfully and return its data and a JWT token', async () => {
