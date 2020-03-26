@@ -94,7 +94,7 @@ describe('validateUser', () => {
 describe('signToken', () => {
   it('should return a valid jwt token', async () => {
     const user = new User({ _id: mongoose.Types.ObjectId() });
-    process.env.JWT_SECRET_KEY = 'TheSymphoniaAppIsTheBest';
+    process.env.JWT_SECRET_KEY = 'testingkey';
     process.env.JWT_VALID_FOR = '30d';
     const token = user.signToken();
     expect(token).toBeDefined();
