@@ -10,8 +10,8 @@ const trackSchema = new mongoose.Schema({
   },
   type: {
     type: String,
-    enum: ['free', 'premium'],
-    defult: 'free'
+    enum: ['track'],
+    defult: 'track'
   },
   durationMs: {
     type: Number,
@@ -23,15 +23,17 @@ const trackSchema = new mongoose.Schema({
       message: 'Duration must be More than 3000 milleseconds!'
     }
   },
-  category: {
-    type: [mongoose.Schema.Types.ObjectId],
-    ref: 'Category',
-    required: true,
-    validate: function (val) {
-      if (Array.isArray(val) && val.length === 0)
-        throw new Error('track should have a Category');
+  category: [
+    {
+      type: [mongoose.Schema.Types.ObjectId],
+      ref: 'Category',
+      required: true,
+      validate: function (val) {
+        if (Array.isArray(val) && val.length === 0)
+          throw new Error('track should have a Category');
+      }
     }
-  },
+  ],
   album: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Album'
@@ -39,7 +41,7 @@ const trackSchema = new mongoose.Schema({
   },
   artist: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Artist',
+    ref: 'User',
     required: [true, 'track should have an Artist']
   },
   playlistsCount: {

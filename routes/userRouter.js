@@ -3,6 +3,7 @@ const passport = require('passport');
 const authController = require('../controllers/authController');
 const userController = require('../controllers/userController');
 const playlistController = require('./../controllers/playlistController');
+const trackController = require('./../controllers/trackController');
 
 const router = express.Router();
 
@@ -53,6 +54,15 @@ router.post('/unlinkfacebook', authController.googleUnlink);
 router.patch('/updatepassword', authController.updatePassword);
 router.patch('/updateMe', userController.updateMe);
 router.delete('/updateMe', userController.deleteMe);
+
+// tracks
+
+router.route('/track/:id').get(trackController.getTrack);
+
+router
+  .route('/tracks')
+  .get(trackController.getSeveralTacks)
+  .post(trackController.addTrack);
 
 // Playlist section
 

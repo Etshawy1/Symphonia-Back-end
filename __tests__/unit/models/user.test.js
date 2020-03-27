@@ -1,6 +1,7 @@
 const _ = require('lodash');
 const { User, validate } = require('../../../models/userModel');
 const bcrypt = require('bcrypt');
+const mongoose = require('mongoose');
 
 describe('user.correctPasswrod', () => {
   it('should return true if the passed hashed and plain password are equal', async () => {
@@ -87,5 +88,15 @@ describe('validateUser', () => {
     arr = new Array(35); // to make a string of  more than 30 char(max name length)
     newUser.name = arr.join('a');
     expect(validate(newUser)).rejects.toThrow(/30/);
+  });
+});
+
+describe('signToken', () => {
+  it('should return a valid jwt token', async () => {
+    const user = new User({ _id: mongoose.Types.ObjectId() });
+    process.env.JWT_SECRET_KEY = 'testingkey';
+    process.env.JWT_VALID_FOR = '30d';
+    const token = user.signToken();
+    expect(token).toBeDefined();
   });
 });

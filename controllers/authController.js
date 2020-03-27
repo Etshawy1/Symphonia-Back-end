@@ -7,20 +7,10 @@ const { User, validate } = require('../models/userModel');
 const catchAsync = require('../utils/catchAsync').threeArg;
 const AppError = require('../utils/appError');
 const Email = require('../utils/email');
-const signToken = id => {
-  return jwt.sign(
-    {
-      id
-    },
-    process.env.JWT_SECRET_KEY,
-    {
-      expiresIn: process.env.JWT_VALID_FOR
-    }
-  );
-};
+
 const createSendToken = (user, statusCode, res) => {
-  const token = signToken(user._id);
-  // Remove password from output
+  const token = user.signToken();
+  // Remove password and tracks from output
   user.password = undefined;
   user.tracks = undefined;
   res.status(statusCode).json({
@@ -57,16 +47,14 @@ exports.login = catchAsync(async (req, res, next) => {
     return next(new AppError('Please provide email and password!', 400));
   }
   // Check if user exists && password is correct
-  const user = await User.findOne({
-    email
-  }).select('+password');
+  const user = await User.findOne({ email }).select('+password');
 
   if (!user || !(await user.correctPassword(password, user.password))) {
-    user.last_login = Date.now();
-    user.save();
     return next(new AppError('Incorrect email or password', 401));
   }
   // If everything ok, send token to client
+  user.last_login = Date.now();
+  await user.save({ validateBeforeSave: false });
   createSendToken(user, 200, res);
 });
 exports.googleOauth = catchAsync(async (req, res, next) => {
