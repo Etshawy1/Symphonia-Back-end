@@ -1,7 +1,7 @@
 const Category = require('./../models/categoryModel');
 
 const APIFeatures = require('./../utils/apiFeatures');
-const catchAsync = require('./../utils/catchAsync');
+const catchAsync = require('./../utils/catchAsync').threeArg;
 
 exports.getCategory = catchAsync(async (req, res, next) => {
   console.log(req.params);
@@ -56,6 +56,7 @@ exports.getRecommendations = catchAsync(async (req, res, next) => {
 });
 
 exports.createCategory = catchAsync(async (req, res, next) => {
+  console.log(req.body);
   const category = await Category.create({
     name: req.body.name,
     icons: req.body.icons

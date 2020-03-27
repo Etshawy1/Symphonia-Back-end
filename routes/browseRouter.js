@@ -2,23 +2,35 @@ const express = require('express');
 const authController = require('../controllers/authController');
 const browseController = require('../controllers/browseController');
 const path = require('path');
-const uploader = require('../utils/uploader');
+const UploadBuilder = require('../utils/uploader').UploadBuilder;
 const router = express.Router();
 
+try {
+  /*
+  let uploadBuilder = new UploadBuilder();
+  uploadBuilder.addfileField('icon', 'name', '', 1);
+  uploadBuilder.addfileField('icon_md', 'name', '_md', 1);
+  uploadBuilder.addTypeFilter('image/jpeg');
+  uploadBuilder.setPath(
+    path.resolve(__dirname, '..') + '/assets/images/categories'
+  );
+  //let f_uploader = uploader.fields([{ name: 'icon', maxCount: 1 }]);
+  let f_uploader = uploadBuilder.constructUploaderTemp();
+  router.post(
+    '/categories',
+    authController.protect,
+    f_uploader,
+    browseController.createCategory
+  );
+  */
+} catch (error) {
+  console.log(error);
+}
 router.post(
   '/categories',
   authController.protect,
-  uploader.fields([
-    { name: 'icon_sm', maxCount: 1 },
-    { name: 'icon_md', maxCount: 1 },
-    {
-      name: 'icon_lg',
-      maxCount: 1
-    }
-  ]),
   browseController.createCategory
 );
-
 router.get(
   '/categories',
   authController.protect,

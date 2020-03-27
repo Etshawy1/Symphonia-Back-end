@@ -7,6 +7,14 @@
     {
       "type": "node",
       "request": "launch",
+      "name": "Launch Clean Script",
+      "program": "${workspaceFolder}/cleanScripts.js",
+      "skipFiles": ["<node_internals>/**"]
+    },
+
+    {
+      "type": "node",
+      "request": "launch",
       "name": "Launch Program",
       "program": "${workspaceFolder}/home.js",
       "skipFiles": ["<node_internals>/**"]
