@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-module.exports = function() {
+module.exports = function () {
   const DB = process.env.DATABASE.replace(
     '<PASSWORD>',
     process.env.DATABASE_PASSWORD
@@ -13,7 +13,7 @@ module.exports = function() {
       useUnifiedTopology: true
     })
     .then(() => {
-      __logger.info('DB connection successful!');
+      __logger.info('DB connection successful! online');
     })
     .catch(err => {
       __logger.error(err.message);
@@ -30,7 +30,7 @@ module.exports = function() {
         })
         .catch(er => {
           __logger.error(er.message);
-          process.exit(); /* an agresive why to stop the pplication */
+          process.exit(); /* an agresive why to stop the application */
         });
     });
 };

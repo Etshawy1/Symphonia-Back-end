@@ -1,16 +1,16 @@
 const crypto = require('crypto');
 const mongoose = require('mongoose');
-const Joi = require('@hapi/joi');
+const Joi = require('@hapi/joi').extend(require('@hapi/joi-date'));
 const validator = require('validator');
+const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const findOrCreate = require('mongoose-findorcreate');
 
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
     required: [true, 'please provide your name'],
     minlength: 3,
-    maxlength: 255
+    maxlength: 30
   },
   email: {
     type: String,
@@ -24,7 +24,7 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: [true, 'please provide a password'],
-    minlength: 5,
+    minlength: 8,
     maxlength: 1024,
     select: false
   },
@@ -33,7 +33,7 @@ const userSchema = new mongoose.Schema({
     required: [true, 'Please confirm your password'],
     validate: {
       // This only works on CREATE and SAVE!!!
-      validator: function(el) {
+      validator: function (el) {
         return el === this.password;
       },
       message: 'Passwords are not the same!'
@@ -44,11 +44,29 @@ const userSchema = new mongoose.Schema({
     enum: ['user', 'premium-user', 'artist', 'admin'],
     defult: 'user'
   },
+  gender: {
+    type: String,
+    enum: ['male', 'female'],
+    required: [true, 'please provide the gender']
+  },
+  dateOfBirth: {
+    type: Date,
+    min: '1-1-1900',
+    max: '1-1-2000',
+    required: [true, 'please provide your date of birth']
+  },
+  tracks: {
+    type: [mongoose.Schema.Types.ObjectId],
+    ref: 'Track',
+    select: false
+  },
   passwordChangedAt: Date,
   passwordResetToken: String,
   passwordResetExpires: Date,
   googleId: String,
   facebookId: String,
+  imageFacebookUrl: String,
+  imageGoogleUrl: String,
   imageUrl: String,
   last_login: Date,
   active: {
@@ -57,8 +75,7 @@ const userSchema = new mongoose.Schema({
     select: false
   }
 });
-userSchema.plugin(findOrCreate);
-userSchema.pre('save', async function(next) {
+userSchema.pre('save', async function (next) {
   // if password was not modified
   if (!this.isModified('password')) return next();
 
@@ -69,7 +86,7 @@ userSchema.pre('save', async function(next) {
   next();
 });
 
-userSchema.pre('save', function(next) {
+userSchema.pre('save', function (next) {
   if (!this.isModified('password') || this.isNew) return next();
 
   // to make sure the token is created after the password has been modified
@@ -80,7 +97,7 @@ userSchema.pre('save', function(next) {
 
 // to not get the inactive users from queries
 // we use regex to make this function apply on all that start with 'find'
-userSchema.pre(/^find/, function(next) {
+userSchema.pre(/^find/, function (next) {
   // this points to the current query
   this.find({
     active: {
@@ -91,14 +108,14 @@ userSchema.pre(/^find/, function(next) {
 });
 
 // this function is to compare a provided password with the stored one
-userSchema.methods.correctPassword = async function(
+userSchema.methods.correctPassword = async function (
   candidatePassword,
   userPassword
 ) {
   return await bcrypt.compare(candidatePassword, userPassword);
 };
 
-userSchema.methods.changedPasswordAfter = function(JWTTimestamp) {
+userSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
   if (this.passwordChangedAt) {
     const changedTimestamp = parseInt(
       this.passwordChangedAt.getTime() / 1000,
@@ -112,20 +129,25 @@ userSchema.methods.changedPasswordAfter = function(JWTTimestamp) {
   return false;
 };
 
-userSchema.methods.createPasswordResetToken = function() {
+userSchema.methods.signToken = function () {
+  return jwt.sign(
+    {
+      id: this._id
+    },
+    process.env.JWT_SECRET_KEY,
+    {
+      expiresIn: process.env.JWT_VALID_FOR
+    }
+  );
+};
+
+userSchema.methods.createPasswordResetToken = function () {
   const resetToken = crypto.randomBytes(32).toString('hex');
 
   this.passwordResetToken = crypto
     .createHash('sha256')
     .update(resetToken)
     .digest('hex');
-
-  __logger.info(
-    {
-      resetToken
-    },
-    this.passwordResetToken
-  );
 
   // the token to reset the password is valit only for 10 minutes
   this.passwordResetExpires = Date.now() + 10 * 60 * 1000;
@@ -135,11 +157,11 @@ userSchema.methods.createPasswordResetToken = function() {
 
 const User = mongoose.model('User', userSchema);
 
-async function validateUser(user) {
+async function validateUser (user) {
   const schema = Joi.object({
     name: Joi.string()
       .min(3)
-      .max(255)
+      .max(30)
       .required(),
     email: Joi.string()
       .min(5)
@@ -147,17 +169,25 @@ async function validateUser(user) {
       .required()
       .email(),
     password: Joi.string()
-      .min(5)
-      .max(255)
+      .min(8)
+      .max(30)
       .required(),
-    passwordConfirm: Joi.string()
-      .min(5)
-      .max(255)
+    passwordConfirm: Joi.ref('password'),
+    dateOfBirth: Joi.date()
+      .format('YYYY-MM-DD')
+      .utc()
+      .greater('1-1-1900')
+      .less('1-1-2000')
+      .required(),
+    gender: Joi.string()
+      .valid('male', 'female')
       .required()
-      .valid(Joi.ref('password'))
   });
-
-  return schema.validateAsync(user);
+  try {
+    return await schema.validateAsync(user);
+  } catch (err) {
+    throw err;
+  }
 }
 
 exports.User = User;

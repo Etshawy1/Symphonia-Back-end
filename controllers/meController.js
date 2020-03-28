@@ -1,7 +1,12 @@
 const path = require('path');
 const fs = require('fs');
-const catchAsync = require('./../utils/catchAsync');
+const catchAsync = require('./../utils/catchAsync').threeArg;
 const AppError = require('./../utils/appError');
+const { Track } = require('./../models/trackModel');
+const { User } = require('./../models/userModel');
+const { promisify } = require('util');
+const jwt = require('jsonwebtoken');
+const APIFeatures = require('./../utils/apiFeatures');
 
 const mimeNames = {
   '.mp3': 'audio/mpeg',
@@ -13,29 +18,45 @@ const mimeNames = {
   '.webm': 'video/webm'
 };
 
+async function getProfileInfo(userId) {
+  return await User.findById(userId)
+    .select('-password')
+    .select('-passwordConfirm')
+    .select('-passwordChangedAt')
+    .select('-passwordResetToken')
+    .select('-active');
+}
+async function getTopArtistsAndTracks(Model, query) {
+  const top = new APIFeatures(Model.find().sort({ usersCount: -1 }), query)
+    .filter()
+    .limitFields()
+    .paginate();
+  return await top.query;
+}
+
 function sendResponse(response, responseStatus, responseHeaders, readable) {
   response.writeHead(responseStatus, responseHeaders);
 
-  if (readable == null) {
+  if (!readable) {
     response.end();
   } else {
-    readable.on('open', function () {
+    readable.on('open', function() {
       readable.pipe(response);
     });
   }
-
   return null;
 }
 
-function getMimeNameFromExt(ext) {
+exports.getMimeNameFromExt = function getMimeNameFromExt(ext) {
   let result = mimeNames[ext.toLowerCase()];
-  if (result == null)
+  if (!result) {
     result = 'application/octet-stream';
+  }
   return result;
-}
+};
 
-function readRangeHeader(range, totalLength) {
-  if (range == null || range.length === 0) {
+exports.readRangeHeader = function readRangeHeader(range, totalLength) {
+  if (!range || range.length === 0) {
     return null;
   }
 
@@ -58,11 +79,11 @@ function readRangeHeader(range, totalLength) {
   }
 
   return result;
-}
+};
 
-// this will be modified later when add the models
-exports.playTrack = catchAsync(async (req, res, next) => {
-  const trackPath = `assets/${req.params.artist_id}/${req.params.track_id}`;
+exports.playTrack = catchAsync(async (req, res) => {
+  const track = await Track.findById(req.params.track_id);
+  const { trackPath } = track;
   __logger.info(trackPath);
   // Check if file exists. If not, will return the 404 'Not Found'.
   if (!fs.existsSync(trackPath)) {
@@ -117,4 +138,45 @@ exports.playTrack = catchAsync(async (req, res, next) => {
       end: end
     })
   );
+});
+exports.userProfile = catchAsync(async (req, res, next) => {
+  const currentUser = await getProfileInfo(req.params.user_id);
+  if (!currentUser._id) {
+    return next(new AppError('No user found', 404));
+  }
+  res.status(200).json({
+    status: 'success',
+    data: {
+      currentUser
+    }
+  });
+});
+exports.currentUserProfile = catchAsync(async (req, res, next) => {
+  let token = req.headers.authorization.split(' ')[1];
+  const decoded = await promisify(jwt.verify)(
+    token,
+    process.env.JWT_SECRET_KEY
+  );
+  __logger.info(decoded.id);
+  const currentUser = await getProfileInfo(decoded.id);
+  res.status(200).json({
+    status: 'success',
+    data: {
+      currentUser
+    }
+  });
+});
+//this will be modified later after adding the astisit model
+exports.topTracksAndArtists = catchAsync(async (req, res, next) => {
+  // if (req.params.type === 'track') {
+  const doc = await getTopArtistsAndTracks(Track, req.query);
+  // } else {
+  // const doc = await getTopArtistsAndTracks(Artist);
+  // }
+  res.status(200).json({
+    status: 'success',
+    data: {
+      doc
+    }
+  });
 });

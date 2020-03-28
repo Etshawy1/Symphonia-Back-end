@@ -1,7 +1,7 @@
 {
 	"info": {
-		"_postman_id": "c81da0ce-ba91-4920-9df1-fca49c5d18aa",
-		"name": "The Symphonia App",
+		"_postman_id": "a8e36ff4-890f-4487-91e4-01ab00a3e324",
+		"name": "Symphonia",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -50,9 +50,9 @@
 							],
 							"variable": [
 								{
+									"description": "The Symphonia ID for the album.",
 									"key": "{id}",
-									"value": "",
-									"description": "The Symphonia ID for the album."
+									"value": ""
 								}
 							]
 						},
@@ -139,9 +139,9 @@
 							],
 							"variable": [
 								{
+									"description": "The Symphonia ID for the album.",
 									"key": "{id}",
-									"value": "",
-									"description": "The Symphonia ID for the album."
+									"value": ""
 								}
 							]
 						},
@@ -327,8 +327,10 @@
 							],
 							"variable": [
 								{
+									"id": "e8b617ac-95b6-424e-bfec-e093ecd7b1bf",
 									"key": "{id}",
 									"value": "",
+									"type": "string",
 									"description": "The Symphonia ID for the artist."
 								}
 							]
@@ -370,7 +372,7 @@
 							"status": "OK",
 							"code": 200,
 							"_postman_previewlanguage": "json",
-							"header": [],
+							"header": null,
 							"cookie": [],
 							"body": "{\n    \"followers\": {\n        \"href\": null,\n        \"total\": 306565\n    },\n    \"genres\": [\n        \"indie folk\",\n        \"indie pop\"\n    ],\n    \"href\": \"https://api.symphonia.com/v1/artists/0OdUWJ0sBjDrqHygGUXeCF\",\n    \"id\": \"0OdUWJ0sBjDrqHygGUXeCF\",\n    \"images\": [\n        {\n            \"height\": 816,\n            \"url\": \"https://i.scdn.co/image/eb266625dab075341e8c4378a177a27370f91903\",\n            \"width\": 1000\n        },\n        {\n            \"height\": 522,\n            \"url\": \"https://i.scdn.co/image/2f91c3cace3c5a6a48f3d0e2fd21364d4911b332\",\n            \"width\": 640\n        },\n        {\n            \"height\": 163,\n            \"url\": \"https://i.scdn.co/image/2efc93d7ee88435116093274980f04ebceb7b527\",\n            \"width\": 200\n        },\n        {\n            \"height\": 52,\n            \"url\": \"https://i.scdn.co/image/4f25297750dfa4051195c36809a9049f6b841a23\",\n            \"width\": 64\n        }\n    ],\n    \"name\": \"Band of Horses\",\n    \"popularity\": 59,\n    \"type\": \"artist\"\n}"
 						}
@@ -489,7 +491,7 @@
 							"status": "OK",
 							"code": 200,
 							"_postman_previewlanguage": "json",
-							"header": [],
+							"header": null,
 							"cookie": [],
 							"body": "{\n    \"href\": \"https://api.symphonia.com/v1/artists/1vCWHaC5f2uS3yhpwWbIA6/albums?offset=0&limit=2&include_groups=appears_on&market=ES\",\n    \"items\": [\n        {\n            \"album_group\": \"appears_on\",\n            \"album_type\": \"album\",\n            \"artists\": [\n                {\n                    \"href\": \"https://api.symphonia.com/v1/artists/0LyfQWJT6nXafLPZqxe9Of\",\n                    \"id\": \"0LyfQWJT6nXafLPZqxe9Of\",\n                    \"name\": \"Various Artists\",\n                    \"type\": \"artist\"\n                }\n            ],\n            \"available_markets\": [\n                \"AD\",\n                \"AR\",\n                \"AT\",\n                \"AU\",\n                \"BE\",\n                \"BG\",\n                \"BO\",\n                \"BR\",\n                \"CH\",\n                \"CL\",\n                \"CO\",\n                \"CR\",\n                \"CY\",\n                \"CZ\",\n                \"DE\",\n                \"DK\",\n                \"DO\",\n                \"EC\",\n                \"EE\",\n                \"ES\",\n                \"FI\",\n                \"FR\",\n                \"GB\",\n                \"GR\",\n                \"GT\",\n                \"HK\",\n                \"HN\",\n                \"HU\",\n                \"ID\",\n                \"IE\",\n                \"IL\",\n                \"IS\",\n                \"IT\",\n                \"JP\",\n                \"LI\",\n                \"LT\",\n                \"LU\",\n                \"LV\",\n                \"MC\",\n                \"MT\",\n                \"MY\",\n                \"NI\",\n                \"NL\",\n                \"NO\",\n                \"NZ\",\n                \"PA\",\n                \"PE\",\n                \"PH\",\n                \"PL\",\n                \"PT\",\n                \"PY\",\n                \"RO\",\n                \"SE\",\n                \"SG\",\n                \"SK\",\n                \"SV\",\n                \"TH\",\n                \"TR\",\n                \"TW\",\n                \"UY\",\n                \"VN\",\n                \"ZA\"\n            ],\n            \"href\": \"https://api.symphonia.com/v1/albums/43977e0YlJeMXG77uCCSMX\",\n            \"id\": \"43977e0YlJeMXG77uCCSMX\",\n            \"images\": [\n                {\n                    \"height\": 640,\n                    \"url\": \"https://i.scdn.co/image/0da79956d0440a55b20ea4e8e38877bce43275cd\",\n                    \"width\": 640\n                },\n                {\n                    \"height\": 300,\n                    \"url\": \"https://i.scdn.co/image/29368267cc6b1eab2600e6e42485d3774621e7d4\",\n                    \"width\": 300\n                },\n                {\n                    \"height\": 64,\n                    \"url\": \"https://i.scdn.co/image/779dd6d6a0e124e03a5143d2be729ee4bab3f15f\",\n                    \"width\": 64\n                }\n            ],\n            \"name\": \"Shut Up Lets Dance (Vol. II)\",\n            \"release_date\": \"2018-02-09\",\n            \"release_date_precision\": \"day\",\n            \"type\": \"album\"\n        },\n        {\n            \"album_group\": \"appears_on\",\n            \"album_type\": \"compilation\",\n            \"artists\": [\n                {\n                    \"href\": \"https://api.symphonia.com/v1/artists/0LyfQWJT6nXafLPZqxe9Of\",\n                    \"id\": \"0LyfQWJT6nXafLPZqxe9Of\",\n                    \"name\": \"Various Artists\",\n                    \"type\": \"artist\"\n                }\n            ],\n            \"available_markets\": [\n                \"AD\",\n                \"AR\",\n                \"AT\",\n                \"AU\",\n                \"BE\",\n                \"BG\",\n                \"BO\",\n                \"BR\",\n                \"CA\",\n                \"CH\",\n                \"CL\",\n                \"CO\",\n                \"CR\",\n                \"CY\",\n                \"CZ\",\n                \"DE\",\n                \"DK\",\n                \"DO\",\n                \"EC\",\n                \"EE\",\n                \"ES\",\n                \"FI\",\n                \"FR\",\n                \"GB\",\n                \"GR\",\n                \"GT\",\n                \"HK\",\n                \"HN\",\n                \"HU\",\n                \"ID\",\n                \"IE\",\n                \"IL\",\n                \"IS\",\n                \"IT\",\n                \"JP\",\n                \"LI\",\n                \"LT\",\n                \"LU\",\n                \"LV\",\n                \"MC\",\n                \"MT\",\n                \"MX\",\n                \"MY\",\n                \"NI\",\n                \"NL\",\n                \"NO\",\n                \"NZ\",\n                \"PA\",\n                \"PE\",\n                \"PH\",\n                \"PL\",\n                \"PT\",\n                \"PY\",\n                \"RO\",\n                \"SE\",\n                \"SG\",\n                \"SK\",\n                \"SV\",\n                \"TH\",\n                \"TR\",\n                \"TW\",\n                \"US\",\n                \"UY\",\n                \"VN\",\n                \"ZA\"\n            ],\n            \"href\": \"https://api.symphonia.com/v1/albums/189ngoT3WxR5mZSYkAGOLF\",\n            \"id\": \"189ngoT3WxR5mZSYkAGOLF\",\n            \"images\": [\n                {\n                    \"height\": 600,\n                    \"url\": \"https://i.scdn.co/image/42f4dbe7e54d52efa14f058fab74d8a0505ef26d\",\n                    \"width\": 600\n                },\n                {\n                    \"height\": 300,\n                    \"url\": \"https://i.scdn.co/image/b221fb6d689f84f8e09b493776520194a6f4ef88\",\n                    \"width\": 300\n                },\n                {\n                    \"height\": 64,\n                    \"url\": \"https://i.scdn.co/image/0fc4a3cb2ee5b14fdefeb8f20afd84b7fbae7707\",\n                    \"width\": 64\n                }\n            ],\n            \"name\": \"Classic Club Monsters (25 Floor Killers)\",\n            \"release_date\": \"2018-02-02\",\n            \"release_date_precision\": \"day\",\n            \"type\": \"album\"\n        }\n    ],\n    \"limit\": 2,\n    \"next\": \"https://api.symphonia.com/v1/artists/1vCWHaC5f2uS3yhpwWbIA6/albums?offset=2&limit=2&include_groups=appears_on&market=ES\",\n    \"offset\": 0,\n    \"previous\": null,\n    \"total\": 308\n}"
 						}
@@ -527,9 +529,9 @@
 							],
 							"variable": [
 								{
+									"description": "The Symphonia ID for the artist.",
 									"key": "{id}",
-									"value": "",
-									"description": "The Symphonia ID for the artist."
+									"value": ""
 								}
 							]
 						},
@@ -578,7 +580,7 @@
 							"status": "OK",
 							"code": 200,
 							"_postman_previewlanguage": "json",
-							"header": [],
+							"header": null,
 							"cookie": [],
 							"body": "{\r\n  \"tracks\": [ {\r\n    \"album\" : {\r\n      \"album_type\" : \"album\",\r\n      \"artists\" : [ {\r\n        \"href\" : \"https://api.symphonia.com/v1/artists/43ZHCT0cAZBISjO8DG9PnE\",\r\n        \"id\" : \"43ZHCT0cAZBISjO8DG9PnE\",\r\n        \"name\" : \"Elvis Presley\",\r\n        \"type\" : \"artist\"\r\n      } ],\r\n      \"available_markets\" : [ \"AD\", \"AR\", \"AT\", \"AU\", \"BE\", \"BG\", \"BO\", \"BR\", \"CA\", \"CH\", \"CL\", \"CO\", \"CR\", \"CY\", \"CZ\", \"DE\", \"DK\", \"DO\", \"EC\", \"EE\", \"ES\", \"FI\", \"FR\", \"GB\", \"GR\", \"GT\", \"HK\", \"HN\", \"HU\", \"ID\", \"IE\", \"IS\", \"IT\", \"JP\", \"LI\", \"LT\", \"LU\", \"LV\", \"MC\", \"MT\", \"MX\", \"MY\", \"NI\", \"NL\", \"NO\", \"NZ\", \"PA\", \"PE\", \"PH\", \"PL\", \"PT\", \"PY\", \"SE\", \"SG\", \"SK\", \"SV\", \"TR\", \"TW\", \"US\", \"UY\" ],\r\n      \"href\" : \"https://api.symphonia.com/v1/albums/7xe8VI48TxUpU1IIo0RfGi\",\r\n      \"id\" : \"7xe8VI48TxUpU1IIo0RfGi\",\r\n      \"images\" : [ {\r\n        \"height\" : 640,\r\n        \"url\" : \"https://i.scdn.co/image/4295b5ff74d4f944367144acbe616b6f62d20b17\",\r\n        \"width\" : 640\r\n      }, {\r\n        \"height\" : 300,\r\n        \"url\" : \"https://i.scdn.co/image/203104e5843248c700b078f391d4bc759c5d7f47\",\r\n        \"width\" : 300\r\n      }, {\r\n        \"height\" : 64,\r\n        \"url\" : \"https://i.scdn.co/image/0c0a172373b0211c590b241270d05b70889075a1\",\r\n        \"width\" : 64\r\n      } ],\r\n      \"name\" : \"Blue Hawaii\",\r\n      \"type\" : \"album\"\r\n    },\r\n    \"artists\" : [ {\r\n      \"href\" : \"https://api.symphonia.com/v1/artists/43ZHCT0cAZBISjO8DG9PnE\",\r\n      \"id\" : \"43ZHCT0cAZBISjO8DG9PnE\",\r\n      \"name\" : \"Elvis Presley\",\r\n      \"type\" : \"artist\"\r\n    } ],\r\n    \"available_markets\" : [ \"AD\", \"AR\", \"AT\", \"AU\", \"BE\", \"BG\", \"BO\", \"BR\", \"CA\", \"CH\", \"CL\", \"CO\", \"CR\", \"CY\", \"CZ\", \"DE\", \"DK\", \"DO\", \"EC\", \"EE\", \"ES\", \"FI\", \"FR\", \"GB\", \"GR\", \"GT\", \"HK\", \"HN\", \"HU\", \"ID\", \"IE\", \"IS\", \"IT\", \"JP\", \"LI\", \"LT\", \"LU\", \"LV\", \"MC\", \"MT\", \"MX\", \"MY\", \"NI\", \"NL\", \"NO\", \"NZ\", \"PA\", \"PE\", \"PH\", \"PL\", \"PT\", \"PY\", \"SE\", \"SG\", \"SK\", \"SV\", \"TR\", \"TW\", \"US\", \"UY\" ],\r\n    \"duration_ms\" : 179773,\r\n    \"explicit\" : false,\r\n    \"href\" : \"https://api.symphonia.com/v1/tracks/44AyOl4qVkzS48vBsbNXaC\",\r\n    \"id\" : \"44AyOl4qVkzS48vBsbNXaC\",\r\n    \"name\" : \"Can't Help Falling in Love\",\r\n    \"popularity\" : 70,\r\n    \"preview_url\" : \"https://p.scdn.co/mp3-preview/26e409b39a2da6dc18fab61020c90be2938dc0e9\",\r\n    \"type\" : \"track\",\r\n  }, {\r\n...\r\n  } ]\r\n}"
 						}
@@ -653,7 +655,7 @@
 							"status": "OK",
 							"code": 200,
 							"_postman_previewlanguage": "json",
-							"header": [],
+							"header": null,
 							"cookie": [],
 							"body": "{\r\n  \"artists\" : [ {\r\n    \"followers\" : {\r\n      \"href\" : null,\r\n      \"total\" : 18108\r\n    },\r\n    \"genres\" : [ \"rockabilly\" ],\r\n    \"href\" : \"https://api.symphonia.com/v1/artists/5ZKMPRDHc7qElVJFh3uRqB\",\r\n    \"id\" : \"5ZKMPRDHc7qElVJFh3uRqB\",\r\n    \"images\" : [ {\r\n      \"height\" : 997,\r\n      \"url\" : \"https://i.scdn.co/image/beff5827580bcc4d129cbc0872768095eeba8c14\",\r\n      \"width\" : 1000\r\n    }, {\r\n      \"height\" : 638,\r\n      \"url\" : \"https://i.scdn.co/image/dbabf703779789917c4dd1c0e54da62c7a45ce92\",\r\n      \"width\" : 640\r\n    }, {\r\n      \"height\" : 199,\r\n      \"url\" : \"https://i.scdn.co/image/74761c343bec27c814b8e44e4bc095cbf1b674bb\",\r\n      \"width\" : 200\r\n    }, {\r\n      \"height\" : 64,\r\n      \"url\" : \"https://i.scdn.co/image/0c30af5647c74fee14fb97981c23b336abbc9f21\",\r\n      \"width\" : 64\r\n    } ],\r\n    \"name\" : \"Wanda Jackson\",\r\n    \"popularity\" : 59,\r\n    \"type\" : \"artist\"\r\n  }, {\r\n    ...\r\n  } ]\r\n}"
 						}
@@ -724,7 +726,7 @@
 							"status": "OK",
 							"code": 200,
 							"_postman_previewlanguage": "json",
-							"header": [],
+							"header": null,
 							"cookie": [],
 							"body": "{\r\n  \"artists\" : [ {\r\n    \"followers\" : {\r\n      \"href\" : null,\r\n      \"total\" : 633494\r\n    },\r\n    \"genres\" : [ \"art rock\", \"glam rock\", \"permanent wave\" ],\r\n    \"href\" : \"https://api.symphonia.com/v1/artists/0oSGxfWSnnOXhD2fKuz2Gy\",\r\n    \"images\" : [ {\r\n      \"height\" : 1000,\r\n      \"url\" : \"https://i.scdn.co/image/32bd9707b42a2c081482ec9cd3ffa8879f659f95\",\r\n      \"width\" : 1000\r\n    }, {\r\n      \"height\" : 640,\r\n      \"url\" : \"https://i.scdn.co/image/865f24753e5e4f40a383bf24a9cdda598a4559a8\",\r\n      \"width\" : 640\r\n    }, {\r\n      \"height\" : 200,\r\n      \"url\" : \"https://i.scdn.co/image/7ddd6fa5cf78aee2f2e8b347616151393022b7d9\",\r\n      \"width\" : 200\r\n    }, {\r\n      \"height\" : 64,\r\n      \"url\" : \"https://i.scdn.co/image/c8dc28c191432862afce298216458a6f00bbfbd8\",\r\n      \"width\" : 64\r\n    } ],\r\n    \"name\" : \"David Bowie\",\r\n    \"popularity\" : 77,\r\n    \"type\" : \"artist\"\r\n  }, {\r\n    \"followers\" : {\r\n      \"href\" : null,\r\n      \"total\" : 52338\r\n    },\r\n    \"genres\" : [ \"glam rock\", \"protopunk\" ],\r\n    \"href\" : \"https://api.symphonia.com/v1/artists/3dBVyJ7JuOMt4GE9607Qin\",\r\n    \"images\" : [ {\r\n      \"height\" : 1300,\r\n      \"url\" : \"https://i.scdn.co/image/5515a710c94ccd4edd8b9a0587778ed5e3f997da\",\r\n      \"width\" : 1000\r\n    }, {\r\n      \"height\" : 832,\r\n      \"url\" : \"https://i.scdn.co/image/c990e667b4ca8240c73b0db06e6d76a3b27ce929\",\r\n      \"width\" : 640\r\n    }, {\r\n      \"height\" : 260,\r\n      \"url\" : \"https://i.scdn.co/image/de2fa1d11c59e63143117d44ec9990b9e40451a2\",\r\n      \"width\" : 200\r\n    }, {\r\n      \"height\" : 83,\r\n      \"url\" : \"https://i.scdn.co/image/b39638735adb4a4a54621293b99ab65c546f605e\",\r\n      \"width\" : 64\r\n    } ],\r\n    \"name\" : \"T. Rex\",\r\n    \"popularity\" : 58,\r\n    \"type\" : \"artist\"\r\n  } ]\r\n}"
 						}
@@ -812,7 +814,7 @@
 							"status": "OK",
 							"code": 200,
 							"_postman_previewlanguage": "json",
-							"header": [],
+							"header": null,
 							"cookie": [],
 							"body": "{\n    \"href\": \"https://api.symphonia.com/v1/browse/categories/party\",\n    \"icons\": [\n        {\n            \"height\": 274,\n            \"url\": \"https://datsnxq1rwndn.cloudfront.net/media/derived/party-274x274_73d1907a7371c3bb96a288390a96ee27_0_0_274_274.jpg\",\n            \"width\": 274\n        }\n    ],\n    \"id\": \"party\",\n    \"name\": \"Party\"\n}"
 						}
@@ -861,9 +863,9 @@
 							],
 							"variable": [
 								{
+									"description": "The Symphonia category ID for the category.",
 									"key": "{category_id}",
-									"value": "",
-									"description": "The Symphonia category ID for the category."
+									"value": ""
 								}
 							]
 						},
@@ -908,9 +910,9 @@
 									],
 									"variable": [
 										{
+											"description": "The Symphonia category ID for the category.",
 											"key": "{category_id}",
-											"value": "",
-											"description": "The Symphonia category ID for the category."
+											"value": ""
 										}
 									]
 								}
@@ -918,7 +920,7 @@
 							"status": "OK",
 							"code": 200,
 							"_postman_previewlanguage": "json",
-							"header": [],
+							"header": null,
 							"cookie": [],
 							"body": "{\n    \"playlists\": {\n        \"href\": \"https://api.symphonia.com/v1/browse/categories/party/playlists?country=BR&offset=0&limit=2\",\n        \"items\": [\n            {\n                \"collaborative\": false,\n                \"description\": \"Chegou o grande dia, aperte o play e partiu fim de semana!\",\n                \"href\": \"https://api.symphonia.com/v1/playlists/37i9dQZF1DX8mBRYewE6or\",\n                \"id\": \"37i9dQZF1DX8mBRYewE6or\",\n                \"images\": [\n                    {\n                        \"height\": 300,\n                        \"url\": \"https://i.scdn.co/image/ab67706f00000002206a95fa5badbe1d33b65e14\",\n                        \"width\": 300\n                    }\n                ],\n                \"name\": \"Sexta\",\n                \"owner\": {\n                    \"display_name\": \"symphonia\",\n                    \"href\": \"https://api.symphonia.com/v1/users/symphonia\",\n                    \"id\": \"symphonia\",\n                    \"type\": \"user\"\n                },\n                \"primary_color\": null,\n                \"public\": null,\n                \"tracks\": {\n                    \"href\": \"https://api.symphonia.com/v1/playlists/37i9dQZF1DX8mBRYewE6or/tracks\",\n                    \"total\": 62\n                },\n                \"type\": \"playlist\"\n            \t\n            },\n            {\n                \"collaborative\": false,\n                \"description\": \"O batidão dos funks mais bombados pra agitar a pista do seu baile! [Conteúdo explícito]\",\n                \"href\": \"https://api.symphonia.com/v1/playlists/37i9dQZF1DWWmaszSfZpom\",\n                \"id\": \"37i9dQZF1DWWmaszSfZpom\",\n                \"images\": [\n                    {\n                        \"height\": 300,\n                        \"url\": \"https://pl.scdn.co/images/pl/default/68fae5be6747e445c6bb34655c2bc2a77b9d1439\",\n                        \"width\": 300\n                    }\n                ],\n                \"name\": \"Segue o Baile\",\n                \"owner\": {\n                    \"display_name\": \"symphonia\",\n                    \"href\": \"https://api.symphonia.com/v1/users/symphonia\",\n                    \"id\": \"symphonia\",\n                    \"type\": \"user\"\n                \t\n                },\n                \"primary_color\": null,\n                \"public\": null,\n                \"snapshot_id\": \"MTU3MzEyOTM2OCwwMDAwMDA5MDAwMDAwMTZlNDVkMTM0MmMwMDAwMDE2ZGNjMTY1NTFh\",\n                \"tracks\": {\n                    \"href\": \"https://api.symphonia.com/v1/playlists/37i9dQZF1DWWmaszSfZpom/tracks\",\n                    \"total\": 67\n                },\n                \"type\": \"playlist\"\n            }\n        ],\n        \"limit\": 2,\n        \"next\": \"https://api.symphonia.com/v1/browse/categories/party/playlists?country=BR&offset=2&limit=2\",\n        \"offset\": 0,\n        \"previous\": null,\n        \"total\": 37\n    }\n}"
 						}
@@ -994,7 +996,7 @@
 							"status": "OK",
 							"code": 200,
 							"_postman_previewlanguage": "json",
-							"header": [],
+							"header": null,
 							"cookie": [],
 							"body": "{\r\n  \"categories\" : {\r\n    \"href\" : \"https://api.symphonia.com/v1/browse/categories?offset=0&limit=20\",\r\n    \"items\" : [ {\r\n      \"href\" : \"https://api.symphonia.com/v1/browse/categories/toplists\",\r\n      \"icons\" : [ {\r\n        \"height\" : 275,\r\n        \"url\" : \"https://datsnxq1rwndn.cloudfront.net/media/derived/toplists_11160599e6a04ac5d6f2757f5511778f_0_0_275_275.jpg\",\r\n        \"width\" : 275\r\n      } ],\r\n      \"id\" : \"toplists\",\r\n      \"name\" : \"Top Lists\"\r\n    }, {\r\n      \"href\" : \"https://api.symphonia.com/v1/browse/categories/mood\",\r\n      \"icons\" : [ {\r\n        \"height\" : 274,\r\n        \"url\" : \"https://datsnxq1rwndn.cloudfront.net/media/original/mood-274x274_976986a31ac8c49794cbdc7246fd5ad7_274x274.jpg\",\r\n        \"width\" : 274\r\n      } ],\r\n      \"id\" : \"mood\",\r\n      \"name\" : \"Mood\"\r\n    }, {\r\n      \"href\" : \"https://api.symphonia.com/v1/browse/categories/party\",\r\n      \"icons\" : [ {\r\n        \"height\" : 274,\r\n        \"url\" : \"https://datsnxq1rwndn.cloudfront.net/media/derived/party-274x274_73d1907a7371c3bb96a288390a96ee27_0_0_274_274.jpg\",\r\n        \"width\" : 274\r\n      } ],\r\n      \"id\" : \"party\",\r\n      \"name\" : \"Party\"\r\n    }, {\r\n      \"href\" : \"https://api.symphonia.com/v1/browse/categories/pop\",\r\n      \"icons\" : [ {\r\n        \"height\" : 274,\r\n        \"url\" : \"https://datsnxq1rwndn.cloudfront.net/media/derived/pop-274x274_447148649685019f5e2a03a39e78ba52_0_0_274_274.jpg\",\r\n        \"width\" : 274\r\n      } ],\r\n      \"id\" : \"pop\",\r\n      \"name\" : \"Pop\"\r\n    }, {\r\n      \"href\" : \"https://api.symphonia.com/v1/browse/categories/workout\",\r\n      \"icons\" : [ {\r\n        \"height\" : 275,\r\n        \"url\" : \"https://datsnxq1rwndn.cloudfront.net/media/derived/workout_856581c1c545a5305e49a3cd8be804a0_0_0_275_275.jpg\",\r\n        \"width\" : 275\r\n      } ],\r\n      \"id\" : \"workout\",\r\n      \"name\" : \"Workout\"\r\n    }, ... ],\r\n    \"limit\" : 20,\r\n    \"next\" : \"https://api.symphonia.com/v1/browse/categories?offset=20&limit=20\",\r\n    \"offset\" : 0,\r\n    \"previous\" : null,\r\n    \"total\" : 31\r\n  }\r\n}"
 						}
@@ -1087,7 +1089,7 @@
 							"status": "OK",
 							"code": 200,
 							"_postman_previewlanguage": "json",
-							"header": [],
+							"header": null,
 							"cookie": [],
 							"body": "{\n    \"message\": \"Monday morning music, coming right up!\",\n    \"playlists\": {\n        \"href\": \"https://api.symphonia.com/v1/browse/featured-playlists?country=SE&timestamp=2015-05-18T06:44:32&offset=0&limit=2\",\n        \"items\": [\n            {\n                \"collaborative\": false,\n                \"description\": \"Relaxed deep house to slowly help you get back on your feet and ready yourself for a productive week.\",\n                \"href\": \"https://api.symphonia.com/v1/users/symphonia/playlists/6ftJBzU2LLQcaKefMi7ee7\",\n                \"id\": \"6ftJBzU2LLQcaKefMi7ee7\",\n                \"images\": [\n                    {\n                        \"height\": 300,\n                        \"url\": \"https://i.scdn.co/image/7bd33c65ebd1e45975bbcbbf513bafe272f033c7\",\n                        \"width\": 300\n                    }\n                ],\n                \"name\": \"Monday Morning Mood\",\n                \"owner\": {\n                    \"href\": \"https://api.symphonia.com/v1/users/symphonia\",\n                    \"id\": \"symphonia\",\n                    \"type\": \"user\"\n                },\n                \"public\": null,\n                \"tracks\": {\n                    \"href\": \"https://api.symphonia.com/v1/users/symphonia/playlists/6ftJBzU2LLQcaKefMi7ee7/tracks\",\n                    \"total\": 245\n                },\n                \"type\": \"playlist\"\n            },\n            {\n                \"collaborative\": false,\n                \"description\": \"Du kommer studsa ur sängen med den här spellistan.\",\n                \"href\": \"https://api.symphonia.com/v1/users/symphonia__sverige/playlists/4uOEx4OUrkoGNZoIlWMUbO\",\n                \"id\": \"4uOEx4OUrkoGNZoIlWMUbO\",\n                \"images\": [\n                    {\n                        \"height\": 300,\n                        \"url\": \"https://i.scdn.co/image/24aa1d1b491dd529b9c03392f350740ed73438d8\",\n                        \"width\": 300\n                    }\n                ],\n                \"name\": \"Upp och hoppa!\",\n                \"owner\": {\n                    \"href\": \"https://api.symphonia.com/v1/users/symphonia__sverige\",\n                    \"id\": \"symphonia__sverige\",\n                    \"type\": \"user\"\n                },\n                \"public\": null,\n                \"tracks\": {\n                    \"href\": \"https://api.symphonia.com/v1/users/symphonia__sverige/playlists/4uOEx4OUrkoGNZoIlWMUbO/tracks\",\n                    \"total\": 38\n                },\n                \"type\": \"playlist\"\n            }\n        ],\n        \"limit\": 2,\n        \"next\": \"https://api.symphonia.com/v1/browse/featured-playlists?country=SE&timestamp=2015-05-18T06:44:32&offset=2&limit=2\",\n        \"offset\": 0,\n        \"previous\": null,\n        \"total\": 12\n    }\n}"
 						}
@@ -1170,9 +1172,674 @@
 							"status": "OK",
 							"code": 200,
 							"_postman_previewlanguage": "json",
-							"header": [],
+							"header": null,
 							"cookie": [],
 							"body": "{\r\n  \"albums\" : {\r\n    \"href\" : \"https://api.symphonia.com/v1/browse/new-releases?country=SE&offset=0&limit=20\",\r\n    \"items\" : [ {\r\n      \"album_type\" : \"single\",\r\n      \"artists\" : [ {\r\n        \"href\" : \"https://api.symphonia.com/v1/artists/2RdwBSPQiwcmiDo9kixcl8\",\r\n        \"id\" : \"2RdwBSPQiwcmiDo9kixcl8\",\r\n        \"name\" : \"Pharrell Williams\",\r\n        \"type\" : \"artist\"\r\n      } ],\r\n      \"available_markets\" : [ \"AD\", \"AR\", \"AT\", \"AU\", \"BE\", \"BG\", \"BO\", \"BR\", \"CA\", \"CH\", \"CL\", \"CO\", \"CR\", \"CY\", \"CZ\", \"DE\", \"DK\", \"DO\", \"EC\", \"EE\", \"ES\", \"FI\", \"FR\", \"GB\", \"GR\", \"GT\", \"HK\", \"HN\", \"HU\", \"ID\", \"IE\", \"IS\", \"IT\", \"JP\", \"LI\", \"LT\", \"LU\", \"LV\", \"MC\", \"MT\", \"MX\", \"MY\", \"NI\", \"NL\", \"NO\", \"NZ\", \"PA\", \"PE\", \"PH\", \"PL\", \"PT\", \"PY\", \"SE\", \"SG\", \"SK\", \"SV\", \"TR\", \"TW\", \"US\", \"UY\" ],\r\n      \"href\" : \"https://api.symphonia.com/v1/albums/5ZX4m5aVSmWQ5iHAPQpT71\",\r\n      \"id\" : \"5ZX4m5aVSmWQ5iHAPQpT71\",\r\n      \"images\" : [ {\r\n        \"height\" : 640,\r\n        \"url\" : \"https://i.scdn.co/image/e6b635ebe3ef4ba22492f5698a7b5d417f78b88a\",\r\n        \"width\" : 640\r\n      }, {\r\n        \"height\" : 300,\r\n        \"url\" : \"https://i.scdn.co/image/92ae5b0fe64870c09004dd2e745a4fb1bf7de39d\",\r\n        \"width\" : 300\r\n      }, {\r\n        \"height\" : 64,\r\n        \"url\" : \"https://i.scdn.co/image/8a7ab6fc2c9f678308ba0f694ecd5718dc6bc930\",\r\n        \"width\" : 64\r\n      } ],\r\n      \"name\" : \"Runnin'\",\r\n      \"type\" : \"album\",\r\n      \"uri\" : \"symphonia:album:5ZX4m5aVSmWQ5iHAPQpT71\"\r\n    }, {\r\n      \"album_type\" : \"single\",\r\n      \"artists\" : [ {\r\n        \"href\" : \"https://api.symphonia.com/v1/artists/3TVXtAsR1Inumwj472S9r4\",\r\n        \"id\" : \"3TVXtAsR1Inumwj472S9r4\",\r\n        \"name\" : \"Drake\",\r\n        \"type\" : \"artist\"\r\n      } ],\r\n      \"available_markets\" : [ \"AD\", \"AR\", \"AT\", \"AU\", \"BE\", \"BG\", \"BO\", \"BR\", \"CH\", \"CL\", \"CO\", \"CR\", \"CY\", \"CZ\", \"DE\", \"DK\", \"DO\", \"EC\", \"EE\", \"ES\", \"FI\", \"FR\", \"GB\", \"GR\", \"GT\", \"HK\", \"HN\", \"HU\", \"ID\", \"IE\", \"IS\", \"IT\", \"JP\", \"LI\", \"LT\", \"LU\", \"LV\", \"MC\", \"MT\", \"MY\", \"NI\", \"NL\", \"NO\", \"NZ\", \"PA\", \"PE\", \"PH\", \"PL\", \"PT\", \"PY\", \"SE\", \"SG\", \"SK\", \"SV\", \"TR\", \"TW\", \"UY\" ],\r\n      \"href\" : \"https://api.symphonia.com/v1/albums/0geTzdk2InlqIoB16fW9Nd\",\r\n      \"id\" : \"0geTzdk2InlqIoB16fW9Nd\",\r\n      \"images\" : [ {\r\n        \"height\" : 640,\r\n        \"url\" : \"https://i.scdn.co/image/d40e9c3d22bde2fbdb2ecc03cccd7a0e77f42e4c\",\r\n        \"width\" : 640\r\n      }, {\r\n        \"height\" : 300,\r\n        \"url\" : \"https://i.scdn.co/image/dff06a3375f6d9b32ecb081eb9a60bbafecb5731\",\r\n        \"width\" : 300\r\n      }, {\r\n        \"height\" : 64,\r\n        \"url\" : \"https://i.scdn.co/image/808a02bd7fc59b0652c9df9f68675edbffe07a79\",\r\n        \"width\" : 64\r\n      } ],\r\n      \"name\" : \"Sneakin’\",\r\n      \"type\" : \"album\"\r\n    }, {\r\n    ...\r\n    } ],\r\n    \"limit\" : 20,\r\n    \"next\" : \"https://api.symphonia.com/v1/browse/new-releases?country=SE&offset=20&limit=20\",\r\n    \"offset\" : 0,\r\n    \"previous\" : null,\r\n    \"total\" : 500\r\n  }\r\n}"
+						}
+					]
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "follow",
+			"item": [
+				{
+					"name": "Check if Current User Follows Artists or Users",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"description": "*Required*. A valid access token from the Symphonia Accounts service.\n",
+								"key": "Authorization",
+								"type": "text",
+								"value": ""
+							}
+						],
+						"url": {
+							"raw": "{{URL}}api/v1/me/following/contains?ids=&type=",
+							"host": [
+								"{{URL}}api"
+							],
+							"path": [
+								"v1",
+								"me",
+								"following",
+								"contains"
+							],
+							"query": [
+								{
+									"key": "ids",
+									"value": "",
+									"description": "*Required*. A comma-separated list of the Symphonia IDs for the albums. Maximum: 50 IDs."
+								},
+								{
+									"key": "type",
+									"value": "",
+									"description": "*Required*. The ID type: either `artist` or `user`.\n\n"
+								}
+							]
+						},
+						"description": "# Description\r\n\r\nCheck to see if the current user is following one or more artists or other Symphonia users.\r\n\r\n\r\n\r\n## Response Format\r\nOn success, the HTTP status code in the response header is `200` OK and the response body contains a JSON array of `true` or `false` values, in the same order in which the `ids` were specified. On error, the header status code is an error code and the response body contains an error object.\r\n\r\n## Request parameters"
+					},
+					"response": [
+						{
+							"name": "Check if Current User Follows several artists",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {your access token}",
+										"description": "*Required*. A valid access token from the Symphonia Accounts service.\n",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{URL}}v1/me/following/contains?ids=74ASZWbe4lXaubB36ztrGX,08td7MxkoHQkXnWAYD8d6Q&type=artist",
+									"host": [
+										"{{URL}}v1"
+									],
+									"path": [
+										"me",
+										"following",
+										"contains"
+									],
+									"query": [
+										{
+											"key": "ids",
+											"value": "74ASZWbe4lXaubB36ztrGX,08td7MxkoHQkXnWAYD8d6Q",
+											"description": "*Required*. A comma-separated list of the Symphonia IDs for the albums. Maximum: 50 IDs."
+										},
+										{
+											"key": "type",
+											"value": "artist",
+											"description": "Required. The ID type: either `artist` or `user`.\n\n"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "[ true, false ]"
+						},
+						{
+							"name": "Check if Current User Follows another user",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {your access token}",
+										"description": "*Required*. A valid access token from the Symphonia Accounts service.\n",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{URL}}api/v1/me/following/contains?ids=exampleuser01&type=user",
+									"host": [
+										"{{URL}}api"
+									],
+									"path": [
+										"v1",
+										"me",
+										"following",
+										"contains"
+									],
+									"query": [
+										{
+											"key": "ids",
+											"value": "exampleuser01",
+											"description": "*Required*. A comma-separated list of the Symphonia IDs for the albums. Maximum: 50 IDs."
+										},
+										{
+											"key": "type",
+											"value": "user",
+											"description": "Required. The ID type: either `artist` or `user`.\n\n"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "[\n    true\n]"
+						}
+					]
+				},
+				{
+					"name": "Check if Users Follow a Playlist",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "",
+								"description": "*Required*. A valid access token from the Symphonia Accounts service.\n",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}api/v1/playlists/:{playlist_id}/followers/contains?ids",
+							"host": [
+								"{{URL}}api"
+							],
+							"path": [
+								"v1",
+								"playlists",
+								":{playlist_id}",
+								"followers",
+								"contains"
+							],
+							"query": [
+								{
+									"key": "ids",
+									"value": null,
+									"description": "*Required*. A comma-separated list of Symphonia User IDs ; the ids of the users that you want to check to see if they follow the playlist. Maximum: 5 ids."
+								}
+							],
+							"variable": [
+								{
+									"key": "{playlist_id}",
+									"value": "",
+									"description": "The Symphonia ID of the playlist."
+								}
+							]
+						},
+						"description": "# Description\r\nCheck to see if one or more Symphonia users are following a specified playlist.\r\n\r\n## Response Format\r\n\r\nOn success, the HTTP status code in the response header is `200` OK and the response body contains a JSON array oftrue or false values, in the same order in which the ids were specified. On error, the header status code is an error code and the response body contains an error object.\r\n\r\n## Request parameters"
+					},
+					"response": [
+						{
+							"name": "Check if Users Follow a Playlist",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"description": "*Required*. A valid access token from the Symphonia Accounts service.\n",
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer {your access token}"
+									}
+								],
+								"url": {
+									"raw": "{{URL}}api/v1/playlists/:{playlist_id}/followers/contains?ids=possan,elogain",
+									"host": [
+										"{{URL}}api"
+									],
+									"path": [
+										"v1",
+										"playlists",
+										":{playlist_id}",
+										"followers",
+										"contains"
+									],
+									"query": [
+										{
+											"key": "ids",
+											"value": "possan,elogain",
+											"description": "*Required*. A comma-separated list of Symphonia User IDs ; the ids of the users that you want to check to see if they follow the playlist. Maximum: 5 ids."
+										}
+									],
+									"variable": [
+										{
+											"description": "The Symphonia ID of the playlist.",
+											"key": "{playlist_id}",
+											"value": "2v3iNvBX8Ay1Gt2uXtUKUT"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "[ true, false ]"
+						}
+					]
+				},
+				{
+					"name": "Follow Artists or Users",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "",
+								"description": "*Required*. A valid access token from the Symphonia Accounts service",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": "*Required*. The content type of the request body:",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}api/v1/me/following?type=",
+							"host": [
+								"{{URL}}api"
+							],
+							"path": [
+								"v1",
+								"me",
+								"following"
+							],
+							"query": [
+								{
+									"key": "type",
+									"value": "",
+									"description": "*Required*. The ID type: either `artist` or `user`.\n"
+								}
+							]
+						},
+						"description": "# Description\r\nAdd the current user as a follower of one or more artists or other Symphonia users.\r\n\r\n\r\n\r\n## Response Format\r\nOn success, the HTTP status code in the response header is `204` No Content and the response body is empty. On error, the header status code is an error code and the response body contains an error object.\r\n\r\n## Request Parameters\r\n\r\n### Body Parameters\r\n\r\n<table>\r\n  <thead>\r\n    <tr>\r\n      <th>Request Body Data</th>\r\n      <th>Value Type</th>\r\n      <th>Value</th>\r\n    </tr>\r\n  </thead>\r\n  <tbody>\r\n    <tr>\r\n      <td>ids</td>\r\n      <td>array of Symphonia ID strings</td>\r\n      <td><em>Required</em>. A JSON array of the artist or user Symphonia IDs. For example: <code class=\"highlighter-rouge\">{ids:[\"74ASZWbe4lXaubB36ztrGX\", \"08td7MxkoHQkXnWAYD8d6Q\"]}</code>. A maximum of 50 IDs can be sent in one request.</td>\r\n    </tr>\r\n  </tbody>\r\n</table>\r\n\r\n<br>"
+					},
+					"response": [
+						{
+							"name": "Follow Artists or Users",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"description": "*Required*. A valid access token from the Symphonia Accounts service",
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer {your access token}"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"description": "*Required*. The content type of the request body:",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"ids\":[\"exampleuser01\"]}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}api/v1/me/following?type=user",
+									"host": [
+										"{{URL}}api"
+									],
+									"path": [
+										"v1",
+										"me",
+										"following"
+									],
+									"query": [
+										{
+											"key": "type",
+											"value": "user",
+											"description": "*Required*. The ID type: either `artist` or `user`.\n"
+										}
+									]
+								}
+							},
+							"status": "No Content",
+							"code": 204,
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Follow a Playlist",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "",
+								"description": "*Required*. A valid access token from the Symphonia Accounts service",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": "*Required*. The content type of the request body:",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}api/v1/playlists/:{playlist_id}/followers",
+							"host": [
+								"{{URL}}api"
+							],
+							"path": [
+								"v1",
+								"playlists",
+								":{playlist_id}",
+								"followers"
+							],
+							"variable": [
+								{
+									"key": "{playlist_id}",
+									"value": "",
+									"description": "The Symphonia ID of the playlist. Any playlist can be followed, regardless of its public/private status, as long as you know its playlist ID."
+								}
+							]
+						},
+						"description": "# Description\r\nAdd the current user as a follower of a playlist.\r\n\r\n\r\n## Response Format\r\nOn success, the HTTP status code in the response header is 200 OK and the response body is empty. On error, the header status code is an error code and the response body contains an error object.\r\n\r\n## Request Parameters\r\n\r\n### Body Parameters\r\n<table>\r\n  <thead>\r\n    <tr>\r\n      <th>Request Body Data</th>\r\n      <th>Value Type</th>\r\n      <th>Value</th>\r\n    </tr>\r\n  </thead>\r\n  <tbody>\r\n    <tr>\r\n      <td>public</td>\r\n      <td>Boolean</td>\r\n      <td><em>Optional</em>. Defaults to <code class=\"highlighter-rouge\">true</code>. If <code class=\"highlighter-rouge\">true</code> the playlist will be included in user’s public playlists, if <code class=\"highlighter-rouge\">false</code> it will remain private.</td>\r\n    </tr>\r\n  </tbody>\r\n</table>"
+					},
+					"response": [
+						{
+							"name": "Follow a Playlist",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"description": "*Required*. A valid access token from the Symphonia Accounts service",
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer {your access token"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"description": "*Required*. The content type of the request body:",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"public\": true\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}api/v1/playlists/:{playlist_id}/followers",
+									"host": [
+										"{{URL}}api"
+									],
+									"path": [
+										"v1",
+										"playlists",
+										":{playlist_id}",
+										"followers"
+									],
+									"variable": [
+										{
+											"description": "The Symphonia ID of the playlist. Any playlist can be followed, regardless of its public/private status, as long as you know its playlist ID.",
+											"key": "{playlist_id}",
+											"value": "2v3iNvBX8Ay1Gt2uXtUKUT"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "{\n\t\"status\": \"success\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Get User's Followed Artists",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "",
+								"description": "*Required*. A valid access token from the Symphonia Accounts service.\n",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}api/v1/me/following?type=&limit&after",
+							"host": [
+								"{{URL}}api"
+							],
+							"path": [
+								"v1",
+								"me",
+								"following"
+							],
+							"query": [
+								{
+									"key": "type",
+									"value": "",
+									"description": "*Required*. The ID type: `artist`.\n"
+								},
+								{
+									"key": "limit",
+									"value": null,
+									"description": "*Optional*. The maximum number of items to return. Default: 20. Minimum: 1. Maximum: 50."
+								},
+								{
+									"key": "after",
+									"value": null,
+									"description": "*Optional*. The last artist ID retrieved from the previous request."
+								}
+							]
+						},
+						"description": "# Description\r\nGet the current user’s followed artists.\r\n\r\n\r\n## Response Format\r\nOn success, the HTTP status code in the response header is `200` OK and the response body contains an artists object. The artists object in turn contains a cursor-based paging object of Artists. On error, the header status code is an error code and the response body contains an error object.\r\n\r\n### Artist object\r\n\r\n<table>\r\n  <thead>\r\n    <tr>\r\n      <th>Key</th>\r\n      <th>Value Type</th>\r\n      <th>Value Description</th>\r\n    </tr>\r\n  </thead>\r\n  <tbody>\r\n    <tr>\r\n      <td>followers</td>\r\n      <td>A followers object</td>\r\n      <td>Information about the followers of the artist.</td>\r\n    </tr>\r\n    <tr>\r\n      <td>genres</td>\r\n      <td>array of strings</td>\r\n      <td>A list of the genres the artist is associated with. For example: <code class=\"highlighter-rouge\">\"Prog Rock\"</code> , <code class=\"highlighter-rouge\">\"Post-Grunge\"</code>. (If not yet classified, the array is empty.)</td>\r\n    </tr>\r\n    <tr>\r\n      <td>href</td>\r\n      <td>string</td>\r\n      <td>A link to the Web API endpoint providing full details of the artist.</td>\r\n    </tr>\r\n    <tr>\r\n      <td>id</td>\r\n      <td>string</td>\r\n      <td>The Symphonia ID for the artist.</td>\r\n    </tr>\r\n    <tr>\r\n      <td>images</td>\r\n      <td>array of image objects</td>\r\n      <td>Images of the artist in various sizes, widest first.</td>\r\n    </tr>\r\n    <tr>\r\n      <td>name</td>\r\n      <td>string</td>\r\n      <td>The name of the artist</td>\r\n    </tr>\r\n    <tr>\r\n      <td>popularity</td>\r\n      <td>int</td>\r\n      <td>The popularity of the artist. The value will be between 0 and 100, with 100 being the most popular. The artist’s popularity is calculated from the popularity of all the artist’s tracks.</td>\r\n    </tr>\r\n    <tr>\r\n      <td>type</td>\r\n      <td>string</td>\r\n      <td>The object type: <code class=\"highlighter-rouge\">\"artist\"</code></td>\r\n    </tr>\r\n  </tbody>\r\n</table>\r\n\r\n### cursor-based paging object\r\n<table>\r\n  <thead>\r\n    <tr>\r\n      <th>Key</th>\r\n      <th>Value Type</th>\r\n      <th>Value Description</th>\r\n    </tr>\r\n  </thead>\r\n  <tbody>\r\n    <tr>\r\n      <td>href</td>\r\n      <td>string</td>\r\n      <td>A link to the Web API endpoint returning the full result of the request.</td>\r\n    </tr>\r\n    <tr>\r\n      <td>items</td>\r\n      <td>an array of objects</td>\r\n      <td>The requested data.</td>\r\n    </tr>\r\n    <tr>\r\n      <td>limit</td>\r\n      <td>integer</td>\r\n      <td>The maximum number of items in the response (as set in the query or by default).</td>\r\n    </tr>\r\n    <tr>\r\n      <td>next</td>\r\n      <td>string</td>\r\n      <td>URL to the next page of items. ( <code class=\"highlighter-rouge\">null</code> if none)</td>\r\n    </tr>\r\n    <tr>\r\n      <td>cursors</td>\r\n      <td>cursor object</td>\r\n      <td>The cursors used to find the next set of items.</td>\r\n    </tr>\r\n    <tr>\r\n      <td>total</td>\r\n      <td>integer</td>\r\n      <td>The total number of items available to return.</td>\r\n    </tr>\r\n  </tbody>\r\n</table>\r\n<br>\r\n\r\n## Request Parameters"
+					},
+					"response": [
+						{
+							"name": "Get User's Followed Artists",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {your access token}",
+										"description": "*Required*. A valid access token from the Symphonia Accounts service.\n",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{URL}}api/v1/me/following?type=artist",
+									"host": [
+										"{{URL}}api"
+									],
+									"path": [
+										"v1",
+										"me",
+										"following"
+									],
+									"query": [
+										{
+											"key": "type",
+											"value": "artist",
+											"description": "*Required*. The ID type: `artist`.\n"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n  \"artists\" : {\r\n    \"items\" : [ {\r\n      \"followers\" : {\r\n        \"href\" : null,\r\n        \"total\" : 7753\r\n      },\r\n      \"genres\" : [ \"swedish hip hop\" ],\r\n      \"href\" : \"https://api.symphonia.com/v1/artists/0I2XqVXqHScXjHhk6AYYRe\",\r\n      \"id\" : \"0I2XqVXqHScXjHhk6AYYRe\",\r\n      \"images\" : [ {\r\n        \"height\" : 640,\r\n        \"url\" : \"https://i.scdn.co/image/2c8c0cea05bf3d3c070b7498d8d0b957c4cdec20\",\r\n        \"width\" : 640\r\n      }, {\r\n        \"height\" : 300,\r\n        \"url\" : \"https://i.scdn.co/image/394302b42c4b894786943e028cdd46d7baaa29b7\",\r\n        \"width\" : 300\r\n      }, {\r\n        \"height\" : 64,\r\n        \"url\" : \"https://i.scdn.co/image/ca9df7225ade6e5dfc62e7076709ca3409a7cbbf\",\r\n        \"width\" : 64\r\n      } ],\r\n      \"name\" : \"Afasi & Filthy\",\r\n      \"popularity\" : 54,\r\n      \"type\" : \"artist\"\r\n   },{\r\n     ...\r\n   }],\r\n  \"next\" : \"https://api.symphonia.com/v1/users/thelinmichael/following?type=artist&after=0aV6DOiouImYTqrR5YlIqx&limit=20\",\r\n  \"total\" : 183,\r\n    \"cursors\" : {\r\n      \"after\" : \"0aV6DOiouImYTqrR5YlIqx\"\r\n    },\r\n   \"limit\" : 20,\r\n   \"href\" : \"https://api.symphonia.com/v1/users/thelinmichael/following?type=artist&limit=20\"\r\n  }\r\n}"
+						}
+					]
+				},
+				{
+					"name": "Unfollow Artists or Users",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"description": "*Required*. A valid access token from the Symphonia Accounts service",
+								"key": "Authorization",
+								"type": "text",
+								"value": ""
+							},
+							{
+								"description": "*Required*. The content type of the request body:",
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}api/v1/me/following?type",
+							"host": [
+								"{{URL}}api"
+							],
+							"path": [
+								"v1",
+								"me",
+								"following"
+							],
+							"query": [
+								{
+									"key": "type",
+									"value": null,
+									"description": "*Required*. The ID type: either `artist` or `user`."
+								}
+							]
+						},
+						"description": "# Description\r\nRemove the current user as a follower of one or more artists or other Symphonia users.\r\n\r\n## Response Format\r\nOn success, the HTTP status code in the response header is `204` No Content and the response body is empty. On error, the header status code is an error code and the response body contains an error object.\r\n\r\n## Request Parameters\r\n\r\n### Body Parameters\r\n\r\n<table>\r\n  <thead>\r\n    <tr>\r\n      <th>Request Body Data</th>\r\n      <th>Value Type</th>\r\n      <th>Value</th>\r\n    </tr>\r\n  </thead>\r\n  <tbody>\r\n    <tr>\r\n      <td>ids</td>\r\n      <td>array of Symphonia ID strings</td>\r\n      <td><em>Required</em>. A JSON array of the artist or user Symphonia IDs. For example: <code class=\"highlighter-rouge\">{ids:[\"74ASZWbe4lXaubB36ztrGX\", \"08td7MxkoHQkXnWAYD8d6Q\"]}</code>. A maximum of 50 IDs can be sent in one request.</td>\r\n    </tr>\r\n  </tbody>\r\n</table>\r\n<br>"
+					},
+					"response": [
+						{
+							"name": "Unfollow Artists or Users",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"description": "*Required*. A valid access token from the Symphonia Accounts service",
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer {your access token}"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"description": "*Required*. The content type of the request body:",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"ids\":[\"exampleuser01\"]}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}api/v1/me/following?type=user",
+									"host": [
+										"{{URL}}api"
+									],
+									"path": [
+										"v1",
+										"me",
+										"following"
+									],
+									"query": [
+										{
+											"key": "type",
+											"value": "user"
+										}
+									]
+								}
+							},
+							"status": "No Content",
+							"code": 204,
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Unfollow a Playlist",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "",
+								"description": "*Required*. A valid access token from the Symphonia Accounts service",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}api/v1/playlists/:{playlist_id}/followers",
+							"host": [
+								"{{URL}}api"
+							],
+							"path": [
+								"v1",
+								"playlists",
+								":{playlist_id}",
+								"followers"
+							],
+							"variable": [
+								{
+									"key": "{playlist_id}",
+									"value": "",
+									"description": "The Symphonia ID of the playlist that is to be no longer followed."
+								}
+							]
+						},
+						"description": "# Description\r\nRemove the current user as a follower of a playlist.\r\n\r\n## Response Format\r\nOn success, the HTTP status code in the response header is `200` OK and the response body is empty. On error, the header status code is an error code and the response body contains an error object.\r\n\r\n## Request Parameters"
+					},
+					"response": [
+						{
+							"name": "Unfollow a Playlist",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"description": "*Required*. A valid access token from the Symphonia Accounts service",
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer {your access token}"
+									}
+								],
+								"url": {
+									"raw": "{{URL}}api/v1/playlists/:{playlist_id}/followers",
+									"host": [
+										"{{URL}}api"
+									],
+									"path": [
+										"v1",
+										"playlists",
+										":{playlist_id}",
+										"followers"
+									],
+									"variable": [
+										{
+											"description": "The Symphonia ID of the playlist that is to be no longer followed.",
+											"key": "{playlist_id}",
+											"value": "65V6djkcVRyOStLd8nza8E"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": ""
 						}
 					]
 				}
@@ -1251,7 +1918,7 @@
 							"status": "OK",
 							"code": 200,
 							"_postman_previewlanguage": "json",
-							"header": [],
+							"header": null,
 							"cookie": [],
 							"body": "[ false, true ]"
 						}
@@ -1270,7 +1937,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{URL}}api/v1/me/tracks/contains?ids=",
+							"raw": "{{URL}}api/v1/me/tracks/contains?ids",
 							"host": [
 								"{{URL}}api"
 							],
@@ -1326,7 +1993,7 @@
 							"status": "OK",
 							"code": 200,
 							"_postman_previewlanguage": "json",
-							"header": [],
+							"header": null,
 							"cookie": [],
 							"body": "[ true, false ]"
 						}
@@ -1397,7 +2064,7 @@
 							"status": "OK",
 							"code": 200,
 							"_postman_previewlanguage": "json",
-							"header": [],
+							"header": null,
 							"cookie": [],
 							"body": "{\r\n  \"href\" : \"https://api.symphonia.com/v1/me/albums?offset=0&limit=1\",\r\n  \"items\" : [ {\r\n    \"added_at\" : \"2015-11-26T19:13:31Z\",\r\n    \"album\" : {\r\n      \"album_type\" : \"album\",\r\n      \"artists\" : [ {\r\n        \"href\" : \"https://api.symphonia.com/v1/artists/58RMTlPJKbmpmVk1AmRK3h\",\r\n        \"id\" : \"58RMTlPJKbmpmVk1AmRK3h\",\r\n        \"name\" : \"Abidaz\",\r\n        \"type\" : \"artist\"\r\n      } ],\r\n      \"available_markets\" : [ \"AR\", \"AT\", \"AU\", \"BE\", \"BR\", \"CL\", \"CO\", \"CY\", \"CZ\", \"DE\" ],\r\n      \"copyrights\" : [ {\r\n        \"text\" : \"(C) 2013 Soblue Music Group AB, Under exclusive license to Universal Music AB\",\r\n        \"type\" : \"C\"\r\n      }, {\r\n        \"text\" : \"(P) 2013 Soblue Music Group AB, Under exclusive license to Universal Music AB\",\r\n        \"type\" : \"P\"\r\n      } ],\r\n      \"genres\" : [ ],\r\n      \"href\" : \"https://api.symphonia.com/v1/albums/5m4VYOPoIpkV0XgOiRKkWC\",\r\n      \"id\" : \"5m4VYOPoIpkV0XgOiRKkWC\",\r\n      \"images\" : [ {\r\n        \"height\" : 640,\r\n        \"url\" : \"https://i.scdn.co/image/ccbb1e3bea2461e69783895e880965b171e29f4c\",\r\n        \"width\" : 640\r\n      }, {\r\n        \"height\" : 300,\r\n        \"url\" : \"https://i.scdn.co/image/2210b7d23f320a2cab2736bd3b3b948415dd21d8\",\r\n        \"width\" : 300\r\n      }, {\r\n        \"height\" : 64,\r\n        \"url\" : \"https://i.scdn.co/image/609153aca7f4760136d97fbaccdb4ec0757e4c9e\",\r\n        \"width\" : 64\r\n      } ],\r\n      \"name\" : \"In & ut\",\r\n      \"popularity\" : 49,\r\n      \"release_date\" : \"2013-01-01\",\r\n      \"release_date_precision\" : \"day\",\r\n      \"tracks\" : {\r\n        \"href\" : \"https://api.symphonia.com/v1/albums/5m4VYOPoIpkV0XgOiRKkWC/tracks?offset=0&limit=50\",\r\n        \"items\" : [ {\r\n          \"artists\" : [ {\r\n            \"href\" : \"https://api.symphonia.com/v1/artists/58RMTlPJKbmpmVk1AmRK3h\",\r\n            \"id\" : \"58RMTlPJKbmpmVk1AmRK3h\",\r\n            \"name\" : \"Abidaz\",\r\n            \"type\" : \"artist\"\r\n          }, {\r\n            \"href\" : \"https://api.symphonia.com/v1/artists/1l63szZeUpN1m87MOD1u7K\",\r\n            \"id\" : \"1l63szZeUpN1m87MOD1u7K\",\r\n            \"name\" : \"Chapee\",\r\n            \"type\" : \"artist\"\r\n          }, {\r\n            \"href\" : \"https://api.symphonia.com/v1/artists/1VLf7Ncxb5Jga6eyd3jh6K\",\r\n            \"id\" : \"1VLf7Ncxb5Jga6eyd3jh6K\",\r\n            \"name\" : \"C.U.P\",\r\n            \"type\" : \"artist\"\r\n          } ],\r\n          \"available_markets\" : [ \"AR\", \"AT\", \"AU\", \"BE\", \"BR\", \"CL\", \"CO\", \"CY\", \"CZ\", \"DE\" ],\r\n          \"duration_ms\" : 170920,\r\n          \"explicit\" : false,\r\n          \"href\" : \"https://api.symphonia.com/v1/tracks/3VNWq8rTnQG6fM1eldSpZ0\",\r\n          \"id\" : \"3VNWq8rTnQG6fM1eldSpZ0\",\r\n          \"name\" : \"E.C.\",\r\n          \"type\" : \"track\"\r\n        }, {\r\n          ...\r\n        }, {\r\n          \"artists\" : [ {\r\n            \"href\" : \"https://api.symphonia.com/v1/artists/58RMTlPJKbmpmVk1AmRK3h\",\r\n            \"id\" : \"58RMTlPJKbmpmVk1AmRK3h\",\r\n            \"name\" : \"Abidaz\",\r\n            \"type\" : \"artist\"\r\n          } ],\r\n          \"available_markets\" : [ \"AR\", \"AT\", \"AU\", \"BE\", \"BR\", \"CL\", \"CO\", \"CY\", \"CZ\", \"DE\", \"DK\", \"EE\" ],\r\n          \"duration_ms\" : 165946,\r\n          \"explicit\" : false,\r\n          \"href\" : \"https://api.symphonia.com/v1/tracks/6ZrVKylVlxkaXHj42O0q2r\",\r\n          \"id\" : \"6ZrVKylVlxkaXHj42O0q2r\",\r\n          \"name\" : \"Råknas - Radio Edit\",\r\n          \"type\" : \"track\",\r\n        } ],\r\n        \"limit\" : 50,\r\n        \"next\" : null,\r\n        \"offset\" : 0,\r\n        \"previous\" : null,\r\n        \"total\" : 13\r\n      },\r\n      \"type\" : \"album\",\r\n    }\r\n  } ],\r\n  \"limit\" : 1,\r\n  \"next\" : \"https://api.symphonia.com/v1/me/albums?offset=1&limit=1\",\r\n  \"offset\" : 0,\r\n  \"previous\" : null,\r\n  \"total\" : 19\r\n}"
 						}
@@ -1468,7 +2135,7 @@
 							"status": "OK",
 							"code": 200,
 							"_postman_previewlanguage": "json",
-							"header": [],
+							"header": null,
 							"cookie": [],
 							"body": "{\r\n  \"href\": \"https://api.symphonia.com/v1/me/tracks?offset=0&limit=20\",\r\n  \"items\" : [ {\r\n    \"added_at\" : \"2016-10-24T15:03:07Z\",\r\n    \"track\" : {\r\n      \"album\" : {\r\n        \"album_type\" : \"album\",\r\n        \"artists\" : [ {\r\n          \"href\" : \"https://api.symphonia.com/v1/artists/0LIll5i3kwo5A3IDpipgkS\",\r\n          \"id\" : \"0LIll5i3kwo5A3IDpipgkS\",\r\n          \"name\" : \"Squirrel Nut Zippers\",\r\n          \"type\" : \"artist\"\r\n        } ],\r\n        \"available_markets\" : [ \"AD\", \"AR\", \"AT\", \"AU\", \"BE\", \"BG\", \"BO\", \"BR\", \"CH\", \"CL\", \"CO\", \"CR\", \"CY\", \"CZ\", \"DE\", \"DK\", \"DO\", \"EC\", \"EE\", \"ES\", \"FI\", \"FR\", \"GB\", \"GR\", \"GT\", \"HK\", \"HN\", \"HU\", \"ID\", \"IE\", \"IS\", \"IT\", \"JP\", \"LI\", \"LT\", \"LU\", \"LV\", \"MC\", \"MT\", \"MY\", \"NI\", \"NL\", \"NO\", \"NZ\", \"PA\", \"PE\", \"PH\", \"PL\", \"PT\", \"PY\", \"SE\", \"SG\", \"SK\", \"SV\", \"TR\", \"TW\", \"UY\" ],\r\n        \"href\" : \"https://api.symphonia.com/v1/albums/63GBbuUNBel2ovJjUrfh5r\",\r\n        \"id\" : \"63GBbuUNBel2ovJjUrfh5r\",\r\n        \"images\" : [ {\r\n          \"height\" : 640,\r\n          \"url\" : \"https://i.scdn.co/image/e9c5fd63935b08ed27a7a5b0e65b2c6bf600fc4a\",\r\n          \"width\" : 640\r\n        }, {\r\n          \"height\" : 300,\r\n          \"url\" : \"https://i.scdn.co/image/416b6589d9e2d91147ff5072d640d0041b04cb41\",\r\n          \"width\" : 300\r\n        }, {\r\n          \"height\" : 64,\r\n          \"url\" : \"https://i.scdn.co/image/4bb6b451b8edde5881a5fcbe1a54bc8538f407ec\",\r\n          \"width\" : 64\r\n        } ],\r\n        \"name\" : \"The Best of Squirrel Nut Zippers\",\r\n        \"type\" : \"album\"\r\n      },\r\n      \"artists\" : [ {\r\n        \"href\" : \"https://api.symphonia.com/v1/artists/0LIll5i3kwo5A3IDpipgkS\",\r\n        \"id\" : \"0LIll5i3kwo5A3IDpipgkS\",\r\n        \"name\" : \"Squirrel Nut Zippers\",\r\n        \"type\" : \"artist\"\r\n      } ],\r\n      \"available_markets\" : [ \"AD\", \"AR\", \"AT\", \"AU\", \"BE\", \"BG\", \"BO\", \"BR\", \"CH\", \"CL\", \"CO\", \"CR\", \"CY\", \"CZ\", \"DE\", \"DK\", \"DO\", \"EC\", \"EE\", \"ES\", \"FI\", \"FR\", \"GB\", \"GR\", \"GT\", \"HK\", \"HN\", \"HU\", \"ID\", \"IE\", \"IS\", \"IT\", \"JP\", \"LI\", \"LT\", \"LU\", \"LV\", \"MC\", \"MT\", \"MY\", \"NI\", \"NL\", \"NO\", \"NZ\", \"PA\", \"PE\", \"PH\", \"PL\", \"PT\", \"PY\", \"SE\", \"SG\", \"SK\", \"SV\", \"TR\", \"TW\", \"UY\" ],\r\n      \"duration_ms\" : 137040,\r\n      \"explicit\" : false,\r\n      \"href\" : \"https://api.symphonia.com/v1/tracks/2jpDioAB9tlYXMdXDK3BGl\",\r\n      \"id\" : \"2jpDioAB9tlYXMdXDK3BGl\",\r\n      \"name\" : \"Good Enough For Granddad\",\r\n      \"popularity\" : 19,\r\n      \"type\" : \"track\",\r\n      ...\r\n      }\r\n    }\r\n  ],\r\n  \"limit\": 20,\r\n  \"next\": \"https://api.symphonia.com/v1/me/tracks?offset=20&limit=20\",\r\n  \"offset\": 0,\r\n  \"previous\": null,\r\n  \"total\": 53\r\n}"
 						}
@@ -1550,7 +2217,7 @@
 							"status": "OK",
 							"code": 200,
 							"_postman_previewlanguage": "json",
-							"header": [],
+							"header": null,
 							"cookie": [],
 							"body": "{\n\t\"status\": \"success\"\n}"
 						}
@@ -1632,7 +2299,7 @@
 							"status": "OK",
 							"code": 200,
 							"_postman_previewlanguage": "json",
-							"header": [],
+							"header": null,
 							"cookie": [],
 							"body": "{\n\t\"status\": \"success\"\n}"
 						}
@@ -1714,7 +2381,7 @@
 							"status": "Created",
 							"code": 201,
 							"_postman_previewlanguage": "json",
-							"header": [],
+							"header": null,
 							"cookie": [],
 							"body": "{\n\t\"status\": \"success\"\n}"
 						}
@@ -1796,7 +2463,7 @@
 							"status": "OK",
 							"code": 200,
 							"_postman_previewlanguage": "json",
-							"header": [],
+							"header": null,
 							"cookie": [],
 							"body": "{\n\t\"status\": \"success\"\n}"
 						}
@@ -1992,14 +2659,14 @@
 							],
 							"variable": [
 								{
+									"description": "*Required*. a valid symphonia artist id",
 									"key": "{artist_id}",
-									"value": "",
-									"description": "*Required*. a valid symphonia artist id"
+									"value": ""
 								},
 								{
+									"description": "*Required*. a valid symphonia track id",
 									"key": "{track_id}",
-									"value": "",
-									"description": "*Required*. a valid symphonia track id"
+									"value": ""
 								}
 							]
 						},
@@ -2186,9 +2853,9 @@
 							],
 							"variable": [
 								{
+									"description": "The user’s Symphonia user ID.",
 									"key": "{user_id}",
-									"value": "",
-									"description": "The user’s Symphonia user ID."
+									"value": ""
 								}
 							]
 						},
@@ -2262,9 +2929,9 @@
 							],
 							"variable": [
 								{
+									"description": "The Symphonia ID for the playlist.",
 									"key": "{playlist_id}",
-									"value": "",
-									"description": "The Symphonia ID for the playlist."
+									"value": ""
 								}
 							]
 						},
@@ -2334,9 +3001,9 @@
 							],
 							"variable": [
 								{
+									"description": "The Symphonia ID for the playlist.",
 									"key": "{playlist_id}",
-									"value": "",
-									"description": "The Symphonia ID for the playlist."
+									"value": ""
 								}
 							]
 						},
@@ -2401,9 +3068,9 @@
 							],
 							"variable": [
 								{
+									"description": "The Symphonia ID for the playlist.",
 									"key": "{playlist_id}",
-									"value": "",
-									"description": "The Symphonia ID for the playlist."
+									"value": ""
 								}
 							]
 						},
@@ -2482,9 +3149,9 @@
 							],
 							"variable": [
 								{
+									"description": "The Symphonia ID for the playlist.",
 									"key": "{playlist_id}",
-									"value": "",
-									"description": "The Symphonia ID for the playlist."
+									"value": ""
 								}
 							]
 						},
@@ -2531,9 +3198,9 @@
 									],
 									"variable": [
 										{
+											"description": "The Symphonia ID for the playlist.",
 											"key": "{playlist_id}",
-											"value": "71m0QB5fUFrnqfnxVerUup",
-											"description": "The Symphonia ID for the playlist."
+											"value": "71m0QB5fUFrnqfnxVerUup"
 										}
 									]
 								}
@@ -2541,7 +3208,7 @@
 							"status": "OK",
 							"code": 200,
 							"_postman_previewlanguage": "json",
-							"header": [],
+							"header": null,
 							"cookie": [],
 							"body": "{\n\t\"status\": \"success\"\n}"
 						}
@@ -2694,9 +3361,9 @@
 							],
 							"variable": [
 								{
+									"description": "The user’s Symphonia user ID.",
 									"key": "{user_id}",
-									"value": "",
-									"description": "The user’s Symphonia user ID."
+									"value": ""
 								}
 							]
 						},
@@ -2858,7 +3525,7 @@
 							"status": "OK",
 							"code": 200,
 							"_postman_previewlanguage": "json",
-							"header": [],
+							"header": null,
 							"cookie": [],
 							"body": "{\n\t\"status\": \"success\"\n}"
 						}
@@ -2895,9 +3562,9 @@
 							],
 							"variable": [
 								{
+									"description": "The Symphonia ID for the playlist.",
 									"key": "{playlist_id}",
-									"value": "",
-									"description": "The Symphonia ID for the playlist."
+									"value": ""
 								}
 							]
 						},
@@ -2945,9 +3612,9 @@
 									],
 									"variable": [
 										{
+											"description": "The Symphonia ID for the playlist.",
 											"key": "{playlist_id}",
-											"value": "0vXtvEeftmc2aVQD9QBWrQ",
-											"description": "The Symphonia ID for the playlist."
+											"value": "0vXtvEeftmc2aVQD9QBWrQ"
 										}
 									]
 								}
@@ -2955,7 +3622,7 @@
 							"status": "Created",
 							"code": 201,
 							"_postman_previewlanguage": "json",
-							"header": [],
+							"header": null,
 							"cookie": [],
 							"body": "{\n\t\"status\": \"success\"\n}"
 						}
@@ -2992,9 +3659,9 @@
 							],
 							"variable": [
 								{
+									"description": "The Symphonia ID for the playlist.",
 									"key": "{playlist_id}",
-									"value": "",
-									"description": "The Symphonia ID for the playlist."
+									"value": ""
 								}
 							]
 						},
@@ -3043,9 +3710,9 @@
 							],
 							"variable": [
 								{
+									"description": "The Symphonia ID for the playlist.",
 									"key": "{playlist_id}",
-									"value": "",
-									"description": "The Symphonia ID for the playlist."
+									"value": ""
 								}
 							]
 						},
@@ -3093,9 +3760,9 @@
 									],
 									"variable": [
 										{
+											"description": "The Symphonia ID for the playlist.",
 											"key": "{playlist_id}",
-											"value": "0vXtvEeftmc2aVQD9QBWrQ",
-											"description": "The Symphonia ID for the playlist."
+											"value": "0vXtvEeftmc2aVQD9QBWrQ"
 										}
 									]
 								}
@@ -3103,7 +3770,7 @@
 							"status": "OK",
 							"code": 200,
 							"_postman_previewlanguage": "json",
-							"header": [],
+							"header": null,
 							"cookie": [],
 							"body": "{\n\t\"status\": \"success\"\n}"
 						}
@@ -3212,28 +3879,6 @@
 					]
 				}
 			],
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"id": "3b14bee4-1ad0-45b8-8632-2ec3eaa1fb10",
-						"type": "text/javascript",
-						"exec": [
-							""
-						]
-					}
-				},
-				{
-					"listen": "test",
-					"script": {
-						"id": "3ff1d8d4-787e-4bd0-8a9d-598d31962252",
-						"type": "text/javascript",
-						"exec": [
-							""
-						]
-					}
-				}
-			],
 			"protocolProfileBehavior": {}
 		},
 		{
@@ -3263,7 +3908,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{URL}}api/v1/users/tracks?ids=&market=",
+							"raw": "{{URL}}api/v1/users/tracks?ids&market",
 							"host": [
 								"{{URL}}api"
 							],
@@ -3419,9 +4064,10 @@
 							],
 							"variable": [
 								{
+									"description": "*Required: * The Symphonia ID for the track.",
 									"key": "{id}",
-									"value": "",
-									"description": "*Required: * The Symphonia ID for the track."
+									"type": "string",
+									"value": ""
 								}
 							]
 						},
@@ -4065,6 +4711,15 @@
 										"type": "text"
 									}
 								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"email\": \"user12@test.com\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
 								"url": {
 									"raw": "{{URL}}api/v1/users/forgotpassword",
 									"host": [
@@ -4356,671 +5011,6 @@
 							"header": [],
 							"cookie": [],
 							"body": "{\n    \"status\": \"success\",\n    \"message\": \"Authenticated with facebook\"\n}"
-						}
-					]
-				}
-			],
-			"protocolProfileBehavior": {}
-		},
-		{
-			"name": "follow",
-			"item": [
-				{
-					"name": "Check if Current User Follows Artists or Users",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"description": "*Required*. A valid access token from the Symphonia Accounts service.\n",
-								"key": "Authorization",
-								"type": "text",
-								"value": ""
-							}
-						],
-						"url": {
-							"raw": "{{URL}}api/v1/me/following/contains?ids=&type=",
-							"host": [
-								"{{URL}}api"
-							],
-							"path": [
-								"v1",
-								"me",
-								"following",
-								"contains"
-							],
-							"query": [
-								{
-									"key": "ids",
-									"value": "",
-									"description": "*Required*. A comma-separated list of the Symphonia IDs for the albums. Maximum: 50 IDs."
-								},
-								{
-									"key": "type",
-									"value": "",
-									"description": "*Required*. The ID type: either `artist` or `user`.\n\n"
-								}
-							]
-						},
-						"description": "# Description\r\n\r\nCheck to see if the current user is following one or more artists or other Symphonia users.\r\n\r\n\r\n\r\n## Response Format\r\nOn success, the HTTP status code in the response header is `200` OK and the response body contains a JSON array of `true` or `false` values, in the same order in which the `ids` were specified. On error, the header status code is an error code and the response body contains an error object.\r\n\r\n## Request parameters"
-					},
-					"response": [
-						{
-							"name": "Check if Current User Follows another user",
-							"originalRequest": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "Authorization",
-										"value": "Bearer {your access token}",
-										"description": "*Required*. A valid access token from the Symphonia Accounts service.\n",
-										"type": "text"
-									}
-								],
-								"url": {
-									"raw": "{{URL}}api/v1/me/following/contains?ids=exampleuser01&type=user",
-									"host": [
-										"{{URL}}api"
-									],
-									"path": [
-										"v1",
-										"me",
-										"following",
-										"contains"
-									],
-									"query": [
-										{
-											"key": "ids",
-											"value": "exampleuser01",
-											"description": "*Required*. A comma-separated list of the Symphonia IDs for the albums. Maximum: 50 IDs."
-										},
-										{
-											"key": "type",
-											"value": "user",
-											"description": "Required. The ID type: either `artist` or `user`.\n\n"
-										}
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [],
-							"cookie": [],
-							"body": "[\n    true\n]"
-						},
-						{
-							"name": "Check if Current User Follows several artists",
-							"originalRequest": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "Authorization",
-										"value": "Bearer {your access token}",
-										"description": "*Required*. A valid access token from the Symphonia Accounts service.\n",
-										"type": "text"
-									}
-								],
-								"url": {
-									"raw": "{{URL}}v1/me/following/contains?ids=74ASZWbe4lXaubB36ztrGX,08td7MxkoHQkXnWAYD8d6Q&type=artist",
-									"host": [
-										"{{URL}}v1"
-									],
-									"path": [
-										"me",
-										"following",
-										"contains"
-									],
-									"query": [
-										{
-											"key": "ids",
-											"value": "74ASZWbe4lXaubB36ztrGX,08td7MxkoHQkXnWAYD8d6Q",
-											"description": "*Required*. A comma-separated list of the Symphonia IDs for the albums. Maximum: 50 IDs."
-										},
-										{
-											"key": "type",
-											"value": "artist",
-											"description": "Required. The ID type: either `artist` or `user`.\n\n"
-										}
-									]
-								}
-							},
-							"_postman_previewlanguage": "Text",
-							"header": [],
-							"cookie": [],
-							"body": "[ true, false ]"
-						}
-					]
-				},
-				{
-					"name": "Check if Users Follow a Playlist",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "",
-								"description": "*Required*. A valid access token from the Symphonia Accounts service.\n",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{URL}}api/v1/playlists/:{playlist_id}/followers/contains?ids",
-							"host": [
-								"{{URL}}api"
-							],
-							"path": [
-								"v1",
-								"playlists",
-								":{playlist_id}",
-								"followers",
-								"contains"
-							],
-							"query": [
-								{
-									"key": "ids",
-									"value": null,
-									"description": "*Required*. A comma-separated list of Symphonia User IDs ; the ids of the users that you want to check to see if they follow the playlist. Maximum: 5 ids."
-								}
-							],
-							"variable": [
-								{
-									"key": "{playlist_id}",
-									"value": "",
-									"description": "The Symphonia ID of the playlist."
-								}
-							]
-						},
-						"description": "# Description\r\nCheck to see if one or more Symphonia users are following a specified playlist.\r\n\r\n## Response Format\r\n\r\nOn success, the HTTP status code in the response header is `200` OK and the response body contains a JSON array oftrue or false values, in the same order in which the ids were specified. On error, the header status code is an error code and the response body contains an error object.\r\n\r\n## Request parameters"
-					},
-					"response": [
-						{
-							"name": "Check if Users Follow a Playlist",
-							"originalRequest": {
-								"method": "GET",
-								"header": [
-									{
-										"description": "*Required*. A valid access token from the Symphonia Accounts service.\n",
-										"key": "Authorization",
-										"type": "text",
-										"value": "Bearer {your access token}"
-									}
-								],
-								"url": {
-									"raw": "{{URL}}api/v1/playlists/:{playlist_id}/followers/contains?ids=possan,elogain",
-									"host": [
-										"{{URL}}api"
-									],
-									"path": [
-										"v1",
-										"playlists",
-										":{playlist_id}",
-										"followers",
-										"contains"
-									],
-									"query": [
-										{
-											"key": "ids",
-											"value": "possan,elogain",
-											"description": "*Required*. A comma-separated list of Symphonia User IDs ; the ids of the users that you want to check to see if they follow the playlist. Maximum: 5 ids."
-										}
-									],
-									"variable": [
-										{
-											"key": "{playlist_id}",
-											"value": "2v3iNvBX8Ay1Gt2uXtUKUT",
-											"description": "The Symphonia ID of the playlist."
-										}
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [],
-							"cookie": [],
-							"body": "[ true, false ]"
-						}
-					]
-				},
-				{
-					"name": "Follow Artists or Users",
-					"request": {
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "",
-								"description": "*Required*. A valid access token from the Symphonia Accounts service",
-								"type": "text"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"description": "*Required*. The content type of the request body:",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{URL}}api/v1/me/following?type=",
-							"host": [
-								"{{URL}}api"
-							],
-							"path": [
-								"v1",
-								"me",
-								"following"
-							],
-							"query": [
-								{
-									"key": "type",
-									"value": "",
-									"description": "*Required*. The ID type: either `artist` or `user`.\n"
-								}
-							]
-						},
-						"description": "# Description\r\nAdd the current user as a follower of one or more artists or other Symphonia users.\r\n\r\n\r\n\r\n## Response Format\r\nOn success, the HTTP status code in the response header is `204` No Content and the response body is empty. On error, the header status code is an error code and the response body contains an error object.\r\n\r\n## Request Parameters\r\n\r\n### Body Parameters\r\n\r\n<table>\r\n  <thead>\r\n    <tr>\r\n      <th>Request Body Data</th>\r\n      <th>Value Type</th>\r\n      <th>Value</th>\r\n    </tr>\r\n  </thead>\r\n  <tbody>\r\n    <tr>\r\n      <td>ids</td>\r\n      <td>array of Symphonia ID strings</td>\r\n      <td><em>Required</em>. A JSON array of the artist or user Symphonia IDs. For example: <code class=\"highlighter-rouge\">{ids:[\"74ASZWbe4lXaubB36ztrGX\", \"08td7MxkoHQkXnWAYD8d6Q\"]}</code>. A maximum of 50 IDs can be sent in one request.</td>\r\n    </tr>\r\n  </tbody>\r\n</table>\r\n\r\n<br>"
-					},
-					"response": [
-						{
-							"name": "Follow Artists or Users",
-							"originalRequest": {
-								"method": "PUT",
-								"header": [
-									{
-										"description": "*Required*. A valid access token from the Symphonia Accounts service",
-										"key": "Authorization",
-										"type": "text",
-										"value": "Bearer {your access token}"
-									},
-									{
-										"key": "Content-Type",
-										"name": "Content-Type",
-										"value": "application/json",
-										"description": "*Required*. The content type of the request body:",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\"ids\":[\"exampleuser01\"]}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{URL}}api/v1/me/following?type=user",
-									"host": [
-										"{{URL}}api"
-									],
-									"path": [
-										"v1",
-										"me",
-										"following"
-									],
-									"query": [
-										{
-											"key": "type",
-											"value": "user",
-											"description": "*Required*. The ID type: either `artist` or `user`.\n"
-										}
-									]
-								}
-							},
-							"status": "No Content",
-							"code": 204,
-							"_postman_previewlanguage": "Text",
-							"header": [],
-							"cookie": [],
-							"body": ""
-						}
-					]
-				},
-				{
-					"name": "Follow a Playlist",
-					"request": {
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "",
-								"description": "*Required*. A valid access token from the Symphonia Accounts service",
-								"type": "text"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"description": "*Required*. The content type of the request body:",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{URL}}api/v1/playlists/:{playlist_id}/followers",
-							"host": [
-								"{{URL}}api"
-							],
-							"path": [
-								"v1",
-								"playlists",
-								":{playlist_id}",
-								"followers"
-							],
-							"variable": [
-								{
-									"key": "{playlist_id}",
-									"value": "",
-									"description": "The Symphonia ID of the playlist. Any playlist can be followed, regardless of its public/private status, as long as you know its playlist ID."
-								}
-							]
-						},
-						"description": "# Description\r\nAdd the current user as a follower of a playlist.\r\n\r\n\r\n## Response Format\r\nOn success, the HTTP status code in the response header is 200 OK and the response body is empty. On error, the header status code is an error code and the response body contains an error object.\r\n\r\n## Request Parameters\r\n\r\n### Body Parameters\r\n<table>\r\n  <thead>\r\n    <tr>\r\n      <th>Request Body Data</th>\r\n      <th>Value Type</th>\r\n      <th>Value</th>\r\n    </tr>\r\n  </thead>\r\n  <tbody>\r\n    <tr>\r\n      <td>public</td>\r\n      <td>Boolean</td>\r\n      <td><em>Optional</em>. Defaults to <code class=\"highlighter-rouge\">true</code>. If <code class=\"highlighter-rouge\">true</code> the playlist will be included in user’s public playlists, if <code class=\"highlighter-rouge\">false</code> it will remain private.</td>\r\n    </tr>\r\n  </tbody>\r\n</table>"
-					},
-					"response": [
-						{
-							"name": "Follow a Playlist",
-							"originalRequest": {
-								"method": "PUT",
-								"header": [
-									{
-										"description": "*Required*. A valid access token from the Symphonia Accounts service",
-										"key": "Authorization",
-										"type": "text",
-										"value": "Bearer {your access token"
-									},
-									{
-										"key": "Content-Type",
-										"name": "Content-Type",
-										"value": "application/json",
-										"description": "*Required*. The content type of the request body:",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n\t\"public\": true\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{URL}}api/v1/playlists/:{playlist_id}/followers",
-									"host": [
-										"{{URL}}api"
-									],
-									"path": [
-										"v1",
-										"playlists",
-										":{playlist_id}",
-										"followers"
-									],
-									"variable": [
-										{
-											"key": "{playlist_id}",
-											"value": "2v3iNvBX8Ay1Gt2uXtUKUT",
-											"description": "The Symphonia ID of the playlist. Any playlist can be followed, regardless of its public/private status, as long as you know its playlist ID."
-										}
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [],
-							"cookie": [],
-							"body": "{\n\t\"status\": \"success\"\n}"
-						}
-					]
-				},
-				{
-					"name": "Get User's Followed Artists",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "",
-								"description": "*Required*. A valid access token from the Symphonia Accounts service.\n",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{URL}}api/v1/me/following?type=&limit&after",
-							"host": [
-								"{{URL}}api"
-							],
-							"path": [
-								"v1",
-								"me",
-								"following"
-							],
-							"query": [
-								{
-									"key": "type",
-									"value": "",
-									"description": "*Required*. The ID type: `artist`.\n"
-								},
-								{
-									"key": "limit",
-									"value": null,
-									"description": "*Optional*. The maximum number of items to return. Default: 20. Minimum: 1. Maximum: 50."
-								},
-								{
-									"key": "after",
-									"value": null,
-									"description": "*Optional*. The last artist ID retrieved from the previous request."
-								}
-							]
-						},
-						"description": "# Description\r\nGet the current user’s followed artists.\r\n\r\n\r\n## Response Format\r\nOn success, the HTTP status code in the response header is `200` OK and the response body contains an artists object. The artists object in turn contains a cursor-based paging object of Artists. On error, the header status code is an error code and the response body contains an error object.\r\n\r\n### Artist object\r\n\r\n<table>\r\n  <thead>\r\n    <tr>\r\n      <th>Key</th>\r\n      <th>Value Type</th>\r\n      <th>Value Description</th>\r\n    </tr>\r\n  </thead>\r\n  <tbody>\r\n    <tr>\r\n      <td>followers</td>\r\n      <td>A followers object</td>\r\n      <td>Information about the followers of the artist.</td>\r\n    </tr>\r\n    <tr>\r\n      <td>genres</td>\r\n      <td>array of strings</td>\r\n      <td>A list of the genres the artist is associated with. For example: <code class=\"highlighter-rouge\">\"Prog Rock\"</code> , <code class=\"highlighter-rouge\">\"Post-Grunge\"</code>. (If not yet classified, the array is empty.)</td>\r\n    </tr>\r\n    <tr>\r\n      <td>href</td>\r\n      <td>string</td>\r\n      <td>A link to the Web API endpoint providing full details of the artist.</td>\r\n    </tr>\r\n    <tr>\r\n      <td>id</td>\r\n      <td>string</td>\r\n      <td>The Symphonia ID for the artist.</td>\r\n    </tr>\r\n    <tr>\r\n      <td>images</td>\r\n      <td>array of image objects</td>\r\n      <td>Images of the artist in various sizes, widest first.</td>\r\n    </tr>\r\n    <tr>\r\n      <td>name</td>\r\n      <td>string</td>\r\n      <td>The name of the artist</td>\r\n    </tr>\r\n    <tr>\r\n      <td>popularity</td>\r\n      <td>int</td>\r\n      <td>The popularity of the artist. The value will be between 0 and 100, with 100 being the most popular. The artist’s popularity is calculated from the popularity of all the artist’s tracks.</td>\r\n    </tr>\r\n    <tr>\r\n      <td>type</td>\r\n      <td>string</td>\r\n      <td>The object type: <code class=\"highlighter-rouge\">\"artist\"</code></td>\r\n    </tr>\r\n  </tbody>\r\n</table>\r\n\r\n### cursor-based paging object\r\n<table>\r\n  <thead>\r\n    <tr>\r\n      <th>Key</th>\r\n      <th>Value Type</th>\r\n      <th>Value Description</th>\r\n    </tr>\r\n  </thead>\r\n  <tbody>\r\n    <tr>\r\n      <td>href</td>\r\n      <td>string</td>\r\n      <td>A link to the Web API endpoint returning the full result of the request.</td>\r\n    </tr>\r\n    <tr>\r\n      <td>items</td>\r\n      <td>an array of objects</td>\r\n      <td>The requested data.</td>\r\n    </tr>\r\n    <tr>\r\n      <td>limit</td>\r\n      <td>integer</td>\r\n      <td>The maximum number of items in the response (as set in the query or by default).</td>\r\n    </tr>\r\n    <tr>\r\n      <td>next</td>\r\n      <td>string</td>\r\n      <td>URL to the next page of items. ( <code class=\"highlighter-rouge\">null</code> if none)</td>\r\n    </tr>\r\n    <tr>\r\n      <td>cursors</td>\r\n      <td>cursor object</td>\r\n      <td>The cursors used to find the next set of items.</td>\r\n    </tr>\r\n    <tr>\r\n      <td>total</td>\r\n      <td>integer</td>\r\n      <td>The total number of items available to return.</td>\r\n    </tr>\r\n  </tbody>\r\n</table>\r\n<br>\r\n\r\n## Request Parameters"
-					},
-					"response": [
-						{
-							"name": "Get User's Followed Artists",
-							"originalRequest": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "Authorization",
-										"value": "Bearer {your access token}",
-										"description": "*Required*. A valid access token from the Symphonia Accounts service.\n",
-										"type": "text"
-									}
-								],
-								"url": {
-									"raw": "{{URL}}api/v1/me/following?type=artist",
-									"host": [
-										"{{URL}}api"
-									],
-									"path": [
-										"v1",
-										"me",
-										"following"
-									],
-									"query": [
-										{
-											"key": "type",
-											"value": "artist",
-											"description": "*Required*. The ID type: `artist`.\n"
-										}
-									]
-								}
-							},
-							"_postman_previewlanguage": "json",
-							"header": [],
-							"cookie": [],
-							"body": "{\r\n  \"artists\" : {\r\n    \"items\" : [ {\r\n      \"followers\" : {\r\n        \"href\" : null,\r\n        \"total\" : 7753\r\n      },\r\n      \"genres\" : [ \"swedish hip hop\" ],\r\n      \"href\" : \"https://api.symphonia.com/v1/artists/0I2XqVXqHScXjHhk6AYYRe\",\r\n      \"id\" : \"0I2XqVXqHScXjHhk6AYYRe\",\r\n      \"images\" : [ {\r\n        \"height\" : 640,\r\n        \"url\" : \"https://i.scdn.co/image/2c8c0cea05bf3d3c070b7498d8d0b957c4cdec20\",\r\n        \"width\" : 640\r\n      }, {\r\n        \"height\" : 300,\r\n        \"url\" : \"https://i.scdn.co/image/394302b42c4b894786943e028cdd46d7baaa29b7\",\r\n        \"width\" : 300\r\n      }, {\r\n        \"height\" : 64,\r\n        \"url\" : \"https://i.scdn.co/image/ca9df7225ade6e5dfc62e7076709ca3409a7cbbf\",\r\n        \"width\" : 64\r\n      } ],\r\n      \"name\" : \"Afasi & Filthy\",\r\n      \"popularity\" : 54,\r\n      \"type\" : \"artist\"\r\n   },{\r\n     ...\r\n   }],\r\n  \"next\" : \"https://api.symphonia.com/v1/users/thelinmichael/following?type=artist&after=0aV6DOiouImYTqrR5YlIqx&limit=20\",\r\n  \"total\" : 183,\r\n    \"cursors\" : {\r\n      \"after\" : \"0aV6DOiouImYTqrR5YlIqx\"\r\n    },\r\n   \"limit\" : 20,\r\n   \"href\" : \"https://api.symphonia.com/v1/users/thelinmichael/following?type=artist&limit=20\"\r\n  }\r\n}"
-						}
-					]
-				},
-				{
-					"name": "Unfollow Artists or Users",
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"description": "*Required*. A valid access token from the Symphonia Accounts service",
-								"key": "Authorization",
-								"type": "text",
-								"value": ""
-							},
-							{
-								"description": "*Required*. The content type of the request body:",
-								"key": "Content-Type",
-								"type": "text",
-								"value": "application/json"
-							}
-						],
-						"url": {
-							"raw": "{{URL}}api/v1/me/following?type",
-							"host": [
-								"{{URL}}api"
-							],
-							"path": [
-								"v1",
-								"me",
-								"following"
-							],
-							"query": [
-								{
-									"key": "type",
-									"value": null,
-									"description": "*Required*. The ID type: either `artist` or `user`."
-								}
-							]
-						},
-						"description": "# Description\r\nRemove the current user as a follower of one or more artists or other Symphonia users.\r\n\r\n## Response Format\r\nOn success, the HTTP status code in the response header is `204` No Content and the response body is empty. On error, the header status code is an error code and the response body contains an error object.\r\n\r\n## Request Parameters\r\n\r\n### Body Parameters\r\n\r\n<table>\r\n  <thead>\r\n    <tr>\r\n      <th>Request Body Data</th>\r\n      <th>Value Type</th>\r\n      <th>Value</th>\r\n    </tr>\r\n  </thead>\r\n  <tbody>\r\n    <tr>\r\n      <td>ids</td>\r\n      <td>array of Symphonia ID strings</td>\r\n      <td><em>Required</em>. A JSON array of the artist or user Symphonia IDs. For example: <code class=\"highlighter-rouge\">{ids:[\"74ASZWbe4lXaubB36ztrGX\", \"08td7MxkoHQkXnWAYD8d6Q\"]}</code>. A maximum of 50 IDs can be sent in one request.</td>\r\n    </tr>\r\n  </tbody>\r\n</table>\r\n<br>"
-					},
-					"response": [
-						{
-							"name": "Unfollow Artists or Users",
-							"originalRequest": {
-								"method": "DELETE",
-								"header": [
-									{
-										"description": "*Required*. A valid access token from the Symphonia Accounts service",
-										"key": "Authorization",
-										"type": "text",
-										"value": "Bearer {your access token}"
-									},
-									{
-										"key": "Content-Type",
-										"name": "Content-Type",
-										"value": "application/json",
-										"description": "*Required*. The content type of the request body:",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\"ids\":[\"exampleuser01\"]}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{URL}}api/v1/me/following?type=user",
-									"host": [
-										"{{URL}}api"
-									],
-									"path": [
-										"v1",
-										"me",
-										"following"
-									],
-									"query": [
-										{
-											"key": "type",
-											"value": "user"
-										}
-									]
-								}
-							},
-							"status": "No Content",
-							"code": 204,
-							"_postman_previewlanguage": "Text",
-							"header": [],
-							"cookie": [],
-							"body": ""
-						}
-					]
-				},
-				{
-					"name": "Unfollow a Playlist",
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "",
-								"description": "*Required*. A valid access token from the Symphonia Accounts service",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{URL}}api/v1/playlists/:{playlist_id}/followers",
-							"host": [
-								"{{URL}}api"
-							],
-							"path": [
-								"v1",
-								"playlists",
-								":{playlist_id}",
-								"followers"
-							],
-							"variable": [
-								{
-									"key": "{playlist_id}",
-									"value": "",
-									"description": "The Symphonia ID of the playlist that is to be no longer followed."
-								}
-							]
-						},
-						"description": "# Description\r\nRemove the current user as a follower of a playlist.\r\n\r\n## Response Format\r\nOn success, the HTTP status code in the response header is `200` OK and the response body is empty. On error, the header status code is an error code and the response body contains an error object.\r\n\r\n## Request Parameters"
-					},
-					"response": [
-						{
-							"name": "Unfollow a Playlist",
-							"originalRequest": {
-								"method": "DELETE",
-								"header": [
-									{
-										"description": "*Required*. A valid access token from the Symphonia Accounts service",
-										"key": "Authorization",
-										"type": "text",
-										"value": "Bearer {your access token}"
-									}
-								],
-								"url": {
-									"raw": "{{URL}}api/v1/playlists/:{playlist_id}/followers",
-									"host": [
-										"{{URL}}api"
-									],
-									"path": [
-										"v1",
-										"playlists",
-										":{playlist_id}",
-										"followers"
-									],
-									"variable": [
-										{
-											"key": "{playlist_id}",
-											"value": "65V6djkcVRyOStLd8nza8E",
-											"description": "The Symphonia ID of the playlist that is to be no longer followed."
-										}
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [],
-							"cookie": [],
-							"body": ""
 						}
 					]
 				}

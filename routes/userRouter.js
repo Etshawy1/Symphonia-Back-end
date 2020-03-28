@@ -2,6 +2,8 @@ const express = require('express');
 const passport = require('passport');
 const authController = require('../controllers/authController');
 const userController = require('../controllers/userController');
+const playlistController = require('./../controllers/playlistController');
+const trackController = require('./../controllers/trackController');
 
 const router = express.Router();
 
@@ -12,20 +14,16 @@ router.get(
   '/auth/facebook',
   passport.authenticate('facebook', {
     session: false,
-    scope: ['email', 'user_friends'],
-  }));
-router.get('/auth/facebook/Symphonia',
+    scope: ['email', 'user_friends', 'user_gender', 'user_birthday']
+  })
+);
+router.get(
+  '/auth/facebook/Symphonia',
   passport.authenticate('facebook', {
     failureRedirect: '/login',
-    successRedirect: '/',
-    scope: ['email', 'user_friends']
+    scope: ['email', 'user_friends', 'user_gender', 'user_birthday']
   }),
-  (req, res) => {
-    res.status(200).json({
-      success: true,
-      message: 'OAuth is now active'
-    });
-  }
+  authController.facebookOauth
 );
 
 router.get(
@@ -42,21 +40,35 @@ router.get(
     failureRedirect: '/login',
     scope: ['profile', 'email']
   }),
-  function (req, res) {
-    // Successful authentication, redirect home.
-    res.redirect('/');
-  }
+  authController.googleOauth
 );
+
 router.post('/forgotpassword', authController.forgotPassword);
 router.patch('/resetpassword/:token', authController.resetPassword);
 
-router.patch(
-  '/updatepassword',
-  authController.protect,
-  authController.updatePassword
-);
+// any endpoint written after the following line is protected
+router.use(authController.protect);
 
-router.patch('/updateMe', authController.protect, userController.updateMe);
-router.delete('/updateMe', authController.protect, userController.deleteMe);
+router.post('/unlinkfacebook', authController.facebookUnlink);
+router.post('/unlinkfacebook', authController.googleUnlink);
+router.patch('/updatepassword', authController.updatePassword);
+router.patch('/updateMe', userController.updateMe);
+router.delete('/updateMe', userController.deleteMe);
+
+// tracks
+
+router.route('/track/:id').get(trackController.getTrack);
+
+router
+  .route('/tracks')
+  .get(trackController.getSeveralTacks)
+  .post(trackController.addTrack);
+
+// Playlist section
+
+//Description: Get a list of the playlists owned or followed by a Symphonia user.
+router.get('/:id/playlists', playlistController.getUserPlaylists);
+//Description: Create a playlist for a Symphonia user. (The playlist will be empty until you add tracks.)
+router.post('/:id/playlists', playlistController.createPlaylist);
 
 module.exports = router;
