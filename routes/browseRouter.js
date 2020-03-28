@@ -6,6 +6,7 @@ const UploadBuilder = require('../utils/uploader').UploadBuilder;
 const router = express.Router();
 
 try {
+  // TODO: solve the problem of disappearing fields
   /*
   let uploadBuilder = new UploadBuilder();
   uploadBuilder.addfileField('icon', 'name', '', 1);

@@ -1,12 +1,11 @@
 const express = require('express');
 
 const playlistController = require('../controllers/playlistController');
-
-// const authController = require('../controllers/authController');
+const authController = require('../controllers/authController');
 const followController = require('../controllers/followController');
 
 const router = express.Router();
-
+router.use(authController.protect);
 //Description: Get the current image associated with a specific playlist
 router.get('/:id/images', playlistController.getPlaylistCoverImage);
 //Description: Get a playlist owned by a Symphonia user
