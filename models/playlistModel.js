@@ -45,13 +45,13 @@ const playlistSchema = new mongoose.Schema(
 // i didn't implemnent the uri field mostly itisn't needed
 
 // the type field is required
-/*playlistSchema.virtual('type').get(function() {
+/* playlistSchema.virtual('type').get(function() {
   return 'playlist';
 });
 playlistSchema.virtual('href').get(function() {
   const href = `url/${slugify(this.name, { lower: true })}`;
   return href;
-});*/
+}); */
 
 const Playlist = mongoose.model('Playlist', playlistSchema);
 module.exports = Playlist;

@@ -59,7 +59,7 @@ describe('user.changedPasswordAfter', () => {
 });
 
 describe('validateUser', () => {
-  let user = {
+  const user = {
     name: 'test',
     email: 'example@example.com',
     password: 'password',

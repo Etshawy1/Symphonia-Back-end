@@ -66,9 +66,9 @@ router
 
 // Playlist section
 
-//Description: Get a list of the playlists owned or followed by a Symphonia user.
+// Description: Get a list of the playlists owned or followed by a Symphonia user.
 router.get('/:id/playlists', playlistController.getUserPlaylists);
-//Description: Create a playlist for a Symphonia user. (The playlist will be empty until you add tracks.)
+// Description: Create a playlist for a Symphonia user. (The playlist will be empty until you add tracks.)
 router.post('/:id/playlists', playlistController.createPlaylist);
 
 module.exports = router;

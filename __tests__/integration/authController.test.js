@@ -5,25 +5,12 @@ const _ = require('lodash');
 const app = require('../../app');
 const AppError = require('../../utils/appError');
 
-jest.setTimeout(50000);
+jest.setTimeout(10000);
 describe('/signup', () => {
-  beforeAll(async () => {
-    await mongoose.connect(
-      global.__MONGO_URI__,
-      { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true },
-      err => {
-        if (err) {
-          console.error(err);
-          process.exit(1);
-        }
-      }
-    );
-    await User.deleteMany({});
-  });
   beforeEach(async () => {
     await User.deleteMany({});
   });
-  let user = {
+  const user = {
     name: 'etsh',
     email: 'test52@test.com',
     password: 'password',
@@ -53,8 +40,7 @@ describe('/signup', () => {
   });
 
   it('should not sign up a user with existing email in DB', async () => {
-    newUser = new User(user);
-    await newUser.save();
+    await User.create(user);
     const res = await request(app)
       .post('/api/v1/users/signup')
       .send({ ...user })
@@ -69,23 +55,13 @@ describe('/signup', () => {
 });
 
 describe('/login', () => {
-  beforeAll(async () => {
-    await mongoose.connect(
-      global.__MONGO_URI__,
-      { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true },
-      err => {
-        if (err) {
-          console.error(err);
-          process.exit(1);
-        }
-      }
-    );
-    await User.deleteMany({});
-  });
   beforeEach(async () => {
     await User.deleteMany({});
   });
-  let user = {
+  afterEach(async () => {
+    await User.deleteMany({});
+  });
+  const user = {
     name: 'etsh',
     email: 'test52@test.com',
     password: 'password',
