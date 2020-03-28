@@ -1,9 +1,7 @@
-const mongoose = require('mongoose');
 const { User } = require('../../models/userModel');
 const request = require('supertest');
 const _ = require('lodash');
 const app = require('../../app');
-const AppError = require('../../utils/appError');
 
 jest.setTimeout(10000);
 describe('/signup', () => {
