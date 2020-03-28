@@ -6,7 +6,7 @@ x = process.argv[2]; // replace it with the arguemtn to the file
 
 const DB = require('./startup/db');
 DB();
-async function deleteModels() {
+async function deleteModels () {
   try {
     x = await CatModel.remove();
   } catch (error) {

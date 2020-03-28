@@ -9,7 +9,7 @@ class AppError extends Error {
    * @param {number} statusCode - The statusCode of the HTTP response.
    * @returns {void}
    */
-  constructor(message, statusCode) {
+  constructor (message, statusCode) {
     super(message);
 
     this.statusCode = statusCode;
