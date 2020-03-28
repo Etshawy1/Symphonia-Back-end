@@ -1,6 +1,5 @@
-const { User } = require('../../../models/userModel');
 const { restrictTo } = require('../../../controllers/authController');
-const mongoose = require('mongoose');
+const AppError = require('../../../utils/appError');
 
 describe('authorization middleware', () => {
   it('should call the next function if user is authorized', () => {
@@ -15,8 +14,10 @@ describe('authorization middleware', () => {
     const res = {};
     const next = jest.fn();
     restrictTo('admin')(req, res, next);
-    expect(next).toHaveBeenCalledWith(
-      expect.objectContaining(/do not have permission/)
+    const error = new AppError(
+      'You do not have permission to perform this action',
+      403
     );
+    expect(next).toHaveBeenCalledWith(error);
   });
 });
