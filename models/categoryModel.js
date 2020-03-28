@@ -14,7 +14,7 @@ const categorySchema = new mongoose.Schema(
       type: String,
       unique: [true, 'category name already exists']
     },
-    icons: [String]
+    icons: []
   },
   {
     toJSON: { virtuals: true },
@@ -27,7 +27,10 @@ categorySchema.pre('save', function() {
 });
 
 categorySchema.virtual('href').get(function() {
-  const href = `url/${slugify(this.name, { lower: true })}`;
+  const href = `${process.env.LOCAL_HOST}api/v1/browse/categories/${slugify(
+    this.name,
+    { lower: true }
+  )}`;
   return href;
 });
 

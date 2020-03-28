@@ -10,7 +10,7 @@ const playlistRouter = require('./../routes/playlistRouter');
 const AppError = require('../utils/appError');
 const globalErrorHandler = require('../controllers/errorController');
 
-module.exports = function (app) {
+module.exports = function(app) {
   app.use(express.json());
   app.use(
     express.urlencoded({
@@ -24,6 +24,12 @@ module.exports = function (app) {
   app.use('/api/v1/albums', albumRouter);
   app.use('/api/v1/browse', browseRouter);
   app.use('/api/v1/playlists', playlistRouter);
+
+  // serve static
+  app.use(
+    '/api/v1/browse/categories/images',
+    express.static('assets/images/categories')
+  );
 
   // app.use('/api/v1/browse', browseRouter);
   // app.use('api/v1/me', me1Router);
