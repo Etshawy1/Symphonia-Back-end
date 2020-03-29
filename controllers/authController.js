@@ -13,10 +13,12 @@ const createSendToken = (user, statusCode, res) => {
   // Remove password and tracks from output
   user.password = undefined;
   user.tracks = undefined;
+  user.__v = undefined;
+  user.followedUsers = undefined;
   res.status(statusCode).json({
     status: 'success',
-    token,
     data: {
+      token,
       user
     }
   });
@@ -25,16 +27,18 @@ exports.signup = catchAsync(async (req, res, next) => {
   // validate with JOI as a first layer of validation
   await validate(req.body);
   // insert the user data in the database
-  const newUser = await User.create(
-    _.pick(req.body, [
+  const newUser = await User.create({
+    ..._.pick(req.body, [
       'email',
       'password',
       'name',
-      'passwordConfirm',
+      'emailConfirm',
       'dateOfBirth',
-      'gender'
-    ])
-  );
+      'gender',
+      'type'
+    ]),
+    passwordConfirm: req.body.password
+  });
   const url = `${req.protocol}://${req.get('host')}`;
   await new Email(newUser, url).sendWelcome();
 
@@ -147,7 +151,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
   try {
     const resetURL = `${req.protocol}://${req.get(
       'host'
-    )}/api/v1/users/resetPassword/${resetToken}`;
+    )}password-reset/change/${resetToken}`;
     await new Email(user, resetURL).sendPasswordReset();
 
     res.status(200).json({
