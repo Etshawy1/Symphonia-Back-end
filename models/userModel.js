@@ -21,6 +21,17 @@ const userSchema = new mongoose.Schema({
     lowercase: true,
     validate: [validator.isEmail, 'please enter a valid email']
   },
+  emailConfirm: {
+    type: String,
+    required: [true, 'Please confirm your email'],
+    validate: {
+      // This only works on CREATE and SAVE!!!
+      validator: function (el) {
+        return el === this.email;
+      },
+      message: 'emails are not the same!'
+    }
+  },
   password: {
     type: String,
     required: [true, 'please provide a password'],
@@ -39,9 +50,9 @@ const userSchema = new mongoose.Schema({
       message: 'Passwords are not the same!'
     }
   },
-  role: {
+  type: {
     type: String,
-    enum: ['user', 'premium-user', 'artist', 'admin'],
+    enum: ['user', 'premium-user', 'artist'],
     defult: 'user'
   },
   gender: {
@@ -60,6 +71,12 @@ const userSchema = new mongoose.Schema({
     ref: 'Track',
     select: false
   },
+  followedUsers: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User'
+    }
+  ],
   passwordChangedAt: Date,
   passwordResetToken: String,
   passwordResetExpires: Date,
@@ -75,6 +92,7 @@ const userSchema = new mongoose.Schema({
     select: false
   }
 });
+
 userSchema.pre('save', async function (next) {
   // if password was not modified
   if (!this.isModified('password')) return next();
@@ -83,6 +101,7 @@ userSchema.pre('save', async function (next) {
   this.password = await bcrypt.hash(this.password, 12);
 
   this.passwordConfirm = undefined;
+  this.emailConfirm = undefined;
   next();
 });
 
@@ -172,7 +191,7 @@ async function validateUser (user) {
       .min(8)
       .max(30)
       .required(),
-    passwordConfirm: Joi.ref('password'),
+    emailConfirm: Joi.ref('email'),
     dateOfBirth: Joi.date()
       .format('YYYY-MM-DD')
       .utc()
@@ -181,6 +200,9 @@ async function validateUser (user) {
       .required(),
     gender: Joi.string()
       .valid('male', 'female')
+      .required(),
+    type: Joi.string()
+      .valid('user', 'premium-user', 'artist')
       .required()
   });
   try {

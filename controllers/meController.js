@@ -18,7 +18,7 @@ const mimeNames = {
   '.webm': 'video/webm'
 };
 
-async function getProfileInfo(userId) {
+async function getProfileInfo (userId) {
   return await User.findById(userId)
     .select('-password')
     .select('-passwordConfirm')
@@ -26,7 +26,7 @@ async function getProfileInfo(userId) {
     .select('-passwordResetToken')
     .select('-active');
 }
-async function getTopArtistsAndTracks(Model, query) {
+async function getTopArtistsAndTracks (Model, query) {
   const top = new APIFeatures(Model.find().sort({ usersCount: -1 }), query)
     .filter()
     .limitFields()
@@ -34,20 +34,20 @@ async function getTopArtistsAndTracks(Model, query) {
   return await top.query;
 }
 
-function sendResponse(response, responseStatus, responseHeaders, readable) {
+function sendResponse (response, responseStatus, responseHeaders, readable) {
   response.writeHead(responseStatus, responseHeaders);
 
   if (!readable) {
     response.end();
   } else {
-    readable.on('open', function() {
+    readable.on('open', function () {
       readable.pipe(response);
     });
   }
   return null;
 }
 
-exports.getMimeNameFromExt = function getMimeNameFromExt(ext) {
+exports.getMimeNameFromExt = function getMimeNameFromExt (ext) {
   let result = mimeNames[ext.toLowerCase()];
   if (!result) {
     result = 'application/octet-stream';
@@ -55,7 +55,7 @@ exports.getMimeNameFromExt = function getMimeNameFromExt(ext) {
   return result;
 };
 
-exports.readRangeHeader = function readRangeHeader(range, totalLength) {
+exports.readRangeHeader = function readRangeHeader (range, totalLength) {
   if (!range || range.length === 0) {
     return null;
   }
@@ -152,7 +152,7 @@ exports.userProfile = catchAsync(async (req, res, next) => {
   });
 });
 exports.currentUserProfile = catchAsync(async (req, res, next) => {
-  let token = req.headers.authorization.split(' ')[1];
+  const token = req.headers.authorization.split(' ')[1];
   const decoded = await promisify(jwt.verify)(
     token,
     process.env.JWT_SECRET_KEY
@@ -166,7 +166,7 @@ exports.currentUserProfile = catchAsync(async (req, res, next) => {
     }
   });
 });
-//this will be modified later after adding the astisit model
+// this will be modified later after adding the astisit model
 exports.topTracksAndArtists = catchAsync(async (req, res, next) => {
   // if (req.params.type === 'track') {
   const doc = await getTopArtistsAndTracks(Track, req.query);

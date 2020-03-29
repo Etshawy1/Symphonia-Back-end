@@ -9,7 +9,7 @@ const router = express.Router();
 router.get('/:id/followers/contains', followController.checkIfPlaylistFollower);
 // Description: follow a playlist
 router.put('/:id/followers', followController.followPlaylist);
-//Description: un follow a playlist
+// Description: un follow a playlist
 router.delete('/:id/followers', followController.unfollowPlaylist);
 
 module.exports = router;

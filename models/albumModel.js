@@ -19,7 +19,7 @@ const albumSchema = new mongoose.Schema({
   image: String,
   artist: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Artist',
+    ref: 'User',
     required: [true, 'Album must have Artist']
   },
   tracks: {

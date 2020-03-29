@@ -15,5 +15,4 @@ require('./startup/ratelimit')(app);
 require('./startup/routes')(app);
 require('./startup/sanitization')(app);
 require('./startup/db')();
-
 module.exports = app;
