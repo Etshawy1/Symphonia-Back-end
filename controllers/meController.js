@@ -4,6 +4,7 @@ const catchAsync = require('./../utils/catchAsync').threeArg;
 const AppError = require('./../utils/appError');
 const { Track } = require('./../models/trackModel');
 const { User } = require('./../models/userModel');
+const { History } = require('./../models/historyModel');
 const { promisify } = require('util');
 const jwt = require('jsonwebtoken');
 const APIFeatures = require('./../utils/apiFeatures');
@@ -83,8 +84,31 @@ exports.readRangeHeader = function readRangeHeader (range, totalLength) {
 
 exports.playTrack = catchAsync(async (req, res) => {
   const track = await Track.findById(req.params.track_id);
+  const item = {
+    track: track._id,
+    played_at: Date.now(),
+    contextUrl: req.body.context_url,
+    contextType: req.body.context_type
+  };
+  const token = req.headers.authorization.split(' ')[1];
+  const decoded = await promisify(jwt.verify)(
+    token,
+    process.env.JWT_SECRET_KEY
+  );
+  const currentUser = await User.findById(decoded._id).select('+history');
+  if (currentUser.history === undefined) {
+    __logger.info(currentUser);
+    const history = await History.create({
+      items: [item]
+    });
+    currentUser.history = history._id;
+    currentUser.save({ validateBeforeSave: false });
+  } else {
+    const history = await History.findById(currentUser.history);
+    history.items.push(item);
+    history.save();
+  }
   const { trackPath } = track;
-  __logger.info(trackPath);
   // Check if file exists. If not, will return the 404 'Not Found'.
   if (!fs.existsSync(trackPath)) {
     sendResponse(res, 404, null, null);
@@ -157,7 +181,6 @@ exports.currentUserProfile = catchAsync(async (req, res, next) => {
     token,
     process.env.JWT_SECRET_KEY
   );
-  __logger.info(decoded.id);
   const currentUser = await getProfileInfo(decoded.id);
   res.status(200).json({
     status: 'success',
@@ -166,17 +189,31 @@ exports.currentUserProfile = catchAsync(async (req, res, next) => {
     }
   });
 });
-// this will be modified later after adding the astisit model
 exports.topTracksAndArtists = catchAsync(async (req, res, next) => {
-  // if (req.params.type === 'track') {
-  const doc = await getTopArtistsAndTracks(Track, req.query);
-  // } else {
-  // const doc = await getTopArtistsAndTracks(Artist);
-  // }
+  const doc =
+    req.params.type === 'track'
+      ? await getTopArtistsAndTracks(Track, req.query)
+      : await getTopArtistsAndTracks(Artist);
   res.status(200).json({
     status: 'success',
     data: {
       doc
+    }
+  });
+});
+exports.recentlyPlayed = catchAsync(async (req, res, next) => {
+  const token = req.headers.authorization.split(' ')[1];
+  const decoded = await promisify(jwt.verify)(
+    token,
+    process.env.JWT_SECRET_KEY
+  );
+  const currentUser = await User.findById(decoded.id).select('+history');
+  __logger.info(currentUser);
+  const history = await History.findById(currentUser.history).select('-__v');
+  res.status(200).json({
+    status: 'success',
+    data: {
+      history
     }
   });
 });
