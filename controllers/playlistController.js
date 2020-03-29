@@ -48,10 +48,10 @@ exports.createPlaylist = catchAsync(async (req, res, next) => {
     name: req.body.name,
     description: req.body.description,
     images: req.body.images,
-    owner: req.body.owner,
+    owner: req.user._id,
     public: req.body.public,
-    tracks: req.body.tracks,
-    followers: req.body.followers
+    followers: req.body.followers,
+    category: req.body.category
   });
 
   playlist = await playlist.save();

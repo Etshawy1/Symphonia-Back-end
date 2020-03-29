@@ -7,8 +7,9 @@ const slugify = require('slugify');
 // TODO: to do handle the sm and md and lg make them obligatory
 
 // NOTE:
-// the sequecne of using this classs
+//1. the sequecne of using this classs
 /* example
+
  let uploadBuilder = new UploadBuilder();
   uploadBuilder.addfileField('icon', 'name', '', 1);
   uploadBuilder.addfileField('icon_md', 'name', '_md', 1);
@@ -17,6 +18,8 @@ const slugify = require('slugify');
     path.resolve(__dirname, '..') + '/assets/images/categories'
   );
 */
+
+// 2. the file paths will be stored in req.files
 //TODO: test this class
 class UploadBuilder {
   constructor() {
@@ -27,8 +30,10 @@ class UploadBuilder {
     this.fileFields = [];
     this.uploader = null;
     this.saveByReqName = new Map();
+    this.eventEmmiter = null;
   }
 
+  addEventEmmiter(eventEmmiter, action) {}
   setPath(storePath) {
     this.filePath = storePath;
   }
@@ -50,7 +55,7 @@ class UploadBuilder {
   addTypeFilter(typeFilter) {
     this.fileFilter.push(typeFilter);
   }
-  constructUploaderTemp() {
+  constructUploader() {
     let saveByReqName = this.saveByReqName;
     this.storage = multer.diskStorage({
       destination: function(req, file, cb) {

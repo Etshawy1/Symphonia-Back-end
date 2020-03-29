@@ -13,7 +13,7 @@ const playlistSchema = new mongoose.Schema(
     images: [String],
     name: {
       type: String,
-      required: [true, 'please provide a name for your category'],
+      required: [true, 'please provide a name for your playlist'],
       minlength: 2,
       maxlength: 255,
       unique: true
@@ -27,13 +27,19 @@ const playlistSchema = new mongoose.Schema(
       type: Boolean,
       default: true
     },
-    tracks: {
-      type: [mongoose.Schema.Types.ObjectId],
-      ref: 'Track'
-    },
+    tracks: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Track'
+      }
+    ],
     followers: {
       type: [mongoose.Schema.Types.ObjectId],
       ref: 'User'
+    },
+    category: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Category'
     }
   },
   {
