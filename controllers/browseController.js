@@ -70,12 +70,14 @@ exports.createCategory = catchAsync(async (req, res, next) => {
     // you have to provide a default icon
     let working = null;
   }
+  let LOCAL_HOST = `${req.protocol}://${req.get('host')}/`;
 
   let fileMeta = req.files.icon[0];
   let imageMeta = await sharp(fileMeta.path).metadata();
   let imageUrl =
-    `${process.env.LOCAL_HOST}api/v1/browse/categories/images/` +
+    `${LOCAL_HOST}api/v1/browse/categories/images/` +
     req.files.icon[0].filename;
+  console.log(imageUrl);
   category = await Category.findByIdAndUpdate(
     category._id,
     {

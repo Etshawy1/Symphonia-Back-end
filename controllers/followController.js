@@ -133,6 +133,7 @@ exports.getUserFollowedArtists = catchAsync(async (req, res, next) => {
   // get the after after id
   let afterId = null;
   let myNext = null;
+  let LOCAL_HOST = `${req.protocol}://${req.get('host')}/`;
   // let's do the limit filtering by slicing the array
   end = afterIndex + limit;
   if (end > originalTotal) {
@@ -140,8 +141,7 @@ exports.getUserFollowedArtists = catchAsync(async (req, res, next) => {
   } else {
     if (followedUsers[end]) {
       afterId = followedUsers[end]._id;
-      myNext =
-        process.env.LOCAL_HOST + 'api/v1/me/following?limit=1&after=' + afterId;
+      myNext = LOCAL_HOST + 'api/v1/me/following?limit=1&after=' + afterId;
     }
   }
   if (afterIndex == -1) afterIndex = 0;

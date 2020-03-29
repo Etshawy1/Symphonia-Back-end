@@ -27,11 +27,7 @@ categorySchema.pre('save', function() {
 });
 
 categorySchema.virtual('href').get(function() {
-  const href = `${process.env.LOCAL_HOST}api/v1/browse/categories/${slugify(
-    this.name,
-    { lower: true }
-  )}`;
-  return href;
+  return null;
 });
 
 const Category = mongoose.model('Category', categorySchema);

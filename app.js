@@ -15,6 +15,4 @@ require('./startup/ratelimit')(app);
 require('./startup/routes')(app);
 require('./startup/sanitization')(app);
 require('./startup/db')();
-require('./startup/setup')();
-console.log(process.env.LOCAL_HOST);
 module.exports = app;
