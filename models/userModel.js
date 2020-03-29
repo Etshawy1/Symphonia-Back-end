@@ -66,9 +66,9 @@ const userSchema = new mongoose.Schema({
     max: '1-1-2000',
     required: [true, 'please provide your date of birth']
   },
-  tracks: {
-    type: [mongoose.Schema.Types.ObjectId],
-    ref: 'Track',
+  history: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'History',
     select: false
   },
   followedUsers: [

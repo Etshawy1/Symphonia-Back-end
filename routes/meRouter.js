@@ -14,11 +14,16 @@ router.use(authController.protect);
 router.get('/player/tracks/:track_id', meController.playTrack);
 
 // this just for testing the player
-router.get('/gamed', function(req, res) {
+router.get('/gamed', function (req, res) {
   res.sendFile(path.join(`${__dirname}/../views/index.html`));
 });
 
 router.get('/top/:type', meController.topTracksAndArtists);
+router.get('/recently-played', meController.recentlyPlayed);
+
+// don't change anyline of my code again there is no problem to put these routes here if there is a problem with you it must be from your work not from the postion of my routes
+router.get('/', meController.currentUserProfile);
+router.get('/:user_id', meController.userProfile);
 
 // section: follow routes
 // Description: check if the current user follows a another user(partist or normal user)
@@ -62,9 +67,5 @@ router.put('/tracks', libraryController.saveCurrentUserTracks);
 
 //Description: Get a list of the playlists owned or followed by the current Symphonia user.
 router.get('/playlists', playlistController.getCurrentUserPlaylists);
-
-// put it in the back it is a must: please be careful puting them a head causes alot of problems
-router.get('/', meController.currentUserProfile);
-router.get('/:user_id', meController.userProfile);
 
 module.exports = router;
