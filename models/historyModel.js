@@ -8,7 +8,7 @@ const historySchema = new mongoose.Schema({
       },
       played_at: Date,
       contextUrl: String,
-      contextTypel: {
+      contextType: {
         type: String,
         enum: ['playlist', 'album', 'artist']
       }

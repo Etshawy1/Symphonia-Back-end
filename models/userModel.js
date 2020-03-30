@@ -71,10 +71,40 @@ const userSchema = new mongoose.Schema({
     ref: 'History',
     select: false
   },
+  queue: {
+    queueTracks: [String],
+    currentlyPlaying: {
+      currentTrack: { type: String, default: null },
+      device: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User.queue.devices'
+      }
+    },
+    previousTrack: { type: String, default: null },
+    nextTrack: { type: String, defult: null },
+    repeat: { type: Boolean, default: false }, //when reload the page
+    volume: String, //when reload the page
+    seek: { type: String, defult: null }, //when reload the page
+    shuffle: { type: Boolean, default: false }, //when reload the page
+    play: { type: Boolean, default: false },
+    devices: [
+      {
+        devicesName: String
+      }
+    ],
+    repeatOnce: { type: Boolean, default: false },
+    select: false
+  },
   followedUsers: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User'
+    }
+  ],
+  tracks: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Track'
     }
   ],
   passwordChangedAt: Date,
