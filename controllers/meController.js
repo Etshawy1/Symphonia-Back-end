@@ -96,23 +96,33 @@ exports.playTrack = catchAsync(async (req, res) => {
       track: track._id,
       played_at: Date.now()
     };
-    const currentUser = await User.findById(
-      await decodeToken(req.headers.authorization.split(' ')[1]).id
-    ).select('+history');
+    const tokenId = await decodeToken(req.headers.authorization.split(' ')[1])
+      .id;
+    const currentUser = await User.findById(tokenId).select('+history');
     currentUser.queue.currentlyPlaying.currentTrack = `${
       req.protocol
     }://${req.get('host')}/api/v1/me/player/tracks/${track._id}`;
+    currentUser.queue.devices.push({ devicesName: req.body.device });
     if (currentUser.history === undefined) {
       const history = await History.create({
         items: [item]
       });
       currentUser.history = history._id;
-      currentUser.save({ validateBeforeSave: false });
     } else {
       const history = await History.findById(currentUser.history);
       history.items.push(item);
-      history.save();
+      await history.save();
     }
+    await currentUser.save({ validateBeforeSave: false });
+    const updatedUser = await User.findById(tokenId);
+    let deviceId;
+    updatedUser.queue.devices.forEach(device => {
+      if (device.devicesName === req.body.device) {
+        deviceId = device._id;
+      }
+    });
+    updatedUser.queue.currentlyPlaying.device = deviceId;
+    await updatedUser.save({ validateBeforeSave: false });
   } else {
     const item = {
       track: track._id,
@@ -137,8 +147,7 @@ exports.playTrack = catchAsync(async (req, res) => {
       );
     });
     const indexOfCurrentTrack = context.tracks.indexOf(track._id);
-    __logger.error(indexOfCurrentTrack);
-    __logger.error('indexOfCurrentTrack');
+    __logger.error(JSON.stringify(req.body));
     const indexOfPreviousTrack =
       indexOfCurrentTrack === 0 ? -1 : indexOfCurrentTrack - 1;
     const indexOfNextTrack =
@@ -156,11 +165,11 @@ exports.playTrack = catchAsync(async (req, res) => {
         indexOfPreviousTrack !== -1 ? TracksUrl[indexOfPreviousTrack] : null,
       nextTrack:
         indexOfNextTrack !== -1 ? TracksUrl[indexOfPreviousTrack] : null,
-      devices: [`${req.body.device}`]
+      devices: [{ devicesName: req.body.device }]
     };
-    const currentUser = await User.findById(
-      await decodeToken(req.headers.authorization.split(' ')[1]).id
-    ).select('+history');
+    const decodedId = await decodeToken(req.headers.authorization.split(' ')[1])
+      .id;
+    const currentUser = await User.findById(tokenId).select('+history');
     if (currentUser.history === undefined) {
       const history = await History.create({
         items: [item]
@@ -169,10 +178,19 @@ exports.playTrack = catchAsync(async (req, res) => {
     } else {
       const history = await History.findById(currentUser.history);
       history.items.push(item);
-      history.save({ validateBeforeSave: false });
+      await history.save({ validateBeforeSave: false });
     }
     currentUser.queue = queue;
-    currentUser.save({ validateBeforeSave: false });
+    await currentUser.save({ validateBeforeSave: false });
+    const updatedUser = await User.findById(decodedId);
+    let deviceId;
+    updatedUser.queue.devices.forEach(device => {
+      if (device.devicesName === req.body.device) {
+        deviceId = device._id;
+      }
+    });
+    updatedUser.queue.currentlyPlaying.device = deviceId;
+    await updatedUser.save({ validateBeforeSave: false });
   }
   const { trackPath } = track;
   __logger.info(trackPath);
@@ -282,7 +300,7 @@ exports.repeat = catchAsync(async (req, res, next) => {
   __logger.info(currentUserQueue);
   currentUserQueue.repeat = true;
   currentUserQueue.repeatOnce = false;
-  user.save({ validateBeforeSave: false });
+  await user.save({ validateBeforeSave: false });
   res.status(204).json({ data: null });
 });
 exports.repeatOnce = catchAsync(async (req, res, next) => {
@@ -293,7 +311,7 @@ exports.repeatOnce = catchAsync(async (req, res, next) => {
   __logger.info(currentUserQueue);
   currentUserQueue.repeatOnce = true;
   currentUserQueue.repeat = false;
-  user.save({ validateBeforeSave: false });
+  await user.save({ validateBeforeSave: false });
   res.status(204).json({ data: null });
 });
 exports.shuffle = catchAsync(async (req, res, next) => {
@@ -303,7 +321,7 @@ exports.shuffle = catchAsync(async (req, res, next) => {
   const currentUserQueue = user.queue;
   __logger.info(currentUserQueue);
   currentUserQueue.shuffle = true;
-  user.save({ validateBeforeSave: false });
+  await user.save({ validateBeforeSave: false });
   res.status(204).json({ data: null });
 });
 exports.seek = catchAsync(async (req, res, next) => {
@@ -313,7 +331,7 @@ exports.seek = catchAsync(async (req, res, next) => {
   const currentUserQueue = user.queue;
   __logger.info(currentUserQueue);
   currentUserQueue.seek = req.headers.range;
-  user.save({ validateBeforeSave: false });
+  await user.save({ validateBeforeSave: false });
   res.status(204).json({ data: null });
 });
 exports.volume = catchAsync(async (req, res, next) => {
@@ -323,13 +341,12 @@ exports.volume = catchAsync(async (req, res, next) => {
   const currentUserQueue = user.queue;
   __logger.info(currentUserQueue);
   currentUserQueue.volume = req.body.volume;
-  user.save({ validateBeforeSave: false });
+  await user.save({ validateBeforeSave: false });
   res.status(204).json({ data: null });
 });
 exports.previous = catchAsync(async (req, res, next) => {
   const user = await User.findById(
-    '5e80fd1684c71f6ffb534a08'
-    //await decodeToken(req.headers.authorization.split(' ')[1]).id
+    await decodeToken(req.headers.authorization.split(' ')[1]).id
   );
   const currentUserQueue = user.queue;
   __logger.info(currentUserQueue);
@@ -356,7 +373,7 @@ exports.previous = catchAsync(async (req, res, next) => {
         currentUserQueue.queueTracks[indexOfPreviousTrack - 1];
     }
   }
-  user.save({ validateBeforeSave: false });
+  await user.save({ validateBeforeSave: false });
   res.status(200).json({
     data: currentUserQueue.queueTracks
   });
@@ -389,7 +406,7 @@ exports.next = catchAsync(async (req, res, next) => {
         currentUserQueue.queueTracks[indexOfPreviousTrack + 1];
     }
   }
-  user.save({ validateBeforeSave: false });
+  await user.save({ validateBeforeSave: false });
   res.status(200).json({
     data: currentUserQueue.queueTracks
   });
@@ -401,7 +418,7 @@ exports.pushQueue = catchAsync(async (req, res, next) => {
   const currentUserQueue = user.queue;
   __logger.info(currentUserQueue);
   currentUserQueue.queueTracks.push(req.body.track);
-  user.save({ validateBeforeSave: false });
+  await user.save({ validateBeforeSave: false });
   res.status(200).json({
     data: currentUserQueue.queueTracks
   });
@@ -419,7 +436,7 @@ exports.popQueue = catchAsync(async (req, res, next) => {
     return new AppError('This Track is not in your current queue', 404);
   }
   currentUserQueue.queueTracks.splice(indexOfPreviousTrack, 1);
-  user.save({ validateBeforeSave: false });
+  await user.save({ validateBeforeSave: false });
   res.status(204).json({
     data: null
   });
@@ -443,7 +460,7 @@ exports.popDevices = catchAsync(async (req, res, next) => {
   const device = await currentUserQueue.findById(removedDevicesId);
   const indexOfPreviousTrack = currentUserdevices.indexOf(device);
   currentUserQueue.queueTracks.splice(indexOfPreviousTrack, 1);
-  user.save({ validateBeforeSave: false });
+  await user.save({ validateBeforeSave: false });
   res.status(204).json({
     data: null
   });
