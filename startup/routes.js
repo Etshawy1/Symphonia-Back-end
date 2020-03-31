@@ -9,15 +9,17 @@ const browseRouter = require('../routes/browseRouter');
 const playlistRouter = require('./../routes/playlistRouter');
 const AppError = require('../utils/appError');
 const globalErrorHandler = require('../controllers/errorController');
+const bodyParser = require('body-parser');
 
-module.exports = function(app) {
+module.exports = function (app) {
   app.use(express.json());
   app.use(
     express.urlencoded({
       extended: false
     })
   );
-
+  app.set('trust proxy', 'loopback'); // for deployment to get the host in the code
+  app.use(bodyParser.urlencoded({ extended: false }));
   app.use('/', indexRouter);
   app.use('/api/v1/users', userRouter);
   app.use('/api/v1/me', meRouter);

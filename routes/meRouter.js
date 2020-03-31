@@ -10,17 +10,28 @@ const libraryController = require('../controllers/libraryController');
 const playlistController = require('./../controllers/playlistController');
 
 const router = express.Router();
-router.use(authController.protect);
 router.get('/player/tracks/:track_id', meController.playTrack);
-
-// this just for testing the player
-router.get('/gamed', function (req, res) {
-  res.sendFile(path.join(`${__dirname}/../views/index.html`));
-});
 
 router.get('/top/:type', meController.topTracksAndArtists);
 router.get('/recently-played', meController.recentlyPlayed);
+// your queue is your current context
+router.patch('/player/shuffle', meController.shuffle);
+router.patch('/player/volume', meController.volume);
+router.patch('/player/repeat', meController.repeat);
+router.patch('/player/repeatOnce', meController.repeatOnce);
+router.patch('/player/seek', meController.seek);
+router.patch('/player/devices', meController.pushDevices);
+router.post('/player/previous', meController.previous);
+router.post('/player/next', meController.next);
+router.post('/player/queue', meController.pushQueue);
+router.delete('/player/queue', meController.popQueue);
+router.delete('/player/devices', meController.popDevices);
+router.get('/player/devices', meController.getDevices);
+router.get('/player/currently-playing', meController.getCurrentlyPlaying);
+router.get('/player/queue', meController.getQueue);
+router.use(authController.protect);
 
+//router.batch('/v1/me/player/play',);
 // don't change anyline of my code again there is no problem to put these routes here if there is a problem with you it must be from your work not from the postion of my routes
 router.get('/', meController.currentUserProfile);
 router.get('/:user_id', meController.userProfile);
