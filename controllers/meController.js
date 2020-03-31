@@ -147,7 +147,6 @@ exports.playTrack = catchAsync(async (req, res) => {
       );
     });
     const indexOfCurrentTrack = context.tracks.indexOf(track._id);
-    __logger.error(JSON.stringify(req.body));
     const indexOfPreviousTrack =
       indexOfCurrentTrack === 0 ? -1 : indexOfCurrentTrack - 1;
     const indexOfNextTrack =
@@ -167,7 +166,7 @@ exports.playTrack = catchAsync(async (req, res) => {
         indexOfNextTrack !== -1 ? TracksUrl[indexOfPreviousTrack] : null,
       devices: [{ devicesName: req.body.device }]
     };
-    const decodedId = await decodeToken(req.headers.authorization.split(' ')[1])
+    const tokenId = await decodeToken(req.headers.authorization.split(' ')[1])
       .id;
     const currentUser = await User.findById(tokenId).select('+history');
     if (currentUser.history === undefined) {
@@ -182,7 +181,7 @@ exports.playTrack = catchAsync(async (req, res) => {
     }
     currentUser.queue = queue;
     await currentUser.save({ validateBeforeSave: false });
-    const updatedUser = await User.findById(decodedId);
+    const updatedUser = await User.findById(tokenId);
     let deviceId;
     updatedUser.queue.devices.forEach(device => {
       if (device.devicesName === req.body.device) {
@@ -199,11 +198,9 @@ exports.playTrack = catchAsync(async (req, res) => {
     sendResponse(res, 404, null, null);
     return null;
   }
-
   const responseHeaders = {};
   const stat = fs.statSync(trackPath);
   const rangeRequest = readRangeHeader(req.headers.range, stat.size);
-
   // If 'Range' header exists, we will parse it with Regular Expression.
   if (rangeRequest == null) {
     responseHeaders['Content-Type'] = getMimeNameFromExt(
@@ -216,10 +213,8 @@ exports.playTrack = catchAsync(async (req, res) => {
     sendResponse(res, 200, responseHeaders, fs.createReadStream(trackPath));
     return null;
   }
-
   const start = rangeRequest.Start;
   const end = rangeRequest.End;
-
   // If the range can't be fulfilled.
   if (start >= stat.size || end >= stat.size) {
     // Indicate the acceptable range.
@@ -229,14 +224,12 @@ exports.playTrack = catchAsync(async (req, res) => {
     sendResponse(res, 416, responseHeaders, null);
     return null;
   }
-
   // Indicate the current range.
   responseHeaders['Content-Range'] = `bytes ${start}-${end}/${stat.size}`;
   responseHeaders['Content-Length'] = start === end ? 0 : end - start + 1;
   responseHeaders['Content-Type'] = getMimeNameFromExt(path.extname(trackPath));
   responseHeaders['Accept-Ranges'] = 'bytes';
   responseHeaders['Cache-Control'] = 'no-cache';
-
   // Return the 206 'Partial Content'.
   sendResponse(
     res,
@@ -293,13 +286,14 @@ exports.recentlyPlayed = catchAsync(async (req, res, next) => {
 });
 
 exports.repeat = catchAsync(async (req, res, next) => {
-  const user = await User.findById(
-    await decodeToken(req.headers.authorization.split(' ')[1]).id
-  );
+  const user = await User
+    .findById
+    //  await decodeToken(req.headers.authorization.split(' ')[1]).id
+    ();
   const currentUserQueue = user.queue;
   __logger.info(currentUserQueue);
-  currentUserQueue.repeat = true;
-  currentUserQueue.repeatOnce = false;
+  currentUserQueue.repeat = !currentUserQueue.repeat;
+  if (currentUserQueue.repeat === true) currentUserQueue.repeatOnce = false;
   await user.save({ validateBeforeSave: false });
   res.status(204).json({ data: null });
 });
@@ -309,8 +303,8 @@ exports.repeatOnce = catchAsync(async (req, res, next) => {
   );
   const currentUserQueue = user.queue;
   __logger.info(currentUserQueue);
-  currentUserQueue.repeatOnce = true;
-  currentUserQueue.repeat = false;
+  currentUserQueue.repeatOnce = !currentUserQueue.repeatOnce;
+  if (currentUserQueue.repeatOnce === true) currentUserQueue.repeat = false;
   await user.save({ validateBeforeSave: false });
   res.status(204).json({ data: null });
 });
@@ -320,7 +314,7 @@ exports.shuffle = catchAsync(async (req, res, next) => {
   );
   const currentUserQueue = user.queue;
   __logger.info(currentUserQueue);
-  currentUserQueue.shuffle = true;
+  currentUserQueue.shuffle = !currentUserQueue.shuffle;
   await user.save({ validateBeforeSave: false });
   res.status(204).json({ data: null });
 });
@@ -356,21 +350,36 @@ exports.previous = catchAsync(async (req, res, next) => {
       currentUserQueue.currentlyPlaying.currentTrack;
   } else {
     currentUserQueue.nextTrack = currentUserQueue.currentlyPlaying.currentTrack;
+    if (currentUserQueue.previousTrack !== null)
+      currentUserQueue.currentlyPlaying.currentTrack =
+        currentUserQueue.previousTrack;
+    else if (currentUserQueue.repeat) {
+      currentUserQueue.currentlyPlaying.currentTrack =
+        currentUserQueue.queueTracks[queueTracks.length - 1];
+    }
+
     currentUserQueue.currentlyPlaying.currentTrack =
       currentUserQueue.previousTrack;
-    const indexOfPreviousTrack = currentUserQueue.queueTracks.indexOf(
-      currentUserQueue.previousTrack
-    );
-    if (indexOfPreviousTrack === 0) {
-      if (currentUserQueue.repeat === true) {
-        currentUserQueue.previousTrack =
-          currentUserQueue.queueTracks[queueTracks.length - 1];
+    if (currentUserQueue.nextTrack !== null) {
+      const indexOfPreviousTrack = currentUserQueue.queueTracks.indexOf(
+        currentUserQueue.previousTrack
+      );
+      if (indexOfPreviousTrack === 0) {
+        if (currentUserQueue.repeat === true) {
+          currentUserQueue.previousTrack =
+            currentUserQueue.queueTracks[queueTracks.length - 1];
+        } else {
+          currentUserQueue.previousTrack = null;
+        }
       } else {
-        currentUserQueue.previousTrack = null;
+        currentUserQueue.previousTrack =
+          currentUserQueue.queueTracks[indexOfPreviousTrack - 1];
       }
     } else {
-      currentUserQueue.previousTrack =
-        currentUserQueue.queueTracks[indexOfPreviousTrack - 1];
+      if (currentUserQueue.repeat === true) {
+        currentUserQueue.previousTrack =
+          currentUserQueue.queueTracks[queueTracks.length - 2];
+      }
     }
   }
   await user.save({ validateBeforeSave: false });
@@ -383,7 +392,6 @@ exports.next = catchAsync(async (req, res, next) => {
     await decodeToken(req.headers.authorization.split(' ')[1]).id
   );
   const currentUserQueue = user.queue;
-  __logger.info(currentUserQueue);
   if (currentUserQueue.repeatOnce === true) {
     currentUserQueue.nextTrack = currentUserQueue.currentlyPlaying.currentTrack;
     currentUserQueue.previousTrack =
@@ -391,19 +399,31 @@ exports.next = catchAsync(async (req, res, next) => {
   } else {
     currentUserQueue.previousTrack =
       currentUserQueue.currentlyPlaying.currentTrack;
-    currentUserQueue.currentlyPlaying.currentTrack = currentUserQueue.nextTrack;
-    const indexOfPreviousTrack = currentUserQueue.queueTracks.indexOf(
-      currentUserQueue.nextTrack
-    );
-    if (indexOfPreviousTrack + 1 === currentUserQueue.queueTracks.length) {
-      if (currentUserQueue.request === true) {
-        currentUserQueue.nextTrack = currentUserQueue.queueTracks[0];
+    if (currentUserQueue.nextTrack !== null)
+      currentUserQueue.currentlyPlaying.currentTrack =
+        currentUserQueue.nextTrack;
+    else if (currentUserQueue.repeat) {
+      currentUserQueue.currentlyPlaying.currentTrack =
+        currentUserQueue.queueTracks[0];
+    }
+    if (currentUserQueue.nextTrack !== null) {
+      const indexOfPreviousTrack = currentUserQueue.queueTracks.indexOf(
+        currentUserQueue.nextTrack
+      );
+      if (indexOfPreviousTrack + 1 === currentUserQueue.queueTracks.length) {
+        if (currentUserQueue.repeat === true) {
+          currentUserQueue.nextTrack = currentUserQueue.queueTracks[0];
+        } else {
+          currentUserQueue.nextTrack = null;
+        }
       } else {
-        currentUserQueue.nextTrack = null;
+        currentUserQueue.nextTrack =
+          currentUserQueue.queueTracks[indexOfPreviousTrack + 1];
       }
     } else {
-      currentUserQueue.nextTrack =
-        currentUserQueue.queueTracks[indexOfPreviousTrack + 1];
+      if (currentUserQueue.repeat === true) {
+        currentUserQueue.nextTrack = currentUserQueue.queueTracks[1];
+      }
     }
   }
   await user.save({ validateBeforeSave: false });

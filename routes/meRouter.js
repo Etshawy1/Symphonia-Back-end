@@ -12,7 +12,6 @@ const playlistController = require('./../controllers/playlistController');
 const router = express.Router();
 router.get('/player/tracks/:track_id', meController.playTrack);
 
-router.use(authController.protect);
 router.get('/top/:type', meController.topTracksAndArtists);
 router.get('/recently-played', meController.recentlyPlayed);
 // your queue is your current context
@@ -30,6 +29,7 @@ router.delete('/player/devices', meController.popDevices);
 router.get('/player/devices', meController.getDevices);
 router.get('/player/currently-playing', meController.getCurrentlyPlaying);
 router.get('/player/queue', meController.getQueue);
+router.use(authController.protect);
 
 //router.batch('/v1/me/player/play',);
 // don't change anyline of my code again there is no problem to put these routes here if there is a problem with you it must be from your work not from the postion of my routes
