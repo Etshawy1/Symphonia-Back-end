@@ -162,8 +162,7 @@ exports.playTrack = catchAsync(async (req, res) => {
       },
       previousTrack:
         indexOfPreviousTrack !== -1 ? TracksUrl[indexOfPreviousTrack] : null,
-      nextTrack:
-        indexOfNextTrack !== -1 ? TracksUrl[indexOfPreviousTrack] : null,
+      nextTrack: indexOfNextTrack !== -1 ? TracksUrl[indexOfNextTrack] : null,
       devices: [{ devicesName: req.body.device }]
     };
     const tokenId = await decodeToken(req.headers.authorization.split(' ')[1])
@@ -273,7 +272,6 @@ exports.topTracksAndArtists = catchAsync(async (req, res, next) => {
   });
 });
 
-//done
 exports.recentlyPlayed = catchAsync(async (req, res, next) => {
   const currentUser = await User.findById(
     await decodeToken(req.headers.authorization.split(' ')[1]).id
@@ -286,10 +284,9 @@ exports.recentlyPlayed = catchAsync(async (req, res, next) => {
 });
 
 exports.repeat = catchAsync(async (req, res, next) => {
-  const user = await User
-    .findById
-    //  await decodeToken(req.headers.authorization.split(' ')[1]).id
-    ();
+  const user = await User.findById(
+    await decodeToken(req.headers.authorization.split(' ')[1]).id
+  );
   const currentUserQueue = user.queue;
   __logger.info(currentUserQueue);
   currentUserQueue.repeat = !currentUserQueue.repeat;
