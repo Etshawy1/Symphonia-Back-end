@@ -18,6 +18,7 @@ module.exports = function (app) {
       extended: false
     })
   );
+  app.set('trust proxy', 'loopback'); // for deployment to get the host in the code
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use('/', indexRouter);
   app.use('/api/v1/users', userRouter);
