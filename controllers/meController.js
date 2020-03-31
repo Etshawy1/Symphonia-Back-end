@@ -123,6 +123,12 @@ exports.playTrack = catchAsync(async (req, res) => {
     });
     updatedUser.queue.currentlyPlaying.device = deviceId;
     await updatedUser.save({ validateBeforeSave: false });
+    if (
+      updatedUser.queue.seek !== undefined ||
+      updatedUser.queue.seek !== null
+    ) {
+      req.headers.range = updatedUser.queue.seek;
+    }
   } else {
     const item = {
       track: track._id,
@@ -153,6 +159,9 @@ exports.playTrack = catchAsync(async (req, res) => {
       indexOfCurrentTrack === context.tracks.length - 1
         ? -1
         : indexOfCurrentTrack + 1;
+    __logger.error(indexOfCurrentTrack);
+    __logger.error(context.tracks.length);
+    __logger.error(indexOfNextTrack);
     const queue = {
       queueTracks: TracksUrl,
       currentlyPlaying: {
@@ -189,6 +198,12 @@ exports.playTrack = catchAsync(async (req, res) => {
     });
     updatedUser.queue.currentlyPlaying.device = deviceId;
     await updatedUser.save({ validateBeforeSave: false });
+    if (
+      updatedUser.queue.seek !== undefined ||
+      updatedUser.queue.seek !== null
+    ) {
+      req.headers.range = updatedUser.queue.seek;
+    }
   }
   const { trackPath } = track;
   __logger.info(trackPath);

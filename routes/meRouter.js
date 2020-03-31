@@ -1,40 +1,53 @@
 const express = require('express');
-const path = require('path');
 const authController = require('../controllers/authController');
 const meController = require('../controllers/meController');
-
-// const authController = require('../controllers/authController');
 const followController = require('../controllers/followController');
 const libraryController = require('../controllers/libraryController');
-
 const playlistController = require('./../controllers/playlistController');
 
 const router = express.Router();
 router.use(authController.protect);
-router.get('/player/tracks/:track_id', meController.playTrack);
-
-router.get('/top/:type', meController.topTracksAndArtists);
-router.get('/recently-played', meController.recentlyPlayed);
-// your queue is your current context
-router.patch('/player/shuffle', meController.shuffle);
-router.patch('/player/volume', meController.volume);
-router.patch('/player/repeat', meController.repeat);
-router.patch('/player/repeatOnce', meController.repeatOnce);
-router.patch('/player/seek', meController.seek);
-router.patch('/player/devices', meController.pushDevices);
-router.post('/player/previous', meController.previous);
-router.post('/player/next', meController.next);
-router.post('/player/queue', meController.pushQueue);
-router.delete('/player/queue', meController.popQueue);
-router.delete('/player/devices', meController.popDevices);
-router.get('/player/devices', meController.getDevices);
-router.get('/player/currently-playing', meController.getCurrentlyPlaying);
-router.get('/player/queue', meController.getQueue);
-
-//router.batch('/v1/me/player/play',);
 // don't change anyline of my code again there is no problem to put these routes here if there is a problem with you it must be from your work not from the postion of my routes
+
+//save shuffle
+router.patch('/player/shuffle', meController.shuffle);
+//save volume
+router.patch('/player/volume', meController.volume);
+//save repeat
+router.patch('/player/repeat', meController.repeat);
+//save repeatOnce
+router.patch('/player/repeatOnce', meController.repeatOnce);
+//save seek
+router.patch('/player/seek', meController.seek);
+//save devices
+router.patch('/player/devices', meController.pushDevices);
+//go to previous track
+router.post('/player/previous', meController.previous);
+//go to next track
+router.post('/player/next', meController.next);
+//add to queue
+router.post('/player/queue', meController.pushQueue);
+//delete from queue
+router.delete('/player/queue', meController.popQueue);
+//delete device
+router.delete('/player/devices', meController.popDevices);
+//get devices
+router.get('/player/devices', meController.getDevices);
+//get currently playing
+router.get('/player/currently-playing', meController.getCurrentlyPlaying);
+//get queue
+router.get('/player/queue', meController.getQueue);
+//play the track
+router.get('/player/tracks/:track_id', meController.playTrack);
+//get top artist and top tracks
+router.get('/top/:type', meController.topTracksAndArtists);
+//get recent tracks
+router.get('/recently-played', meController.recentlyPlayed);
+//get user privte profile
 router.get('/', meController.currentUserProfile);
+//get public profile
 router.get('/:user_id', meController.userProfile);
+//router.batch('/v1/me/player/play',);
 
 // section: follow routes
 // Description: check if the current user follows a another user(partist or normal user)
