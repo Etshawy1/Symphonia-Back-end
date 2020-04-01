@@ -1,4 +1,5 @@
 # Symphonia-Back-end
+<img href='https://raw.githubusercontent.com/mrvautin/expressCart/master/public/images/logo.png'></img>
 The back end of Symphonia website (a spotify-like music streaming application)
 <h1>General Note</h1>
 <p>
