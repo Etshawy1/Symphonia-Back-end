@@ -244,8 +244,8 @@ exports.playTrack = catchAsync(async (req, res) => {
   );
 });
 exports.userProfile = catchAsync(async (req, res, next) => {
-  const currentUser = await getProfileInfo(req.params.user_id);
-  if (!currentUser._id) {
+  const currentUser = await exports.getProfileInfo(req.params.user_id);
+  if (!currentUser) {
     return next(new AppError('No user found', 404));
   }
   res.status(200).json({
@@ -253,7 +253,7 @@ exports.userProfile = catchAsync(async (req, res, next) => {
   });
 });
 exports.currentUserProfile = catchAsync(async (req, res, next) => {
-  const currentUser = await getProfileInfo(req.user._id);
+  const currentUser = await exportFunctions.getProfileInfo(req.user._id);
   res.status(200).json({
     currentUser
   });
@@ -481,3 +481,4 @@ exports.getQueue = catchAsync(async (req, res, next) => {
 module.exports.sendResponse = sendResponse;
 module.exports.getMimeNameFromExt = getMimeNameFromExt;
 module.exports.readRangeHeader = readRangeHeader;
+module.exports.getProfileInfo = getProfileInfo;
