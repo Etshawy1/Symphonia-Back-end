@@ -1,6 +1,6 @@
 # Symphonia-Back-end
 
-<img src='https://raw.githubusercontent.com/mrvautin/expressCart/master/public/images/logo.png'></img>
+<img src='https://github.com/Etshawy1/Symphonia-Back-end/blob/master/assets/images/categories/rocky-has-11.png?raw=true'></img>
 test
 The back end of Symphonia website (a spotify-like music streaming application)
 <h1>General Note</h1>
