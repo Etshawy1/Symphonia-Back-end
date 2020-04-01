@@ -2,7 +2,6 @@ const controller = require('./../../../controllers/meController');
 const { User } = require('./../../../models/userModel');
 const mongoose = require('mongoose');
 const AppError = require('../../../utils/appError');
-jest.setTimeout(40000);
 
 describe('player.extention', () => {
   it('should return audio/mpeg if the file extention is .mp3 ', () => {
@@ -53,17 +52,53 @@ describe('it sould get user public profile', () => {
   beforeAll(() => {
     user = { _id: mongoose.Types.ObjectId() };
   });
-
   user = {
     name: 'Alaa',
     email: 'test52@test.com',
     emailConfirm: 'test52@test.com',
     dateOfBirth: '1999-09-09',
     gender: 'male',
-    type: 'user'
+    type: 'user',
+    queue: {
+      queueTracks: [
+        'http://localhost:3000/api/v1/me/player/tracks/5e7d2dc03429e24340ff1396',
+        'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef7',
+        'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef4'
+      ],
+      currentlyPlaying: {
+        currentTrack:
+          'http://localhost:3000/api/v1/me/player/tracks/5e7d2dc03429e24340ff1396',
+        device: {
+          $oid: '5e8353385fff0e9814bcecc9'
+        }
+      },
+      previousTrack: null,
+      nextTrack:
+        'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef7',
+      devices: [
+        {
+          _id: {
+            $oid: '5e834e669bd8bc59e4023547'
+          },
+          devicesName: 'Chrome'
+        },
+        {
+          _id: {
+            $oid: '5e8351355fff0e9814bcecb3'
+          },
+          devicesName: 'FireFox'
+        }
+      ],
+      play: false,
+      repeat: true,
+      repeatOnce: false,
+      shuffle: false
+    }
   };
   beforeEach(() => {
+    select = jest.fn();
     getProfileInfo = jest.fn().mockReturnValue(user);
+    User.findById = jest.fn().mockReturnValue(user);
   });
 
   const exec = async () => {
@@ -78,5 +113,12 @@ describe('it sould get user public profile', () => {
     await exec();
     const error = new AppError('No user found', 404);
     expect(next).toHaveBeenCalledWith(error);
+  });
+  it('should return if user was repeating the track', async () => {
+    req = {};
+    await exec();
+    expect(204)
+      .expect(user.queue.repeat)
+      .toEqual(true);
   });
 });
