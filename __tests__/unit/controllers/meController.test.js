@@ -2,7 +2,7 @@ const controller = require('./../../../controllers/meController');
 const { User } = require('./../../../models/userModel');
 const mongoose = require('mongoose');
 const AppError = require('../../../utils/appError');
-jest.setTimeout(40000);
+const { mockResponse } = require('../../utils/Requests');
 
 describe('player.extention', () => {
   it('should return audio/mpeg if the file extention is .mp3 ', () => {
@@ -50,11 +50,8 @@ describe('packets range', () => {
 
 describe('it sould get user public profile', () => {
   let req, res, next, user;
-  beforeAll(() => {
-    user = { _id: mongoose.Types.ObjectId() };
-  });
-
   user = {
+    _id: mongoose.Types.ObjectId(),
     name: 'Alaa',
     email: 'test52@test.com',
     emailConfirm: 'test52@test.com',
@@ -62,12 +59,8 @@ describe('it sould get user public profile', () => {
     gender: 'male',
     type: 'user'
   };
-  beforeEach(() => {
-    getProfileInfo = jest.fn().mockReturnValue(user);
-  });
-
   const exec = async () => {
-    res = {};
+    res = mockResponse();
     next = jest.fn();
     await controller.userProfile(req, res, next);
   };
@@ -75,6 +68,7 @@ describe('it sould get user public profile', () => {
     req = {
       params: { user_id: null }
     };
+    controller.getProfileInfo = jest.fn().mockResolvedValue(null);
     await exec();
     const error = new AppError('No user found', 404);
     expect(next).toHaveBeenCalledWith(error);
