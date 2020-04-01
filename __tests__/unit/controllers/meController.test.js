@@ -1,9 +1,8 @@
-const controller = require('../../../controllers/meController');
-const { User } = require('../../models/userModel');
-const request = require('supertest');
-const _ = require('lodash');
-const app = require('../../app');
-jest.setTimeout(10000);
+const controller = require('./../../../controllers/meController');
+const { User } = require('./../../../models/userModel');
+const mongoose = require('mongoose');
+const AppError = require('../../../utils/appError');
+jest.setTimeout(40000);
 
 describe('player.extention', () => {
   it('should return audio/mpeg if the file extention is .mp3 ', () => {
@@ -46,5 +45,38 @@ describe('packets range', () => {
       Start: 200,
       End: 500
     });
+  });
+});
+
+describe('it sould get user public profile', () => {
+  let req, res, next, user;
+  beforeAll(() => {
+    user = { _id: mongoose.Types.ObjectId() };
+  });
+
+  user = {
+    name: 'Alaa',
+    email: 'test52@test.com',
+    emailConfirm: 'test52@test.com',
+    dateOfBirth: '1999-09-09',
+    gender: 'male',
+    type: 'user'
+  };
+  beforeEach(() => {
+    getProfileInfo = jest.fn().mockReturnValue(user);
+  });
+
+  const exec = async () => {
+    res = {};
+    next = jest.fn();
+    await controller.userProfile(req, res, next);
+  };
+  it('should return user profile', async () => {
+    req = {
+      params: { user_id: null }
+    };
+    await exec();
+    const error = new AppError('No user found', 404);
+    expect(next).toHaveBeenCalledWith(error);
   });
 });

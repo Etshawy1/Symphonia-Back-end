@@ -253,12 +253,7 @@ exports.userProfile = catchAsync(async (req, res, next) => {
   });
 });
 exports.currentUserProfile = catchAsync(async (req, res, next) => {
-  const currentUser = await User.findById(req.user._id)
-    .select('-password')
-    .select('-passwordConfirm')
-    .select('-passwordChangedAt')
-    .select('-passwordResetToken')
-    .select('-active');
+  const currentUser = await getProfileInfo(req.user._id);
   res.status(200).json({
     currentUser
   });
