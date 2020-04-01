@@ -1,4 +1,9 @@
 const controller = require('../../../controllers/meController');
+const { User } = require('../../models/userModel');
+const request = require('supertest');
+const _ = require('lodash');
+const app = require('../../app');
+jest.setTimeout(10000);
 
 describe('player.extention', () => {
   it('should return audio/mpeg if the file extention is .mp3 ', () => {
