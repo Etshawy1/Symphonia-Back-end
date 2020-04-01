@@ -3,7 +3,6 @@ const { User } = require('./../../../models/userModel');
 const mongoose = require('mongoose');
 const AppError = require('../../../utils/appError');
 const { mockResponse } = require('../../utils/Requests');
-
 describe('player.extention', () => {
   it('should return audio/mpeg if the file extention is .mp3 ', () => {
     expect(controller.getMimeNameFromExt('.mp3')).toEqual('audio/mpeg');
@@ -126,7 +125,12 @@ describe('it sould get user public profile', () => {
     next = jest.fn();
     await controller.userProfile(req, res, next);
   };
-  it('should return user profile', async () => {
+  const exec1 = async () => {
+    res = mockResponse();
+    next = jest.fn();
+    await controller.currentUserProfile(req, res, next);
+  };
+  it('should return null because no user with that id ', async () => {
     req = {
       params: { user_id: null }
     };
@@ -134,5 +138,12 @@ describe('it sould get user public profile', () => {
     await exec();
     const error = new AppError('No user found', 404);
     expect(next).toHaveBeenCalledWith(error);
+  });
+  it('should return user public profile', async () => {
+    req = {
+      params: { user_id: user._id }
+    };
+    await exec1();
+    await expect(res.json).toHaveBeenCalledWith(user);
   });
 });
