@@ -11,10 +11,11 @@ describe('/signup', () => {
   const user = {
     name: 'etsh',
     email: 'test52@test.com',
+    emailConfirm: 'test52@test.com',
     password: 'password',
-    passwordConfirm: 'password',
     dateOfBirth: '1999-12-31',
-    gender: 'male'
+    gender: 'male',
+    type: 'user'
   };
 
   it('should sign up the valid user and return its data and a JWT token', async () => {
@@ -25,20 +26,26 @@ describe('/signup', () => {
       .expect(201);
     expect(res.body).toEqual(
       expect.objectContaining({
-        status: 'success',
         token: expect.any(String),
-        data: {
-          user: expect.objectContaining({
-            _id: expect.any(String),
-            ..._.omit(user, 'password', 'passwordConfirm', 'dateOfBirth')
-          })
-        }
+        user: expect.objectContaining({
+          _id: expect.any(String),
+          ..._.omit(
+            user,
+            'password',
+            'passwordConfirm',
+            'dateOfBirth',
+            'emailConfirm'
+          )
+        })
       })
     );
   });
 
   it('should not sign up a user with existing email in DB', async () => {
-    await User.create(user);
+    newUser = new User(user);
+    await newUser.save({
+      validateBeforeSave: false
+    });
     const res = await request(app)
       .post('/api/v1/users/signup')
       .send({ ...user })
@@ -62,14 +69,17 @@ describe('/login', () => {
   const user = {
     name: 'etsh',
     email: 'test52@test.com',
+    emailConfirm: 'test52@test.com',
     password: 'password',
-    passwordConfirm: 'password',
     dateOfBirth: '1999-12-31',
-    gender: 'male'
+    gender: 'male',
+    type: 'user'
   };
   it('should return user with token if valid data provided', async () => {
     newUser = new User(user);
-    await newUser.save();
+    await newUser.save({
+      validateBeforeSave: false
+    });
     const res = await request(app)
       .post('/api/v1/users/login')
       .send(_.pick(user, ['email', 'password']))
@@ -77,14 +87,17 @@ describe('/login', () => {
       .expect(200);
     expect(res.body).toEqual(
       expect.objectContaining({
-        status: 'success',
         token: expect.any(String),
-        data: {
-          user: expect.objectContaining({
-            _id: expect.any(String),
-            ..._.omit(user, 'password', 'passwordConfirm', 'dateOfBirth')
-          })
-        }
+        user: expect.objectContaining({
+          _id: expect.any(String),
+          ..._.omit(
+            user,
+            'password',
+            'passwordConfirm',
+            'dateOfBirth',
+            'emailConfirm'
+          )
+        })
       })
     );
   });
@@ -104,7 +117,9 @@ describe('/login', () => {
 
   it('should return error if password is wrong', async () => {
     newUser = new User(user);
-    await newUser.save();
+    await newUser.save({
+      validateBeforeSave: false
+    });
     const res = await request(app)
       .post('/api/v1/users/login')
       .send({ ..._.pick(user, ['email']), password: 'wrong12345' })

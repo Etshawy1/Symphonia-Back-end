@@ -23,14 +23,17 @@ describe('User Model Test', () => {
   it('create & save user successfully', async () => {
     userData = {
       name: 'etsh',
-      email: 'test10@test.com',
+      email: 'test52@test.com',
+      emailConfirm: 'test52@test.com',
       password: 'password',
-      passwordConfirm: 'password',
       dateOfBirth: '1999-12-31',
-      gender: 'male'
+      gender: 'male',
+      type: 'user'
     };
     const validUser = new User(userData);
-    const savedUser = await validUser.save();
+    const savedUser = await validUser.save({
+      validateBeforeSave: false
+    });
     // Object Id should be defined when successfully saved to MongoDB.
     expect(savedUser._id).toBeDefined();
     expect(savedUser.name).toBe(userData.name);
