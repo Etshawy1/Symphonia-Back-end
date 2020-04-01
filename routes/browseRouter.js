@@ -27,7 +27,8 @@ let uploadBuilder = new UploadBuilder();
 // this means to name the file in icon field with name in the req.body
 uploadBuilder.addfileField('icon', 'name', '', 1);
 //uploadBuilder.addfileField('icon_md', 'name', '_md', 1);
-uploadBuilder.addTypeFilter('image/jpeg'); // TODO: filtering isn't working properly
+uploadBuilder.addTypeFilter('image/jpeg');
+uploadBuilder.addTypeFilter('image/png');
 uploadBuilder.setPath(
   path.resolve(__dirname, '..') + '/assets/images/categories'
 );

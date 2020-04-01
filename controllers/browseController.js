@@ -18,16 +18,21 @@ exports.getCategoriesPlaylists = catchAsync(async (req, res, next) => {
 });
 
 exports.getCategories = catchAsync(async (req, res, next) => {
-  console.log('query is ');
-  console.log(req.query);
-
   const features = new APIFeatures(Category.find(), req.query)
     .filter()
     .sort()
     .limitFields()
     .paginate();
-  const categorys = await features.query;
+  let categorys = await features.query;
+  let LOCAL_HOST = `${req.protocol}://${req.get('host')}/`;
 
+  // TODO: adding .href to  the objects doesn't work
+
+  /*
+  categorys = categorys.forEach(element => {
+    element.href = 'toto';
+  });
+*/
   res.status(200).json({
     status: 'success',
     results: categorys.length,
@@ -55,12 +60,6 @@ exports.getRecommendations = catchAsync(async (req, res, next) => {
   });
 });
 exports.createCategory = catchAsync(async (req, res, next) => {
-  /* for testing purposes */
-  console.log('request query');
-  console.log(req.query);
-  console.log('request body');
-  console.log(req.body);
-  console.log(req.files);
   let category = await Category.create({
     name: req.body.name
     //  ,icons: req.files.icon[0].filename
@@ -77,7 +76,7 @@ exports.createCategory = catchAsync(async (req, res, next) => {
   let imageUrl =
     `${LOCAL_HOST}api/v1/browse/categories/images/` +
     req.files.icon[0].filename;
-  console.log(imageUrl);
+
   category = await Category.findByIdAndUpdate(
     category._id,
     {
