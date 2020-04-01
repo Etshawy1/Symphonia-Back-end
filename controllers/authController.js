@@ -17,7 +17,8 @@ const createSendToken = (user, statusCode, res) => {
   user.followedUsers = undefined;
   res.status(statusCode).json({
     token,
-    user
+    user,
+    nice: 'Nice'
   });
 };
 exports.signup = catchAsync(async (req, res, next) => {
