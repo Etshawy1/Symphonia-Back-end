@@ -37,9 +37,6 @@ async function getTopArtistsAndTracks (Model, query) {
     .paginate();
   return await top.query;
 }
-async function decodeToken (token) {
-  return await promisify(jwt.verify)(token, process.env.JWT_SECRET_KEY);
-}
 function sendResponse (response, responseStatus, responseHeaders, readable) {
   response.writeHead(responseStatus, responseHeaders);
 
@@ -96,8 +93,12 @@ exports.playTrack = catchAsync(async (req, res) => {
       track: track._id,
       played_at: Date.now()
     };
-    const tokenId = await decodeToken(req.headers.authorization.split(' ')[1])
-      .id;
+    let token = req.headers.authorization.split(' ')[1];
+    const decoded = await promisify(jwt.verify)(
+      token,
+      process.env.JWT_SECRET_KEY
+    );
+    const tokenId = decoded.id;
     const currentUser = await User.findById(tokenId).select('+history');
     currentUser.queue.currentlyPlaying.currentTrack = `${
       req.protocol
@@ -174,8 +175,12 @@ exports.playTrack = catchAsync(async (req, res) => {
       nextTrack: indexOfNextTrack !== -1 ? TracksUrl[indexOfNextTrack] : null,
       devices: [{ devicesName: req.body.device }]
     };
-    const tokenId = await decodeToken(req.headers.authorization.split(' ')[1])
-      .id;
+    let token = req.headers.authorization.split(' ')[1];
+    const decoded = await promisify(jwt.verify)(
+      token,
+      process.env.JWT_SECRET_KEY
+    );
+    const tokenId = decoded.id;
     const currentUser = await User.findById(tokenId).select('+history');
     if (currentUser.history === undefined) {
       const history = await History.create({
@@ -291,15 +296,13 @@ exports.topTracksAndArtists = catchAsync(async (req, res, next) => {
 });
 
 exports.recentlyPlayed = catchAsync(async (req, res, next) => {
-  token = req.headers.authorization.split(' ')[1];
+  let token = req.headers.authorization.split(' ')[1];
   const decoded = await promisify(jwt.verify)(
     token,
     process.env.JWT_SECRET_KEY
   );
   const currentUser = await User.findById(decoded.id).select('+history');
   __logger.info(currentUser);
-  __logger.info(req.headers.authorization);
-  __logger.info(await decodeToken(req.headers.authorization.split(' ')[1]).id);
   const history = await History.findById(currentUser.history).select('-__v');
   res.status(200).json({
     history
@@ -307,7 +310,7 @@ exports.recentlyPlayed = catchAsync(async (req, res, next) => {
 });
 
 exports.repeat = catchAsync(async (req, res, next) => {
-  token = req.headers.authorization.split(' ')[1];
+  let token = req.headers.authorization.split(' ')[1];
   const decoded = await promisify(jwt.verify)(
     token,
     process.env.JWT_SECRET_KEY
@@ -321,7 +324,7 @@ exports.repeat = catchAsync(async (req, res, next) => {
   res.status(204).json({ data: null });
 });
 exports.repeatOnce = catchAsync(async (req, res, next) => {
-  token = req.headers.authorization.split(' ')[1];
+  let token = req.headers.authorization.split(' ')[1];
   const decoded = await promisify(jwt.verify)(
     token,
     process.env.JWT_SECRET_KEY
@@ -335,7 +338,7 @@ exports.repeatOnce = catchAsync(async (req, res, next) => {
   res.status(204).json({ data: null });
 });
 exports.shuffle = catchAsync(async (req, res, next) => {
-  token = req.headers.authorization.split(' ')[1];
+  let token = req.headers.authorization.split(' ')[1];
   const decoded = await promisify(jwt.verify)(
     token,
     process.env.JWT_SECRET_KEY
@@ -348,7 +351,7 @@ exports.shuffle = catchAsync(async (req, res, next) => {
   res.status(204).json({ data: null });
 });
 exports.seek = catchAsync(async (req, res, next) => {
-  token = req.headers.authorization.split(' ')[1];
+  let token = req.headers.authorization.split(' ')[1];
   const decoded = await promisify(jwt.verify)(
     token,
     process.env.JWT_SECRET_KEY
@@ -361,7 +364,7 @@ exports.seek = catchAsync(async (req, res, next) => {
   res.status(204).json({ data: null });
 });
 exports.volume = catchAsync(async (req, res, next) => {
-  token = req.headers.authorization.split(' ')[1];
+  let token = req.headers.authorization.split(' ')[1];
   const decoded = await promisify(jwt.verify)(
     token,
     process.env.JWT_SECRET_KEY
@@ -374,7 +377,7 @@ exports.volume = catchAsync(async (req, res, next) => {
   res.status(204).json({ data: null });
 });
 exports.previous = catchAsync(async (req, res, next) => {
-  token = req.headers.authorization.split(' ')[1];
+  let token = req.headers.authorization.split(' ')[1];
   const decoded = await promisify(jwt.verify)(
     token,
     process.env.JWT_SECRET_KEY
@@ -426,7 +429,7 @@ exports.previous = catchAsync(async (req, res, next) => {
   });
 });
 exports.next = catchAsync(async (req, res, next) => {
-  token = req.headers.authorization.split(' ')[1];
+  let token = req.headers.authorization.split(' ')[1];
   const decoded = await promisify(jwt.verify)(
     token,
     process.env.JWT_SECRET_KEY
@@ -473,7 +476,7 @@ exports.next = catchAsync(async (req, res, next) => {
   });
 });
 exports.pushQueue = catchAsync(async (req, res, next) => {
-  token = req.headers.authorization.split(' ')[1];
+  let token = req.headers.authorization.split(' ')[1];
   const decoded = await promisify(jwt.verify)(
     token,
     process.env.JWT_SECRET_KEY
@@ -488,7 +491,7 @@ exports.pushQueue = catchAsync(async (req, res, next) => {
   });
 });
 exports.popQueue = catchAsync(async (req, res, next) => {
-  token = req.headers.authorization.split(' ')[1];
+  let token = req.headers.authorization.split(' ')[1];
   const decoded = await promisify(jwt.verify)(
     token,
     process.env.JWT_SECRET_KEY
@@ -509,7 +512,7 @@ exports.popQueue = catchAsync(async (req, res, next) => {
   });
 });
 exports.getDevices = catchAsync(async (req, res, next) => {
-  token = req.headers.authorization.split(' ')[1];
+  let token = req.headers.authorization.split(' ')[1];
   const decoded = await promisify(jwt.verify)(
     token,
     process.env.JWT_SECRET_KEY
@@ -522,7 +525,7 @@ exports.getDevices = catchAsync(async (req, res, next) => {
   });
 });
 exports.popDevices = catchAsync(async (req, res, next) => {
-  token = req.headers.authorization.split(' ')[1];
+  let token = req.headers.authorization.split(' ')[1];
   const decoded = await promisify(jwt.verify)(
     token,
     process.env.JWT_SECRET_KEY
@@ -539,7 +542,7 @@ exports.popDevices = catchAsync(async (req, res, next) => {
   });
 });
 exports.pushDevices = catchAsync(async (req, res, next) => {
-  token = req.headers.authorization.split(' ')[1];
+  let token = req.headers.authorization.split(' ')[1];
   const decoded = await promisify(jwt.verify)(
     token,
     process.env.JWT_SECRET_KEY
@@ -552,7 +555,7 @@ exports.pushDevices = catchAsync(async (req, res, next) => {
   });
 });
 exports.getCurrentlyPlaying = catchAsync(async (req, res, next) => {
-  token = req.headers.authorization.split(' ')[1];
+  let token = req.headers.authorization.split(' ')[1];
   const decoded = await promisify(jwt.verify)(
     token,
     process.env.JWT_SECRET_KEY
@@ -565,7 +568,7 @@ exports.getCurrentlyPlaying = catchAsync(async (req, res, next) => {
   });
 });
 exports.getQueue = catchAsync(async (req, res, next) => {
-  token = req.headers.authorization.split(' ')[1];
+  let token = req.headers.authorization.split(' ')[1];
   const decoded = await promisify(jwt.verify)(
     token,
     process.env.JWT_SECRET_KEY
