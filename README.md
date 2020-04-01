@@ -1,6 +1,7 @@
 # Symphonia-Back-end
 
 <img src='https://github.com/Etshawy1/Symphonia-Back-end/blob/dev/assets/icons/icon.png?raw=true'></img>
+<hr/>
 <br/>
 test
 The back end of Symphonia website (a spotify-like music streaming application)
