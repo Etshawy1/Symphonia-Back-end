@@ -1,6 +1,6 @@
 # Symphonia-Back-end
 
-<img src='https://github.com/Etshawy1/Symphonia-Back-end/blob/dev/assets/icons/icon.png?raw=true'></img>
+<img style ="display:block;magin:0 auto;" src='https://github.com/Etshawy1/Symphonia-Back-end/blob/dev/assets/icons/icon.png?raw=true'></img>
 <hr/>
 <br/>
 test
