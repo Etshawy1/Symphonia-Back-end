@@ -5,7 +5,7 @@ const app = require('../../app');
 
 jest.setTimeout(10000);
 describe('/signup', () => {
-  beforeEach(async () => {
+  afterEach(async () => {
     await User.deleteMany({});
   });
   const user = {
@@ -60,12 +60,10 @@ describe('/signup', () => {
 });
 
 describe('/login', () => {
-  beforeEach(async () => {
-    await User.deleteMany({});
-  });
   afterEach(async () => {
     await User.deleteMany({});
   });
+
   const user = {
     name: 'etsh',
     email: 'test52@test.com',

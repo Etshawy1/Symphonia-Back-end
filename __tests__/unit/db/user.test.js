@@ -16,15 +16,11 @@ describe('User Model Test', () => {
     await User.deleteMany({});
   });
 
-  afterAll(async () => {
-    await mongoose.connection.close();
-  });
-
   it('create & save user successfully', async () => {
     userData = {
       name: 'etsh',
-      email: 'test52@test.com',
-      emailConfirm: 'test52@test.com',
+      email: 'test52321@test.com',
+      emailConfirm: 'test52321@test.com',
       password: 'password',
       dateOfBirth: '1999-12-31',
       gender: 'male',
