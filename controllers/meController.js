@@ -455,11 +455,10 @@ exports.popDevices = catchAsync(async (req, res, next) => {
 });
 exports.pushDevices = catchAsync(async (req, res, next) => {
   const user = await User.findById(req.user._id);
-  user.queue.devices.push(req.body.devices);
-  const devices = user.queue.devices;
+  user.queue.devices.push({ devicesName: req.body.device });
   user.save({ validateBeforeSave: false });
   res.status(200).json({
-    devices
+    devices: user.queue.devices
   });
 });
 exports.getCurrentlyPlaying = catchAsync(async (req, res, next) => {
