@@ -31,7 +31,6 @@ describe('player.extention', () => {
     );
   });
 });
-
 describe('packets range', () => {
   it('should return null if rang is null ', () => {
     expect(controller.readRangeHeader(null, 500)).toBeNull();
@@ -46,7 +45,6 @@ describe('packets range', () => {
     });
   });
 });
-
 describe('meController.shuffle', () => {
   let req, res, next, user;
   user = {
@@ -61,14 +59,14 @@ describe('meController.shuffle', () => {
     await controller.shuffle(req, res, next);
   };
 
-  it('should return if user was not want to shuffle the queue', async () => {
+  it('should save if user was not want to shuffle the queue', async () => {
     req = { user };
     User.findById = jest.fn().mockResolvedValue(user);
     await exec();
     expect(res.status).toHaveBeenCalledWith(204);
     expect(user.queue.shuffle).toEqual(false);
   });
-  it('should return if user was shuffle the queue', async () => {
+  it('should save if user was shuffle the queue', async () => {
     user.queue.shuffle = false;
     req = { user };
     User.findById = jest.fn().mockResolvedValue(user);
@@ -77,7 +75,6 @@ describe('meController.shuffle', () => {
     expect(user.queue.shuffle).toEqual(true);
   });
 });
-
 describe('meController.reapeatOnce', () => {
   let req, res, next, user;
   user = {
@@ -93,7 +90,7 @@ describe('meController.reapeatOnce', () => {
     await controller.repeatOnce(req, res, next);
   };
 
-  it('should return if user do not want to repeat a specific track', async () => {
+  it('should save if user do not want to repeat a specific track', async () => {
     req = { user };
     User.findById = jest.fn().mockResolvedValue(user);
     await exec();
@@ -101,7 +98,7 @@ describe('meController.reapeatOnce', () => {
     expect(user.queue.repeat).toEqual(false);
     expect(user.queue.repeatOnce).toEqual(false);
   });
-  it('should return if user want to repeat a specific track', async () => {
+  it('should save if user want to repeat a specific track', async () => {
     user.queue.repeatOnce = false;
     req = { user };
     User.findById = jest.fn().mockResolvedValue(user);
@@ -110,7 +107,7 @@ describe('meController.reapeatOnce', () => {
     expect(user.queue.repeat).toEqual(false);
     expect(user.queue.repeatOnce).toEqual(true);
   });
-  it('should return if user was repeating the queue and want to repeat a specific track', async () => {
+  it('should save if user was repeating the queue and want to repeat a specific track', async () => {
     user.queue.repeat = true;
     user.queue.repeatOnce = false;
     req = { user };
@@ -121,7 +118,6 @@ describe('meController.reapeatOnce', () => {
     expect(user.queue.repeatOnce).toEqual(true);
   });
 });
-
 describe('meController.reapeat', () => {
   let req, res, next, user;
   user = {
@@ -137,7 +133,7 @@ describe('meController.reapeat', () => {
     await controller.repeat(req, res, next);
   };
 
-  it('should return if user do not want to repeat the queue', async () => {
+  it('should save if user do not want to repeat the queue', async () => {
     req = { user };
     User.findById = jest.fn().mockResolvedValue(user);
     await exec();
@@ -145,7 +141,7 @@ describe('meController.reapeat', () => {
     expect(user.queue.repeat).toEqual(false);
     expect(user.queue.repeatOnce).toEqual(false);
   });
-  it('should return if user want to repeat the queue', async () => {
+  it('should save if user want to repeat the queue', async () => {
     user.queue.repeat = false;
     req = { user };
     User.findById = jest.fn().mockResolvedValue(user);
@@ -154,7 +150,7 @@ describe('meController.reapeat', () => {
     expect(user.queue.repeat).toEqual(true);
     expect(user.queue.repeatOnce).toEqual(false);
   });
-  it('should return if user was repeating a specific track and want to repeat all the queue', async () => {
+  it('should save if user was repeating a specific track and want to repeat all the queue', async () => {
     user.queue.repeat = false;
     user.queue.repeatOnce = true;
     req = { user };
@@ -165,7 +161,28 @@ describe('meController.reapeat', () => {
     expect(user.queue.repeatOnce).toEqual(false);
   });
 });
+describe('meController.seek', () => {
+  let req, res, next, user;
+  user = {
+    save: jest.fn().mockResolvedValue(1),
+    queue: {
+      seek: ''
+    }
+  };
+  const exec = async () => {
+    res = mockResponse();
+    next = jest.fn();
+    await controller.seek(req, res, next);
+  };
 
+  it('should save user seek in track when close the device', async () => {
+    req = { user, headers: { range: 'bytes=200-500' } };
+    User.findById = jest.fn().mockResolvedValue(user);
+    await exec();
+    expect(res.status).toHaveBeenCalledWith(204);
+    expect(user.queue.seek).toEqual('bytes=200-500');
+  });
+});
 describe('meController.userProfile', () => {
   let req, res, next, user;
   user = { _id: mongoose.Types.ObjectId() };
