@@ -174,13 +174,33 @@ describe('meController.seek', () => {
     next = jest.fn();
     await controller.seek(req, res, next);
   };
-
   it('should save user seek in track when close the device', async () => {
     req = { user, headers: { range: 'bytes=200-500' } };
     User.findById = jest.fn().mockResolvedValue(user);
     await exec();
     expect(res.status).toHaveBeenCalledWith(204);
     expect(user.queue.seek).toEqual('bytes=200-500');
+  });
+});
+describe('meController.volume', () => {
+  let req, res, next, user;
+  user = {
+    save: jest.fn().mockResolvedValue(1),
+    queue: {
+      volume: ''
+    }
+  };
+  const exec = async () => {
+    res = mockResponse();
+    next = jest.fn();
+    await controller.volume(req, res, next);
+  };
+  it('should save user progress in track when close the device', async () => {
+    req = { user, body: { volume: '90' } };
+    User.findById = jest.fn().mockResolvedValue(user);
+    await exec();
+    expect(res.status).toHaveBeenCalledWith(204);
+    expect(user.queue.volume).toEqual('90');
   });
 });
 describe('meController.userProfile', () => {
