@@ -284,12 +284,233 @@ describe('meController.previous', () => {
     next = jest.fn();
     await controller.previous(req, res, next);
   };
-  it('should retutn if user want to go to the previous track', async () => {
+  it('should return null for previous and current Tracks if user want to go to the previous track and he is at the beginning of the queue and to repeat', async () => {
+    req = { user };
     User.findById = jest.fn().mockResolvedValue(user);
     await exec();
     expect(res.status).toHaveBeenCalledWith(200);
     expect(res.json).toHaveBeenCalledWith({ data: user.queue.queueTracks });
     expect(user.queue.nextTrack).toEqual(
+      'http://localhost:3000/api/v1/me/player/tracks/5e7d2dc03429e24340ff1396'
+    );
+    expect(user.queue.previousTrack).toEqual(null);
+    expect(user.queue.currentlyPlaying.currentTrack).toEqual(null);
+  });
+  it('should return previous track in the current track and set previous Track to null if user want to go to the previous track and he is at after the beginning of the queue by one track and no repeat', async () => {
+    user.queue.currentlyPlaying.currentTrack =
+      'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef7';
+    user.queue.previousTrack =
+      'http://localhost:3000/api/v1/me/player/tracks/5e7d2dc03429e24340ff1396';
+
+    user.queue.nextTrack =
+      'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef4';
+
+    req = { user };
+    User.findById = jest.fn().mockResolvedValue(user);
+    await exec();
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith({ data: user.queue.queueTracks });
+    expect(user.queue.nextTrack).toEqual(
+      'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef7'
+    );
+    expect(user.queue.previousTrack).toEqual(null);
+    expect(user.queue.currentlyPlaying.currentTrack).toEqual(
+      'http://localhost:3000/api/v1/me/player/tracks/5e7d2dc03429e24340ff1396'
+    );
+  });
+  it("should return all next and current and previous tracks in it's postion if user want to go to the previous track and he is at after the beginning of the queue by one track and no repeat", async () => {
+    user.queue.currentlyPlaying.currentTrack =
+      'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef4';
+    user.queue.previousTrack =
+      'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef7';
+    user.queue.nextTrack = null;
+    req = { user };
+    User.findById = jest.fn().mockResolvedValue(user);
+    await exec();
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith({ data: user.queue.queueTracks });
+    expect(user.queue.nextTrack).toEqual(
+      'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef4'
+    );
+    expect(user.queue.currentlyPlaying.currentTrack).toEqual(
+      'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef7'
+    );
+    expect(user.queue.previousTrack).toEqual(
+      'http://localhost:3000/api/v1/me/player/tracks/5e7d2dc03429e24340ff1396'
+    );
+  });
+  it('should return all next and current and previous tracks as current track if user want to go to the previous track but with repeatOnce', async () => {
+    user.queue.currentlyPlaying.currentTrack =
+      'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef4';
+    user.queue.repeatOnce = true;
+    user.queue.repeat = false;
+    req = { user };
+    User.findById = jest.fn().mockResolvedValue(user);
+    await exec();
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith({ data: user.queue.queueTracks });
+    expect(user.queue.nextTrack).toEqual(
+      'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef4'
+    );
+    expect(user.queue.currentlyPlaying.currentTrack).toEqual(
+      'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef4'
+    );
+    expect(user.queue.previousTrack).toEqual(
+      'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef4'
+    );
+  });
+  it('should return previous and current Tracks and next to be in postions if user want to go to the previous track and he is at the beginning of the queue and to repeat', async () => {
+    user.queue.currentlyPlaying.currentTrack =
+      'http://localhost:3000/api/v1/me/player/tracks/5e7d2dc03429e24340ff1396';
+
+    user.queue.nextTrack =
+      'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef7';
+    user.queue.previousTrack = null;
+    user.queue.repeat = true;
+    user.queue.repeatOnce = false;
+    req = { user };
+    User.findById = jest.fn().mockResolvedValue(user);
+    await exec();
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith({ data: user.queue.queueTracks });
+    expect(user.queue.nextTrack).toEqual(
+      'http://localhost:3000/api/v1/me/player/tracks/5e7d2dc03429e24340ff1396'
+    );
+    expect(user.queue.previousTrack).toEqual(
+      'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef7'
+    );
+    expect(user.queue.currentlyPlaying.currentTrack).toEqual(
+      'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef4'
+    );
+  });
+});
+
+describe('meController.next', () => {
+  let req, res, next, user;
+  user = {
+    save: jest.fn().mockResolvedValue(1),
+    queue: {
+      queueTracks: [
+        'http://localhost:3000/api/v1/me/player/tracks/5e7d2dc03429e24340ff1396',
+        'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef7',
+        'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef4'
+      ],
+      currentlyPlaying: {
+        currentTrack:
+          'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef4'
+      },
+      previousTrack:
+        'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef7',
+      nextTrack: null,
+      repeat: false,
+      repeatOnce: false
+    }
+  };
+  const exec = async () => {
+    res = mockResponse();
+    next = jest.fn();
+    await controller.next(req, res, next);
+  };
+  it('should return null for next and current Tracks if user want to go to the next track and he is at the beginning of the queue and no repeat', async () => {
+    req = { user };
+    User.findById = jest.fn().mockResolvedValue(user);
+    await exec();
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith({ data: user.queue.queueTracks });
+    expect(user.queue.nextTrack).toEqual(null);
+    expect(user.queue.previousTrack).toEqual(
+      'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef4'
+    );
+    expect(user.queue.currentlyPlaying.currentTrack).toEqual(null);
+  });
+  it('should return previous and current Tracks and next to be in postions if user want to go to the next track and he is at the beginning of the queue and to repeat', async () => {
+    user.queue.currentlyPlaying.currentTrack =
+      'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef4';
+    user.queue.previousTrack =
+      'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef7';
+
+    user.queue.nextTrack = null;
+    user.queue.repeat = true;
+    user.queue.repeatOnce = false;
+    req = { user };
+    User.findById = jest.fn().mockResolvedValue(user);
+    await exec();
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith({ data: user.queue.queueTracks });
+    expect(user.queue.nextTrack).toEqual(
+      'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef7'
+    );
+    expect(user.queue.previousTrack).toEqual(
+      'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef4'
+    );
+    expect(user.queue.currentlyPlaying.currentTrack).toEqual(
+      'http://localhost:3000/api/v1/me/player/tracks/5e7d2dc03429e24340ff1396'
+    );
+  });
+  it('should return previous track in the current track and set next Track to null if user want to go to the next track and he is at after the end of the queue by one track and no repeat', async () => {
+    user.queue.currentlyPlaying.currentTrack =
+      'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef7';
+    user.queue.previousTrack =
+      'http://localhost:3000/api/v1/me/player/tracks/5e7d2dc03429e24340ff1396';
+
+    user.queue.nextTrack =
+      'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef4';
+    user.queue.repeatOnce = false;
+    user.queue.repeat = false;
+    req = { user };
+    User.findById = jest.fn().mockResolvedValue(user);
+    await exec();
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith({ data: user.queue.queueTracks });
+    expect(user.queue.nextTrack).toEqual(null);
+    expect(user.queue.previousTrack).toEqual(
+      'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef7'
+    );
+    expect(user.queue.currentlyPlaying.currentTrack).toEqual(
+      'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef4'
+    );
+  });
+  it('should return all next and current and previous tracks as current track if user want to go to the previous track but with repeatOnce', async () => {
+    user.queue.currentlyPlaying.currentTrack =
+      'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef4';
+    user.queue.repeatOnce = true;
+    user.queue.repeat = false;
+    req = { user };
+    User.findById = jest.fn().mockResolvedValue(user);
+    await exec();
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith({ data: user.queue.queueTracks });
+    expect(user.queue.nextTrack).toEqual(
+      'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef4'
+    );
+    expect(user.queue.currentlyPlaying.currentTrack).toEqual(
+      'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef4'
+    );
+    expect(user.queue.previousTrack).toEqual(
+      'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef4'
+    );
+  });
+
+  it("should return all next and current and previous tracks in it's postion if user want to go to the previous track and he is at after the beginning of the queue by one track and no repeat", async () => {
+    user.queue.currentlyPlaying.currentTrack =
+      'http://localhost:3000/api/v1/me/player/tracks/5e7d2dc03429e24340ff1396';
+    user.queue.nextTrack =
+      'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef7';
+    user.queue.previousTrack = null;
+    user.queue.repeat = false;
+    user.queue.repeatOnce = false;
+    req = { user };
+    User.findById = jest.fn().mockResolvedValue(user);
+    await exec();
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith({ data: user.queue.queueTracks });
+    expect(user.queue.nextTrack).toEqual(
+      'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef4'
+    );
+    expect(user.queue.currentlyPlaying.currentTrack).toEqual(
+      'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef7'
+    );
+    expect(user.queue.previousTrack).toEqual(
       'http://localhost:3000/api/v1/me/player/tracks/5e7d2dc03429e24340ff1396'
     );
   });

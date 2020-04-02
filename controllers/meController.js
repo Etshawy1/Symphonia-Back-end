@@ -328,19 +328,21 @@ exports.previous = catchAsync(async (req, res, next) => {
         currentUserQueue.previousTrack;
     else if (currentUserQueue.repeat) {
       currentUserQueue.currentlyPlaying.currentTrack =
-        currentUserQueue.queueTracks[queueTracks.length - 1];
+        currentUserQueue.queueTracks[currentUserQueue.queueTracks.length - 1];
+    } else {
+      currentUserQueue.currentlyPlaying.currentTrack =
+        currentUserQueue.previousTrack;
     }
-
-    currentUserQueue.currentlyPlaying.currentTrack =
-      currentUserQueue.previousTrack;
-    if (currentUserQueue.nextTrack !== null) {
+    if (currentUserQueue.previousTrack !== null) {
       const indexOfPreviousTrack = currentUserQueue.queueTracks.indexOf(
         currentUserQueue.previousTrack
       );
       if (indexOfPreviousTrack === 0) {
         if (currentUserQueue.repeat === true) {
           currentUserQueue.previousTrack =
-            currentUserQueue.queueTracks[queueTracks.length - 1];
+            currentUserQueue.queueTracks[
+              currentUserQueue.queueTracks.length - 1
+            ];
         } else {
           currentUserQueue.previousTrack = null;
         }
@@ -351,7 +353,9 @@ exports.previous = catchAsync(async (req, res, next) => {
     } else {
       if (currentUserQueue.repeat === true) {
         currentUserQueue.previousTrack =
-          currentUserQueue.queueTracks[queueTracks.length - 2];
+          currentUserQueue.queueTracks[currentUserQueue.queueTracks.length - 2];
+      } else {
+        currentUserQueue.previousTrack = null;
       }
     }
   }
@@ -376,6 +380,8 @@ exports.next = catchAsync(async (req, res, next) => {
     else if (currentUserQueue.repeat) {
       currentUserQueue.currentlyPlaying.currentTrack =
         currentUserQueue.queueTracks[0];
+    } else {
+      currentUserQueue.currentlyPlaying.currentTrack = null;
     }
     if (currentUserQueue.nextTrack !== null) {
       const indexOfPreviousTrack = currentUserQueue.queueTracks.indexOf(
@@ -394,6 +400,8 @@ exports.next = catchAsync(async (req, res, next) => {
     } else {
       if (currentUserQueue.repeat === true) {
         currentUserQueue.nextTrack = currentUserQueue.queueTracks[1];
+      } else {
+        currentUserQueue.nextTrack = null;
       }
     }
   }
@@ -447,7 +455,8 @@ exports.popDevices = catchAsync(async (req, res, next) => {
 });
 exports.pushDevices = catchAsync(async (req, res, next) => {
   const user = await User.findById(req.user._id);
-  const currentUserQueue = user.queue.devices.push(req.body.devices);
+  user.queue.devices.push(req.body.devices);
+  user.save({ validateBeforeSave: false });
   res.status(200).json({
     devices: currentUserQueue.devices
   });
