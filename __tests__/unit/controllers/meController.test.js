@@ -542,7 +542,7 @@ describe('meController.getDevices', () => {
     next = jest.fn();
     await controller.getDevices(req, res, next);
   };
-  it('should retutn  user devices', async () => {
+  it('should return user devices', async () => {
     req = { user };
     User.findById = jest.fn().mockResolvedValue(user);
     await exec();
@@ -552,7 +552,142 @@ describe('meController.getDevices', () => {
   });
 });
 
+describe('meController.getCurrentlyPlaying', () => {
+  let req, res, next, user;
+  user = {
+    save: jest.fn().mockResolvedValue(1),
+    queue: {
+      queueTracks: [
+        'http://localhost:3000/api/v1/me/player/tracks/5e7d2dc03429e24340ff1396',
+        'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef4'
+      ],
+      currentlyPlaying: {
+        currentTrack:
+          'http://localhost:3000/api/v1/me/player/tracks/5e7d2dc03429e24340ff1396',
+        device: {
+          _id: '5e8353385fff0e9814bcecc9'
+        }
+      },
+      device: [
+        {
+          _id: '5e8353385fff0e9814bcecc9',
+          deviceName: 'Chrome'
+        },
+        {
+          _id: '5e8353385ff12391jidfbcecc9',
+          deviceName: 'FireFox'
+        }
+      ]
+    }
+  };
+  const exec = async () => {
+    res = mockResponse();
+    next = jest.fn();
+    await controller.getCurrentlyPlaying(req, res, next);
+  };
+  it('should return user Currently Playing Object', async () => {
+    req = { user };
+    User.findById = jest.fn().mockResolvedValue(user);
+    await exec();
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith({
+      data: user.queue.currentlyPlaying
+    });
+  });
+});
+
 describe('meController.pushDevices', () => {
+  let req, res, next, user;
+  user = {
+    save: jest.fn().mockResolvedValue(1),
+    queue: {
+      devices: [
+        {
+          _id: '5e86524e891a8a580401de8b',
+          devicesName: 'Chrome'
+        },
+        {
+          _id: '5e86524e891a8a5a0j01de8b',
+          devicesName: 'FirFox'
+        }
+      ]
+    }
+  };
+  const exec = async () => {
+    res = mockResponse();
+    next = jest.fn();
+    await controller.pushDevices(req, res, next);
+  };
+  it('should push to  user devices list', async () => {
+    req = { user, body: { device: 'Android' } };
+    User.findById = jest.fn().mockResolvedValue(user);
+    await exec();
+    expect(res.status).toHaveBeenCalledWith(200);
+
+    expect(res.json).toHaveBeenCalledWith({
+      devices: [
+        {
+          _id: '5e86524e891a8a580401de8b',
+          devicesName: 'Chrome'
+        },
+        {
+          _id: '5e86524e891a8a5a0j01de8b',
+          devicesName: 'FirFox'
+        },
+        {
+          devicesName: 'Android'
+        }
+      ]
+    });
+  });
+});
+
+describe('meController.getQueue', () => {
+  let req, res, next, user;
+  user = {
+    save: jest.fn().mockResolvedValue(1),
+    queue: {
+      queueTracks: [
+        'http://localhost:3000/api/v1/me/player/tracks/5e7d2dc03429e24340ff1396',
+        'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef4'
+      ],
+      currentlyPlaying: {
+        currentTrack:
+          'http://localhost:3000/api/v1/me/player/tracks/5e7d2dc03429e24340ff1396',
+        device: {
+          _id: '5e8353385fff0e9814bcecc9'
+        }
+      },
+      devices: [
+        {
+          _id: '5e86524e891a8a580401de8b',
+          devicesName: 'Chrome'
+        }
+      ],
+      repeat: false,
+      repeatOnce: true,
+      shuffle: false,
+      seek: 'byte900-10000',
+      progress: '100',
+      volume: '90'
+    }
+  };
+  const exec = async () => {
+    res = mockResponse();
+    next = jest.fn();
+    await controller.getQueue(req, res, next);
+  };
+  it('should return user queue object', async () => {
+    req = { user };
+    User.findById = jest.fn().mockResolvedValue(user);
+    await exec();
+    expect(res.status).toHaveBeenCalledWith(200);
+
+    expect(res.json).toHaveBeenCalledWith({ data: user.queue });
+  });
+});
+
+describe('meController.popDevices', () => {
   let req, res, next, user;
   user = {
     save: jest.fn().mockResolvedValue(1),
@@ -576,49 +711,29 @@ describe('meController.pushDevices', () => {
   const exec = async () => {
     res = mockResponse();
     next = jest.fn();
-    await controller.pushDevices(req, res, next);
+    await controller.popDevices(req, res, next);
   };
-  it('should put new device to  user devices list', async () => {
-    req = { user, body: { device: 'Safari' } };
+  it('should pop a devie from user devices list', async () => {
+    req = { user, body: { deviceId: '5e3473214eeqc1a8a580408b' } };
     User.findById = jest.fn().mockResolvedValue(user);
     await exec();
-    expect(res.status).toHaveBeenCalledWith(200);
-    expect(res.json).toHaveBeenCalledWith({ devices: user.queue.devices });
+    expect(res.status).toHaveBeenCalledWith(204);
+    expect(user.queue.devices).toEqual([
+      {
+        _id: '5e86524e891a8a580401de8b',
+        devicesName: 'Chrome'
+      },
+      {
+        _id: '5e86524e891a8a5a0j01de8b',
+        devicesName: 'FirFox'
+      }
+    ]);
+  });
+  it('should return error if devie is not in user devices list', async () => {
+    req = { user, body: { deviceId: '5e3473214eeqc1a8a580408c' } };
+    User.findById = jest.fn().mockResolvedValue(user);
+    await exec();
+    const error = new AppError('there is no device with that Id', 404);
+    expect(next).toHaveBeenCalledWith(error);
   });
 });
-
-// queue: {
-//   queueTracks: [
-//     'http://localhost:3000/api/v1/me/player/tracks/5e7d2dc03429e24340ff1396',
-//     'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef7',
-//     'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef4'
-//   ],
-//   currentlyPlaying: {
-//     currentTrack:
-//       'http://localhost:3000/api/v1/me/player/tracks/5e7d2dc03429e24340ff1396',
-//     device: {
-//       $oid: '5e8353385fff0e9814bcecc9'
-//     }
-//   },
-//   previousTrack: null,
-//   nextTrack:
-//     'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef7',
-//   devices: [
-//     {
-//       _id: {
-//         $oid: '5e834e669bd8bc59e4023547'
-//       },
-//       devicesName: 'Chrome'
-//     },
-//     {
-//       _id: {
-//         $oid: '5e8351355fff0e9814bcecb3'
-//       },
-//       devicesName: 'FireFox'
-//     }
-//   ],
-// play: false,
-//   repeat: true,
-//   repeatOnce: false,
-//   shuffle: false
-// }

@@ -470,7 +470,7 @@ exports.pushDevices = catchAsync(async (req, res, next) => {
 });
 exports.getCurrentlyPlaying = catchAsync(async (req, res, next) => {
   const user = await User.findById(req.user._id);
-  const currentPlaying = user.queue.devicurrentlyPlaying;
+  const currentPlaying = user.queue.currentlyPlaying;
   res.status(200).json({
     data: currentPlaying
   });
