@@ -47,24 +47,13 @@ describe('packets range', () => {
   });
 });
 
-describe('it should test repeating the track', () => {
+describe('meController.reapeat', () => {
   let req, res, next, user;
-  beforeAll(() => {
-    user = { _id: mongoose.Types.ObjectId() };
-  });
   user = {
-    name: 'Alaa',
-    email: 'test52@test.com',
-    emailConfirm: 'test52@test.com',
-    dateOfBirth: '1999-09-09',
-    gender: 'male',
-    type: 'user',
-    save: jest.fn({ validateBeforeSave: false }),
+    save: jest.fn().mockResolvedValue(1),
     queue: {
-      play: false,
       repeat: true,
-      repeatOnce: false,
-      shuffle: false
+      repeatOnce: false
     }
   };
   const exec = async () => {
@@ -74,29 +63,17 @@ describe('it should test repeating the track', () => {
   };
 
   it('should return if user was repeating the track', async () => {
-    req = {
-      user: user
-    };
+    req = { user };
+    User.findById = jest.fn().mockResolvedValue(user);
     await exec();
     expect(res.status).toHaveBeenCalledWith(204);
-    expect(res.json).toHaveBeenCalledWith(user);
-  });
-  beforeEach(() => {
-    User.findById = jest.fn().mockReturnValue(user);
+    expect(res.json).toHaveBeenCalledWith({ data: null });
   });
 });
 
-describe('it sould get user public profile', () => {
+describe('meController.userProfile', () => {
   let req, res, next, user;
-  user = {
-    _id: mongoose.Types.ObjectId(),
-    name: 'Alaa',
-    email: 'test52@test.com',
-    emailConfirm: 'test52@test.com',
-    dateOfBirth: '1999-09-09',
-    gender: 'male',
-    type: 'user'
-  };
+  user = { _id: mongoose.Types.ObjectId() };
   const exec = async () => {
     res = mockResponse();
     next = jest.fn();
@@ -109,17 +86,7 @@ describe('it sould get user public profile', () => {
     controller.getProfileInfo = jest.fn().mockResolvedValue(user);
     await exec();
     expect(res.status).toHaveBeenCalledWith(200);
-    expect(res.json).toHaveBeenCalledWith({
-      currentUser: {
-        _id: user._id,
-        name: 'Alaa',
-        email: 'test52@test.com',
-        emailConfirm: 'test52@test.com',
-        dateOfBirth: '1999-09-09',
-        gender: 'male',
-        type: 'user'
-      }
-    });
+    expect(res.json).toHaveBeenCalledWith({ currentUser: user });
   });
   it('should return null because no user with that id ', async () => {
     req = {
@@ -131,16 +98,10 @@ describe('it sould get user public profile', () => {
     expect(next).toHaveBeenCalledWith(error);
   });
 });
-describe('it sould get user private profile', () => {
+describe('me.CurrentUserProfile', () => {
   let req, res, next, user;
   user = {
-    _id: mongoose.Types.ObjectId(),
-    name: 'Alaa',
-    email: 'test52@test.com',
-    emailConfirm: 'test52@test.com',
-    dateOfBirth: '1999-09-09',
-    gender: 'male',
-    type: 'user'
+    _id: mongoose.Types.ObjectId()
   };
   const exec = async () => {
     res = mockResponse();
@@ -155,15 +116,7 @@ describe('it sould get user private profile', () => {
     await exec();
     expect(res.status).toHaveBeenCalledWith(200);
     expect(res.json).toHaveBeenCalledWith({
-      currentUser: {
-        _id: user._id,
-        name: 'Alaa',
-        email: 'test52@test.com',
-        emailConfirm: 'test52@test.com',
-        dateOfBirth: '1999-09-09',
-        gender: 'male',
-        type: 'user'
-      }
+      currentUser: user
     });
   });
 });

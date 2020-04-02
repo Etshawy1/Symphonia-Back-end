@@ -194,7 +194,6 @@ exports.playTrack = catchAsync(async (req, res) => {
     }
   }
   const { trackPath } = track;
-  __logger.info(trackPath);
   // Check if file exists. If not, will return the 404 'Not Found'.
   if (!fs.existsSync(trackPath)) {
     sendResponse(res, 404, null, null);
@@ -271,7 +270,6 @@ exports.topTracksAndArtists = catchAsync(async (req, res, next) => {
 //wait
 exports.recentlyPlayed = catchAsync(async (req, res, next) => {
   const currentUser = await User.findById(req.user._id).select('+history');
-  __logger.info(currentUser);
   const history = await History.findById(currentUser.history).select('-__v');
   res.status(200).json({
     history
@@ -281,7 +279,6 @@ exports.recentlyPlayed = catchAsync(async (req, res, next) => {
 exports.repeat = catchAsync(async (req, res, next) => {
   const user = await User.findById(req.user._id);
   const currentUserQueue = user.queue;
-  __logger.info(currentUserQueue);
   currentUserQueue.repeat = !currentUserQueue.repeat;
   if (currentUserQueue.repeat === true) currentUserQueue.repeatOnce = false;
   await user.save({ validateBeforeSave: false });
@@ -290,7 +287,6 @@ exports.repeat = catchAsync(async (req, res, next) => {
 exports.repeatOnce = catchAsync(async (req, res, next) => {
   const user = await User.findById(req.user._id);
   const currentUserQueue = user.queue;
-  __logger.info(currentUserQueue);
   currentUserQueue.repeatOnce = !currentUserQueue.repeatOnce;
   if (currentUserQueue.repeatOnce === true) currentUserQueue.repeat = false;
   await user.save({ validateBeforeSave: false });
@@ -299,7 +295,6 @@ exports.repeatOnce = catchAsync(async (req, res, next) => {
 exports.shuffle = catchAsync(async (req, res, next) => {
   const user = await User.findById(req.user._id);
   const currentUserQueue = user.queue;
-  __logger.info(currentUserQueue);
   currentUserQueue.shuffle = !currentUserQueue.shuffle;
   await user.save({ validateBeforeSave: false });
   res.status(204).json({ data: null });
@@ -307,7 +302,6 @@ exports.shuffle = catchAsync(async (req, res, next) => {
 exports.seek = catchAsync(async (req, res, next) => {
   const user = await User.findById(req.user._id);
   const currentUserQueue = user.queue;
-  __logger.info(currentUserQueue);
   currentUserQueue.seek = req.headers.range;
   await user.save({ validateBeforeSave: false });
   res.status(204).json({ data: null });
@@ -315,7 +309,6 @@ exports.seek = catchAsync(async (req, res, next) => {
 exports.volume = catchAsync(async (req, res, next) => {
   const user = await User.findById(req.user._id);
   const currentUserQueue = user.queue;
-  __logger.info(currentUserQueue);
   currentUserQueue.volume = req.body.volume;
   await user.save({ validateBeforeSave: false });
   res.status(204).json({ data: null });
@@ -323,7 +316,6 @@ exports.volume = catchAsync(async (req, res, next) => {
 exports.previous = catchAsync(async (req, res, next) => {
   const user = await User.findById(req.user._id);
   const currentUserQueue = user.queue;
-  __logger.info(currentUserQueue);
   if (currentUserQueue.repeatOnce === true) {
     currentUserQueue.nextTrack = currentUserQueue.currentlyPlaying.currentTrack;
     currentUserQueue.previousTrack =
@@ -412,7 +404,6 @@ exports.next = catchAsync(async (req, res, next) => {
 exports.pushQueue = catchAsync(async (req, res, next) => {
   const user = await User.findById(req.user._id);
   const currentUserQueue = user.queue;
-  __logger.info(currentUserQueue);
   currentUserQueue.queueTracks.push(req.body.track);
   await user.save({ validateBeforeSave: false });
   res.status(200).json({
@@ -422,7 +413,6 @@ exports.pushQueue = catchAsync(async (req, res, next) => {
 exports.popQueue = catchAsync(async (req, res, next) => {
   const user = await User.findById(req.user._id);
   const currentUserQueue = user.queue;
-  __logger.info(currentUserQueue);
   const indexOfPreviousTrack = currentUserQueue.queueTracks.indexOf(
     req.body.removedTrack
   );
@@ -438,7 +428,6 @@ exports.popQueue = catchAsync(async (req, res, next) => {
 exports.getDevices = catchAsync(async (req, res, next) => {
   const user = await User.findById(req.user._id);
   const currentUserQueue = user.queue;
-  __logger.info(currentUserQueue);
   res.status(200).json({
     data: currentUserQueue.devices
   });
@@ -458,7 +447,6 @@ exports.popDevices = catchAsync(async (req, res, next) => {
 exports.pushDevices = catchAsync(async (req, res, next) => {
   const user = await User.findById(req.user._id);
   const currentUserQueue = user.queue.devices.push(req.body.devices);
-  __logger.info(currentUserQueue);
   res.status(200).json({
     devices: currentUserQueue.devices
   });
@@ -466,7 +454,6 @@ exports.pushDevices = catchAsync(async (req, res, next) => {
 exports.getCurrentlyPlaying = catchAsync(async (req, res, next) => {
   const user = await User.findById(req.user._id);
   const currentPlaying = user.queue.devicurrentlyPlaying;
-  __logger.info(currentPlaying);
   res.status(200).json({
     data: currentPlaying
   });
@@ -474,7 +461,6 @@ exports.getCurrentlyPlaying = catchAsync(async (req, res, next) => {
 exports.getQueue = catchAsync(async (req, res, next) => {
   const user = await User.findById(req.user._id);
   const currentQueue = user.queue;
-  __logger.info(currentPlaying);
   res.status(200).json({
     data: currentQueue
   });
