@@ -737,3 +737,91 @@ describe('meController.popDevices', () => {
     expect(next).toHaveBeenCalledWith(error);
   });
 });
+
+describe('meController.pushQueue', () => {
+  let req, res, next, user;
+  user = {
+    save: jest.fn().mockResolvedValue(1),
+    queue: {
+      queueTracks: [
+        'http://localhost:3000/api/v1/me/player/tracks/5e7d2dc03429e24340ff1396',
+        'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef4'
+      ]
+    }
+  };
+  const exec = async () => {
+    res = mockResponse();
+    next = jest.fn();
+    await controller.pushQueue(req, res, next);
+  };
+  it('should push to  user queue list', async () => {
+    req = {
+      user,
+      body: {
+        track:
+          'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef7'
+      }
+    };
+    User.findById = jest.fn().mockResolvedValue(user);
+    await exec();
+    expect(res.status).toHaveBeenCalledWith(200);
+
+    expect(res.json).toHaveBeenCalledWith({
+      data: [
+        'http://localhost:3000/api/v1/me/player/tracks/5e7d2dc03429e24340ff1396',
+        'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef4',
+        'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef7'
+      ]
+    });
+  });
+});
+
+describe('meController.popQueue', () => {
+  let req, res, next, user;
+  user = {
+    save: jest.fn().mockResolvedValue(1),
+    queue: {
+      queueTracks: [
+        'http://localhost:3000/api/v1/me/player/tracks/5e7d2dc03429e24340ff1396',
+        'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef4',
+        'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef7'
+      ]
+    }
+  };
+
+  const exec = async () => {
+    res = mockResponse();
+    next = jest.fn();
+    await controller.popQueue(req, res, next);
+  };
+  it('should pop a devie from user devices list', async () => {
+    req = {
+      user,
+      body: {
+        removedTrack:
+          'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef4'
+      }
+    };
+
+    User.findById = jest.fn().mockResolvedValue(user);
+    await exec();
+    expect(res.status).toHaveBeenCalledWith(204);
+    expect(user.queue.queueTracks).toEqual([
+      'http://localhost:3000/api/v1/me/player/tracks/5e7d2dc03429e24340ff1396',
+      'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef7'
+    ]);
+  });
+  it('should return error if track is not in user queue list', async () => {
+    req = {
+      user,
+      body: {
+        removedTrack:
+          'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3efooew'
+      }
+    };
+    User.findById = jest.fn().mockResolvedValue(user);
+    await exec();
+    const error = new AppError('This Track is not in your current queue', 404);
+    expect(next).toHaveBeenCalledWith(error);
+  });
+});
