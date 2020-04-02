@@ -78,6 +78,50 @@ describe('meController.shuffle', () => {
   });
 });
 
+describe('meController.reapeatOnce', () => {
+  let req, res, next, user;
+  user = {
+    save: jest.fn().mockResolvedValue(1),
+    queue: {
+      repeat: false,
+      repeatOnce: true
+    }
+  };
+  const exec = async () => {
+    res = mockResponse();
+    next = jest.fn();
+    await controller.repeatOnce(req, res, next);
+  };
+
+  it('should return if user do not want to repeat a specific track', async () => {
+    req = { user };
+    User.findById = jest.fn().mockResolvedValue(user);
+    await exec();
+    expect(res.status).toHaveBeenCalledWith(204);
+    expect(user.queue.repeat).toEqual(false);
+    expect(user.queue.repeatOnce).toEqual(false);
+  });
+  it('should return if user want to repeat a specific track', async () => {
+    user.queue.repeatOnce = false;
+    req = { user };
+    User.findById = jest.fn().mockResolvedValue(user);
+    await exec();
+    expect(res.status).toHaveBeenCalledWith(204);
+    expect(user.queue.repeat).toEqual(false);
+    expect(user.queue.repeatOnce).toEqual(true);
+  });
+  it('should return if user was repeating the queue and want to repeat a specific track', async () => {
+    user.queue.repeat = true;
+    user.queue.repeatOnce = false;
+    req = { user };
+    User.findById = jest.fn().mockResolvedValue(user);
+    await exec();
+    expect(res.status).toHaveBeenCalledWith(204);
+    expect(user.queue.repeat).toEqual(false);
+    expect(user.queue.repeatOnce).toEqual(true);
+  });
+});
+
 describe('meController.reapeat', () => {
   let req, res, next, user;
   user = {
@@ -93,7 +137,7 @@ describe('meController.reapeat', () => {
     await controller.repeat(req, res, next);
   };
 
-  it('should return if user was not want to repeat the track', async () => {
+  it('should return if user do not want to repeat the queue', async () => {
     req = { user };
     User.findById = jest.fn().mockResolvedValue(user);
     await exec();
@@ -101,7 +145,7 @@ describe('meController.reapeat', () => {
     expect(user.queue.repeat).toEqual(false);
     expect(user.queue.repeatOnce).toEqual(false);
   });
-  it('should return if user was repeating the track', async () => {
+  it('should return if user want to repeat the queue', async () => {
     user.queue.repeat = false;
     req = { user };
     User.findById = jest.fn().mockResolvedValue(user);
@@ -110,7 +154,7 @@ describe('meController.reapeat', () => {
     expect(user.queue.repeat).toEqual(true);
     expect(user.queue.repeatOnce).toEqual(false);
   });
-  it('should return if user was repeating the track Once and want to repeat all the queue', async () => {
+  it('should return if user was repeating a specific track and want to repeat all the queue', async () => {
     user.queue.repeat = false;
     user.queue.repeatOnce = true;
     req = { user };
