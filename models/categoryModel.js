@@ -27,7 +27,7 @@ categorySchema.pre('save', function() {
 });
 
 categorySchema.virtual('href').get(function() {
-  return null;
+  return 'totot';
 });
 
 const Category = mongoose.model('Category', categorySchema);
