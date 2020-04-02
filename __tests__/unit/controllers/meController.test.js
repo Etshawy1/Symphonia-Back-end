@@ -174,12 +174,17 @@ describe('meController.seek', () => {
     next = jest.fn();
     await controller.seek(req, res, next);
   };
-  it('should save user seek in track when close the device', async () => {
-    req = { user, headers: { range: 'bytes=200-500' } };
+  it('should save user seek and progress in track when close the device', async () => {
+    req = {
+      user,
+      headers: { range: 'bytes=200-500' },
+      body: { track_progress: '100' }
+    };
     User.findById = jest.fn().mockResolvedValue(user);
     await exec();
     expect(res.status).toHaveBeenCalledWith(204);
     expect(user.queue.seek).toEqual('bytes=200-500');
+    expect(user.queue.trackProgress).toEqual('100');
   });
 });
 describe('meController.volume', () => {
@@ -250,6 +255,43 @@ describe('me.CurrentUserProfile', () => {
     expect(res.json).toHaveBeenCalledWith({
       currentUser: user
     });
+  });
+});
+
+describe('meController.previous', () => {
+  let req, res, next, user;
+  user = {
+    save: jest.fn().mockResolvedValue(1),
+    queue: {
+      queueTracks: [
+        'http://localhost:3000/api/v1/me/player/tracks/5e7d2dc03429e24340ff1396',
+        'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef7',
+        'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef4'
+      ],
+      currentlyPlaying: {
+        currentTrack:
+          'http://localhost:3000/api/v1/me/player/tracks/5e7d2dc03429e24340ff1396'
+      },
+      previousTrack: null,
+      nextTrack:
+        'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef7',
+      repeat: false,
+      repeatOnce: false
+    }
+  };
+  const exec = async () => {
+    res = mockResponse();
+    next = jest.fn();
+    await controller.previous(req, res, next);
+  };
+  it('should retutn if user want to go to the previous track', async () => {
+    User.findById = jest.fn().mockResolvedValue(user);
+    await exec();
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith({ data: user.queue.queueTracks });
+    expect(user.queue.nextTrack).toEqual(
+      'http://localhost:3000/api/v1/me/player/tracks/5e7d2dc03429e24340ff1396'
+    );
   });
 });
 

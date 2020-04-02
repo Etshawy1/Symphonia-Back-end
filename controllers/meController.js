@@ -303,6 +303,7 @@ exports.seek = catchAsync(async (req, res, next) => {
   const user = await User.findById(req.user._id);
   const currentUserQueue = user.queue;
   currentUserQueue.seek = req.headers.range;
+  currentUserQueue.trackProgress = req.body.track_progress;
   await user.save({ validateBeforeSave: false });
   res.status(204).json({ data: null });
 });
