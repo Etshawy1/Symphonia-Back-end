@@ -267,7 +267,6 @@ exports.topTracksAndArtists = catchAsync(async (req, res, next) => {
     doc
   });
 });
-//wait
 exports.recentlyPlayed = catchAsync(async (req, res, next) => {
   const currentUser = await User.findById(req.user._id).select('+history');
   const history = await History.findById(currentUser.history).select('-__v');

@@ -108,6 +108,9 @@ const userSchema = new mongoose.Schema({
       ref: 'Track'
     }
   ],
+  usersCount: {
+    type: Number
+  },
   passwordChangedAt: Date,
   passwordResetToken: String,
   passwordResetExpires: Date,
