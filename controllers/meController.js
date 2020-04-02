@@ -253,21 +253,22 @@ exports.userProfile = catchAsync(async (req, res, next) => {
   });
 });
 exports.currentUserProfile = catchAsync(async (req, res, next) => {
-  const currentUser = await exportFunctions.getProfileInfo(req.user._id);
+  const currentUser = await exports.getProfileInfo(req.user._id);
   res.status(200).json({
     currentUser
   });
 });
+//wait
 exports.topTracksAndArtists = catchAsync(async (req, res, next) => {
   const doc =
     req.params.type === 'track'
       ? await getTopArtistsAndTracks(Track, req.query)
-      : await getTopArtistsAndTracks(User);
+      : await getTopArtistsAndTracks(User, req.query);
   res.status(200).json({
     doc
   });
 });
-
+//wait
 exports.recentlyPlayed = catchAsync(async (req, res, next) => {
   const currentUser = await User.findById(req.user._id).select('+history');
   __logger.info(currentUser);

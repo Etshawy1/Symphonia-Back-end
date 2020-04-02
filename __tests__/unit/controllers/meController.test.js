@@ -47,7 +47,7 @@ describe('packets range', () => {
   });
 });
 
-describe('it sould get user public profile', () => {
+describe('it should test repeating the track', () => {
   let req, res, next, user;
   beforeAll(() => {
     user = { _id: mongoose.Types.ObjectId() };
@@ -59,36 +59,8 @@ describe('it sould get user public profile', () => {
     dateOfBirth: '1999-09-09',
     gender: 'male',
     type: 'user',
+    save: jest.fn({ validateBeforeSave: false }),
     queue: {
-      queueTracks: [
-        'http://localhost:3000/api/v1/me/player/tracks/5e7d2dc03429e24340ff1396',
-        'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef7',
-        'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef4'
-      ],
-      currentlyPlaying: {
-        currentTrack:
-          'http://localhost:3000/api/v1/me/player/tracks/5e7d2dc03429e24340ff1396',
-        device: {
-          $oid: '5e8353385fff0e9814bcecc9'
-        }
-      },
-      previousTrack: null,
-      nextTrack:
-        'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef7',
-      devices: [
-        {
-          _id: {
-            $oid: '5e834e669bd8bc59e4023547'
-          },
-          devicesName: 'Chrome'
-        },
-        {
-          _id: {
-            $oid: '5e8351355fff0e9814bcecb3'
-          },
-          devicesName: 'FireFox'
-        }
-      ],
       play: false,
       repeat: true,
       repeatOnce: false,
@@ -96,19 +68,24 @@ describe('it sould get user public profile', () => {
     }
   };
   const exec = async () => {
+    res = mockResponse();
     next = jest.fn();
     await controller.repeat(req, res, next);
   };
 
   it('should return if user was repeating the track', async () => {
-    req = {};
+    req = {
+      user: user
+    };
     await exec();
-    expect(204);
+    expect(res.status).toHaveBeenCalledWith(204);
+    expect(res.json).toHaveBeenCalledWith(user);
   });
   beforeEach(() => {
     User.findById = jest.fn().mockReturnValue(user);
   });
 });
+
 describe('it sould get user public profile', () => {
   let req, res, next, user;
   user = {
@@ -125,11 +102,25 @@ describe('it sould get user public profile', () => {
     next = jest.fn();
     await controller.userProfile(req, res, next);
   };
-  const exec1 = async () => {
-    res = mockResponse();
-    next = jest.fn();
-    await controller.currentUserProfile(req, res, next);
-  };
+  it('should return user public profile', async () => {
+    req = {
+      params: { user_id: user._id }
+    };
+    controller.getProfileInfo = jest.fn().mockResolvedValue(user);
+    await exec();
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith({
+      currentUser: {
+        _id: user._id,
+        name: 'Alaa',
+        email: 'test52@test.com',
+        emailConfirm: 'test52@test.com',
+        dateOfBirth: '1999-09-09',
+        gender: 'male',
+        type: 'user'
+      }
+    });
+  });
   it('should return null because no user with that id ', async () => {
     req = {
       params: { user_id: null }
@@ -139,11 +130,76 @@ describe('it sould get user public profile', () => {
     const error = new AppError('No user found', 404);
     expect(next).toHaveBeenCalledWith(error);
   });
-  it('should return user public profile', async () => {
+});
+describe('it sould get user private profile', () => {
+  let req, res, next, user;
+  user = {
+    _id: mongoose.Types.ObjectId(),
+    name: 'Alaa',
+    email: 'test52@test.com',
+    emailConfirm: 'test52@test.com',
+    dateOfBirth: '1999-09-09',
+    gender: 'male',
+    type: 'user'
+  };
+  const exec = async () => {
+    res = mockResponse();
+    next = jest.fn();
+    await controller.currentUserProfile(req, res, next);
+  };
+  it('should return user private profile', async () => {
     req = {
-      params: { user_id: user._id }
+      user: { user_id: user._id }
     };
-    await exec1();
-    await expect(res.json).toHaveBeenCalledWith(user);
+    controller.getProfileInfo = jest.fn().mockResolvedValue(user);
+    await exec();
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith({
+      currentUser: {
+        _id: user._id,
+        name: 'Alaa',
+        email: 'test52@test.com',
+        emailConfirm: 'test52@test.com',
+        dateOfBirth: '1999-09-09',
+        gender: 'male',
+        type: 'user'
+      }
+    });
   });
 });
+
+// queue: {
+//   queueTracks: [
+//     'http://localhost:3000/api/v1/me/player/tracks/5e7d2dc03429e24340ff1396',
+//     'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef7',
+//     'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef4'
+//   ],
+//   currentlyPlaying: {
+//     currentTrack:
+//       'http://localhost:3000/api/v1/me/player/tracks/5e7d2dc03429e24340ff1396',
+//     device: {
+//       $oid: '5e8353385fff0e9814bcecc9'
+//     }
+//   },
+//   previousTrack: null,
+//   nextTrack:
+//     'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef7',
+//   devices: [
+//     {
+//       _id: {
+//         $oid: '5e834e669bd8bc59e4023547'
+//       },
+//       devicesName: 'Chrome'
+//     },
+//     {
+//       _id: {
+//         $oid: '5e8351355fff0e9814bcecb3'
+//       },
+//       devicesName: 'FireFox'
+//     }
+//   ],
+// play: false,
+//   repeat: true,
+//   repeatOnce: false,
+//   shuffle: false
+// }
