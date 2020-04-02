@@ -426,7 +426,7 @@ exports.popQueue = catchAsync(async (req, res, next) => {
     req.body.removedTrack
   );
   if (indexOfPreviousTrack === -1) {
-    return new AppError('This Track is not in your current queue', 404);
+    return next(new AppError('This Track is not in your current queue', 404));
   }
   currentUserQueue.queueTracks.splice(indexOfPreviousTrack, 1);
   await user.save({ validateBeforeSave: false });
@@ -443,11 +443,18 @@ exports.getDevices = catchAsync(async (req, res, next) => {
 });
 exports.popDevices = catchAsync(async (req, res, next) => {
   const user = await User.findById(req.user._id);
-  const currentUserdevices = user.queue.devices;
-  const removedDevicesId = req.body.deviceId;
-  const device = await currentUserQueue.findById(removedDevicesId);
-  const indexOfPreviousTrack = currentUserdevices.indexOf(device);
-  currentUserQueue.queueTracks.splice(indexOfPreviousTrack, 1);
+  const currentUserDevices = user.queue.devices;
+  let removedDevice = -1;
+  user.queue.devices.forEach(device => {
+    if (device._id == req.body.deviceId) {
+      removedDevice = device;
+    }
+  });
+  if (removedDevice == -1) {
+    return next(new AppError('there is no device with that Id', 404));
+  }
+  const indexOfDevice = currentUserDevices.indexOf(removedDevice);
+  user.queue.devices.splice(indexOfDevice, 1);
   await user.save({ validateBeforeSave: false });
   res.status(204).json({
     data: null
