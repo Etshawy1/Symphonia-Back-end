@@ -516,6 +516,77 @@ describe('meController.next', () => {
   });
 });
 
+describe('meController.getDevices', () => {
+  let req, res, next, user;
+  user = {
+    save: jest.fn().mockResolvedValue(1),
+    queue: {
+      devices: [
+        {
+          _id: '5e86524e891a8a580401de8b',
+          devicesName: 'Chrome'
+        },
+        {
+          _id: '5e86524e891a8a5a0j01de8b',
+          devicesName: 'FirFox'
+        },
+        {
+          _id: '5e3473214eeqc1a8a580408b',
+          devicesName: 'Android'
+        }
+      ]
+    }
+  };
+  const exec = async () => {
+    res = mockResponse();
+    next = jest.fn();
+    await controller.getDevices(req, res, next);
+  };
+  it('should retutn  user devices', async () => {
+    req = { user };
+    User.findById = jest.fn().mockResolvedValue(user);
+    await exec();
+    expect(res.status).toHaveBeenCalledWith(200);
+
+    expect(res.json).toHaveBeenCalledWith({ data: user.queue.devices });
+  });
+});
+
+describe('meController.pushDevices', () => {
+  let req, res, next, user;
+  user = {
+    save: jest.fn().mockResolvedValue(1),
+    queue: {
+      devices: [
+        {
+          _id: '5e86524e891a8a580401de8b',
+          devicesName: 'Chrome'
+        },
+        {
+          _id: '5e86524e891a8a5a0j01de8b',
+          devicesName: 'FirFox'
+        },
+        {
+          _id: '5e3473214eeqc1a8a580408b',
+          devicesName: 'Android'
+        }
+      ]
+    }
+  };
+  const exec = async () => {
+    res = mockResponse();
+    next = jest.fn();
+    await controller.pushDevices(req, res, next);
+  };
+  it('should put new device to  user devices list', async () => {
+    req = { user, body: { device: 'Safari' } };
+    User.findById = jest.fn().mockResolvedValue(user);
+    await exec();
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith({ devices: user.queue.devices });
+  });
+});
+
 // queue: {
 //   queueTracks: [
 //     'http://localhost:3000/api/v1/me/player/tracks/5e7d2dc03429e24340ff1396',
