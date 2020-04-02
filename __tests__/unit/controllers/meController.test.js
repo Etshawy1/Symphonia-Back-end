@@ -47,6 +47,37 @@ describe('packets range', () => {
   });
 });
 
+describe('meController.shuffle', () => {
+  let req, res, next, user;
+  user = {
+    save: jest.fn().mockResolvedValue(1),
+    queue: {
+      shuffle: true
+    }
+  };
+  const exec = async () => {
+    res = mockResponse();
+    next = jest.fn();
+    await controller.shuffle(req, res, next);
+  };
+
+  it('should return if user was not want to shuffle the queue', async () => {
+    req = { user };
+    User.findById = jest.fn().mockResolvedValue(user);
+    await exec();
+    expect(res.status).toHaveBeenCalledWith(204);
+    expect(user.queue.shuffle).toEqual(false);
+  });
+  it('should return if user was shuffle the queue', async () => {
+    user.queue.shuffle = false;
+    req = { user };
+    User.findById = jest.fn().mockResolvedValue(user);
+    await exec();
+    expect(res.status).toHaveBeenCalledWith(204);
+    expect(user.queue.shuffle).toEqual(true);
+  });
+});
+
 describe('meController.reapeat', () => {
   let req, res, next, user;
   user = {
@@ -62,12 +93,32 @@ describe('meController.reapeat', () => {
     await controller.repeat(req, res, next);
   };
 
-  it('should return if user was repeating the track', async () => {
+  it('should return if user was not want to repeat the track', async () => {
     req = { user };
     User.findById = jest.fn().mockResolvedValue(user);
     await exec();
     expect(res.status).toHaveBeenCalledWith(204);
-    expect(res.json).toHaveBeenCalledWith({ data: null });
+    expect(user.queue.repeat).toEqual(false);
+    expect(user.queue.repeatOnce).toEqual(false);
+  });
+  it('should return if user was repeating the track', async () => {
+    user.queue.repeat = false;
+    req = { user };
+    User.findById = jest.fn().mockResolvedValue(user);
+    await exec();
+    expect(res.status).toHaveBeenCalledWith(204);
+    expect(user.queue.repeat).toEqual(true);
+    expect(user.queue.repeatOnce).toEqual(false);
+  });
+  it('should return if user was repeating the track Once and want to repeat all the queue', async () => {
+    user.queue.repeat = false;
+    user.queue.repeatOnce = true;
+    req = { user };
+    User.findById = jest.fn().mockResolvedValue(user);
+    await exec();
+    expect(res.status).toHaveBeenCalledWith(204);
+    expect(user.queue.repeat).toEqual(true);
+    expect(user.queue.repeatOnce).toEqual(false);
   });
 });
 
