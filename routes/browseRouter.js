@@ -4,6 +4,12 @@ const browseController = require('../controllers/browseController');
 const path = require('path');
 const UploadBuilder = require('../utils/uploader').UploadBuilder;
 const router = express.Router();
+
+// summary: gets the list of available categories in the database
+router.get('/categories', browseController.getCategories);
+
+router.get('/new-releases', browseController.getNewRelease);
+
 router.use(authController.protect);
 const EventEmmiter = require('events').EventEmitter;
 /*
@@ -42,8 +48,6 @@ router.post(
   authController.protect,
   browseController.createCategory
 );*/
-// summary: gets the list of available categories in the database
-router.get('/categories', browseController.getCategories);
 
 router.get('/categories/:id', browseController.getCategory);
 
@@ -53,7 +57,5 @@ router.get(
 );
 
 router.get('/featured-playlists', browseController.getCategoriesPlaylists);
-
-router.get('/new-releases', browseController.getNewRelease);
 
 module.exports = router;

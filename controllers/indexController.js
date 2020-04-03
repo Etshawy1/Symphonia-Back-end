@@ -1,3 +1,5 @@
+const path = require('path');
+const io = require('socket.io')(80);
 module.exports = (req, res, next) => {
-  res.send('Hello worldaasdasdasd');
+  res.sendFile(path.join(__dirname, '../views/testSockets.html'));
 };
