@@ -15,10 +15,14 @@ const port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
 /**
- * Create HTTP server.
+ * Create HTTP server and socket.
  */
 
 const server = http.createServer(app);
+const io = require('socket.io')(server);
+io.on('connection', function (socket) {
+  console.log('hello from socket');
+});
 
 /**
  * Listen on provided port, on all network interfaces.
