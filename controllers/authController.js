@@ -58,6 +58,22 @@ exports.login = catchAsync(async (req, res, next) => {
   await user.save({ validateBeforeSave: false });
   createSendToken(user, 200, res);
 });
+
+exports.checkEmail = catchAsync(async (req, res, next) => {
+  const { email } = req.body;
+  // Check if email exists
+  if (!email) {
+    return next(new AppError('Please provide an email to check', 400));
+  }
+  // Check if user exists
+  const user = await User.findOne({ email });
+
+  if (!user) {
+    return res.status(200).json({ exists: false });
+  }
+  // If everything ok, send type of user to client
+  res.status(200).json({ exists: true, type: user.type });
+});
 exports.googleOauth = catchAsync(async (req, res, next) => {
   if (req.user.status === 201) {
     const url = `${req.protocol}://${req.get('host')}`;
@@ -153,8 +169,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
     await new Email(user, resetURL).sendPasswordReset();
     res.status(200).json({
       status: 'success',
-      message: 'Token sent to email!',
-      url: resetURL
+      message: 'Token sent to email!'
     });
   } catch (err) {
     user.passwordResetToken = undefined;
