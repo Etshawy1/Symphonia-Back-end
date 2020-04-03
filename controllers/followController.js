@@ -100,7 +100,7 @@ exports.getUserFollowedArtists = catchAsync(async (req, res, next) => {
   /*
   let user = await User.findOne({ _id: req.user._id }).populate({
     path: 'followedUsers',
-    match: { role: 'artist' },
+    match: { type: 'artist' },
     options: {
       limit: limit
     }
@@ -108,7 +108,7 @@ exports.getUserFollowedArtists = catchAsync(async (req, res, next) => {
 */
   let user = await User.findOne({ _id: req.user._id }).populate({
     path: 'followedUsers',
-    match: { role: 'artist' }
+    match: { type: 'artist' }
   });
 
   let followedUsers = user.followedUsers;
@@ -184,7 +184,7 @@ exports.unfollowPlaylist = catchAsync(async (req, res, next) => {
   let playlistId = req.params.id;
   // remove the user from the playlist
   let playlist = await Playlist.findById(playlistId);
-  playlist.followers = playlist.followers.filter(function(value, index, arr) {
+  playlist.followers = playlist.followers.filter(function (value, index, arr) {
     return value != userId;
   });
   await playlist.save();
