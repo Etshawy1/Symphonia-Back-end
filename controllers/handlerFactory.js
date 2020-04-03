@@ -10,10 +10,7 @@ exports.deleteOne = Model =>
       return next(new AppError('No document found with that ID', 404));
     }
 
-    res.status(204).json({
-      status: 'success',
-      data: null
-    });
+    res.status(204).json(null);
   });
 
 exports.updateOne = Model =>
@@ -27,24 +24,14 @@ exports.updateOne = Model =>
       return next(new AppError('No document found with that ID', 404));
     }
 
-    res.status(200).json({
-      status: 'success',
-      data: {
-        data: doc
-      }
-    });
+    res.status(200).json(doc);
   });
 
 exports.createOne = Model =>
   catchAsync(async (req, res, next) => {
     const doc = await Model.create(req.body);
 
-    res.status(201).json({
-      status: 'success',
-      data: {
-        data: doc
-      }
-    });
+    res.status(201).json(doc);
   });
 
 exports.getOne = (Model, popOptions) =>
@@ -54,15 +41,10 @@ exports.getOne = (Model, popOptions) =>
     const doc = await query;
 
     if (!doc) {
-      return next(new AppError('No document found with that ID', 404));
+      return next(new AppError('that document does not exist', 404));
     }
 
-    res.status(200).json({
-      status: 'success',
-      data: {
-        data: doc
-      }
-    });
+    res.status(200).json(doc);
   });
 
 exports.getMany = (Model, popOptions) =>
@@ -74,17 +56,11 @@ exports.getMany = (Model, popOptions) =>
     });
     if (popOptions) query = query.populate(popOptions);
     const doc = await query;
-
-    if (!doc) {
-      return next(new AppError('No document found with that ID', 404));
+    if (!doc.length) {
+      return next(new AppError('No documents found with provided IDs', 404));
     }
 
-    res.status(200).json({
-      status: 'success',
-      data: {
-        data: doc
-      }
-    });
+    res.status(200).json(doc);
   });
 
 exports.getAll = Model =>
@@ -98,11 +74,5 @@ exports.getAll = Model =>
     const doc = await features.query;
 
     // SEND RESPONSE
-    res.status(200).json({
-      status: 'success',
-      results: doc.length,
-      data: {
-        data: doc
-      }
-    });
+    res.status(200).json(doc);
   });
