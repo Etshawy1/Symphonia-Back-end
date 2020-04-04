@@ -46,6 +46,8 @@ router.get('/recently-played', meController.recentlyPlayed);
 //get user privte profile
 router.get('/', meController.currentUserProfile);
 //router.batch('/v1/me/player/play',);
+//premium with creditcard
+router.get('/checkout-session', meController.getCheckoutSession);
 
 // section: follow routes
 // Description: check if the current user follows a another user(partist or normal user)
