@@ -7,3 +7,8 @@ module.exports.mockResponse = () => {
 module.exports.mockRequest = body => ({
   body
 });
+describe('dumb', () => {
+  it('is a utility function for test only', () => {
+    expect(1).toEqual(1);
+  });
+});

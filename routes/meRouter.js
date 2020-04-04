@@ -4,6 +4,7 @@ const meController = require('../controllers/meController');
 const followController = require('../controllers/followController');
 const libraryController = require('../controllers/libraryController');
 const playlistController = require('./../controllers/playlistController');
+const bodyParser = require('body-parser');
 
 const router = express.Router();
 router.use(authController.protect);
@@ -38,14 +39,26 @@ router.get('/player/currently-playing', meController.getCurrentlyPlaying);
 //get queue
 router.get('/player/queue', meController.getQueue);
 //play the track
-router.get('/player/tracks/:track_id', meController.playTrack);
+router.get(
+  '/player/tracks/:track_id',
+  bodyParser.raw({ type: 'application/json' }),
+  meController.playTrack
+);
 //get top artist and top tracks
 router.get('/top/:type', meController.topTracksAndArtists);
 //get recent tracks
 router.get('/recently-played', meController.recentlyPlayed);
 //get user privte profile
 router.get('/', meController.currentUserProfile);
+
 //router.batch('/v1/me/player/play',);
+//premium with creditcard
+router.get('/checkout-session', meController.getCheckoutSession);
+router.post(
+  '/webhook-checkout',
+  bodyParser.raw({ type: 'application/json' }),
+  meController.webhookCheckout
+);
 
 // section: follow routes
 // Description: check if the current user follows a another user(partist or normal user)

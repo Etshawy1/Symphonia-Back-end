@@ -8,6 +8,7 @@ const PlayList = require('./../models/playlistModel');
 const Album = require('./../models/albumModel');
 const { History } = require('./../models/historyModel');
 const APIFeatures = require('./../utils/apiFeatures');
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 const mimeNames = {
   '.mp3': 'audio/mpeg',
@@ -194,7 +195,6 @@ exports.playTrack = catchAsync(async (req, res) => {
     }
   }
   const { trackPath } = track;
-  __logger.info(trackPath);
   // Check if file exists. If not, will return the 404 'Not Found'.
   if (!fs.existsSync(trackPath)) {
     sendResponse(res, 404, null, null);
@@ -253,24 +253,23 @@ exports.userProfile = catchAsync(async (req, res, next) => {
   });
 });
 exports.currentUserProfile = catchAsync(async (req, res, next) => {
-  const currentUser = await exportFunctions.getProfileInfo(req.user._id);
+  const currentUser = await exports.getProfileInfo(req.user._id);
   res.status(200).json({
     currentUser
   });
 });
+//wait
 exports.topTracksAndArtists = catchAsync(async (req, res, next) => {
   const doc =
     req.params.type === 'track'
       ? await getTopArtistsAndTracks(Track, req.query)
-      : await getTopArtistsAndTracks(User);
+      : await getTopArtistsAndTracks(User, req.query);
   res.status(200).json({
     doc
   });
 });
-
 exports.recentlyPlayed = catchAsync(async (req, res, next) => {
   const currentUser = await User.findById(req.user._id).select('+history');
-  __logger.info(currentUser);
   const history = await History.findById(currentUser.history).select('-__v');
   res.status(200).json({
     history
@@ -280,7 +279,6 @@ exports.recentlyPlayed = catchAsync(async (req, res, next) => {
 exports.repeat = catchAsync(async (req, res, next) => {
   const user = await User.findById(req.user._id);
   const currentUserQueue = user.queue;
-  __logger.info(currentUserQueue);
   currentUserQueue.repeat = !currentUserQueue.repeat;
   if (currentUserQueue.repeat === true) currentUserQueue.repeatOnce = false;
   await user.save({ validateBeforeSave: false });
@@ -289,7 +287,6 @@ exports.repeat = catchAsync(async (req, res, next) => {
 exports.repeatOnce = catchAsync(async (req, res, next) => {
   const user = await User.findById(req.user._id);
   const currentUserQueue = user.queue;
-  __logger.info(currentUserQueue);
   currentUserQueue.repeatOnce = !currentUserQueue.repeatOnce;
   if (currentUserQueue.repeatOnce === true) currentUserQueue.repeat = false;
   await user.save({ validateBeforeSave: false });
@@ -298,7 +295,6 @@ exports.repeatOnce = catchAsync(async (req, res, next) => {
 exports.shuffle = catchAsync(async (req, res, next) => {
   const user = await User.findById(req.user._id);
   const currentUserQueue = user.queue;
-  __logger.info(currentUserQueue);
   currentUserQueue.shuffle = !currentUserQueue.shuffle;
   await user.save({ validateBeforeSave: false });
   res.status(204).json({ data: null });
@@ -306,15 +302,14 @@ exports.shuffle = catchAsync(async (req, res, next) => {
 exports.seek = catchAsync(async (req, res, next) => {
   const user = await User.findById(req.user._id);
   const currentUserQueue = user.queue;
-  __logger.info(currentUserQueue);
   currentUserQueue.seek = req.headers.range;
+  currentUserQueue.trackProgress = req.body.track_progress;
   await user.save({ validateBeforeSave: false });
   res.status(204).json({ data: null });
 });
 exports.volume = catchAsync(async (req, res, next) => {
   const user = await User.findById(req.user._id);
   const currentUserQueue = user.queue;
-  __logger.info(currentUserQueue);
   currentUserQueue.volume = req.body.volume;
   await user.save({ validateBeforeSave: false });
   res.status(204).json({ data: null });
@@ -322,7 +317,6 @@ exports.volume = catchAsync(async (req, res, next) => {
 exports.previous = catchAsync(async (req, res, next) => {
   const user = await User.findById(req.user._id);
   const currentUserQueue = user.queue;
-  __logger.info(currentUserQueue);
   if (currentUserQueue.repeatOnce === true) {
     currentUserQueue.nextTrack = currentUserQueue.currentlyPlaying.currentTrack;
     currentUserQueue.previousTrack =
@@ -334,19 +328,21 @@ exports.previous = catchAsync(async (req, res, next) => {
         currentUserQueue.previousTrack;
     else if (currentUserQueue.repeat) {
       currentUserQueue.currentlyPlaying.currentTrack =
-        currentUserQueue.queueTracks[queueTracks.length - 1];
+        currentUserQueue.queueTracks[currentUserQueue.queueTracks.length - 1];
+    } else {
+      currentUserQueue.currentlyPlaying.currentTrack =
+        currentUserQueue.previousTrack;
     }
-
-    currentUserQueue.currentlyPlaying.currentTrack =
-      currentUserQueue.previousTrack;
-    if (currentUserQueue.nextTrack !== null) {
+    if (currentUserQueue.previousTrack !== null) {
       const indexOfPreviousTrack = currentUserQueue.queueTracks.indexOf(
         currentUserQueue.previousTrack
       );
       if (indexOfPreviousTrack === 0) {
         if (currentUserQueue.repeat === true) {
           currentUserQueue.previousTrack =
-            currentUserQueue.queueTracks[queueTracks.length - 1];
+            currentUserQueue.queueTracks[
+              currentUserQueue.queueTracks.length - 1
+            ];
         } else {
           currentUserQueue.previousTrack = null;
         }
@@ -357,7 +353,9 @@ exports.previous = catchAsync(async (req, res, next) => {
     } else {
       if (currentUserQueue.repeat === true) {
         currentUserQueue.previousTrack =
-          currentUserQueue.queueTracks[queueTracks.length - 2];
+          currentUserQueue.queueTracks[currentUserQueue.queueTracks.length - 2];
+      } else {
+        currentUserQueue.previousTrack = null;
       }
     }
   }
@@ -382,6 +380,8 @@ exports.next = catchAsync(async (req, res, next) => {
     else if (currentUserQueue.repeat) {
       currentUserQueue.currentlyPlaying.currentTrack =
         currentUserQueue.queueTracks[0];
+    } else {
+      currentUserQueue.currentlyPlaying.currentTrack = null;
     }
     if (currentUserQueue.nextTrack !== null) {
       const indexOfPreviousTrack = currentUserQueue.queueTracks.indexOf(
@@ -400,6 +400,8 @@ exports.next = catchAsync(async (req, res, next) => {
     } else {
       if (currentUserQueue.repeat === true) {
         currentUserQueue.nextTrack = currentUserQueue.queueTracks[1];
+      } else {
+        currentUserQueue.nextTrack = null;
       }
     }
   }
@@ -411,7 +413,6 @@ exports.next = catchAsync(async (req, res, next) => {
 exports.pushQueue = catchAsync(async (req, res, next) => {
   const user = await User.findById(req.user._id);
   const currentUserQueue = user.queue;
-  __logger.info(currentUserQueue);
   currentUserQueue.queueTracks.push(req.body.track);
   await user.save({ validateBeforeSave: false });
   res.status(200).json({
@@ -421,12 +422,11 @@ exports.pushQueue = catchAsync(async (req, res, next) => {
 exports.popQueue = catchAsync(async (req, res, next) => {
   const user = await User.findById(req.user._id);
   const currentUserQueue = user.queue;
-  __logger.info(currentUserQueue);
   const indexOfPreviousTrack = currentUserQueue.queueTracks.indexOf(
     req.body.removedTrack
   );
   if (indexOfPreviousTrack === -1) {
-    return new AppError('This Track is not in your current queue', 404);
+    return next(new AppError('This Track is not in your current queue', 404));
   }
   currentUserQueue.queueTracks.splice(indexOfPreviousTrack, 1);
   await user.save({ validateBeforeSave: false });
@@ -437,18 +437,24 @@ exports.popQueue = catchAsync(async (req, res, next) => {
 exports.getDevices = catchAsync(async (req, res, next) => {
   const user = await User.findById(req.user._id);
   const currentUserQueue = user.queue;
-  __logger.info(currentUserQueue);
   res.status(200).json({
     data: currentUserQueue.devices
   });
 });
 exports.popDevices = catchAsync(async (req, res, next) => {
   const user = await User.findById(req.user._id);
-  const currentUserdevices = user.queue.devices;
-  const removedDevicesId = req.body.deviceId;
-  const device = await currentUserQueue.findById(removedDevicesId);
-  const indexOfPreviousTrack = currentUserdevices.indexOf(device);
-  currentUserQueue.queueTracks.splice(indexOfPreviousTrack, 1);
+  const currentUserDevices = user.queue.devices;
+  let removedDevice = -1;
+  user.queue.devices.forEach(device => {
+    if (device._id == req.body.deviceId) {
+      removedDevice = device;
+    }
+  });
+  if (removedDevice == -1) {
+    return next(new AppError('there is no device with that Id', 404));
+  }
+  const indexOfDevice = currentUserDevices.indexOf(removedDevice);
+  user.queue.devices.splice(indexOfDevice, 1);
   await user.save({ validateBeforeSave: false });
   res.status(204).json({
     data: null
@@ -456,16 +462,15 @@ exports.popDevices = catchAsync(async (req, res, next) => {
 });
 exports.pushDevices = catchAsync(async (req, res, next) => {
   const user = await User.findById(req.user._id);
-  const currentUserQueue = user.queue.devices.push(req.body.devices);
-  __logger.info(currentUserQueue);
+  user.queue.devices.push({ devicesName: req.body.device });
+  user.save({ validateBeforeSave: false });
   res.status(200).json({
-    devices: currentUserQueue.devices
+    devices: user.queue.devices
   });
 });
 exports.getCurrentlyPlaying = catchAsync(async (req, res, next) => {
   const user = await User.findById(req.user._id);
-  const currentPlaying = user.queue.devicurrentlyPlaying;
-  __logger.info(currentPlaying);
+  const currentPlaying = user.queue.currentlyPlaying;
   res.status(200).json({
     data: currentPlaying
   });
@@ -473,10 +478,52 @@ exports.getCurrentlyPlaying = catchAsync(async (req, res, next) => {
 exports.getQueue = catchAsync(async (req, res, next) => {
   const user = await User.findById(req.user._id);
   const currentQueue = user.queue;
-  __logger.info(currentPlaying);
   res.status(200).json({
     data: currentQueue
   });
+});
+exports.getCheckoutSession = catchAsync(async (req, res, next) => {
+  const session = await stripe.checkout.sessions.create({
+    payment_method_types: ['card'],
+    success_url: `${req.protocol}://${req.get('host')}/api/v1/me`,
+    cancel_url: `${req.protocol}://${req.get('host')}/`,
+    customer_email: req.user.email,
+    client_reference_id: req.user.email,
+    line_items: [
+      {
+        name: `Premium Subscription`,
+        description: `remove advs and get locked songs`,
+        images: [`${req.protocol}://${req.get('host')}/img/defult`],
+        amount: 100 * 100,
+        currency: 'USD',
+        quantity: 1
+      }
+    ]
+  });
+  res.status(200).json({
+    session
+  });
+});
+const createPremiumSubscriptionCheckout = async session => {
+  const user = await User.findOne({ email: session.customer_email });
+  user.type = 'premium-user';
+  user.save({ validateBeforeSave: false });
+};
+exports.webhookCheckout = catchAsync(async (req, res, next) => {
+  const signature = req.headers['stripe-signature'];
+  let event;
+  try {
+    event = stripe.webhooks.constructEvent(
+      req.body,
+      signature,
+      process.env.STRIPE_WEBHOOK_SECRET
+    );
+  } catch (err) {
+    return res.status(400).send(`Webhook error: ${err.message}`);
+  }
+  if (event.type === 'checkout.session.completed')
+    createPremiumSubscriptionCheckout(event.data.object);
+  res.status(200).json({ received: true });
 });
 module.exports.sendResponse = sendResponse;
 module.exports.getMimeNameFromExt = getMimeNameFromExt;

@@ -85,6 +85,7 @@ const userSchema = new mongoose.Schema({
     repeat: { type: Boolean, default: false }, //when reload the page
     volume: String, //when reload the page
     seek: { type: String, defult: null }, //when reload the page
+    trackProgress: { type: String, defult: null }, //when reload the page
     shuffle: { type: Boolean, default: false }, //when reload the page
     play: { type: Boolean, default: false },
     devices: [
@@ -107,6 +108,9 @@ const userSchema = new mongoose.Schema({
       ref: 'Track'
     }
   ],
+  usersCount: {
+    type: Number
+  },
   passwordChangedAt: Date,
   passwordResetToken: String,
   passwordResetExpires: Date,

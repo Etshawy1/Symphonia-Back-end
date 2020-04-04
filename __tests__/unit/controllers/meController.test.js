@@ -31,7 +31,6 @@ describe('player.extention', () => {
     );
   });
 });
-
 describe('packets range', () => {
   it('should return null if rang is null ', () => {
     expect(controller.readRangeHeader(null, 500)).toBeNull();
@@ -46,90 +45,186 @@ describe('packets range', () => {
     });
   });
 });
-
-describe('it sould get user public profile', () => {
+describe('meController.shuffle', () => {
   let req, res, next, user;
-  beforeAll(() => {
-    user = { _id: mongoose.Types.ObjectId() };
-  });
   user = {
-    name: 'Alaa',
-    email: 'test52@test.com',
-    emailConfirm: 'test52@test.com',
-    dateOfBirth: '1999-09-09',
-    gender: 'male',
-    type: 'user',
+    save: jest.fn().mockResolvedValue(1),
     queue: {
-      queueTracks: [
-        'http://localhost:3000/api/v1/me/player/tracks/5e7d2dc03429e24340ff1396',
-        'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef7',
-        'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef4'
-      ],
-      currentlyPlaying: {
-        currentTrack:
-          'http://localhost:3000/api/v1/me/player/tracks/5e7d2dc03429e24340ff1396',
-        device: {
-          $oid: '5e8353385fff0e9814bcecc9'
-        }
-      },
-      previousTrack: null,
-      nextTrack:
-        'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef7',
-      devices: [
-        {
-          _id: {
-            $oid: '5e834e669bd8bc59e4023547'
-          },
-          devicesName: 'Chrome'
-        },
-        {
-          _id: {
-            $oid: '5e8351355fff0e9814bcecb3'
-          },
-          devicesName: 'FireFox'
-        }
-      ],
-      play: false,
-      repeat: true,
-      repeatOnce: false,
-      shuffle: false
+      shuffle: true
     }
   };
   const exec = async () => {
+    res = mockResponse();
+    next = jest.fn();
+    await controller.shuffle(req, res, next);
+  };
+
+  it('should save if user was not want to shuffle the queue', async () => {
+    req = { user };
+    User.findById = jest.fn().mockResolvedValue(user);
+    await exec();
+    expect(res.status).toHaveBeenCalledWith(204);
+    expect(user.queue.shuffle).toEqual(false);
+  });
+  it('should save if user was shuffle the queue', async () => {
+    user.queue.shuffle = false;
+    req = { user };
+    User.findById = jest.fn().mockResolvedValue(user);
+    await exec();
+    expect(res.status).toHaveBeenCalledWith(204);
+    expect(user.queue.shuffle).toEqual(true);
+  });
+});
+describe('meController.reapeatOnce', () => {
+  let req, res, next, user;
+  user = {
+    save: jest.fn().mockResolvedValue(1),
+    queue: {
+      repeat: false,
+      repeatOnce: true
+    }
+  };
+  const exec = async () => {
+    res = mockResponse();
+    next = jest.fn();
+    await controller.repeatOnce(req, res, next);
+  };
+
+  it('should save if user do not want to repeat a specific track', async () => {
+    req = { user };
+    User.findById = jest.fn().mockResolvedValue(user);
+    await exec();
+    expect(res.status).toHaveBeenCalledWith(204);
+    expect(user.queue.repeat).toEqual(false);
+    expect(user.queue.repeatOnce).toEqual(false);
+  });
+  it('should save if user want to repeat a specific track', async () => {
+    user.queue.repeatOnce = false;
+    req = { user };
+    User.findById = jest.fn().mockResolvedValue(user);
+    await exec();
+    expect(res.status).toHaveBeenCalledWith(204);
+    expect(user.queue.repeat).toEqual(false);
+    expect(user.queue.repeatOnce).toEqual(true);
+  });
+  it('should save if user was repeating the queue and want to repeat a specific track', async () => {
+    user.queue.repeat = true;
+    user.queue.repeatOnce = false;
+    req = { user };
+    User.findById = jest.fn().mockResolvedValue(user);
+    await exec();
+    expect(res.status).toHaveBeenCalledWith(204);
+    expect(user.queue.repeat).toEqual(false);
+    expect(user.queue.repeatOnce).toEqual(true);
+  });
+});
+describe('meController.reapeat', () => {
+  let req, res, next, user;
+  user = {
+    save: jest.fn().mockResolvedValue(1),
+    queue: {
+      repeat: true,
+      repeatOnce: false
+    }
+  };
+  const exec = async () => {
+    res = mockResponse();
     next = jest.fn();
     await controller.repeat(req, res, next);
   };
 
-  it('should return if user was repeating the track', async () => {
-    req = {};
+  it('should save if user do not want to repeat the queue', async () => {
+    req = { user };
+    User.findById = jest.fn().mockResolvedValue(user);
     await exec();
-    expect(204);
+    expect(res.status).toHaveBeenCalledWith(204);
+    expect(user.queue.repeat).toEqual(false);
+    expect(user.queue.repeatOnce).toEqual(false);
   });
-  beforeEach(() => {
-    User.findById = jest.fn().mockReturnValue(user);
+  it('should save if user want to repeat the queue', async () => {
+    user.queue.repeat = false;
+    req = { user };
+    User.findById = jest.fn().mockResolvedValue(user);
+    await exec();
+    expect(res.status).toHaveBeenCalledWith(204);
+    expect(user.queue.repeat).toEqual(true);
+    expect(user.queue.repeatOnce).toEqual(false);
+  });
+  it('should save if user was repeating a specific track and want to repeat all the queue', async () => {
+    user.queue.repeat = false;
+    user.queue.repeatOnce = true;
+    req = { user };
+    User.findById = jest.fn().mockResolvedValue(user);
+    await exec();
+    expect(res.status).toHaveBeenCalledWith(204);
+    expect(user.queue.repeat).toEqual(true);
+    expect(user.queue.repeatOnce).toEqual(false);
   });
 });
-describe('it sould get user public profile', () => {
+describe('meController.seek', () => {
   let req, res, next, user;
   user = {
-    _id: mongoose.Types.ObjectId(),
-    name: 'Alaa',
-    email: 'test52@test.com',
-    emailConfirm: 'test52@test.com',
-    dateOfBirth: '1999-09-09',
-    gender: 'male',
-    type: 'user'
+    save: jest.fn().mockResolvedValue(1),
+    queue: {
+      seek: ''
+    }
   };
+  const exec = async () => {
+    res = mockResponse();
+    next = jest.fn();
+    await controller.seek(req, res, next);
+  };
+  it('should save user seek and progress in track when close the device', async () => {
+    req = {
+      user,
+      headers: { range: 'bytes=200-500' },
+      body: { track_progress: '100' }
+    };
+    User.findById = jest.fn().mockResolvedValue(user);
+    await exec();
+    expect(res.status).toHaveBeenCalledWith(204);
+    expect(user.queue.seek).toEqual('bytes=200-500');
+    expect(user.queue.trackProgress).toEqual('100');
+  });
+});
+describe('meController.volume', () => {
+  let req, res, next, user;
+  user = {
+    save: jest.fn().mockResolvedValue(1),
+    queue: {
+      volume: ''
+    }
+  };
+  const exec = async () => {
+    res = mockResponse();
+    next = jest.fn();
+    await controller.volume(req, res, next);
+  };
+  it('should save user progress in track when close the device', async () => {
+    req = { user, body: { volume: '90' } };
+    User.findById = jest.fn().mockResolvedValue(user);
+    await exec();
+    expect(res.status).toHaveBeenCalledWith(204);
+    expect(user.queue.volume).toEqual('90');
+  });
+});
+describe('meController.userProfile', () => {
+  let req, res, next, user;
+  user = { _id: mongoose.Types.ObjectId() };
   const exec = async () => {
     res = mockResponse();
     next = jest.fn();
     await controller.userProfile(req, res, next);
   };
-  const exec1 = async () => {
-    res = mockResponse();
-    next = jest.fn();
-    await controller.currentUserProfile(req, res, next);
-  };
+  it('should return user public profile', async () => {
+    req = {
+      params: { user_id: user._id }
+    };
+    controller.getProfileInfo = jest.fn().mockResolvedValue(user);
+    await exec();
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith({ currentUser: user });
+  });
   it('should return null because no user with that id ', async () => {
     req = {
       params: { user_id: null }
@@ -139,11 +234,594 @@ describe('it sould get user public profile', () => {
     const error = new AppError('No user found', 404);
     expect(next).toHaveBeenCalledWith(error);
   });
-  it('should return user public profile', async () => {
+});
+describe('me.CurrentUserProfile', () => {
+  let req, res, next, user;
+  user = {
+    _id: mongoose.Types.ObjectId()
+  };
+  const exec = async () => {
+    res = mockResponse();
+    next = jest.fn();
+    await controller.currentUserProfile(req, res, next);
+  };
+  it('should return user private profile', async () => {
     req = {
-      params: { user_id: user._id }
+      user: { user_id: user._id }
     };
-    await exec1();
-    await expect(res.json).toHaveBeenCalledWith(user);
+    controller.getProfileInfo = jest.fn().mockResolvedValue(user);
+    await exec();
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith({
+      currentUser: user
+    });
+  });
+});
+
+describe('meController.previous', () => {
+  let req, res, next, user;
+  user = {
+    save: jest.fn().mockResolvedValue(1),
+    queue: {
+      queueTracks: [
+        'http://localhost:3000/api/v1/me/player/tracks/5e7d2dc03429e24340ff1396',
+        'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef7',
+        'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef4'
+      ],
+      currentlyPlaying: {
+        currentTrack:
+          'http://localhost:3000/api/v1/me/player/tracks/5e7d2dc03429e24340ff1396'
+      },
+      previousTrack: null,
+      nextTrack:
+        'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef7',
+      repeat: false,
+      repeatOnce: false
+    }
+  };
+  const exec = async () => {
+    res = mockResponse();
+    next = jest.fn();
+    await controller.previous(req, res, next);
+  };
+  it('should return null for previous and current Tracks if user want to go to the previous track and he is at the beginning of the queue and to repeat', async () => {
+    req = { user };
+    User.findById = jest.fn().mockResolvedValue(user);
+    await exec();
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith({ data: user.queue.queueTracks });
+    expect(user.queue.nextTrack).toEqual(
+      'http://localhost:3000/api/v1/me/player/tracks/5e7d2dc03429e24340ff1396'
+    );
+    expect(user.queue.previousTrack).toEqual(null);
+    expect(user.queue.currentlyPlaying.currentTrack).toEqual(null);
+  });
+  it('should return previous track in the current track and set previous Track to null if user want to go to the previous track and he is at after the beginning of the queue by one track and no repeat', async () => {
+    user.queue.currentlyPlaying.currentTrack =
+      'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef7';
+    user.queue.previousTrack =
+      'http://localhost:3000/api/v1/me/player/tracks/5e7d2dc03429e24340ff1396';
+
+    user.queue.nextTrack =
+      'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef4';
+
+    req = { user };
+    User.findById = jest.fn().mockResolvedValue(user);
+    await exec();
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith({ data: user.queue.queueTracks });
+    expect(user.queue.nextTrack).toEqual(
+      'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef7'
+    );
+    expect(user.queue.previousTrack).toEqual(null);
+    expect(user.queue.currentlyPlaying.currentTrack).toEqual(
+      'http://localhost:3000/api/v1/me/player/tracks/5e7d2dc03429e24340ff1396'
+    );
+  });
+  it("should return all next and current and previous tracks in it's postion if user want to go to the previous track and he is at after the beginning of the queue by one track and no repeat", async () => {
+    user.queue.currentlyPlaying.currentTrack =
+      'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef4';
+    user.queue.previousTrack =
+      'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef7';
+    user.queue.nextTrack = null;
+    req = { user };
+    User.findById = jest.fn().mockResolvedValue(user);
+    await exec();
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith({ data: user.queue.queueTracks });
+    expect(user.queue.nextTrack).toEqual(
+      'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef4'
+    );
+    expect(user.queue.currentlyPlaying.currentTrack).toEqual(
+      'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef7'
+    );
+    expect(user.queue.previousTrack).toEqual(
+      'http://localhost:3000/api/v1/me/player/tracks/5e7d2dc03429e24340ff1396'
+    );
+  });
+  it('should return all next and current and previous tracks as current track if user want to go to the previous track but with repeatOnce', async () => {
+    user.queue.currentlyPlaying.currentTrack =
+      'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef4';
+    user.queue.repeatOnce = true;
+    user.queue.repeat = false;
+    req = { user };
+    User.findById = jest.fn().mockResolvedValue(user);
+    await exec();
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith({ data: user.queue.queueTracks });
+    expect(user.queue.nextTrack).toEqual(
+      'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef4'
+    );
+    expect(user.queue.currentlyPlaying.currentTrack).toEqual(
+      'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef4'
+    );
+    expect(user.queue.previousTrack).toEqual(
+      'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef4'
+    );
+  });
+  it('should return previous and current Tracks and next to be in postions if user want to go to the previous track and he is at the beginning of the queue and to repeat', async () => {
+    user.queue.currentlyPlaying.currentTrack =
+      'http://localhost:3000/api/v1/me/player/tracks/5e7d2dc03429e24340ff1396';
+
+    user.queue.nextTrack =
+      'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef7';
+    user.queue.previousTrack = null;
+    user.queue.repeat = true;
+    user.queue.repeatOnce = false;
+    req = { user };
+    User.findById = jest.fn().mockResolvedValue(user);
+    await exec();
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith({ data: user.queue.queueTracks });
+    expect(user.queue.nextTrack).toEqual(
+      'http://localhost:3000/api/v1/me/player/tracks/5e7d2dc03429e24340ff1396'
+    );
+    expect(user.queue.previousTrack).toEqual(
+      'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef7'
+    );
+    expect(user.queue.currentlyPlaying.currentTrack).toEqual(
+      'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef4'
+    );
+  });
+});
+
+describe('meController.next', () => {
+  let req, res, next, user;
+  user = {
+    save: jest.fn().mockResolvedValue(1),
+    queue: {
+      queueTracks: [
+        'http://localhost:3000/api/v1/me/player/tracks/5e7d2dc03429e24340ff1396',
+        'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef7',
+        'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef4'
+      ],
+      currentlyPlaying: {
+        currentTrack:
+          'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef4'
+      },
+      previousTrack:
+        'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef7',
+      nextTrack: null,
+      repeat: false,
+      repeatOnce: false
+    }
+  };
+  const exec = async () => {
+    res = mockResponse();
+    next = jest.fn();
+    await controller.next(req, res, next);
+  };
+  it('should return null for next and current Tracks if user want to go to the next track and he is at the beginning of the queue and no repeat', async () => {
+    req = { user };
+    User.findById = jest.fn().mockResolvedValue(user);
+    await exec();
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith({ data: user.queue.queueTracks });
+    expect(user.queue.nextTrack).toEqual(null);
+    expect(user.queue.previousTrack).toEqual(
+      'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef4'
+    );
+    expect(user.queue.currentlyPlaying.currentTrack).toEqual(null);
+  });
+  it('should return previous and current Tracks and next to be in postions if user want to go to the next track and he is at the beginning of the queue and to repeat', async () => {
+    user.queue.currentlyPlaying.currentTrack =
+      'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef4';
+    user.queue.previousTrack =
+      'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef7';
+
+    user.queue.nextTrack = null;
+    user.queue.repeat = true;
+    user.queue.repeatOnce = false;
+    req = { user };
+    User.findById = jest.fn().mockResolvedValue(user);
+    await exec();
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith({ data: user.queue.queueTracks });
+    expect(user.queue.nextTrack).toEqual(
+      'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef7'
+    );
+    expect(user.queue.previousTrack).toEqual(
+      'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef4'
+    );
+    expect(user.queue.currentlyPlaying.currentTrack).toEqual(
+      'http://localhost:3000/api/v1/me/player/tracks/5e7d2dc03429e24340ff1396'
+    );
+  });
+  it('should return previous track in the current track and set next Track to null if user want to go to the next track and he is at after the end of the queue by one track and no repeat', async () => {
+    user.queue.currentlyPlaying.currentTrack =
+      'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef7';
+    user.queue.previousTrack =
+      'http://localhost:3000/api/v1/me/player/tracks/5e7d2dc03429e24340ff1396';
+
+    user.queue.nextTrack =
+      'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef4';
+    user.queue.repeatOnce = false;
+    user.queue.repeat = false;
+    req = { user };
+    User.findById = jest.fn().mockResolvedValue(user);
+    await exec();
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith({ data: user.queue.queueTracks });
+    expect(user.queue.nextTrack).toEqual(null);
+    expect(user.queue.previousTrack).toEqual(
+      'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef7'
+    );
+    expect(user.queue.currentlyPlaying.currentTrack).toEqual(
+      'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef4'
+    );
+  });
+  it('should return all next and current and previous tracks as current track if user want to go to the previous track but with repeatOnce', async () => {
+    user.queue.currentlyPlaying.currentTrack =
+      'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef4';
+    user.queue.repeatOnce = true;
+    user.queue.repeat = false;
+    req = { user };
+    User.findById = jest.fn().mockResolvedValue(user);
+    await exec();
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith({ data: user.queue.queueTracks });
+    expect(user.queue.nextTrack).toEqual(
+      'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef4'
+    );
+    expect(user.queue.currentlyPlaying.currentTrack).toEqual(
+      'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef4'
+    );
+    expect(user.queue.previousTrack).toEqual(
+      'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef4'
+    );
+  });
+
+  it("should return all next and current and previous tracks in it's postion if user want to go to the previous track and he is at after the beginning of the queue by one track and no repeat", async () => {
+    user.queue.currentlyPlaying.currentTrack =
+      'http://localhost:3000/api/v1/me/player/tracks/5e7d2dc03429e24340ff1396';
+    user.queue.nextTrack =
+      'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef7';
+    user.queue.previousTrack = null;
+    user.queue.repeat = false;
+    user.queue.repeatOnce = false;
+    req = { user };
+    User.findById = jest.fn().mockResolvedValue(user);
+    await exec();
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith({ data: user.queue.queueTracks });
+    expect(user.queue.nextTrack).toEqual(
+      'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef4'
+    );
+    expect(user.queue.currentlyPlaying.currentTrack).toEqual(
+      'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef7'
+    );
+    expect(user.queue.previousTrack).toEqual(
+      'http://localhost:3000/api/v1/me/player/tracks/5e7d2dc03429e24340ff1396'
+    );
+  });
+});
+
+describe('meController.getDevices', () => {
+  let req, res, next, user;
+  user = {
+    save: jest.fn().mockResolvedValue(1),
+    queue: {
+      devices: [
+        {
+          _id: '5e86524e891a8a580401de8b',
+          devicesName: 'Chrome'
+        },
+        {
+          _id: '5e86524e891a8a5a0j01de8b',
+          devicesName: 'FirFox'
+        },
+        {
+          _id: '5e3473214eeqc1a8a580408b',
+          devicesName: 'Android'
+        }
+      ]
+    }
+  };
+  const exec = async () => {
+    res = mockResponse();
+    next = jest.fn();
+    await controller.getDevices(req, res, next);
+  };
+  it('should return user devices', async () => {
+    req = { user };
+    User.findById = jest.fn().mockResolvedValue(user);
+    await exec();
+    expect(res.status).toHaveBeenCalledWith(200);
+
+    expect(res.json).toHaveBeenCalledWith({ data: user.queue.devices });
+  });
+});
+
+describe('meController.getCurrentlyPlaying', () => {
+  let req, res, next, user;
+  user = {
+    save: jest.fn().mockResolvedValue(1),
+    queue: {
+      queueTracks: [
+        'http://localhost:3000/api/v1/me/player/tracks/5e7d2dc03429e24340ff1396',
+        'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef4'
+      ],
+      currentlyPlaying: {
+        currentTrack:
+          'http://localhost:3000/api/v1/me/player/tracks/5e7d2dc03429e24340ff1396',
+        device: {
+          _id: '5e8353385fff0e9814bcecc9'
+        }
+      },
+      device: [
+        {
+          _id: '5e8353385fff0e9814bcecc9',
+          deviceName: 'Chrome'
+        },
+        {
+          _id: '5e8353385ff12391jidfbcecc9',
+          deviceName: 'FireFox'
+        }
+      ]
+    }
+  };
+  const exec = async () => {
+    res = mockResponse();
+    next = jest.fn();
+    await controller.getCurrentlyPlaying(req, res, next);
+  };
+  it('should return user Currently Playing Object', async () => {
+    req = { user };
+    User.findById = jest.fn().mockResolvedValue(user);
+    await exec();
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith({
+      data: user.queue.currentlyPlaying
+    });
+  });
+});
+
+describe('meController.pushDevices', () => {
+  let req, res, next, user;
+  user = {
+    save: jest.fn().mockResolvedValue(1),
+    queue: {
+      devices: [
+        {
+          _id: '5e86524e891a8a580401de8b',
+          devicesName: 'Chrome'
+        },
+        {
+          _id: '5e86524e891a8a5a0j01de8b',
+          devicesName: 'FirFox'
+        }
+      ]
+    }
+  };
+  const exec = async () => {
+    res = mockResponse();
+    next = jest.fn();
+    await controller.pushDevices(req, res, next);
+  };
+  it('should push to  user devices list', async () => {
+    req = { user, body: { device: 'Android' } };
+    User.findById = jest.fn().mockResolvedValue(user);
+    await exec();
+    expect(res.status).toHaveBeenCalledWith(200);
+
+    expect(res.json).toHaveBeenCalledWith({
+      devices: [
+        {
+          _id: '5e86524e891a8a580401de8b',
+          devicesName: 'Chrome'
+        },
+        {
+          _id: '5e86524e891a8a5a0j01de8b',
+          devicesName: 'FirFox'
+        },
+        {
+          devicesName: 'Android'
+        }
+      ]
+    });
+  });
+});
+
+describe('meController.getQueue', () => {
+  let req, res, next, user;
+  user = {
+    save: jest.fn().mockResolvedValue(1),
+    queue: {
+      queueTracks: [
+        'http://localhost:3000/api/v1/me/player/tracks/5e7d2dc03429e24340ff1396',
+        'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef4'
+      ],
+      currentlyPlaying: {
+        currentTrack:
+          'http://localhost:3000/api/v1/me/player/tracks/5e7d2dc03429e24340ff1396',
+        device: {
+          _id: '5e8353385fff0e9814bcecc9'
+        }
+      },
+      devices: [
+        {
+          _id: '5e86524e891a8a580401de8b',
+          devicesName: 'Chrome'
+        }
+      ],
+      repeat: false,
+      repeatOnce: true,
+      shuffle: false,
+      seek: 'byte900-10000',
+      progress: '100',
+      volume: '90'
+    }
+  };
+  const exec = async () => {
+    res = mockResponse();
+    next = jest.fn();
+    await controller.getQueue(req, res, next);
+  };
+  it('should return user queue object', async () => {
+    req = { user };
+    User.findById = jest.fn().mockResolvedValue(user);
+    await exec();
+    expect(res.status).toHaveBeenCalledWith(200);
+
+    expect(res.json).toHaveBeenCalledWith({ data: user.queue });
+  });
+});
+
+describe('meController.popDevices', () => {
+  let req, res, next, user;
+  user = {
+    save: jest.fn().mockResolvedValue(1),
+    queue: {
+      devices: [
+        {
+          _id: '5e86524e891a8a580401de8b',
+          devicesName: 'Chrome'
+        },
+        {
+          _id: '5e86524e891a8a5a0j01de8b',
+          devicesName: 'FirFox'
+        },
+        {
+          _id: '5e3473214eeqc1a8a580408b',
+          devicesName: 'Android'
+        }
+      ]
+    }
+  };
+  const exec = async () => {
+    res = mockResponse();
+    next = jest.fn();
+    await controller.popDevices(req, res, next);
+  };
+  it('should pop a devie from user devices list', async () => {
+    req = { user, body: { deviceId: '5e3473214eeqc1a8a580408b' } };
+    User.findById = jest.fn().mockResolvedValue(user);
+    await exec();
+    expect(res.status).toHaveBeenCalledWith(204);
+    expect(user.queue.devices).toEqual([
+      {
+        _id: '5e86524e891a8a580401de8b',
+        devicesName: 'Chrome'
+      },
+      {
+        _id: '5e86524e891a8a5a0j01de8b',
+        devicesName: 'FirFox'
+      }
+    ]);
+  });
+  it('should return error if devie is not in user devices list', async () => {
+    req = { user, body: { deviceId: '5e3473214eeqc1a8a580408c' } };
+    User.findById = jest.fn().mockResolvedValue(user);
+    await exec();
+    const error = new AppError('there is no device with that Id', 404);
+    expect(next).toHaveBeenCalledWith(error);
+  });
+});
+
+describe('meController.pushQueue', () => {
+  let req, res, next, user;
+  user = {
+    save: jest.fn().mockResolvedValue(1),
+    queue: {
+      queueTracks: [
+        'http://localhost:3000/api/v1/me/player/tracks/5e7d2dc03429e24340ff1396',
+        'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef4'
+      ]
+    }
+  };
+  const exec = async () => {
+    res = mockResponse();
+    next = jest.fn();
+    await controller.pushQueue(req, res, next);
+  };
+  it('should push to  user queue list', async () => {
+    req = {
+      user,
+      body: {
+        track:
+          'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef7'
+      }
+    };
+    User.findById = jest.fn().mockResolvedValue(user);
+    await exec();
+    expect(res.status).toHaveBeenCalledWith(200);
+
+    expect(res.json).toHaveBeenCalledWith({
+      data: [
+        'http://localhost:3000/api/v1/me/player/tracks/5e7d2dc03429e24340ff1396',
+        'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef4',
+        'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef7'
+      ]
+    });
+  });
+});
+
+describe('meController.popQueue', () => {
+  let req, res, next, user;
+  user = {
+    save: jest.fn().mockResolvedValue(1),
+    queue: {
+      queueTracks: [
+        'http://localhost:3000/api/v1/me/player/tracks/5e7d2dc03429e24340ff1396',
+        'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef4',
+        'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef7'
+      ]
+    }
+  };
+
+  const exec = async () => {
+    res = mockResponse();
+    next = jest.fn();
+    await controller.popQueue(req, res, next);
+  };
+  it('should pop a devie from user devices list', async () => {
+    req = {
+      user,
+      body: {
+        removedTrack:
+          'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef4'
+      }
+    };
+
+    User.findById = jest.fn().mockResolvedValue(user);
+    await exec();
+    expect(res.status).toHaveBeenCalledWith(204);
+    expect(user.queue.queueTracks).toEqual([
+      'http://localhost:3000/api/v1/me/player/tracks/5e7d2dc03429e24340ff1396',
+      'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef7'
+    ]);
+  });
+  it('should return error if track is not in user queue list', async () => {
+    req = {
+      user,
+      body: {
+        removedTrack:
+          'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3efooew'
+      }
+    };
+    User.findById = jest.fn().mockResolvedValue(user);
+    await exec();
+    const error = new AppError('This Track is not in your current queue', 404);
+    expect(next).toHaveBeenCalledWith(error);
   });
 });
