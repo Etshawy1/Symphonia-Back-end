@@ -15,8 +15,7 @@ const playlistSchema = new mongoose.Schema(
       type: String,
       required: [true, 'please provide a name for your playlist'],
       minlength: 2,
-      maxlength: 255,
-      unique: true
+      maxlength: 255
     },
     owner: {
       type: mongoose.Schema.Types.ObjectId,
