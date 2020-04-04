@@ -8,6 +8,7 @@ const PlayList = require('./../models/playlistModel');
 const Album = require('./../models/albumModel');
 const { History } = require('./../models/historyModel');
 const APIFeatures = require('./../utils/apiFeatures');
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 const mimeNames = {
   '.mp3': 'audio/mpeg',
@@ -480,6 +481,49 @@ exports.getQueue = catchAsync(async (req, res, next) => {
   res.status(200).json({
     data: currentQueue
   });
+});
+exports.getCheckoutSession = catchAsync(async (req, res, next) => {
+  const session = await stripe.checkout.sessions.create({
+    payment_method_types: ['card'],
+    success_url: `${req.protocol}://${req.get('host')}/api/v1/me`,
+    cancel_url: `${req.protocol}://${req.get('host')}/`,
+    customer_email: req.user.email,
+    client_reference_id: req.user.email,
+    line_items: [
+      {
+        name: `Premium Subscription`,
+        description: `remove advs and get locked songs`,
+        images: [`${req.protocol}://${req.get('host')}/img/defult`],
+        amount: 100 * 100,
+        currency: 'USD',
+        quantity: 1
+      }
+    ]
+  });
+  res.status(200).json({
+    session
+  });
+});
+const createPremiumSubscriptionCheckout = async session => {
+  const user = await User.findOne({ email: session.customer_email });
+  user.type = 'premium-user';
+  user.save({ validateBeforeSave: false });
+};
+exports.webhookCheckout = catchAsync(async (req, res, next) => {
+  const signature = req.headers['stripe-signature'];
+  let event;
+  try {
+    event = stripe.webhooks.constructEvent(
+      req.body,
+      signature,
+      process.env.STRIPE_WEBHOOK_SECRET
+    );
+  } catch (err) {
+    return res.status(400).send(`Webhook error: ${err.message}`);
+  }
+  if (event.type === 'checkout.session.completed')
+    createPremiumSubscriptionCheckout(event.data.object);
+  res.status(200).json({ received: true });
 });
 module.exports.sendResponse = sendResponse;
 module.exports.getMimeNameFromExt = getMimeNameFromExt;

@@ -7,6 +7,7 @@ const trackController = require('./../controllers/trackController');
 
 const router = express.Router();
 
+router.post('/email-exist', authController.checkEmail);
 router.post('/signup', authController.signup);
 router.post('/login', authController.login);
 

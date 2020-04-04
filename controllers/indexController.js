@@ -1,3 +1,5 @@
+const path = require('path');
 module.exports = (req, res, next) => {
-  res.send('Hello worldaasdasdasd');
+  __logger.error('adssafdsafsd;');
+  res.sendFile(path.join(__dirname, '../views/testSockets.html'));
 };
