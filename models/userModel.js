@@ -108,6 +108,12 @@ const userSchema = new mongoose.Schema({
       ref: 'Track'
     }
   ],
+  playlists: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Playlist'
+    }
+  ],
   usersCount: {
     type: Number
   },
