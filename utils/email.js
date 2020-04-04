@@ -36,7 +36,6 @@ class Email {
         }
       });
     }
-
     return nodemailer.createTransport({
       host: process.env.EMAIL_HOST,
       port: process.env.EMAIL_PORT,
@@ -72,6 +71,10 @@ class Email {
     };
 
     // 3) Create a transport and send email
+    if (process.env.NODE_ENV === 'test') {
+      if (!process.env.TEST_REJECT) return;
+      else return Promise.reject(new Error('fail'));
+    }
     await this.newTransport().sendMail(mailOptions);
   }
 

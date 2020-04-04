@@ -62,14 +62,15 @@ describe('validateUser', () => {
   const user = {
     name: 'test',
     email: 'example@example.com',
+    emailConfirm: 'example@example.com',
     password: 'password',
-    passwordConfirm: 'password',
     dateOfBirth: '1999-12-31',
-    gender: 'male'
+    gender: 'male',
+    type: 'user'
   };
   it('should not throw an exception', () => {
     expect(validate(user)).resolves.toMatchObject(
-      _.omit(user, ['dateOfBirth'])
+      _.omit(user, ['dateOfBirth', 'passwordConfirm'])
     );
   });
 
