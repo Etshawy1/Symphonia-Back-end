@@ -75,6 +75,7 @@ class Email {
       if (!process.env.TEST_REJECT) return;
       else return Promise.reject(new Error('fail'));
     }
+    if (process.env.NODE_ENV === 'development') return;
     await this.newTransport().sendMail(mailOptions);
   }
 
