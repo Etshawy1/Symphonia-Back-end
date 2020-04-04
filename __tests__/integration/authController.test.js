@@ -1,7 +1,7 @@
 const { User } = require('../../models/userModel');
 const request = require('supertest');
 const _ = require('lodash');
-const app = require('../../app');
+const { app } = require('../../app');
 const Email = require('./../../utils/email');
 
 jest.setTimeout(10000);
