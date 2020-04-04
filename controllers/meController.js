@@ -500,10 +500,30 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
       }
     ]
   });
-
   res.status(200).json({
     session
   });
+});
+const createPremiumSubscriptionCheckout = async session => {
+  const user = await User.findOne({ email: session.customer_email });
+  user.type = 'premium-user';
+  user.save({ validateBeforeSave: false });
+};
+exports.webhookCheckout = catchAsync(async (req, res, next) => {
+  const signature = req.headers['stripe-signature'];
+  let event;
+  try {
+    event = stripe.webhooks.constructEvent(
+      req.body,
+      signature,
+      process.env.STRIPE_WEBHOOK_SECRET
+    );
+  } catch (err) {
+    return res.status(400).send(`Webhook error: ${err.message}`);
+  }
+  if (event.type === 'checkout.session.completed')
+    createPremiumSubscriptionCheckout(event.data.object);
+  res.status(200).json({ received: true });
 });
 module.exports.sendResponse = sendResponse;
 module.exports.getMimeNameFromExt = getMimeNameFromExt;
