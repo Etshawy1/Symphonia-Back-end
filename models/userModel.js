@@ -108,6 +108,18 @@ const userSchema = new mongoose.Schema({
       ref: 'Track'
     }
   ],
+  ownedPlaylists: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Playlist'
+    }
+  ],
+  followedAlbums: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Album'
+    }
+  ],
   usersCount: {
     type: Number
   },

@@ -61,11 +61,10 @@ exports.createAlbum = catchAsync(async (req, res, next) => {
     name: req.body.name,
     year: req.body.year,
     image: req.body.image,
-    artist: req.body.artist,
-    tracks: req.body.tracks
+    artist: req.user._id,
+    category: req.body.category
   });
 
-  console.log(album);
   res.status(200).json({
     status: 'success',
     results: album.length,

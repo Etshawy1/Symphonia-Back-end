@@ -4,6 +4,7 @@ const userRouter = require('../routes/userRouter');
 const meRouter = require('../routes/meRouter');
 const albumRouter = require('../routes/albumRouter');
 const browseRouter = require('../routes/browseRouter');
+const recommendationRouter = require('../routes/recommendationRouter');
 // const browseRouter = require('../routes/browseRouter');
 // const playlistsRouter = require('../routes/playlistsRouter');
 const playlistRouter = require('./../routes/playlistRouter');
@@ -11,7 +12,7 @@ const AppError = require('../utils/appError');
 const globalErrorHandler = require('../controllers/errorController');
 const bodyParser = require('body-parser');
 
-module.exports = function (app) {
+module.exports = function(app) {
   app.use(express.json());
   app.use(
     express.urlencoded({
@@ -27,6 +28,7 @@ module.exports = function (app) {
   app.use('/api/v1/browse', browseRouter);
   app.use('/api/v1/playlists', playlistRouter);
 
+  app.use('/api/v1/recommendations', recommendationRouter);
   // serve static
   app.use(
     '/api/v1/browse/categories/images',
