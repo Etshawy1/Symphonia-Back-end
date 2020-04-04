@@ -62,9 +62,7 @@ exports.checkIfPlaylistFollower = catchAsync(async (req, res, next) => {
     }
   }
 
-  res.status(200).send({
-    resArray
-  });
+  res.status(200).send(resArray);
 });
 
 exports.followPlaylist = catchAsync(async (req, res, next) => {
@@ -167,14 +165,11 @@ exports.unfollowUser = catchAsync(async (req, res, next) => {
   let currUser = req.user;
 
   user = await User.findById(req.user._id);
-  console.log(user);
-  // for the current user delet all the followeUsers with ids = ids
-  console.log(ids);
-  user.followdUsers = user.followdUsers.filter((value, index, array) => {
-    console.log(value + typeof value);
-    return ids.includes(value); // those not in ids
-  });
 
+  user.followedUsers = user.followedUsers.filter((value, index, array) => {
+    let isIn = ids.includes(value.toString()); // those not in ids
+    return !isIn;
+  });
   await user.save({ validateBeforeSave: false }); // important to disavle validation before save
   res.status(204).json();
 });
@@ -188,5 +183,5 @@ exports.unfollowPlaylist = catchAsync(async (req, res, next) => {
     return value != userId;
   });
   await playlist.save();
-  res.status(200).json();
+  res.status(204).json();
 });
