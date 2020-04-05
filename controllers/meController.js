@@ -196,10 +196,12 @@ exports.playTrack = catchAsync(async (req, res) => {
   }
   const { trackPath } = track;
   // Check if file exists. If not, will return the 404 'Not Found'.
-  if (!fs.existsSync(trackPath)) {
-    sendResponse(res, 404, null, null);
-    return null;
-  }
+  //if (!fs.existsSync(`${trackPath}`)) {
+  //  __logger.error(`track at ${trackPath} doesn't exist`);
+  //  sendResponse(res, 404, null, null);
+  //  return null;
+  //}
+  __logger.error(`track at ${trackPath} exists`);
   const responseHeaders = {};
   const stat = fs.statSync(trackPath);
   const rangeRequest = readRangeHeader(req.headers.range, stat.size);

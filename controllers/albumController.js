@@ -12,13 +12,7 @@ exports.getAllAlbums = catchAsync(async (req, res, next) => {
     .paginate();
   const albums = await features.query;
 
-  res.status(200).json({
-    status: 'success',
-    results: albums.length,
-    data: {
-      albums
-    }
-  });
+  res.send(albums);
 });
 
 exports.getAlbum = catchAsync(async (req, res, next) => {
@@ -30,13 +24,7 @@ exports.getAlbum = catchAsync(async (req, res, next) => {
     .limitFields()
     .paginate();
   const album = await features.query;
-  res.status(200).json({
-    status: 'success',
-    results: album.length,
-    data: {
-      album
-    }
-  });
+  res.send(album);
 });
 
 exports.getAlbumTracks = catchAsync(async (req, res, next) => {
@@ -45,15 +33,12 @@ exports.getAlbumTracks = catchAsync(async (req, res, next) => {
   const features = new APIFeatures(
     Album.findById(req.params.id).select('tracks'),
     req.query
-  );
+  )
+    .filter()
+    .sort()
+    .paginate();
   const tracks = await features.query;
-  res.status(200).json({
-    status: 'success',
-    results: tracks.length,
-    data: {
-      tracks
-    }
-  });
+  res.send(tracks);
 });
 
 exports.createAlbum = catchAsync(async (req, res, next) => {
@@ -64,12 +49,5 @@ exports.createAlbum = catchAsync(async (req, res, next) => {
     artist: req.user._id,
     category: req.body.category
   });
-
-  res.status(200).json({
-    status: 'success',
-    results: album.length,
-    data: {
-      album
-    }
-  });
+  res.send(album);
 });

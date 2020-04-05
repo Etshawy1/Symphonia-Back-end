@@ -2,6 +2,7 @@ const Playlist = require('./../models/playlistModel');
 const APIFeatures = require('./../utils/apiFeatures');
 const catchAsync = require('./../utils/catchAsync').threeArg;
 const User = require('./../models/userModel');
+const Track = require('./../models/trackModel');
 
 exports.getPlaylist = catchAsync(async (req, res, next) => {
   const check = await Playlist.findById(req.params.id);
@@ -15,40 +16,22 @@ exports.getPlaylist = catchAsync(async (req, res, next) => {
     .sort()
     .limitFields()
     .paginate();
-  if (!features) res.status(400).send('Invalid Playlist ID');
   const playlist = await features.query;
 
-  res.status(200).json({
-    status: 'success',
-    results: playlist.length,
-    data: {
-      playlist
-    }
-  });
+  res.send(playlist);
 });
 
 exports.createPlaylist = catchAsync(async (req, res, next) => {
-  // const playlist = await Playlist.create({
-  //   collaborative: req.body.collaborative,
-  //   name: req.body.name,
-  //   description: req.body.description,
-  //   images: req.body.images,
-  //   owner: req.body.owner,
-  //   public: req.body.public,
-  //   tracks: req.body.tracks,
-  //   followers: req.body.followers
-  // });
+  let check = await User.User.findById(req.params.id);
 
-  const user = await User.User.findById(req.params.id);
-
-  if (!user) return res.status(400).send('Invalid User ID');
+  if (!check) return res.status(400).send('Invalid User ID');
 
   let playlist = new Playlist({
     collaborative: req.body.collaborative,
     name: req.body.name,
     description: req.body.description,
     images: req.body.images,
-    owner: req.user._id,
+    owner: req.params.id,
     public: req.body.public,
     followers: req.body.followers,
     category: req.body.category
@@ -56,58 +39,41 @@ exports.createPlaylist = catchAsync(async (req, res, next) => {
 
   playlist = await playlist.save();
 
-  res.status(200).json({
-    status: 'success',
-    results: playlist.length,
-    data: {
-      playlist
-    }
-  });
+  let user = await User.User.findByIdAndUpdate(
+    req.params.id,
+    {
+      $push: { ownedPlaylists: playlist._id }
+    },
+    { new: true }
+  );
+  user.save({ validateBeforeSave: false });
+
+  res.send(playlist);
 });
 
 exports.getUserPlaylists = catchAsync(async (req, res, next) => {
   const user = await User.User.findById(req.params.id);
   if (!user) return res.status(400).send('Invalid User ID');
 
-  /* const features = new APIFeatures(
+  const features = new APIFeatures(
     Playlist.find().where({ owner: req.params.id }),
     req.query
   )
     .filter()
     .sort()
-    .limitFields()
     .paginate();
 
   const playlists = await features.query;
-*/
-  const playlists = await Playlist.find().where({ owner: req.params.id });
-  res.status(200).json({
-    status: 'success',
-    results: playlists.length,
-    data: {
-      playlists
-    }
-  });
+
+  //const playlists = await Playlist.find().where({ owner: req.params.id });
+  res.send(playlists);
 });
 
 exports.getCurrentUserPlaylists = catchAsync(async (req, res, next) => {
-  const id = req.user._id;
-
-  const features = new APIFeatures(Playlist.findById(id), req.query)
-    .filter()
-    .sort()
-    .limitFields()
-    .paginate();
-
-  const playlists = await features.query;
-
-  res.status(200).json({
-    status: 'success',
-    results: playlists.length,
-    data: {
-      playlists
-    }
-  });
+  const playlist = await User.User.findById(req.user._id).select(
+    'ownedPlaylists'
+  );
+  res.send(playlist);
 });
 
 exports.getPlaylistCoverImage = catchAsync(async (req, res, next) => {
@@ -117,45 +83,28 @@ exports.getPlaylistCoverImage = catchAsync(async (req, res, next) => {
       .status(404)
       .send('The playlist with the given ID was not found.');
   }
-  res.status(200).json({
-    status: 'success',
-    results: images.length,
-    data: {
-      images
-    }
-  });
+  res.send(images);
 });
 
 exports.getPlaylistTracks = catchAsync(async (req, res, next) => {
-  /* const check = await Playlist.findById(req.params.id);
+  const check = await Playlist.findById(req.params.id);
 
   if (!check)
     return res
       .status(404)
       .send('The playlist with the given ID was not found.');
 
-  const features = new APIFeatures(Playlist.findById(req.params.id), req.query)
+  const features = new APIFeatures(
+    Playlist.findById(req.params.id).select('tracks'),
+    req.query
+  )
     .filter()
     .sort()
-    .limitFields()
     .paginate();
 
   const tracks = await features.query;
-*/
-  const tracks = await Playlist.findById(req.params.id).select('tracks');
 
-  if (!tracks) {
-    return res
-      .status(404)
-      .send('The playlist with the given ID was not found.');
-  }
-  res.status(200).json({
-    status: 'success',
-    results: tracks.length,
-    data: {
-      tracks
-    }
-  });
+  res.send(tracks);
 });
 
 exports.removePlaylistTracks = catchAsync(async (req, res, next) => {
@@ -165,18 +114,19 @@ exports.removePlaylistTracks = catchAsync(async (req, res, next) => {
     { multi: true }
   );
 
-  res.status(200).json({
-    status: 'success',
-    results: playlist.length
-  });
+  res.send(playlist);
 });
 
 exports.addTracksToPlaylist = catchAsync(async (req, res, next) => {
-  const check = await Playlist.findById(req.params.id);
+  let check = await Playlist.findById(req.params.id);
   if (!check) {
     return res
       .status(404)
       .send('The playlist with the given ID was not found.');
+  }
+  check = await Track.Track.findById(req.body.tracks);
+  if (!check) {
+    return res.status(400).send('The Track is not found.');
   }
   const playlist = await Playlist.findByIdAndUpdate(
     req.params.id,
@@ -188,13 +138,7 @@ exports.addTracksToPlaylist = catchAsync(async (req, res, next) => {
 
   await playlist.save();
 
-  res.status(200).json({
-    status: 'success',
-    results: playlist.length,
-    data: {
-      playlist
-    }
-  });
+  res.send(playlist);
 });
 
 exports.changePlaylistDetails = catchAsync(async (req, res, next) => {
@@ -209,14 +153,8 @@ exports.changePlaylistDetails = catchAsync(async (req, res, next) => {
     { new: true }
   );
   if (!playlist) return res.status(404).send('This Playlist is not found!');
-
-  res.status(200).json({
-    status: 'success',
-    results: playlist.length,
-    data: {
-      playlist
-    }
-  });
+  await playlist.save();
+  res.send(playlist);
 });
 exports.replacePlaylistTracks = catchAsync(async (req, res, next) => {
   const playlist = await Playlist.findByIdAndUpdate(
@@ -232,14 +170,8 @@ exports.replacePlaylistTracks = catchAsync(async (req, res, next) => {
       .status(404)
       .send('The playlist with the given ID was not found.');
   }
-
-  res.status(200).json({
-    status: 'success',
-    results: playlist.length,
-    data: {
-      playlist
-    }
-  });
+  await playlist.save();
+  res.send(playlist);
 });
 
 exports.uploadCustomPlaylistCoverImage = catchAsync(async (req, res, next) => {
@@ -256,12 +188,6 @@ exports.uploadCustomPlaylistCoverImage = catchAsync(async (req, res, next) => {
       .status(404)
       .send('The playlist with the given ID was not found.');
   }
-
-  res.status(200).json({
-    status: 'success',
-    results: playlist.length,
-    data: {
-      playlist
-    }
-  });
+  await playlist.save();
+  res.send(playlist);
 });
