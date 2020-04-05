@@ -5,7 +5,7 @@ module.exports = {
       {
         $set: {
           imageUrl:
-            'ec2-52-21-160-186.compute-1.amazonaws.com/api/v1/images/users/default.png'
+            'http://ec2-54-197-122-205.compute-1.amazonaws.com/api/v1/images/users/default.png'
         }
       },
       {
