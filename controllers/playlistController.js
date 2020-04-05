@@ -39,9 +39,9 @@ exports.createPlaylist = catchAsync(async (req, res, next) => {
   //   followers: req.body.followers
   // });
 
-  const user = await User.User.findById(req.params.id);
+  let check = await User.User.findById(req.params.id);
 
-  if (!user) return res.status(400).send('Invalid User ID');
+  if (!check) return res.status(400).send('Invalid User ID');
 
   let playlist = new Playlist({
     collaborative: req.body.collaborative,
@@ -55,6 +55,19 @@ exports.createPlaylist = catchAsync(async (req, res, next) => {
   });
 
   playlist = await playlist.save();
+
+  //check.playlists.push(playlist._id);
+  //console.log('NO');
+  //check = await check.save();
+  //console.log('NOOOO');
+  let user = await User.User.findByIdAndUpdate(
+    req.params.id,
+    {
+      $push: { playlists: playlist._id }
+    },
+    { new: true }
+  );
+  await user.save();
 
   res.status(200).json({
     status: 'success',
@@ -91,21 +104,12 @@ exports.getUserPlaylists = catchAsync(async (req, res, next) => {
 });
 
 exports.getCurrentUserPlaylists = catchAsync(async (req, res, next) => {
-  const id = req.user._id;
-
-  const features = new APIFeatures(Playlist.findById(id), req.query)
-    .filter()
-    .sort()
-    .limitFields()
-    .paginate();
-
-  const playlists = await features.query;
-
+  const playlist = await User.User.findById(req.user._id).select('playlists');
   res.status(200).json({
     status: 'success',
-    results: playlists.length,
+    results: playlist.length,
     data: {
-      playlists
+      playlist
     }
   });
 });
