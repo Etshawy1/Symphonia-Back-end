@@ -108,7 +108,7 @@ const userSchema = new mongoose.Schema({
       ref: 'Track'
     }
   ],
-  playlists: [
+  ownedPlaylists: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Playlist'
