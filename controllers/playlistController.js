@@ -46,7 +46,7 @@ exports.createPlaylist = catchAsync(async (req, res, next) => {
     },
     { new: true }
   );
-  await user.save();
+  user.save({ validateBeforeSave: false });
 
   res.send(playlist);
 });
