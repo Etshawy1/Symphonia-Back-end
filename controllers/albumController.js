@@ -46,8 +46,8 @@ exports.createAlbum = catchAsync(async (req, res, next) => {
     name: req.body.name,
     year: req.body.year,
     image: req.body.image,
-    artist: req.body.artist,
-    tracks: req.body.tracks
+    artist: req.user._id,
+    category: req.body.category
   });
   res.send(album);
 });
