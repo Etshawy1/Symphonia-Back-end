@@ -17,8 +17,18 @@ module.exports = function (app) {
       extended: false
     })
   );
+
   app.set('trust proxy', 'loopback'); // for deployment to get the host in the code
   app.use(bodyParser.urlencoded({ extended: false }));
+
+  // serve static
+  app.use('/api/v1/users/images', express.static('assets/images/users'));
+  app.use(
+    '/api/v1/browse/categories/images',
+    express.static('assets/images/categories')
+  );
+
+  // rest of the routes
   app.use('/api/v1', indexRouter);
   app.use('/api/v1/users', userRouter);
   app.use('/api/v1/me', meRouter);
@@ -26,12 +36,6 @@ module.exports = function (app) {
   app.use('/api/v1/browse', browseRouter);
   app.use('/api/v1/playlists', playlistRouter);
   app.use('/api/v1/artists', artistRouter);
-
-  // serve static
-  app.use(
-    '/api/v1/browse/categories/images',
-    express.static('assets/images/categories')
-  );
 
   // app.use('/api/v1/browse', browseRouter);
   // app.use('api/v1/me', me1Router);
