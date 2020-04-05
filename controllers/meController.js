@@ -20,7 +20,7 @@ const mimeNames = {
   '.webm': 'video/webm'
 };
 
-async function getProfileInfo(userId) {
+async function getProfileInfo (userId) {
   return await User.findById(userId)
     .select('-password')
     .select('-passwordConfirm')
@@ -29,27 +29,27 @@ async function getProfileInfo(userId) {
     .select('-active');
 }
 
-async function getTopArtistsAndTracks(Model, query) {
+async function getTopArtistsAndTracks (Model, query) {
   const top = new APIFeatures(Model.find().sort({ usersCount: -1 }), query)
     .filter()
     .limitFields()
     .paginate();
   return await top.query;
 }
-function sendResponse(response, responseStatus, responseHeaders, readable) {
+function sendResponse (response, responseStatus, responseHeaders, readable) {
   response.writeHead(responseStatus, responseHeaders);
 
   if (!readable) {
     response.end();
   } else {
-    readable.on('open', function() {
+    readable.on('open', function () {
       readable.pipe(response);
     });
   }
   return null;
 }
 
-function getMimeNameFromExt(ext) {
+function getMimeNameFromExt (ext) {
   let result = mimeNames[ext.toLowerCase()];
   if (!result) {
     result = 'application/octet-stream';
@@ -57,7 +57,7 @@ function getMimeNameFromExt(ext) {
   return result;
 }
 
-function readRangeHeader(range, totalLength) {
+function readRangeHeader (range, totalLength) {
   if (!range || range.length === 0) {
     return null;
   }
@@ -196,10 +196,12 @@ exports.playTrack = catchAsync(async (req, res) => {
   }
   const { trackPath } = track;
   // Check if file exists. If not, will return the 404 'Not Found'.
-  if (!fs.existsSync(trackPath)) {
+  if (!fs.existsSync(`${trackPath}`)) {
+    __logger.error(`track at ${trackPath} doesn't exist`);
     sendResponse(res, 404, null, null);
     return null;
   }
+  __logger.error(`track at ${trackPath} exists`);
   const responseHeaders = {};
   const stat = fs.statSync(trackPath);
   const rangeRequest = readRangeHeader(req.headers.range, stat.size);
