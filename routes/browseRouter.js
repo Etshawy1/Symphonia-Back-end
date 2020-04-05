@@ -10,6 +10,17 @@ router.get('/categories', browseController.getCategories);
 
 router.get('/new-releases', browseController.getNewRelease);
 
+router.get('/categories/:id', browseController.getCategory);
+
+router.get(
+  '/categories/:id/playlists',
+  browseController.getCategoriesPlaylists
+);
+
+router.get('/featured-playlists', browseController.getCategoriesPlaylists);
+
+router.get('/artists', browseController.getArtists);
+
 router.use(authController.protect);
 // TODO: solve the problem of disappearing fields
 let uploadBuilder = new UploadBuilder();
@@ -31,15 +42,5 @@ router.post(
   authController.protect,
   browseController.createCategory
 );*/
-
-router.get('/categories/:id', browseController.getCategory);
-
-router.get(
-  '/categories/:id/playlists',
-  browseController.getCategoriesPlaylists
-);
-
-router.get('/featured-playlists', browseController.getCategoriesPlaylists);
-router.get('/artists', browseController.getArtists);
 
 module.exports = router;
