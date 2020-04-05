@@ -4,8 +4,7 @@ const userRouter = require('../routes/userRouter');
 const meRouter = require('../routes/meRouter');
 const albumRouter = require('../routes/albumRouter');
 const browseRouter = require('../routes/browseRouter');
-// const browseRouter = require('../routes/browseRouter');
-// const playlistsRouter = require('../routes/playlistsRouter');
+const artistRouter = require('../routes/artistRouter');
 const playlistRouter = require('./../routes/playlistRouter');
 const AppError = require('../utils/appError');
 const globalErrorHandler = require('../controllers/errorController');
@@ -26,6 +25,7 @@ module.exports = function (app) {
   app.use('/api/v1/albums', albumRouter);
   app.use('/api/v1/browse', browseRouter);
   app.use('/api/v1/playlists', playlistRouter);
+  app.use('/api/v1/artists', artistRouter);
 
   // serve static
   app.use(
