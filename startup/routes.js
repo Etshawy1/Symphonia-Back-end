@@ -22,7 +22,7 @@ module.exports = function (app) {
   app.use(bodyParser.urlencoded({ extended: false }));
 
   // serve static
-  app.use('/api/v1/users/images', express.static('assets/images/users'));
+  app.use('/api/v1/images/users', express.static('assets/images/users'));
   app.use(
     '/api/v1/browse/categories/images',
     express.static('assets/images/categories')
