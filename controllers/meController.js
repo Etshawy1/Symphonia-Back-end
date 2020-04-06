@@ -459,7 +459,6 @@ exports.popQueue = catchAsync(async (req, res, next) => {
   } else if (currentUserQueue.queueTracks.length - 1 !== indexOfPreviousTrack) {
     currentUserQueue.currentlyPlaying.currentTrack = currentUserQueue.nextTrack;
   }
-
   await user.save({ validateBeforeSave: false });
   res.status(204).json({
     data: null
