@@ -66,7 +66,8 @@ passport.use(
 passport.use(
   new FeacbookStrategy(
     {
-      callbackURL: 'http://localhost:3000/api/v1/users/auth/facebook/Symphonia',
+      callbackURL:
+        'https://zasymphonia.ddns.net/api/v1/users/auth/facebook/Symphonia',
       clientID: process.env.CLIENT_ID_FACEBOOK,
       clientSecret: process.env.CLIENT_SECRET_FACEBOOK,
       profileFields: [
