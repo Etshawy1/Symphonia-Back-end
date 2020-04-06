@@ -1,11 +1,10 @@
 module.exports = {
   async up (db, client) {
-    await db.collection('users').update(
+    await db.collection('albums').update(
       {},
       {
         $set: {
-          imageUrl:
-            'http://zasymphonia.ddns.net/api/v1/images/users/default.png'
+          image: 'http://zasymphonia.ddns.net/api/v1/images/albums/default.png'
         }
       },
       {
@@ -16,9 +15,9 @@ module.exports = {
   },
 
   async down (db, client) {
-    await db.collection('users').update(
+    await db.collection('albums').update(
       {},
-      { $unset: { imageUrl: 1 } },
+      { $set: { image: '' } },
       {
         upsert: false,
         multi: true
