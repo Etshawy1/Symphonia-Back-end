@@ -66,7 +66,6 @@ exports.getUserPlaylists = catchAsync(async (req, res, next) => {
 
   const playlists = await features.query;
 
-  //const playlists = await Playlist.find().where({ owner: req.params.id });
   res.send(playlists);
 });
 
@@ -119,20 +118,33 @@ exports.removePlaylistTracks = catchAsync(async (req, res, next) => {
 });
 
 exports.addTracksToPlaylist = catchAsync(async (req, res, next) => {
-  let check = await Playlist.findById(req.params.id);
-  if (!check) {
+  let Playlistcheck = await Playlist.findById(req.params.id);
+  if (!Playlistcheck) {
     return res
       .status(404)
       .send('The playlist with the given ID was not found.');
   }
-  check = await Track.Track.findById(req.body.tracks);
-  if (!check) {
-    return res.status(400).send('The Track is not found.');
+
+  let InputTrackarr = req.body.tracks;
+
+  let trackarr = Playlistcheck.tracks;
+  for (let i = 0; i < InputTrackarr.length; i++) {
+    let Trackcheck = await Track.Track.findById(InputTrackarr[i]);
+
+    if (!Trackcheck) return res.status(400).send('The Track is not found.');
+
+    for (let j = 0; j < trackarr.length; j++) {
+      if (trackarr[j] == InputTrackarr[i]) delete InputTrackarr[i];
+    }
   }
+  let RealTracksArray = InputTrackarr.filter(function(el) {
+    return el != null;
+  });
+
   const playlist = await Playlist.findByIdAndUpdate(
     req.params.id,
     {
-      $push: { tracks: req.body.tracks }
+      $push: { tracks: RealTracksArray }
     },
     { new: true }
   );

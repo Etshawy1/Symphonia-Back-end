@@ -26,7 +26,8 @@ async function getProfileInfo (userId) {
     .select('-passwordConfirm')
     .select('-passwordChangedAt')
     .select('-passwordResetToken')
-    .select('-active');
+    .select('-active')
+    .select('-googleId');
 }
 
 async function getTopArtistsAndTracks (Model, query) {
@@ -250,15 +251,13 @@ exports.userProfile = catchAsync(async (req, res, next) => {
   if (!currentUser) {
     return next(new AppError('No user found', 404));
   }
-  res.status(200).json({
-    currentUser
-  });
+  res.status(200).json(currentUser);
 });
+exports.updateCurrentUserProfile = catchAsync(async (req, res, next) => {});
+
 exports.currentUserProfile = catchAsync(async (req, res, next) => {
   const currentUser = await exports.getProfileInfo(req.user._id);
-  res.status(200).json({
-    currentUser
-  });
+  res.status(200).json(currentUser);
 });
 //wait
 exports.topTracksAndArtists = catchAsync(async (req, res, next) => {
