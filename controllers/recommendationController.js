@@ -12,7 +12,7 @@ const AppError = require('../utils/appError');
 module.exports.getAvailabeGenreSeed = catchAsync(async (req, res, next) => {
   myCats = await Category.find({}).select('-_id -href');
 
-  let catNames = [];
+  const catNames = [];
   myCats.forEach(element => {
     catNames.push(element.id);
   });
@@ -41,7 +41,7 @@ module.exports.getRecommendedTracks = catchAsync(async (req, res, next) => {
     .offset();
   features.query.populate({ path: 'artist', select: 'name type ' });
 
-  let tracks = await features.query;
+  const tracks = await features.query;
 
   res.status(200).json({
     tracks: tracks

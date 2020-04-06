@@ -23,17 +23,17 @@ router.get('/artists', browseController.getArtists);
 
 router.use(authController.protect);
 // TODO: solve the problem of disappearing fields
-let uploadBuilder = new UploadBuilder();
+const uploadBuilder = new UploadBuilder();
 // this means to name the file in icon field with name in the req.body
 uploadBuilder.addfileField('icon', 'name', '', 1);
-//uploadBuilder.addfileField('icon_md', 'name', '_md', 1);
+// uploadBuilder.addfileField('icon_md', 'name', '_md', 1);
 uploadBuilder.addTypeFilter('image/jpeg');
 uploadBuilder.addTypeFilter('image/png');
 uploadBuilder.setPath(
   path.resolve(__dirname, '..') + '/assets/images/categories'
 );
-//let f_uploader = uploader.fields([{ name: 'icon', maxCount: 1 }]);
-let f_uploader = uploadBuilder.constructUploader();
+// let f_uploader = uploader.fields([{ name: 'icon', maxCount: 1 }]);
+const f_uploader = uploadBuilder.constructUploader();
 router.post('/categories', f_uploader, browseController.createCategory);
 
 /*
@@ -41,6 +41,6 @@ router.post(
   '/categories',
   authController.protect,
   browseController.createCategory
-);*/
+); */
 
 module.exports = router;

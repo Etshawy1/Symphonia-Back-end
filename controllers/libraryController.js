@@ -49,7 +49,7 @@ exports.saveCurrentUserAlbums = catchAsync(async (req, res, next) => {
   if (!req.query.ids) {
     return next(new AppError('please provide the ids parameter', 400));
   }
-  let ids = req.query.ids.split(',');
+  const ids = req.query.ids.split(',');
   isInvalid = false;
   try {
     ids.forEach(element => {
@@ -79,7 +79,7 @@ exports.saveCurrentUserTracks = catchAsync(async (req, res, next) => {
   if (!req.query.ids) {
     return next(new AppError('please provide the ids parameter', 400));
   }
-  let ids = req.query.ids.split(',');
+  const ids = req.query.ids.split(',');
   isInvalid = false;
   try {
     ids.forEach(element => {

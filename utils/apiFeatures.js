@@ -12,15 +12,16 @@ class APIFeatures {
    * @returns {void}
    */
 
-  constructor(query, queryString) {
+  constructor (query, queryString) {
     this.query = query;
     this.queryString = queryString;
   }
+
   /**
    * @summary the function that handle filtering on the query string attached to the object
    * @returns {APIFeatures} this function retuen the same object put after filter the query string attached to this object
    */
-  filter() {
+  filter () {
     const queryObj = {
       ...this.queryString
     }; /* this assignment becauese javascript make any object by reference where assignment with just the equal operatour */
@@ -37,11 +38,12 @@ class APIFeatures {
 
     return this;
   }
+
   /**
    * @summary the function that handle sorting to the mongodb query attached to the object
    * @returns {APIFeatures} this function retuen the same object put after sorting the  mongodb query string attached to this objec
    */
-  sort() {
+  sort () {
     if (this.queryString.sort) {
       const sortBy = this.queryString.sort.split(',').join(' ');
       this.query = this.query.sort(sortBy);
@@ -57,7 +59,7 @@ class APIFeatures {
    * @returns {APIFeatures} this function retuen the same object put after filtering the  mongodb query string attached to this objec
    */
 
-  limitFields() {
+  limitFields () {
     if (this.queryString.fields) {
       const fields = this.queryString.fields.split(',').join(' ');
       this.query = this.query.select(fields);
@@ -73,7 +75,7 @@ class APIFeatures {
    * @returns {APIFeatures} this function retuen the same object put after pagination the  mongodb query string attached to this objec
    */
 
-  paginate() {
+  paginate () {
     const page = this.queryString.page * 1 || 1; // the page number
     const limit = this.queryString.limit * 1 || 100; // the number of result in each page
     const skip = (page - 1) * limit;
@@ -82,10 +84,11 @@ class APIFeatures {
 
     return this;
   }
+
   /**
    * @summary if is equivalent to paginate but works differently
    */
-  offset() {
+  offset () {
     const skip = this.queryString.offset * 1 || 0;
     const limit = this.queryString.limit * 1 || 20; // the number of result in each page
 

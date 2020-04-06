@@ -259,7 +259,7 @@ exports.currentUserProfile = catchAsync(async (req, res, next) => {
   const currentUser = await exports.getProfileInfo(req.user._id);
   res.status(200).json(currentUser);
 });
-//wait
+// wait
 exports.topTracksAndArtists = catchAsync(async (req, res, next) => {
   const doc =
     req.params.type === 'track'
@@ -324,10 +324,10 @@ exports.previous = catchAsync(async (req, res, next) => {
       currentUserQueue.currentlyPlaying.currentTrack;
   } else {
     currentUserQueue.nextTrack = currentUserQueue.currentlyPlaying.currentTrack;
-    if (currentUserQueue.previousTrack !== null)
+    if (currentUserQueue.previousTrack !== null) {
       currentUserQueue.currentlyPlaying.currentTrack =
         currentUserQueue.previousTrack;
-    else if (currentUserQueue.repeat) {
+    } else if (currentUserQueue.repeat) {
       currentUserQueue.currentlyPlaying.currentTrack =
         currentUserQueue.queueTracks[currentUserQueue.queueTracks.length - 1];
     } else {
@@ -375,10 +375,10 @@ exports.next = catchAsync(async (req, res, next) => {
   } else {
     currentUserQueue.previousTrack =
       currentUserQueue.currentlyPlaying.currentTrack;
-    if (currentUserQueue.nextTrack !== null)
+    if (currentUserQueue.nextTrack !== null) {
       currentUserQueue.currentlyPlaying.currentTrack =
         currentUserQueue.nextTrack;
-    else if (currentUserQueue.repeat) {
+    } else if (currentUserQueue.repeat) {
       currentUserQueue.currentlyPlaying.currentTrack =
         currentUserQueue.queueTracks[0];
     } else {
@@ -522,8 +522,7 @@ exports.webhookCheckout = catchAsync(async (req, res, next) => {
   } catch (err) {
     return res.status(400).send(`Webhook error: ${err.message}`);
   }
-  if (event.type === 'checkout.session.completed')
-    createPremiumSubscriptionCheckout(event.data.object);
+  if (event.type === 'checkout.session.completed') { createPremiumSubscriptionCheckout(event.data.object); }
   res.status(200).json({ received: true });
 });
 module.exports.sendResponse = sendResponse;

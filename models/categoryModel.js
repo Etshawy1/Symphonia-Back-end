@@ -22,11 +22,11 @@ const categorySchema = new mongoose.Schema(
   }
 );
 
-categorySchema.pre('save', function() {
+categorySchema.pre('save', function () {
   this.id = slugify(this.name, { lower: true });
 });
 
-categorySchema.virtual('href').get(function() {
+categorySchema.virtual('href').get(function () {
   return 'totot';
 });
 

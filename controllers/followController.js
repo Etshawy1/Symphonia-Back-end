@@ -10,7 +10,7 @@ exports.FollowUser = catchAsync(async (req, res, next) => {
   }
   const ids = req.query.ids.split(',');
 
-  let currUser = req.user;
+  const currUser = req.user;
   for (let index = 0; index < ids.length; index++) {
     const element = ids[index];
     await User.findByIdAndUpdate(currUser._id, {
@@ -26,11 +26,11 @@ exports.checkIfUserFollower = catchAsync(async (req, res, next) => {
   if (!req.query.ids) {
     return next(new AppError('ids field is missing', 400)); // bad request
   }
-  let userIds = req.query.ids.split(',');
+  const userIds = req.query.ids.split(',');
   // loop on all the the ids of the req.user
   // find if userIds includes one of them
   user = req.user;
-  let isFollowingArr = [];
+  const isFollowingArr = [];
   console.log(user.followedUsers);
   userIds.map((value, index, arr) => {
     if (user.followedUsers.includes(value)) {
@@ -46,12 +46,12 @@ exports.checkIfPlaylistFollower = catchAsync(async (req, res, next) => {
   if (!req.query.ids) {
     return next(new AppError('ids field is missing', 400)); // bad request
   }
-  let userIds = req.query.ids.split(',');
-  let playlistId = req.params.id;
+  const userIds = req.query.ids.split(',');
+  const playlistId = req.params.id;
   // we have to make
-  let resArray = [];
+  const resArray = [];
   // get the playlist Object
-  let playlist = await Playlist.findById(playlistId);
+  const playlist = await Playlist.findById(playlistId);
 
   for (let index = 0; index < userIds.length; index++) {
     const currUser = userIds[index];
@@ -70,7 +70,7 @@ exports.followPlaylist = catchAsync(async (req, res, next) => {
   const userId = req.user._id;
   // now make the user follow the playlist and add the User to the followers of the playlist
 
-  let oldPlaylist = await Playlist.findOne({ _id: playlistId });
+  const oldPlaylist = await Playlist.findOne({ _id: playlistId });
   if (oldPlaylist.followers.includes(userId)) {
     return next(new AppError('already following the playlist'), 403);
   }
@@ -104,14 +104,14 @@ exports.getUserFollowedArtists = catchAsync(async (req, res, next) => {
     }
   });
 */
-  let user = await User.findOne({ _id: req.user._id }).populate({
+  const user = await User.findOne({ _id: req.user._id }).populate({
     path: 'followedUsers',
     match: { type: 'artist' }
   });
 
   let followedUsers = user.followedUsers;
   let afterIndex = 0;
-  let originalTotal = user.followedUsers.length;
+  const originalTotal = user.followedUsers.length;
 
   /// do the after filterationfollowedUsers =
   if (req.query.after) {
@@ -131,7 +131,7 @@ exports.getUserFollowedArtists = catchAsync(async (req, res, next) => {
   // get the after after id
   let afterId = null;
   let myNext = null;
-  let LOCAL_HOST = `${req.protocol}://${req.get('host')}/`;
+  const LOCAL_HOST = `${req.protocol}://${req.get('host')}/`;
   // let's do the limit filtering by slicing the array
   end = afterIndex + limit;
   if (end > originalTotal) {
@@ -162,12 +162,12 @@ exports.unfollowUser = catchAsync(async (req, res, next) => {
     return next(new AppError('ids field is missing', 400)); // bad request
   }
   const ids = req.query.ids.split(',');
-  let currUser = req.user;
+  const currUser = req.user;
 
   user = await User.findById(req.user._id);
 
   user.followedUsers = user.followedUsers.filter((value, index, array) => {
-    let isIn = ids.includes(value.toString()); // those not in ids
+    const isIn = ids.includes(value.toString()); // those not in ids
     return !isIn;
   });
   await user.save({ validateBeforeSave: false }); // important to disavle validation before save
@@ -175,10 +175,10 @@ exports.unfollowUser = catchAsync(async (req, res, next) => {
 });
 
 exports.unfollowPlaylist = catchAsync(async (req, res, next) => {
-  let userId = req.user.id;
-  let playlistId = req.params.id;
+  const userId = req.user.id;
+  const playlistId = req.params.id;
   // remove the user from the playlist
-  let playlist = await Playlist.findById(playlistId);
+  const playlist = await Playlist.findById(playlistId);
   playlist.followers = playlist.followers.filter(function (value, index, arr) {
     return value != userId;
   });

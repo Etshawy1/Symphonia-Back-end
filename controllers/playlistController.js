@@ -22,7 +22,7 @@ exports.getPlaylist = catchAsync(async (req, res, next) => {
 });
 
 exports.createPlaylist = catchAsync(async (req, res, next) => {
-  let check = await User.User.findById(req.params.id);
+  const check = await User.User.findById(req.params.id);
 
   if (!check) return res.status(400).send('Invalid User ID');
 
@@ -40,7 +40,7 @@ exports.createPlaylist = catchAsync(async (req, res, next) => {
 
   playlist = await playlist.save();
 
-  let user = await User.User.findByIdAndUpdate(
+  const user = await User.User.findByIdAndUpdate(
     req.params.id,
     {
       $push: { ownedPlaylists: playlist._id }
@@ -89,10 +89,11 @@ exports.getPlaylistCoverImage = catchAsync(async (req, res, next) => {
 exports.getPlaylistTracks = catchAsync(async (req, res, next) => {
   const check = await Playlist.findById(req.params.id);
 
-  if (!check)
+  if (!check) {
     return res
       .status(404)
       .send('The playlist with the given ID was not found.');
+  }
 
   const features = new APIFeatures(
     Playlist.findById(req.params.id).select('tracks'),
@@ -118,18 +119,18 @@ exports.removePlaylistTracks = catchAsync(async (req, res, next) => {
 });
 
 exports.addTracksToPlaylist = catchAsync(async (req, res, next) => {
-  let Playlistcheck = await Playlist.findById(req.params.id);
+  const Playlistcheck = await Playlist.findById(req.params.id);
   if (!Playlistcheck) {
     return res
       .status(404)
       .send('The playlist with the given ID was not found.');
   }
 
-  let InputTrackarr = req.body.tracks;
+  const InputTrackarr = req.body.tracks;
 
-  let trackarr = Playlistcheck.tracks;
+  const trackarr = Playlistcheck.tracks;
   for (let i = 0; i < InputTrackarr.length; i++) {
-    let Trackcheck = await Track.Track.findById(InputTrackarr[i]);
+    const Trackcheck = await Track.Track.findById(InputTrackarr[i]);
 
     if (!Trackcheck) return res.status(400).send('The Track is not found.');
 
@@ -137,7 +138,7 @@ exports.addTracksToPlaylist = catchAsync(async (req, res, next) => {
       if (trackarr[j] == InputTrackarr[i]) delete InputTrackarr[i];
     }
   }
-  let RealTracksArray = InputTrackarr.filter(function(el) {
+  const RealTracksArray = InputTrackarr.filter(function (el) {
     return el != null;
   });
 

@@ -31,7 +31,7 @@ exports.getCategoriesPlaylists = catchAsync(async (req, res, next) => {
   }
 
   // firstly i need to get the category with the name provided
-  let myCat = await Category.findOne({ id: req.params.id });
+  const myCat = await Category.findOne({ id: req.params.id });
 
   if (!myCat) {
     return next(new AppError("category is n't found "), 404);
@@ -46,9 +46,9 @@ exports.getCategoriesPlaylists = catchAsync(async (req, res, next) => {
     .offset();
 
   playlists = await features.query;
-  let LOCAL_HOST = `${req.protocol}://${req.get('host')}/`;
+  const LOCAL_HOST = `${req.protocol}://${req.get('host')}/`;
   let href = LOCAL_HOST + `api/v1/browse/categories/${myCat.id}/playlists`;
-  let nnext = `${href}?offset=${offset + limit}&limit=${limit}`;
+  const nnext = `${href}?offset=${offset + limit}&limit=${limit}`;
   let preOffset = offset - limit;
   if (preOffset < 0) {
     preOffset = 0;
@@ -80,8 +80,8 @@ exports.getCategories = catchAsync(async (req, res, next) => {
     .sort()
     .limitFields()
     .paginate();
-  let categorys = await features.query;
-  let LOCAL_HOST = `${req.protocol}://${req.get('host')}/`;
+  const categorys = await features.query;
+  const LOCAL_HOST = `${req.protocol}://${req.get('host')}/`;
 
   // TODO: adding .href to  the objects doesn't work
 
@@ -117,9 +117,9 @@ exports.getArtists = catchAsync(async (req, res, next) => {
 
   artists = await features.query.select('-queue');
 
-  let LOCAL_HOST = `${req.protocol}://${req.get('host')}/`;
+  const LOCAL_HOST = `${req.protocol}://${req.get('host')}/`;
   let href = LOCAL_HOST + `api/v1/browse/artists`;
-  let nnext = `${href}?offset=${offset + limit}&limit=${limit}`;
+  const nnext = `${href}?offset=${offset + limit}&limit=${limit}`;
   let preOffset = offset - limit;
   if (preOffset < 0) {
     preOffset = 0;
@@ -167,12 +167,12 @@ exports.getNewRelease = catchAsync(async (req, res, next) => {
     .limitFields()
     .offset();
   features.query = features.query.sort('-releaseDate');
-  let albums = await features.query;
+  const albums = await features.query;
   console.log(albums);
 
-  let LOCAL_HOST = `${req.protocol}://${req.get('host')}/`;
+  const LOCAL_HOST = `${req.protocol}://${req.get('host')}/`;
   let href = LOCAL_HOST + `api/v1/browse/new-releases`;
-  let nnext = `${href}?offset=${offset + limit}&limit=${limit}`;
+  const nnext = `${href}?offset=${offset + limit}&limit=${limit}`;
   let preOffset = offset - limit;
   if (preOffset < 0) {
     preOffset = 0;
@@ -210,13 +210,13 @@ exports.createCategory = catchAsync(async (req, res, next) => {
 
   if (!req.files) {
     // you have to provide a default icon
-    let working = null;
+    const working = null;
   }
-  let LOCAL_HOST = `${req.protocol}://${req.get('host')}/`;
+  const LOCAL_HOST = `${req.protocol}://${req.get('host')}/`;
 
-  let fileMeta = req.files.icon[0];
-  let imageMeta = await sharp(fileMeta.path).metadata();
-  let imageUrl =
+  const fileMeta = req.files.icon[0];
+  const imageMeta = await sharp(fileMeta.path).metadata();
+  const imageUrl =
     `${LOCAL_HOST}api/v1/browse/categories/images/` +
     req.files.icon[0].filename;
 
