@@ -83,10 +83,22 @@ class UploadBuilder {
     });
   }
   /**
+   * @returns {Map} it returns a map where key:field name in the request and value:{saveByReqName:'name', maxCount:1, prefix:'md}
+   */
+  getFieldsMap() {
+    return this.saveByReqName;
+  }
+  /**
    *@param {string} typeFilter can be  image/jpeg or image/png ...etc
    */
   addTypeFilter(typeFilter) {
     this.mimeTypes.push(typeFilter);
+  }
+  /**
+   * @returns {Array} - returns the types it is going to filter
+   */
+  getTypeFilters() {
+    return this.mimeTypes;
   }
   /**
    * @returns {function} the ready to use before route middleware

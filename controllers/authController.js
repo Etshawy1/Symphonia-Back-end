@@ -23,6 +23,8 @@ const createSendToken = (user, statusCode, res) => {
 exports.signup = catchAsync(async (req, res, next) => {
   // validate with JOI as a first layer of validation
   await validate(req.body);
+  // get the base url for the server
+  const url = `${req.protocol}://${req.get('host')}`;
   // insert the user data in the database
   const newUser = await User.create({
     ..._.pick(req.body, [
@@ -34,9 +36,11 @@ exports.signup = catchAsync(async (req, res, next) => {
       'gender',
       'type'
     ]),
-    passwordConfirm: req.body.password
+    passwordConfirm: req.body.password,
+    imageUrl: `${url}/api/v1/images/users/default.png`
   });
-  const url = `${req.protocol}://${req.get('host')}`;
+  console.log(newUser);
+
   await new Email(newUser, url).sendWelcome();
 
   createSendToken(newUser, 201, res);

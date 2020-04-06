@@ -10,24 +10,18 @@ router.get('/categories', browseController.getCategories);
 
 router.get('/new-releases', browseController.getNewRelease);
 
-router.use(authController.protect);
-const EventEmmiter = require('events').EventEmitter;
-/*
-class Toto extends EventEmmiter {
-  constructor() {
-    super();
-    this.paths = 'soso';
-  }
-}
-toto = new Toto();
-toto.on('finish', paths => {
-  // give the paths to create category
-  console.log('the arrived paths are ');
-  console.log(paths);
-});
-toto.emit('finish', ['hi.png', 'x.hello']);
-*/
+router.get('/categories/:id', browseController.getCategory);
 
+router.get(
+  '/categories/:id/playlists',
+  browseController.getCategoriesPlaylists
+);
+
+router.get('/featured-playlists', browseController.getCategoriesPlaylists);
+
+router.get('/artists', browseController.getArtists);
+
+router.use(authController.protect);
 // TODO: solve the problem of disappearing fields
 let uploadBuilder = new UploadBuilder();
 // this means to name the file in icon field with name in the req.body
@@ -48,14 +42,5 @@ router.post(
   authController.protect,
   browseController.createCategory
 );*/
-
-router.get('/categories/:id', browseController.getCategory);
-
-router.get(
-  '/categories/:id/playlists',
-  browseController.getCategoriesPlaylists
-);
-
-router.get('/featured-playlists', browseController.getCategoriesPlaylists);
 
 module.exports = router;

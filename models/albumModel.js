@@ -22,14 +22,20 @@ const albumSchema = new mongoose.Schema({
     ref: 'User',
     required: [true, 'Album must have Artist']
   },
-  tracks: {
-    type: [mongoose.Schema.Types.ObjectId],
-    ref: 'Track',
-    required: true, //[{ type: true }, { message: 'Album should have track' }]
-    validate: function(val) {
-      if (Array.isArray(val) && val.length === 0)
-        throw new Error('Album should have track');
+  tracks: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Track',
+      required: true, //[{ type: true }, { message: 'Album should have track' }]
+      validate: function(val) {
+        if (Array.isArray(val) && val.length === 0)
+          throw new Error('Album should have track');
+      }
     }
+  ],
+  releaseDate: {
+    type: Date,
+    default: Date.now()
   }
 });
 
