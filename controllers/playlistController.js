@@ -273,3 +273,13 @@ exports.uploadCustomPlaylistCoverImage = catchAsync(async (req, res, next) => {
   await playlist.save();
   res.send(playlist);
 });
+exports.getRandomPlaylist = catchAsync(async (req, res, next) => {
+  let number = parseInt(req.query.number);
+
+  let playlists = await Playlist.aggregate([
+    { $match: { public: true } },
+    { $sample: { size: number } }
+  ]);
+
+  res.send(playlists);
+});

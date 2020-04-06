@@ -5,6 +5,8 @@ const authController = require('../controllers/authController');
 const followController = require('../controllers/followController');
 
 const router = express.Router();
+
+router.get('/rand', playlistController.getRandomPlaylist);
 router.use(authController.protect);
 router.get('/:id', playlistController.getPlaylist);
 router.get('/:id/images', playlistController.getPlaylistCoverImage);
