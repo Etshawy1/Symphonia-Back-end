@@ -26,11 +26,12 @@ exports.createPlaylist = catchAsync(async (req, res, next) => {
 
   if (!check) return res.status(400).send('Invalid User ID');
 
+  const url = `${req.protocol}://${req.get('host')}`;
   let playlist = new Playlist({
     collaborative: req.body.collaborative,
     name: req.body.name,
     description: req.body.description,
-    images: req.body.images,
+    images: [`${url}/api/v1/images/playlists/default.png`],
     owner: req.params.id,
     public: req.body.public,
     followers: req.body.followers,

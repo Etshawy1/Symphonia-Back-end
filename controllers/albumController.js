@@ -12,7 +12,7 @@ exports.getAllAlbums = catchAsync(async (req, res, next) => {
     .paginate();
   const albums = await features.query;
 
-  res.send(albums);
+  res.status(200).send(albums);
 });
 
 exports.getAlbum = catchAsync(async (req, res, next) => {
@@ -24,7 +24,7 @@ exports.getAlbum = catchAsync(async (req, res, next) => {
     .limitFields()
     .paginate();
   const album = await features.query;
-  res.send(album);
+  res.status(200).send(album);
 });
 
 exports.getAlbumTracks = catchAsync(async (req, res, next) => {
@@ -38,16 +38,17 @@ exports.getAlbumTracks = catchAsync(async (req, res, next) => {
     .sort()
     .paginate();
   const tracks = await features.query;
-  res.send(tracks);
+  res.status(200).send(tracks);
 });
 
 exports.createAlbum = catchAsync(async (req, res, next) => {
+  const url = `${req.protocol}://${req.get('host')}`;
   const album = await Album.create({
     name: req.body.name,
     year: req.body.year,
-    image: req.body.image,
+    image: `${url}/api/v1/images/albums/default.png`,
     artist: req.user._id,
     category: req.body.category
   });
-  res.send(album);
+  res.status(200).send(album);
 });

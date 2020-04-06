@@ -11,9 +11,10 @@ const artistRouter = require('../routes/artistRouter');
 const playlistRouter = require('./../routes/playlistRouter');
 const AppError = require('../utils/appError');
 const globalErrorHandler = require('../controllers/errorController');
+const staticImages = require('../routes/images');
 const bodyParser = require('body-parser');
 
-module.exports = function(app) {
+module.exports = function (app) {
   app.use(express.json());
   app.use(
     express.urlencoded({
@@ -26,7 +27,7 @@ module.exports = function(app) {
 
   app.use('/api/v1/recommendations', recommendationRouter);
   // serve static
-  app.use('/api/v1/images/users', express.static('assets/images/users'));
+  app.use('/api/v1/images', staticImages);
   app.use(
     '/api/v1/browse/categories/images',
     express.static('assets/images/categories')
