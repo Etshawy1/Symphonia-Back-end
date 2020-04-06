@@ -5,12 +5,14 @@ const User = require('./../models/userModel');
 const Track = require('./../models/trackModel');
 
 exports.getPlaylist = catchAsync(async (req, res, next) => {
-  const check = await Playlist.findById(req.params.id);
-  if (!check) {
+  const playlistCheck = await Playlist.findById(req.params.id);
+  if (!playlistCheck) {
     return res
       .status(404)
       .send('The playlist with the given ID was not found.');
   }
+  if (!playlistCheck.public && playlistCheck.owner != req.user.id)
+    return res.status(500).send('This playlist is not Public');
   const features = new APIFeatures(Playlist.findById(req.params.id), req.query)
     .filter()
     .sort()
@@ -22,9 +24,9 @@ exports.getPlaylist = catchAsync(async (req, res, next) => {
 });
 
 exports.createPlaylist = catchAsync(async (req, res, next) => {
-  let check = await User.User.findById(req.params.id);
+  let playlistCheck = await User.User.findById(req.params.id);
 
-  if (!check) return res.status(400).send('Invalid User ID');
+  if (!playlistCheck) return res.status(400).send('Invalid User ID');
 
   const url = `${req.protocol}://${req.get('host')}`;
   let playlist = new Playlist({
@@ -77,22 +79,28 @@ exports.getCurrentUserPlaylists = catchAsync(async (req, res, next) => {
 });
 
 exports.getPlaylistCoverImage = catchAsync(async (req, res, next) => {
-  const images = await Playlist.findById(req.params.id).select('images');
-  if (!images) {
+  const playlistCheck = await Playlist.findById(req.params.id);
+  if (!playlistCheck) {
     return res
       .status(404)
       .send('The playlist with the given ID was not found.');
   }
-  res.send(images);
+  if (!playlistCheck.public && playlistCheck.owner != req.user.id)
+    return res.status(500).send('This playlist is not Public');
+
+  res.send(playlistCheck.images);
 });
 
 exports.getPlaylistTracks = catchAsync(async (req, res, next) => {
-  const check = await Playlist.findById(req.params.id);
+  const playlistCheck = await Playlist.findById(req.params.id);
 
-  if (!check)
+  if (!playlistCheck)
     return res
       .status(404)
       .send('The playlist with the given ID was not found.');
+
+  if (!playlistCheck.public && playlistCheck.owner != req.user.id)
+    return res.status(500).send('This playlist is not Public');
 
   const features = new APIFeatures(
     Playlist.findById(req.params.id).select('tracks'),
@@ -108,6 +116,18 @@ exports.getPlaylistTracks = catchAsync(async (req, res, next) => {
 });
 
 exports.removePlaylistTracks = catchAsync(async (req, res, next) => {
+  const playlistCheck = await Playlist.findById(req.params.id);
+  if (!playlistCheck)
+    return res
+      .status(404)
+      .send('The playlist with the given ID was not found.');
+
+  if (
+    (!playlistCheck.public || !playlistCheck.collaborative) &&
+    playlistCheck.owner != req.user.id
+  )
+    return res.status(500).send('This playlist is restricted');
+
   const playlist = await Playlist.update(
     { _id: req.params.id },
     { $unset: { tracks: '' } },
@@ -118,16 +138,22 @@ exports.removePlaylistTracks = catchAsync(async (req, res, next) => {
 });
 
 exports.addTracksToPlaylist = catchAsync(async (req, res, next) => {
-  let Playlistcheck = await Playlist.findById(req.params.id);
-  if (!Playlistcheck) {
+  let playlistCheck = await Playlist.findById(req.params.id);
+  if (!playlistCheck) {
     return res
       .status(404)
       .send('The playlist with the given ID was not found.');
   }
 
+  if (
+    (!playlistCheck.public || !playlistCheck.collaborative) &&
+    playlistCheck.owner != req.user.id
+  )
+    return res.status(500).send('This playlist is restricted');
+
   let InputTrackarr = req.body.tracks;
 
-  let trackarr = Playlistcheck.tracks;
+  let trackarr = playlistCheck.tracks;
   for (let i = 0; i < InputTrackarr.length; i++) {
     let Trackcheck = await Track.Track.findById(InputTrackarr[i]);
 
@@ -155,6 +181,19 @@ exports.addTracksToPlaylist = catchAsync(async (req, res, next) => {
 });
 
 exports.changePlaylistDetails = catchAsync(async (req, res, next) => {
+  let playlistCheck = await Playlist.findById(req.params.id);
+  if (!playlistCheck) {
+    return res
+      .status(404)
+      .send('The playlist with the given ID was not found.');
+  }
+
+  if (
+    (!playlistCheck.public || !playlistCheck.collaborative) &&
+    playlistCheck.owner != req.user.id
+  )
+    return res.status(500).send('This playlist is restricted');
+
   const playlist = await Playlist.findByIdAndUpdate(
     req.params.id,
     {
@@ -165,29 +204,64 @@ exports.changePlaylistDetails = catchAsync(async (req, res, next) => {
     },
     { new: true }
   );
-  if (!playlist) return res.status(404).send('This Playlist is not found!');
   await playlist.save();
   res.send(playlist);
 });
 exports.replacePlaylistTracks = catchAsync(async (req, res, next) => {
-  const playlist = await Playlist.findByIdAndUpdate(
-    req.params.id,
-    {
-      tracks: req.body.tracks
-    },
-    { new: true }
-  );
-
-  if (!playlist) {
+  let playlistCheck = await Playlist.findById(req.params.id);
+  if (!playlistCheck) {
     return res
       .status(404)
       .send('The playlist with the given ID was not found.');
   }
+
+  if (
+    (!playlistCheck.public || !playlistCheck.collaborative) &&
+    playlistCheck.owner != req.user.id
+  )
+    return res.status(500).send('This playlist is restricted');
+
+  let InputTrackarr = req.body.tracks;
+
+  let trackarr = playlistCheck.tracks;
+  for (let i = 0; i < InputTrackarr.length; i++) {
+    let Trackcheck = await Track.Track.findById(InputTrackarr[i]);
+
+    if (!Trackcheck) return res.status(400).send('The Track is not found.');
+
+    for (let j = 0; j < trackarr.length; j++) {
+      if (trackarr[j] == InputTrackarr[i]) delete InputTrackarr[i];
+    }
+  }
+  let RealTracksArray = InputTrackarr.filter(function(el) {
+    return el != null;
+  });
+  const playlist = await Playlist.findByIdAndUpdate(
+    req.params.id,
+    {
+      tracks: RealTracksArray
+    },
+    { new: true }
+  );
+
   await playlist.save();
   res.send(playlist);
 });
 
 exports.uploadCustomPlaylistCoverImage = catchAsync(async (req, res, next) => {
+  let playlistCheck = await Playlist.findById(req.params.id);
+  if (!playlistCheck) {
+    return res
+      .status(404)
+      .send('The playlist with the given ID was not found.');
+  }
+
+  if (
+    (!playlistCheck.public || !playlistCheck.collaborative) &&
+    playlistCheck.owner != req.user.id
+  )
+    return res.status(500).send('This playlist is restricted');
+
   const playlist = await Playlist.findByIdAndUpdate(
     req.params.id,
     {
@@ -196,11 +270,6 @@ exports.uploadCustomPlaylistCoverImage = catchAsync(async (req, res, next) => {
     { new: true }
   );
 
-  if (!playlist) {
-    return res
-      .status(404)
-      .send('The playlist with the given ID was not found.');
-  }
   await playlist.save();
   res.send(playlist);
 });

@@ -5,10 +5,10 @@ const authController = require('../controllers/authController');
 const followController = require('../controllers/followController');
 
 const router = express.Router();
+router.use(authController.protect);
 router.get('/:id', playlistController.getPlaylist);
 router.get('/:id/images', playlistController.getPlaylistCoverImage);
 router.get('/:id/tracks', playlistController.getPlaylistTracks);
-router.use(authController.protect);
 router.delete('/:id/tracks', playlistController.removePlaylistTracks);
 router.post('/:id/tracks', playlistController.addTracksToPlaylist);
 router.patch('/:id/', playlistController.changePlaylistDetails);
