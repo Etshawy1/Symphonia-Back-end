@@ -429,6 +429,10 @@ exports.pushQueue = catchAsync(async (req, res, next) => {
   if (!user.queue.nextTrack) {
     user.queue.nextTrack = req.body.track;
   }
+  if (!user.queue.currentPlaying.currentTrack) {
+    user.queue.currentPlaying.currentTrack = req.body.track;
+  }
+
   currentUserQueue.queueTracks.push(req.body.track);
   await user.save({ validateBeforeSave: false });
   res.status(200).json({
@@ -445,6 +449,17 @@ exports.popQueue = catchAsync(async (req, res, next) => {
     return next(new AppError('This Track is not in your current queue', 404));
   }
   currentUserQueue.queueTracks.splice(indexOfPreviousTrack, 1);
+  if (
+    currentUserQueue.currentPlaying.currentTrack == req.body.removedTrack &&
+    currentUserQueue.queueTracks.length - 1 !== indexOfPreviousTrack
+  ) {
+    currentUserQueue.currentlyPlaying.currentTrack = currentUserQueue.nextTrack;
+    currentUserQueue.nextTrack =
+      currentUserQueue.queueTracks[indexOfPreviousTrack + 1];
+  } else if (currentUserQueue.queueTracks.length - 1 !== indexOfPreviousTrack) {
+    currentUserQueue.currentlyPlaying.currentTrack = currentUserQueue.nextTrack;
+  }
+
   await user.save({ validateBeforeSave: false });
   res.status(204).json({
     data: null
