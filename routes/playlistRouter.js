@@ -14,7 +14,7 @@ router.get('/:id/tracks', playlistController.getPlaylistTracks);
 router.delete('/:id/tracks', playlistController.removePlaylistTracks);
 router.post('/:id/tracks', playlistController.addTracksToPlaylist);
 router.patch('/:id/', playlistController.changePlaylistDetails);
-router.patch('/:id/tracks', playlistController.replacePlaylistTracks);
+router.patch('/:id/tracks', playlistController.maintainPlaylistTracks);
 router.patch('/:id/images', playlistController.uploadCustomPlaylistCoverImage);
 
 // section: follow routes
