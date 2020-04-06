@@ -28,7 +28,9 @@ async function getProfileInfo (userId) {
     .select('-passwordChangedAt')
     .select('-passwordResetToken')
     .select('-active')
-    .select('-googleId');
+    .select('-queue')
+    .select('-googleId')
+    .select('facebookId');
 }
 
 async function getTopArtistsAndTracks (Model, query) {
@@ -255,14 +257,14 @@ exports.userProfile = catchAsync(async (req, res, next) => {
   res.status(200).json(currentUser);
 });
 exports.updateCurrentUserProfile = catchAsync(async (req, res, next) => {
-  const user = await User.findByIdAndUpdate(
+  const currentUser = await User.findByIdAndUpdate(
     req.user._id,
     {
       ..._.pick(req.body, ['email', 'dateOfBirth', 'gender', 'phone'])
     },
     { new: true, runValidators: true }
   );
-  res.status(200).json(user);
+  res.status(200).json(currentUser);
 });
 
 exports.currentUserProfile = catchAsync(async (req, res, next) => {
@@ -424,6 +426,9 @@ exports.next = catchAsync(async (req, res, next) => {
 exports.pushQueue = catchAsync(async (req, res, next) => {
   const user = await User.findById(req.user._id);
   const currentUserQueue = user.queue;
+  if (!user.queue.nextTrack) {
+    user.queue.nextTrack = req.body.track;
+  }
   currentUserQueue.queueTracks.push(req.body.track);
   await user.save({ validateBeforeSave: false });
   res.status(200).json({

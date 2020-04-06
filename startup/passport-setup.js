@@ -16,7 +16,7 @@ passport.use(
   new GoogleStrategy(
     {
       callbackURL:
-        'http://zasymphonia.ddns.net/api/v1/users/auth/google/Symphonia',
+        'https://zasymphonia.ddns.net/api/v1/users/auth/google/Symphonia',
       clientID: process.env.CLIENT_ID_GOOGLE,
       clientSecret: process.env.CLIENT_SECRET_GOOGLE
     },
