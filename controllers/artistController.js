@@ -20,8 +20,7 @@ exports.relatedArtists = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.ArtistFollowers = catchAsync(async (req, res, next) => {
-  console.log(req.params.id);
+exports.artistFollowers = catchAsync(async (req, res, next) => {
   const followers = await User.find({
     followedUsers: { $elemMatch: { $eq: req.params.id } }
   }).select('-queue');
@@ -30,4 +29,17 @@ exports.ArtistFollowers = catchAsync(async (req, res, next) => {
     followers,
     followers_count: followers.length
   });
+});
+
+exports.artistTopTracks = catchAsync(async (req, res, next) => {
+  req.query.fields = 'tracks';
+  const features = new APIFeatures(
+    User.findById(req.params.id).sort({ usersCount: -1 }),
+    req.query
+  )
+    .filter()
+    .limitFields()
+    .paginate();
+  const topTracks = await features.query.populate('tracks');
+  res.status(200).json(topTracks);
 });

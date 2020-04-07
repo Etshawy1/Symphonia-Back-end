@@ -193,6 +193,11 @@ const users = [
       repeatOnce: false,
       shuffle: false
     },
+    tracks: [
+      mongoose.Types.ObjectId('5e8a1ea07937ec4d40c6debf'),
+      mongoose.Types.ObjectId('5e8a37d0d56ea252c3860a1a'),
+      mongoose.Types.ObjectId('5e8a39f24e11cd46c8bde654')
+    ],
     ownedPlaylists: [],
     imageUrl: 'https://zasymphonia.ddns.net/api/v1/images/users/tr-st.jpg',
     followedAlbums: []
