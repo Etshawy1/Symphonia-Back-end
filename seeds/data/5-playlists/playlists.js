@@ -244,11 +244,11 @@ const playlists = [
   },
   {
     _id: mongoose.Types.ObjectId('5e8a6d96d4be480ab1d91c95'),
-    name: 'Top Party',
+    name: 'Sleep Sounds: Waterscapes',
     owner: mongoose.Types.ObjectId('5e8125dc54660672fd69987f'),
     collaborative: false,
     description:
-      'Songs I Put on to Look “With It” When I’d Rather Be Listening to Yanni on a Windy Moor 2',
+      'White Noise to Drown Out the Sounds of Police Sirens, Honking Trucks, and Overnight Construction Work Because I Live Right Next to the Brooklyn-Queens Expressway Because This Is the Only Studio Apartment I Can Afford',
     public: true,
     followers: [],
     images: [

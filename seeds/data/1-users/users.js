@@ -224,7 +224,7 @@ const users = [
     followedAlbums: []
   },
   {
-    _id: mongoose.Types.ObjectId('5e8b6d866253cb184eaac150'),
+    _id: mongoose.Types.ObjectId('5e8b6c246253cb184eaac14f'),
     followedUsers: [],
     email: 'test7@test.com',
     password: '$2b$12$GDzaxr1IqINkhDi7v67F3OLfD..QeYS7PUsLkIxUg8O4NO8lkP0cS',
@@ -260,7 +260,7 @@ const users = [
       shuffle: false
     },
     ownedPlaylists: [],
-    imageUrl: 'https://zasymphonia.ddns.net/api/v1/images/users/tr-st.jpg',
+    imageUrl: 'https://zasymphonia.ddns.net/api/v1/images/users/default.png',
     followedAlbums: [],
     history: mongoose.Types.ObjectId('5e8298c93c8b02a9402482bc')
   }
