@@ -102,8 +102,7 @@ exports.getCategories = catchAsync(async (req, res, next) => {
 /**
  * @summary it returns the artists that the user isn't following
  */
-exports.getArtists = catchAsync(async (req, res, next) => {
-  console.log('get artists');
+exports.getRecommendedArtists = catchAsync(async (req, res, next) => {
   let limit = 20; // the default
   let offset = 0; // the default
   if (req.query.offset) {

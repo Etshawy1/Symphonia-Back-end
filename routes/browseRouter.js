@@ -19,9 +19,9 @@ router.get(
 
 router.get('/featured-playlists', browseController.getCategoriesPlaylists);
 
-router.get('/artists', browseController.getArtists);
-
 router.use(authController.protect);
+
+router.get('/artists', browseController.getRecommendedArtists);
 // TODO: solve the problem of disappearing fields
 let uploadBuilder = new UploadBuilder();
 // this means to name the file in icon field with name in the req.body

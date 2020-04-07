@@ -72,9 +72,9 @@ exports.getUserPlaylists = catchAsync(async (req, res, next) => {
 });
 
 exports.getCurrentUserPlaylists = catchAsync(async (req, res, next) => {
-  const playlist = await User.User.findById(req.user._id).select(
-    'ownedPlaylists'
-  );
+  const playlist = await User.User.findById(req.user._id)
+    .select('ownedPlaylists')
+    .populate('ownedPlaylists');
   res.send(playlist);
 });
 
@@ -257,26 +257,14 @@ exports.maintainPlaylistTracks = catchAsync(async (req, res, next) => {
         scoopedArr[k++] = playlistTracks[i];
         delete playlistTracks[i++];
       }
-      for (let index = 0; index < scoopedArr.length; index++) {
-        console.log(scoopedArr[index]); //////////////////////////////////////////////////////
-      }
-      for (let index = 0; index < playlistTracks.length; index++) {
-        console.log(playlistTracks[index]); //////////////////////////////////////////////
-      }
+
       playlistTracks = playlistTracks.filter(function (el) {
         return el != null;
       });
-      console.log('After Filtering');
-      for (let index = 0; index < playlistTracks.length; index++) {
-        console.log(playlistTracks[index]); //////////////////////////////////////////////
-      }
+
       k = 0;
       for (let i = parseInt(req.body.insertBefore); RangeLen > 0; RangeLen--) {
         playlistTracks.splice(i, 0, scoopedArr[k++]);
-        console.log('After Filtering');
-        for (let index = 0; index < playlistTracks.length; index++) {
-          console.log(playlistTracks[index]); //////////////////////////////////////////////
-        }
       }
       const playlist = await Playlist.findByIdAndUpdate(
         req.params.id,
