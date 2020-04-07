@@ -128,9 +128,11 @@ exports.playTrack = catchAsync(async (req, res) => {
       req.headers.range = updatedUser.queue.seek;
     }
   } else {
+    const playlist = await PlayList.findById(req.body.contextId);
     const item = {
       track: track._id,
       played_at: Date.now(),
+      context: playlist,
       contextUrl: req.body.context_url,
       contextType: req.body.context_type
     };
