@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const playlists = [
+const histories = [
   {
     _id: mongoose.Types.ObjectId('5e8298c93c8b02a9402482bc'),
     track: mongoose.Types.ObjectId('5e7969965146d92e98ac3ef7'),
@@ -10,4 +10,4 @@ const playlists = [
   }
 ];
 
-module.exports = playlists;
+module.exports = histories;
