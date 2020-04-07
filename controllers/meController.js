@@ -30,7 +30,7 @@ async function getProfileInfo (userId) {
     .select('-active')
     .select('-queue')
     .select('-googleId')
-    .select('facebookId');
+    .select('-facebookId');
 }
 
 async function getTopArtistsAndTracks (Model, query) {
