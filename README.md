@@ -1,6 +1,5 @@
 # Symphonia-Back-end
 
-<marquee>welcome to Symphonia-Back-end</marquee>
 <img style ="display:block;magin:0 auto;" src='https://github.com/Etshawy1/Symphonia-Back-end/blob/dev/assets/icons/icon.png?raw=true'></img>
 
 <hr/>
@@ -35,12 +34,12 @@ These instructions will get you a copy of the project up and running on your loc
 
       node seed
 
-  you also have to read to comments in file seed in the path `seeds\seed.js` in order to know how to configure the database to be connected when you seed.
+  you also have to read the comments in file seed in the path `seeds\seed.js` in order to know how to configure the database to be connected when you seed.
 
 ### Unit testing
 
 - to run the unit test type `npm test` that will run a script written to run test of npm package `jest`.
-- to have coverage report you should go to package.json and modify `npm test` script by adding `--coverage` to the script, then running a test automatically generated a coverage report named coverage in folder './coverage'
+- to have coverage report you should go to package.json and modify `npm test` script by adding `--coverage` if it doesn't exsit to the script, then running a test automatically generates a coverage report named coverage in folder `./coverage`.
 
 ### development vs production
 
@@ -48,4 +47,4 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### functional documentation
 
-- run the script `npm i -g jsdoc` then to generate documentation of a certain file in some path write `jsdoc {path}`
+- run the script `npm i -g jsdoc` then to generate documentation of a certain file in some path write `jsdoc {path}` this will generate files in folder name `./out`.
