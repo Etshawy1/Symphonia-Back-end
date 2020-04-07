@@ -7,7 +7,10 @@ const playlists = [
     collaborative: false,
     description: 'My Favorite Public Place to Pretend is My Living Room Mix',
     public: true,
-    followers: [],
+    followers: [
+      mongoose.Types.ObjectId('5e812db054660672fd699881'),
+      mongoose.Types.ObjectId('5e812a3454660672fd699880')
+    ],
     images: [
       'https://zasymphonia.ddns.net/api/v1/images/playlists/playlist1.jpg'
     ],
@@ -25,7 +28,10 @@ const playlists = [
     collaborative: false,
     description: 'Soundtrack to My Whimsical, Quirky Life as an Unpaid Intern',
     public: true,
-    followers: [],
+    followers: [
+      mongoose.Types.ObjectId('5e812db054660672fd699881'),
+      mongoose.Types.ObjectId('5e812a3454660672fd699880')
+    ],
     images: [
       'https://zasymphonia.ddns.net/api/v1/images/playlists/playlist2.jpg'
     ],
@@ -45,7 +51,10 @@ const playlists = [
     description:
       'My Parents Pay for my Premium Account, My Rent, and Literally Everything Else',
     public: true,
-    followers: [],
+    followers: [
+      mongoose.Types.ObjectId('5e812db054660672fd699881'),
+      mongoose.Types.ObjectId('5e812a3454660672fd699880')
+    ],
     images: [
       'https://zasymphonia.ddns.net/api/v1/images/playlists/playlist3.jpg'
     ],
@@ -60,7 +69,7 @@ const playlists = [
     description:
       'My Parents Pay for my Premium Account, My Rent, and Literally Everything Else',
     public: true,
-    followers: [],
+    followers: [mongoose.Types.ObjectId('5e8125dc54660672fd69987f')],
     images: [
       'https://zasymphonia.ddns.net/api/v1/images/playlists/playlist4.jpg'
     ],
@@ -79,7 +88,10 @@ const playlists = [
     description:
       'My Earthly Vessel May Be Trapped in a Windowless, Fluorescent Hellscape but My Soul is Still Pantsless at My Apartment Listening to These Songs',
     public: true,
-    followers: [],
+    followers: [
+      mongoose.Types.ObjectId('5e8125dc54660672fd69987f'),
+      mongoose.Types.ObjectId('5e812db054660672fd699881')
+    ],
     images: [
       'https://zasymphonia.ddns.net/api/v1/images/playlists/playlist5.jpg'
     ],
@@ -99,7 +111,7 @@ const playlists = [
     description:
       'Pump Up Jams for Carrying Groceries Up to My Sixth Floor Walk-Up',
     public: true,
-    followers: [],
+    followers: [mongoose.Types.ObjectId('5e8125dc54660672fd69987f')],
     images: [
       'https://zasymphonia.ddns.net/api/v1/images/playlists/playlist6.jpg'
     ],
@@ -121,7 +133,7 @@ const playlists = [
     description:
       'I Have Terrible News for You and I’ll Tell You What Right After This 30 Second Ad for Sam Adams Summer Ale Ends and The Cure Starts Playing',
     public: true,
-    followers: [],
+    followers: [mongoose.Types.ObjectId('5e8125dc54660672fd69987f')],
     images: [
       'https://zasymphonia.ddns.net/api/v1/images/playlists/playlist7.jpg'
     ],
@@ -174,7 +186,7 @@ const playlists = [
     description:
       'I Just Double Texted and Now I Totally Get What Joan Didion Went Through',
     public: true,
-    followers: [],
+    followers: [mongoose.Types.ObjectId('5e812db054660672fd699881')],
     images: [
       'https://zasymphonia.ddns.net/api/v1/images/playlists/playlist10.jpg'
     ],
@@ -197,7 +209,7 @@ const playlists = [
     description:
       'I Spent All Day Writing a Bad Review for My Uber Driver Who Wouldn’t Let Me DJ My Trip with These Songs',
     public: true,
-    followers: [],
+    followers: [mongoose.Types.ObjectId('5e812db054660672fd699881')],
     images: [
       'https://zasymphonia.ddns.net/api/v1/images/playlists/playlist11.jpg'
     ],
