@@ -95,7 +95,7 @@ router.get('/albums', libraryController.getCurrentUserSavedAlbums);
 router.get('/tracks', libraryController.getCurrentUserSavedTracks);
 
 // Description:Remove one or more albums from the current user’s ‘Your Music’ library.
-router.delete('/albums', libraryController.getCurrentUserSavedTracks);
+router.delete('/albums', libraryController.removeCurrentUserAlbums);
 
 // Description:Remove one or more tracks from the current user’s ‘Your Music’ library.
 router.delete('/tracks', libraryController.removeCurrentUserSavedTracks);
