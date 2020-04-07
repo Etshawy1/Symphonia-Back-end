@@ -7,7 +7,10 @@ require('dotenv').config();
 // but if you choose the online one the used npm library won't connect as online connection takes time
 // you would need to change value of (connectTimeoutMS) to be like 500 or so in
 // node_modules\mongo-seeding\dist\database\database-connector.js
-const DB = process.env.DATABASE;
+const DB = process.env.DATABASE.replace(
+  '<PASSWORD>',
+  process.env.DATABASE_PASSWORD
+);
 
 const config = {
   database: DB,

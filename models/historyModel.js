@@ -11,7 +11,8 @@ const historySchema = new mongoose.Schema({
       contextType: {
         type: String,
         enum: ['playlist', 'album', 'artist']
-      }
+      },
+      context: Object
     }
   ]
 });
