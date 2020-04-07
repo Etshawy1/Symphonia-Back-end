@@ -4,19 +4,18 @@ const FeacbookStrategy = require('passport-facebook');
 const catchAsync = require('./../utils/catchAsync').fourArg;
 const { User } = require('./../models/userModel');
 
-passport.serializeUser(function (user, done) {
+passport.serializeUser(function(user, done) {
   done(null, user);
 });
 
-passport.deserializeUser(function (user, done) {
+passport.deserializeUser(function(user, done) {
   done(null, user);
 });
 
 passport.use(
   new GoogleStrategy(
     {
-      callbackURL:
-        'http://zasymphonia.ddns.net/api/v1/users/auth/google/Symphonia',
+      callbackURL: 'http://localhost:3000/api/v1/users/auth/google/Symphonia',
       clientID: process.env.CLIENT_ID_GOOGLE,
       clientSecret: process.env.CLIENT_SECRET_GOOGLE
     },

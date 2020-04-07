@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
-// const Joi = require('@hapi/joi');
-// Joi.ObjectId = require('joi-objectid');  install it before you use it
+//const Joi = require('@hapi/joi');
+//Joi.ObjectId = require('joi-objectid');  install it before you use it
 
 const albumSchema = new mongoose.Schema({
   name: {
@@ -26,9 +26,10 @@ const albumSchema = new mongoose.Schema({
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Track',
-      required: true, // [{ type: true }, { message: 'Album should have track' }]
-      validate: function (val) {
-        if (Array.isArray(val) && val.length === 0) { throw new Error('Album should have track'); }
+      required: true, //[{ type: true }, { message: 'Album should have track' }]
+      validate: function(val) {
+        if (Array.isArray(val) && val.length === 0)
+          throw new Error('Album should have track');
       }
     }
   ],
@@ -49,4 +50,4 @@ const Album = mongoose.model('Album', albumSchema);
 // }
 
 module.exports = Album;
-// module.exports = validateAlbum;
+//module.exports = validateAlbum;

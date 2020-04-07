@@ -10,9 +10,9 @@ const router = express.Router();
 router.use(authController.protect);
 // don't change anyline of my code again there is no problem to put these routes here if there is a problem with you it must be from your work not from the postion of my routes
 
-// save shuffle
+//save shuffle
 router.patch('/player/shuffle', meController.shuffle);
-// save volume
+//save volume
 router.patch('/player/volume', meController.volume);
 // save repeat
 router.patch('/player/repeat', meController.repeat);

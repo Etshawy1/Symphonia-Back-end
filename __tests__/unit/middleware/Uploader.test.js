@@ -1,18 +1,18 @@
 const UploadBuilder = require('../../../utils/uploader').UploadBuilder;
 
 describe('UploadBuilder', () => {
-  const uploadBuilder = new UploadBuilder();
+  let uploadBuilder = new UploadBuilder();
   // this means to name the file in icon field with name in the req.body
   uploadBuilder.addfileField('icon', 'name', '', 1);
-  // uploadBuilder.addfileField('icon_md', 'name', '_md', 1);
+  //uploadBuilder.addfileField('icon_md', 'name', '_md', 1);
   uploadBuilder.addTypeFilter('image/jpeg');
   uploadBuilder.addTypeFilter('image/png');
-  /* uploadBuilder.setPath(
+  /*uploadBuilder.setPath(
     path.resolve(__dirname, '..') + '/assets/images/categories'
-  ); */
+  );*/
 
   it('get Field Types Should return a map of fields required.', () => {
-    const map = uploadBuilder.getFieldsMap();
+    let map = uploadBuilder.getFieldsMap();
     expect(map.get('icon')).toMatchObject({
       saveByReqName: 'name',
       maxCount: 1,
@@ -20,7 +20,7 @@ describe('UploadBuilder', () => {
     });
   });
   it('getTypeFilters should return the types to filter', () => {
-    const expected = ['image/jpeg', 'image/png'];
+    let expected = ['image/jpeg', 'image/png'];
     expect(uploadBuilder.getTypeFilters()).toEqual(
       expect.arrayContaining(expected)
     );
