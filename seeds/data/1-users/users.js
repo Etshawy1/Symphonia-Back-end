@@ -172,7 +172,7 @@ const users = [
     followedAlbums: []
   },
   {
-    _id: mongoose.Types.ObjectId('5e8b6d866253cb184eaac150'),
+    _id: mongoose.Types.ObjectId('5e80fd1684c71f6ffb534a08'),
     followedUsers: [],
     email: 'test6@test.com',
     password: '$2b$12$GDzaxr1IqINkhDi7v67F3OLfD..QeYS7PUsLkIxUg8O4NO8lkP0cS',
