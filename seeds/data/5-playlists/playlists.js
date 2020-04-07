@@ -241,6 +241,25 @@ const playlists = [
       mongoose.Types.ObjectId('5e8a37d0d56ea252c3860a1a')
     ],
     category: mongoose.Types.ObjectId('5e8072e5e478cf39b47bd1ef')
+  },
+  {
+    _id: mongoose.Types.ObjectId('5e8a6d96d4be480ab1d91c95'),
+    name: 'Top Party',
+    owner: mongoose.Types.ObjectId('5e8125dc54660672fd69987f'),
+    collaborative: false,
+    description:
+      'Songs I Put on to Look “With It” When I’d Rather Be Listening to Yanni on a Windy Moor 2',
+    public: true,
+    followers: [],
+    images: [
+      'https://zasymphonia.ddns.net/api/v1/images/playlists/playlist13.jpg'
+    ],
+    tracks: [
+      mongoose.Types.ObjectId('5e7d2dc03429e24340ff1396'),
+      mongoose.Types.ObjectId('5e7d2ddd3429e24340ff1397'),
+      mongoose.Types.ObjectId('5e7d2e023429e24340ff1398')
+    ],
+    category: mongoose.Types.ObjectId('5e8072e5e478cf39b47bd1ef')
   }
 ];
 
