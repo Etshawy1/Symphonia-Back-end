@@ -268,7 +268,6 @@ exports.updateCurrentUserProfile = catchAsync(async (req, res, next) => {
   );
   res.status(200).json(user);
 });
-
 exports.currentUserProfile = catchAsync(async (req, res, next) => {
   const currentUser = await exports.getProfileInfo(req.user._id);
   res.status(200).json(currentUser);
