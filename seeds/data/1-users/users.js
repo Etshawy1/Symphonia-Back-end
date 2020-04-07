@@ -28,12 +28,20 @@ const users = [
       repeatOnce: false,
       shuffle: false
     },
-    ownedPlaylists: [],
+    ownedPlaylists: [
+      mongoose.Types.ObjectId('5e7969965146d92e98ac3ef7'),
+      mongoose.Types.ObjectId('5e7ac3c7d43a2c49909c549c'),
+      mongoose.Types.ObjectId('5e805a8a3711912168602afa'),
+      mongoose.Types.ObjectId('5e875c15ba6ebe663fdbb2c1')
+    ],
     googleId: 'googleId',
     imageGoogleUrl:
       'https://lh3.googleusercontent.com/a-/AOh14Gga4UgHOVM-hgdnV5Sv8OusgKzhsfmiYv5wEgSwxA',
     imageUrl: 'https://zasymphonia.ddns.net/api/v1/images/users/default.png',
-    followedAlbums: []
+    followedAlbums: [
+      mongoose.Types.ObjectId('5e701f4d2672a63a60573a02'),
+      mongoose.Types.ObjectId('5e701fdf2672a63a60573a06')
+    ]
   },
   {
     _id: mongoose.Types.ObjectId('5e812a3454660672fd699880'),
@@ -60,9 +68,14 @@ const users = [
       repeatOnce: false,
       shuffle: false
     },
-    ownedPlaylists: [],
+    ownedPlaylists: [
+      mongoose.Types.ObjectId('5e806865ef653f5a541e0b1d'),
+      mongoose.Types.ObjectId('5e8069722fcb0d35900c4d64'),
+      mongoose.Types.ObjectId('5e8078b0dbaafc18605cb029'),
+      mongoose.Types.ObjectId('5e8828df838d9835d207016d')
+    ],
     imageUrl: 'https://zasymphonia.ddns.net/api/v1/images/users/default.png',
-    followedAlbums: []
+    followedAlbums: [mongoose.Types.ObjectId('5e794163c01c024ecc3c31d3')]
   },
   {
     _id: mongoose.Types.ObjectId('5e812db054660672fd699881'),
@@ -86,9 +99,17 @@ const users = [
       repeatOnce: false,
       shuffle: false
     },
-    ownedPlaylists: [],
+    ownedPlaylists: [
+      mongoose.Types.ObjectId('5e8088fa79844f135496ec7f'),
+      mongoose.Types.ObjectId('5e875b1cba6ebe663fdbb2bc'),
+      mongoose.Types.ObjectId('5e875bd6ba6ebe663fdbb2c0'),
+      mongoose.Types.ObjectId('5e882913838d9835d207016e')
+    ],
     imageUrl: 'https://zasymphonia.ddns.net/api/v1/images/users/default.png',
-    followedAlbums: []
+    followedAlbums: [
+      mongoose.Types.ObjectId('5e89f33375bcc40cc4b5a736'),
+      mongoose.Types.ObjectId('5e701fdf2672a63a60573a06')
+    ]
   },
 
   {
@@ -203,7 +224,7 @@ const users = [
     followedAlbums: []
   },
   {
-    _id: mongoose.Types.ObjectId('5e8b6d866253cb184eaac150'),
+    _id: mongoose.Types.ObjectId('5e8b6c246253cb184eaac14f'),
     followedUsers: [],
     email: 'test7@test.com',
     password: '$2b$12$GDzaxr1IqINkhDi7v67F3OLfD..QeYS7PUsLkIxUg8O4NO8lkP0cS',
@@ -239,7 +260,7 @@ const users = [
       shuffle: false
     },
     ownedPlaylists: [],
-    imageUrl: 'https://zasymphonia.ddns.net/api/v1/images/users/tr-st.jpg',
+    imageUrl: 'https://zasymphonia.ddns.net/api/v1/images/users/default.png',
     followedAlbums: [],
     history: mongoose.Types.ObjectId('5e8298c93c8b02a9402482bc')
   }
