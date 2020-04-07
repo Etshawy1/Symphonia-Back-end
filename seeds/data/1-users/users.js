@@ -196,6 +196,47 @@ const users = [
     ownedPlaylists: [],
     imageUrl: 'https://zasymphonia.ddns.net/api/v1/images/users/tr-st.jpg',
     followedAlbums: []
+  },
+  {
+    _id: mongoose.Types.ObjectId('5e8b6d866253cb184eaac150'),
+    followedUsers: [],
+    email: 'test7@test.com',
+    password: '$2b$12$GDzaxr1IqINkhDi7v67F3OLfD..QeYS7PUsLkIxUg8O4NO8lkP0cS',
+    name: 'Mohamed Alaa',
+    dateOfBirth: '1999-09-09T00:00:00.000+00:00',
+    gender: 'male',
+    type: 'user',
+    queue: {
+      queueTracks: [
+        'https://zasymphonia.ddns.net/api/v1/me/player/tracks/5e7d2dc03429e24340ff1396',
+        'https://zasymphonia.ddns.net/api/v1/me/player/tracks/5e7d2ddd3429e24340ff1397',
+        'https://zasymphonia.ddns.net/api/v1/me/player/tracks/5e7d2e023429e24340ff1398'
+      ],
+      currentlyPlaying: {
+        currentTrack:
+          'https://zasymphonia.ddns.net/api/v1/me/player/tracks/5e7d2ddd3429e24340ff1397',
+        device: {
+          _id: mongoose.Types.ObjectId('5e8ba7b243427f32bcb6e75d')
+        }
+      },
+      previousTrack:
+        'https://zasymphonia.ddns.net/api/v1/me/player/tracks/5e7d2dc03429e24340ff1396',
+      nextTrack:
+        'https://zasymphonia.ddns.net/api/v1/me/player/tracks/5e7d2e023429e24340ff1398',
+      devices: [
+        {
+          _id: mongoose.Types.ObjectId('5e8ba7b243427f32bcb6e75d'),
+          devicesName: 'chrome'
+        }
+      ],
+      repeat: false,
+      repeatOnce: false,
+      shuffle: false
+    },
+    ownedPlaylists: [],
+    imageUrl: 'https://zasymphonia.ddns.net/api/v1/images/users/tr-st.jpg',
+    followedAlbums: [],
+    history: mongoose.Types.ObjectId('5e8298c93c8b02a9402482bc')
   }
 ];
 
