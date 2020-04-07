@@ -223,7 +223,7 @@ describe('meController.userProfile', () => {
     controller.getProfileInfo = jest.fn().mockResolvedValue(user);
     await exec();
     expect(res.status).toHaveBeenCalledWith(200);
-    expect(res.json).toHaveBeenCalledWith({ currentUser: user });
+    expect(res.json).toHaveBeenCalledWith(user);
   });
   it('should return null because no user with that id ', async () => {
     req = {
@@ -252,9 +252,7 @@ describe('me.CurrentUserProfile', () => {
     controller.getProfileInfo = jest.fn().mockResolvedValue(user);
     await exec();
     expect(res.status).toHaveBeenCalledWith(200);
-    expect(res.json).toHaveBeenCalledWith({
-      currentUser: user
-    });
+    expect(res.json).toHaveBeenCalledWith(user);
   });
 });
 
@@ -746,7 +744,14 @@ describe('meController.pushQueue', () => {
       queueTracks: [
         'http://localhost:3000/api/v1/me/player/tracks/5e7d2dc03429e24340ff1396',
         'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef4'
-      ]
+      ],
+      currentlyPlaying: {
+        currentTrack:
+          'http://localhost:3000/api/v1/me/player/tracks/5e7d2dc03429e24340ff1396'
+      },
+      nextTrack:
+        'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef4',
+      previousTrack: null
     }
   };
   const exec = async () => {
@@ -785,7 +790,14 @@ describe('meController.popQueue', () => {
         'http://localhost:3000/api/v1/me/player/tracks/5e7d2dc03429e24340ff1396',
         'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef4',
         'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef7'
-      ]
+      ],
+      currentlyPlaying: {
+        currentTrack:
+          'http://localhost:3000/api/v1/me/player/tracks/5e7d2dc03429e24340ff1396'
+      },
+      nextTrack:
+        'http://localhost:3000/api/v1/me/player/tracks/5e7969965146d92e98ac3ef4',
+      previousTrack: null
     }
   };
 

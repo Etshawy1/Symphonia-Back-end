@@ -11,7 +11,7 @@ pipeline {
       stage('Build') {
          steps {
             sh 'sudo npm i'
-            sh 'sudo npm i -g nodemon'
+            
         
          }
       }

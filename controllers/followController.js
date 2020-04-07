@@ -89,6 +89,14 @@ exports.followPlaylist = catchAsync(async (req, res, next) => {
   res.status(200).json();
 });
 
+exports.followedPlaylistCount = catchAsync(async (req, res, next) => {
+  const count = await Playlist.count({
+    followers: { $elemMatch: { $eq: req.user._id } }
+  });
+  console.log(count);
+  res.status(200).json({ FollowedPlaylists: count });
+});
+
 // TODO: handle the next href and the
 // TODO: the query must have the type parameter specified and type = artist (i didn't include it)
 exports.getUserFollowedArtists = catchAsync(async (req, res, next) => {
@@ -156,7 +164,8 @@ exports.getUserFollowedArtists = catchAsync(async (req, res, next) => {
     next: myNext,
     cursors: {
       after: afterId
-    }
+    },
+    totalFollowed: originalTotal
   });
 });
 // removes the users with ids from current user

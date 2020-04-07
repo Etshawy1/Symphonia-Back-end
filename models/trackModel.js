@@ -29,7 +29,9 @@ const trackSchema = new mongoose.Schema({
       ref: 'Category',
       required: true,
       validate: function (val) {
-        if (Array.isArray(val) && val.length === 0) { throw new Error('track should have a Category'); }
+        if (Array.isArray(val) && val.length === 0) {
+          throw new Error('track should have a Category');
+        }
       }
     }
   ],
@@ -49,9 +51,20 @@ const trackSchema = new mongoose.Schema({
   usersCount: {
     type: Number
   },
-  trackImageUrl: String,
-  trackPath: String
+  trackPath: String,
+  explicit: {
+    type: Boolean,
+    default: false
+  },
+  previewUrl: {
+    type: String,
+    select: false
+  }
 });
+trackSchema.methods.getPreviewUrl = function (localhost) {
+  if (!localhost) return '';
+  else return `${localhost}api/v1/me/player/tracks/5e8a1e0f7937ec4d40c6deba`;
+};
 const Track = mongoose.model('Track', trackSchema);
 async function validateTrack (user) {
   const schema = Joi.object({

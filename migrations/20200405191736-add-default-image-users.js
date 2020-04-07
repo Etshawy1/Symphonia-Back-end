@@ -5,7 +5,7 @@ module.exports = {
       {
         $set: {
           imageUrl:
-            'http://ec2-54-197-122-205.compute-1.amazonaws.com/api/v1/images/users/default.png'
+            'http://zasymphonia.ddns.net/api/v1/images/users/default.png'
         }
       },
       {

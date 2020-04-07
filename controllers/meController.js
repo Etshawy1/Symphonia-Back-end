@@ -8,6 +8,7 @@ const PlayList = require('./../models/playlistModel');
 const Album = require('./../models/albumModel');
 const { History } = require('./../models/historyModel');
 const APIFeatures = require('./../utils/apiFeatures');
+const _ = require('lodash');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 const mimeNames = {
@@ -26,7 +27,10 @@ async function getProfileInfo (userId) {
     .select('-passwordConfirm')
     .select('-passwordChangedAt')
     .select('-passwordResetToken')
-    .select('-active');
+    .select('-active')
+    .select('-queue')
+    .select('-googleId')
+    .select('-facebookId');
 }
 
 async function getTopArtistsAndTracks (Model, query) {
@@ -196,11 +200,11 @@ exports.playTrack = catchAsync(async (req, res) => {
   }
   const { trackPath } = track;
   // Check if file exists. If not, will return the 404 'Not Found'.
-  //if (!fs.existsSync(`${trackPath}`)) {
-  //  __logger.error(`track at ${trackPath} doesn't exist`);
-  //  sendResponse(res, 404, null, null);
-  //  return null;
-  //}
+  if (!fs.existsSync(`${trackPath}`)) {
+    __logger.error(`track at ${trackPath} doesn't exist`);
+    sendResponse(res, 404, null, null);
+    return null;
+  }
   __logger.error(`track at ${trackPath} exists`);
   const responseHeaders = {};
   const stat = fs.statSync(trackPath);
@@ -250,15 +254,22 @@ exports.userProfile = catchAsync(async (req, res, next) => {
   if (!currentUser) {
     return next(new AppError('No user found', 404));
   }
-  res.status(200).json({
-    currentUser
-  });
+  res.status(200).json(currentUser);
 });
+exports.updateCurrentUserProfile = catchAsync(async (req, res, next) => {
+  const user = await User.findByIdAndUpdate(
+    req.user._id,
+    {
+      ..._.pick(req.body, ['email', 'dateOfBirth', 'gender', 'phone', 'name'])
+    },
+    { new: true, runValidators: true }
+  );
+  res.status(200).json(user);
+});
+
 exports.currentUserProfile = catchAsync(async (req, res, next) => {
   const currentUser = await exports.getProfileInfo(req.user._id);
-  res.status(200).json({
-    currentUser
-  });
+  res.status(200).json(currentUser);
 });
 //wait
 exports.topTracksAndArtists = catchAsync(async (req, res, next) => {
@@ -415,6 +426,13 @@ exports.next = catchAsync(async (req, res, next) => {
 exports.pushQueue = catchAsync(async (req, res, next) => {
   const user = await User.findById(req.user._id);
   const currentUserQueue = user.queue;
+  if (!user.queue.nextTrack) {
+    user.queue.nextTrack = req.body.track;
+  }
+  if (!user.queue.currentlyPlaying.currentTrack) {
+    user.queue.currentlyPlaying.currentTrack = req.body.track;
+  }
+
   currentUserQueue.queueTracks.push(req.body.track);
   await user.save({ validateBeforeSave: false });
   res.status(200).json({
@@ -431,6 +449,16 @@ exports.popQueue = catchAsync(async (req, res, next) => {
     return next(new AppError('This Track is not in your current queue', 404));
   }
   currentUserQueue.queueTracks.splice(indexOfPreviousTrack, 1);
+  if (
+    currentUserQueue.currentlyPlaying.currentTrack == req.body.removedTrack &&
+    currentUserQueue.queueTracks.length - 1 !== indexOfPreviousTrack
+  ) {
+    currentUserQueue.currentlyPlaying.currentTrack = currentUserQueue.nextTrack;
+    currentUserQueue.nextTrack =
+      currentUserQueue.queueTracks[indexOfPreviousTrack + 1];
+  } else if (currentUserQueue.queueTracks.length - 1 !== indexOfPreviousTrack) {
+    currentUserQueue.currentlyPlaying.currentTrack = currentUserQueue.nextTrack;
+  }
   await user.save({ validateBeforeSave: false });
   res.status(204).json({
     data: null
