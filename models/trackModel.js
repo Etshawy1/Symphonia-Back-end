@@ -55,8 +55,16 @@ const trackSchema = new mongoose.Schema({
   explicit: {
     type: Boolean,
     default: false
+  },
+  previewUrl: {
+    type: String,
+    select: false
   }
 });
+trackSchema.methods.getPreviewUrl = function (localhost) {
+  if (!localhost) return '';
+  else return `${localhost}api/v1/me/player/tracks/5e8a1e0f7937ec4d40c6deba`;
+};
 const Track = mongoose.model('Track', trackSchema);
 async function validateTrack (user) {
   const schema = Joi.object({

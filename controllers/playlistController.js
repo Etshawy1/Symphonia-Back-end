@@ -110,7 +110,24 @@ exports.getPlaylistTracks = catchAsync(async (req, res, next) => {
     .sort()
     .paginate();
 
-  const tracks = await features.query;
+  const tracks = await features.query.populate([
+    {
+      path: 'tracks',
+      model: 'Track',
+      populate: {
+        path: 'album',
+        model: 'Album'
+      }
+    },
+    {
+      path: 'tracks',
+      model: 'Track',
+      populate: {
+        path: 'artist',
+        model: 'User'
+      }
+    }
+  ]);
 
   res.send(tracks);
 });

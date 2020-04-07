@@ -128,9 +128,11 @@ exports.playTrack = catchAsync(async (req, res) => {
       req.headers.range = updatedUser.queue.seek;
     }
   } else {
+    const playlist = await PlayList.findById(req.body.contextId);
     const item = {
       track: track._id,
       played_at: Date.now(),
+      context: playlist,
       contextUrl: req.body.context_url,
       contextType: req.body.context_type
     };
@@ -266,7 +268,6 @@ exports.updateCurrentUserProfile = catchAsync(async (req, res, next) => {
   );
   res.status(200).json(user);
 });
-
 exports.currentUserProfile = catchAsync(async (req, res, next) => {
   const currentUser = await exports.getProfileInfo(req.user._id);
   res.status(200).json(currentUser);
@@ -429,8 +430,8 @@ exports.pushQueue = catchAsync(async (req, res, next) => {
   if (!user.queue.nextTrack) {
     user.queue.nextTrack = req.body.track;
   }
-  if (!user.queue.currentPlaying.currentTrack) {
-    user.queue.currentPlaying.currentTrack = req.body.track;
+  if (!user.queue.currentlyPlaying.currentTrack) {
+    user.queue.currentlyPlaying.currentTrack = req.body.track;
   }
 
   currentUserQueue.queueTracks.push(req.body.track);
@@ -450,7 +451,7 @@ exports.popQueue = catchAsync(async (req, res, next) => {
   }
   currentUserQueue.queueTracks.splice(indexOfPreviousTrack, 1);
   if (
-    currentUserQueue.currentPlaying.currentTrack == req.body.removedTrack &&
+    currentUserQueue.currentlyPlaying.currentTrack == req.body.removedTrack &&
     currentUserQueue.queueTracks.length - 1 !== indexOfPreviousTrack
   ) {
     currentUserQueue.currentlyPlaying.currentTrack = currentUserQueue.nextTrack;
