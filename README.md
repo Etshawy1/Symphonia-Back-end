@@ -2,9 +2,6 @@
 
 <img style ="display:block;magin:0 auto;" src='https://github.com/Etshawy1/Symphonia-Back-end/blob/dev/assets/icons/icon.png?raw=true'></img>
 
-<hr/>
-<br/>
-
 The back end of Symphonia website (a spotify-like music streaming application)
 
 ## Getting Started
@@ -18,6 +15,16 @@ These instructions will get you a copy of the project up and running on your loc
       npm i
 
 - then you will need a file called `.env` without a name only an extension to exist in the root directory you should find it in the delivered folder in google drive or you should contact us as this file contains all our secrets.
+
+- we use npm package `winston` for logging so, you need to make a folder called `logs` in the root directory and make 3 files:
+
+  1. `exceptions.log` this file will have any erros with the error stack that prevented the project from running or made the server go down.
+
+  2. `error.log` this file will contain any erros that happen with packages or responses to invalid or malformed requests.
+
+  3. `combined.log` this contains same content as `error.log` but has more data like the links visited tracked by npm package `morgan` and any thing we want to debug.
+
+- for running the project you can `npm i -g nodemon` then type `nodemon` it will run the project and refresh at any change of code on saving .
 
 ### Note about the database
 
