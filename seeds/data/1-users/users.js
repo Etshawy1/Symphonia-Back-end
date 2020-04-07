@@ -28,6 +28,7 @@ const users = [
       repeatOnce: false,
       shuffle: false
     },
+    followedTracks: [mongoose.Types.ObjectId('5e7d2dc03429e24340ff1396')],
     ownedPlaylists: [
       mongoose.Types.ObjectId('5e7969965146d92e98ac3ef7'),
       mongoose.Types.ObjectId('5e7ac3c7d43a2c49909c549c'),
@@ -135,6 +136,11 @@ const users = [
       shuffle: false
     },
     ownedPlaylists: [],
+    tracks: [
+      mongoose.Types.ObjectId('5e7d2dc03429e24340ff1396'),
+      mongoose.Types.ObjectId('5e7d2ddd3429e24340ff1397'),
+      mongoose.Types.ObjectId('5e7d2e023429e24340ff1398')
+    ],
     imageUrl:
       'https://zasymphonia.ddns.net/api/v1/images/users/Tame-Impala.jpg',
     followedAlbums: []
@@ -162,6 +168,11 @@ const users = [
       shuffle: false
     },
     ownedPlaylists: [],
+    tracks: [
+      mongoose.Types.ObjectId('5e7d334860cd930408a5f995'),
+      mongoose.Types.ObjectId('5e8a1e0f7937ec4d40c6deba'),
+      mongoose.Types.ObjectId('5e8a1e727937ec4d40c6debb')
+    ],
     imageUrl: 'https://zasymphonia.ddns.net/api/v1/images/users/Interpol.jpg',
     followedAlbums: []
   },
@@ -188,6 +199,11 @@ const users = [
       shuffle: false
     },
     ownedPlaylists: [],
+    tracks: [
+      mongoose.Types.ObjectId('5e8a1e767937ec4d40c6debc'),
+      mongoose.Types.ObjectId('5e8a1e937937ec4d40c6debd'),
+      mongoose.Types.ObjectId('5e8a1e727937ec4d40c6debb')
+    ],
     imageUrl:
       'https://zasymphonia.ddns.net/api/v1/images/users/Minuit-Machine.jpg',
     followedAlbums: []

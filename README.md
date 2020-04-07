@@ -48,3 +48,8 @@ These instructions will get you a copy of the project up and running on your loc
 ### functional documentation
 
 - run the script `npm i -g jsdoc` then to generate documentation of a certain file in some path write `jsdoc {path}` this will generate files in folder name `./out`.
+
+### api documentation
+
+- we used postman documentation you can find the post man collection in the root of the repo in json format you can import it in postman application also if you the link of the current documentation, updated with real time example responses from seeds, but description of the returned objects to be updated.
+  `https://documenter.getpostman.com/view/10629897/SzRw3C6L?version=latest`
