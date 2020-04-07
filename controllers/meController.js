@@ -8,6 +8,7 @@ const PlayList = require('./../models/playlistModel');
 const Album = require('./../models/albumModel');
 const { History } = require('./../models/historyModel');
 const APIFeatures = require('./../utils/apiFeatures');
+const _ = require('lodash');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 const mimeNames = {
@@ -253,7 +254,16 @@ exports.userProfile = catchAsync(async (req, res, next) => {
   }
   res.status(200).json(currentUser);
 });
-exports.updateCurrentUserProfile = catchAsync(async (req, res, next) => {});
+exports.updateCurrentUserProfile = catchAsync(async (req, res, next) => {
+  const user = await User.findByIdAndUpdate(
+    req.user._id,
+    {
+      ..._.pick(req.body, ['email', 'dateOfBirth', 'gender', 'phone', 'name'])
+    },
+    { new: true, runValidators: true }
+  );
+  res.status(200).json(user);
+});
 
 exports.currentUserProfile = catchAsync(async (req, res, next) => {
   const currentUser = await exports.getProfileInfo(req.user._id);
@@ -522,7 +532,9 @@ exports.webhookCheckout = catchAsync(async (req, res, next) => {
   } catch (err) {
     return res.status(400).send(`Webhook error: ${err.message}`);
   }
-  if (event.type === 'checkout.session.completed') { createPremiumSubscriptionCheckout(event.data.object); }
+  if (event.type === 'checkout.session.completed') {
+    createPremiumSubscriptionCheckout(event.data.object);
+  }
   res.status(200).json({ received: true });
 });
 module.exports.sendResponse = sendResponse;

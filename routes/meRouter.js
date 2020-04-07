@@ -49,9 +49,8 @@ router.get('/top/:type', meController.topTracksAndArtists);
 // get recent tracks
 router.get('/recently-played', meController.recentlyPlayed);
 // get user privte profile
-router
-  .get('/', meController.currentUserProfile)
-  .put('/updateinfo', meController.updateCurrentUserProfile);
+router.get('/', meController.currentUserProfile);
+router.put('/', meController.updateCurrentUserProfile);
 
 // router.batch('/v1/me/player/play',);
 // premium with creditcard
