@@ -429,8 +429,8 @@ exports.pushQueue = catchAsync(async (req, res, next) => {
   if (!user.queue.nextTrack) {
     user.queue.nextTrack = req.body.track;
   }
-  if (!user.queue.currentPlaying.currentTrack) {
-    user.queue.currentPlaying.currentTrack = req.body.track;
+  if (!user.queue.currentlyPlaying.currentTrack) {
+    user.queue.currentlyPlaying.currentTrack = req.body.track;
   }
 
   currentUserQueue.queueTracks.push(req.body.track);
@@ -450,7 +450,7 @@ exports.popQueue = catchAsync(async (req, res, next) => {
   }
   currentUserQueue.queueTracks.splice(indexOfPreviousTrack, 1);
   if (
-    currentUserQueue.currentPlaying.currentTrack == req.body.removedTrack &&
+    currentUserQueue.currentlyPlaying.currentTrack == req.body.removedTrack &&
     currentUserQueue.queueTracks.length - 1 !== indexOfPreviousTrack
   ) {
     currentUserQueue.currentlyPlaying.currentTrack = currentUserQueue.nextTrack;
