@@ -32,10 +32,12 @@ const playlistSchema = new mongoose.Schema(
         ref: 'Track'
       }
     ],
-    followers: {
-      type: [mongoose.Schema.Types.ObjectId],
-      ref: 'User'
-    },
+    followers: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+      }
+    ],
     category: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Category'

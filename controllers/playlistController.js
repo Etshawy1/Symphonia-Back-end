@@ -110,7 +110,24 @@ exports.getPlaylistTracks = catchAsync(async (req, res, next) => {
     .sort()
     .paginate();
 
-  const tracks = await features.query;
+  const tracks = await features.query.populate([
+    {
+      path: 'tracks',
+      model: 'Track',
+      populate: {
+        path: 'album',
+        model: 'Album'
+      }
+    },
+    {
+      path: 'tracks',
+      model: 'Track',
+      populate: {
+        path: 'artist',
+        model: 'User'
+      }
+    }
+  ]);
 
   res.send(tracks);
 });
@@ -163,7 +180,7 @@ exports.addTracksToPlaylist = catchAsync(async (req, res, next) => {
       if (trackarr[j] == InputTrackarr[i]) delete InputTrackarr[i];
     }
   }
-  let RealTracksArray = InputTrackarr.filter(function(el) {
+  let RealTracksArray = InputTrackarr.filter(function (el) {
     return el != null;
   });
 
@@ -246,7 +263,7 @@ exports.maintainPlaylistTracks = catchAsync(async (req, res, next) => {
       for (let index = 0; index < playlistTracks.length; index++) {
         console.log(playlistTracks[index]); //////////////////////////////////////////////
       }
-      playlistTracks = playlistTracks.filter(function(el) {
+      playlistTracks = playlistTracks.filter(function (el) {
         return el != null;
       });
       console.log('After Filtering');
