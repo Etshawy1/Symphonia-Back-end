@@ -72,9 +72,9 @@ exports.getUserPlaylists = catchAsync(async (req, res, next) => {
 });
 
 exports.getCurrentUserPlaylists = catchAsync(async (req, res, next) => {
-  const playlist = await User.User.findById(req.user._id).select(
-    'ownedPlaylists'
-  );
+  const playlist = await User.User.findById(req.user._id)
+    .select('ownedPlaylists')
+    .populate('ownedPlaylists');
   res.send(playlist);
 });
 
@@ -180,7 +180,7 @@ exports.addTracksToPlaylist = catchAsync(async (req, res, next) => {
       if (trackarr[j] == InputTrackarr[i]) delete InputTrackarr[i];
     }
   }
-  let RealTracksArray = InputTrackarr.filter(function(el) {
+  let RealTracksArray = InputTrackarr.filter(function (el) {
     return el != null;
   });
 
@@ -258,7 +258,7 @@ exports.maintainPlaylistTracks = catchAsync(async (req, res, next) => {
         delete playlistTracks[i++];
       }
 
-      playlistTracks = playlistTracks.filter(function(el) {
+      playlistTracks = playlistTracks.filter(function (el) {
         return el != null;
       });
 

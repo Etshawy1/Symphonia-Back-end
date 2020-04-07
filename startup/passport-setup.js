@@ -70,16 +70,7 @@ passport.use(
         'https://zasymphonia.ddns.net/api/v1/users/auth/facebook/Symphonia',
       clientID: process.env.CLIENT_ID_FACEBOOK,
       clientSecret: process.env.CLIENT_SECRET_FACEBOOK,
-      profileFields: [
-        'id',
-        'displayName',
-        'name',
-        'photos',
-        'email',
-        'friends',
-        'gender',
-        'birthday'
-      ]
+      profileFields: ['id', 'displayName', 'name', 'photos', 'email']
     },
     catchAsync(async (accessToken, refreshToken, profile, done) => {
       const existingUser = await User.findOne({
@@ -111,8 +102,6 @@ passport.use(
             name: profile.displayName,
             facebookId: profile.id,
             imageFacebookUrl: `${profile.photos[0].value}`,
-            dateOfBirth: profile._json.birthday,
-            gender: profile.gender,
             last_login: Date.now()
           });
           newUser.save({
