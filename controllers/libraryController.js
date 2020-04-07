@@ -162,15 +162,66 @@ exports.getCurrentUserSavedTracks = catchAsync(async (req, res, next) => {
 });
 
 exports.removeCurrentUserAlbums = catchAsync(async (req, res, next) => {
-  res.status(200).json({
-    message: 'not implementedd yet removeCurrentUserAlbums'
+  if (!req.query.ids) {
+    return next(new AppError('please provide the ids parameter', 400));
+  }
+  let ids = req.query.ids.split(',');
+  isInvalid = false;
+
+  try {
+    ids.forEach(element => {
+      if (!mongoose.Types.ObjectId.isValid(element)) {
+        throw new AppError('invalid ids provided', 400);
+      }
+    });
+  } catch (error) {
+    return next(error);
+  }
+
+  // now i have to loop on the ids in the
+  ids.forEach(element => {
+    index = req.user.followedAlbums.indexOf(element);
+    if (index != -1) {
+      // remove it
+      // swap the index with last then pop
+      lastItem = req.user.followedAlbums[req.user.followedAlbums.length - 1];
+      req.user.followedAlbums[index] = lastItem;
+      req.user.followedAlbums.pop();
+    }
   });
+  await req.user.save({ validateBeforeSave: false });
+  res.status(200).json();
 });
 
 exports.removeCurrentUserSavedTracks = catchAsync(async (req, res, next) => {
-  res.status(200).json({
-    message: 'not implementedd yet removeUserSavedTracks'
+  if (!req.query.ids) {
+    return next(new AppError('please provide the ids parameter', 400));
+  }
+  let ids = req.query.ids.split(',');
+  isInvalid = false;
+
+  try {
+    ids.forEach(element => {
+      if (!mongoose.Types.ObjectId.isValid(element)) {
+        throw new AppError('invalid ids provided', 400);
+      }
+    });
+  } catch (error) {
+    return next(error);
+  }
+  // now i have to loop on the ids in the
+  ids.forEach(element => {
+    index = req.user.followedTracks.indexOf(element);
+    if (index != -1) {
+      // remove it
+      // swap the index with last then pop
+      lastItem = req.user.followedTracks[req.user.followedTracks.length - 1];
+      req.user.followedTracks[index] = lastItem;
+      req.user.followedTracks.pop();
+    }
   });
+  await req.user.save({ validateBeforeSave: false });
+  res.status(200).json();
 });
 
 // TODO: check that there are albums with these ids
