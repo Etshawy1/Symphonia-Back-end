@@ -9,17 +9,20 @@ exports.FollowUser = catchAsync(async (req, res, next) => {
     return next(new AppError('ids field is missing', 400)); // bad request
   }
   const ids = req.query.ids.split(',');
-
-  let currUser = req.user;
-  for (let index = 0; index < ids.length; index++) {
-    const element = ids[index];
-    await User.findByIdAndUpdate(currUser._id, {
-      $push: {
-        followdUsers: element
+  // NOTE: not tested
+  try {
+    ids.forEach(e => {
+      if (req.user.followedUsers.includes(e)) {
+        throw new AppError('user is already followed', 400);
       }
     });
+  } catch (error) {
+    return next(error);
   }
-  res.status(204).json();
+  req.user.followedUsers.push(...ids);
+  user = await req.user.save({ validateBeforeSave: false });
+
+  res.status(200).json(user);
 });
 
 exports.checkIfUserFollower = catchAsync(async (req, res, next) => {
@@ -188,7 +191,7 @@ exports.unfollowPlaylist = catchAsync(async (req, res, next) => {
   let playlistId = req.params.id;
   // remove the user from the playlist
   let playlist = await Playlist.findById(playlistId);
-  playlist.followers = playlist.followers.filter(function (value, index, arr) {
+  playlist.followers = playlist.followers.filter(function(value, index, arr) {
     return value != userId;
   });
   await playlist.save();
