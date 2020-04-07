@@ -263,6 +263,743 @@ const users = [
     imageUrl: 'https://zasymphonia.ddns.net/api/v1/images/users/default.png',
     followedAlbums: [],
     history: mongoose.Types.ObjectId('5e8298c93c8b02a9402482bc')
+  },
+  {
+    _id: mongoose.Types.ObjectId('5e8c73d82a0e4614b88a4ed0'),
+    followedUsers: [],
+    email: 'test8@test.com',
+    password: '$2b$12$GDzaxr1IqINkhDi7v67F3OLfD..QeYS7PUsLkIxUg8O4NO8lkP0cS',
+    name: 'Austra',
+    dateOfBirth: '1980-09-09T00:00:00.000+00:00',
+    gender: 'female',
+    type: 'artist',
+    queue: {
+      devices: [
+        {
+          _id: mongoose.Types.ObjectId('5e8ba7b243427f32bcb6e75d'),
+          devicesName: 'chrome'
+        }
+      ],
+      repeat: false,
+      repeatOnce: false,
+      shuffle: false
+    },
+    ownedPlaylists: [],
+    imageUrl: 'https://zasymphonia.ddns.net/api/v1/images/users/Austra.jpg',
+    followedAlbums: []
+  },
+  {
+    _id: mongoose.Types.ObjectId('5e8c7572e37ac11ac4f01356'),
+    followedUsers: [],
+    email: 'test9@test.com',
+    password: '$2b$12$GDzaxr1IqINkhDi7v67F3OLfD..QeYS7PUsLkIxUg8O4NO8lkP0cS',
+    name: 'Boy Harsher',
+    dateOfBirth: '1988-05-09T00:00:00.000+00:00',
+    gender: 'female',
+    type: 'artist',
+    queue: {
+      devices: [
+        {
+          _id: mongoose.Types.ObjectId('5e8ba7b243427f32bcb6e75d'),
+          devicesName: 'chrome'
+        }
+      ],
+      repeat: false,
+      repeatOnce: false,
+      shuffle: false
+    },
+    ownedPlaylists: [],
+    imageUrl:
+      'https://zasymphonia.ddns.net/api/v1/images/users/Boy-Harsher.jpg',
+    followedAlbums: []
+  },
+  {
+    _id: mongoose.Types.ObjectId('5e8c75c4e37ac11ac4f01357'),
+    followedUsers: [],
+    email: 'test10@test.com',
+    password: '$2b$12$GDzaxr1IqINkhDi7v67F3OLfD..QeYS7PUsLkIxUg8O4NO8lkP0cS',
+    name: 'Chairlift',
+    dateOfBirth: '1987-05-10T00:00:00.000+00:00',
+    gender: 'female',
+    type: 'artist',
+    queue: {
+      devices: [
+        {
+          _id: mongoose.Types.ObjectId('5e8ba7b243427f32bcb6e75d'),
+          devicesName: 'chrome'
+        }
+      ],
+      repeat: false,
+      repeatOnce: false,
+      shuffle: false
+    },
+    ownedPlaylists: [],
+    imageUrl: 'https://zasymphonia.ddns.net/api/v1/images/users/Chairlift.jpg',
+    followedAlbums: []
+  },
+  {
+    _id: mongoose.Types.ObjectId('5e8c7612e37ac11ac4f01358'),
+    followedUsers: [],
+    email: 'test11@test.com',
+    password: '$2b$12$GDzaxr1IqINkhDi7v67F3OLfD..QeYS7PUsLkIxUg8O4NO8lkP0cS',
+    name: 'Cigarettes After Sex',
+    dateOfBirth: '1997-05-16T00:00:00.000+00:00',
+    gender: 'male',
+    type: 'artist',
+    queue: {
+      devices: [
+        {
+          _id: mongoose.Types.ObjectId('5e8ba7b243427f32bcb6e75d'),
+          devicesName: 'chrome'
+        }
+      ],
+      repeat: false,
+      repeatOnce: false,
+      shuffle: false
+    },
+    ownedPlaylists: [],
+    imageUrl:
+      'https://zasymphonia.ddns.net/api/v1/images/users/Cigarettes-After-Sex.jpg',
+    followedAlbums: []
+  },
+  {
+    _id: mongoose.Types.ObjectId('5e8c7669e37ac11ac4f01359'),
+    followedUsers: [],
+    email: 'test12@test.com',
+    password: '$2b$12$GDzaxr1IqINkhDi7v67F3OLfD..QeYS7PUsLkIxUg8O4NO8lkP0cS',
+    name: 'Clario',
+    dateOfBirth: '1997-05-16T00:00:00.000+00:00',
+    gender: 'female',
+    type: 'artist',
+    queue: {
+      devices: [
+        {
+          _id: mongoose.Types.ObjectId('5e8ba7b243427f32bcb6e75d'),
+          devicesName: 'chrome'
+        }
+      ],
+      repeat: false,
+      repeatOnce: false,
+      shuffle: false
+    },
+    ownedPlaylists: [],
+    imageUrl: 'https://zasymphonia.ddns.net/api/v1/images/users/Clario.jpg',
+    followedAlbums: []
+  },
+  {
+    _id: mongoose.Types.ObjectId('5e8c769ce37ac11ac4f0135a'),
+    followedUsers: [],
+    email: 'test13@test.com',
+    password: '$2b$12$GDzaxr1IqINkhDi7v67F3OLfD..QeYS7PUsLkIxUg8O4NO8lkP0cS',
+    name: 'Crystal Castles',
+    dateOfBirth: '1997-05-16T00:00:00.000+00:00',
+    gender: 'female',
+    type: 'artist',
+    queue: {
+      devices: [
+        {
+          _id: mongoose.Types.ObjectId('5e8ba7b243427f32bcb6e75d'),
+          devicesName: 'chrome'
+        }
+      ],
+      repeat: false,
+      repeatOnce: false,
+      shuffle: false
+    },
+    ownedPlaylists: [],
+    imageUrl:
+      'https://zasymphonia.ddns.net/api/v1/images/users/Crystal-Castles.jpg',
+    followedAlbums: []
+  },
+  {
+    _id: mongoose.Types.ObjectId('5e8c76d5e37ac11ac4f0135b'),
+    followedUsers: [],
+    email: 'test14@test.com',
+    password: '$2b$12$GDzaxr1IqINkhDi7v67F3OLfD..QeYS7PUsLkIxUg8O4NO8lkP0cS',
+    name: 'Current Joys',
+    dateOfBirth: '1987-07-16T00:00:00.000+00:00',
+    gender: 'male',
+    type: 'artist',
+    queue: {
+      devices: [
+        {
+          _id: mongoose.Types.ObjectId('5e8ba7b243427f32bcb6e75d'),
+          devicesName: 'chrome'
+        }
+      ],
+      repeat: false,
+      repeatOnce: false,
+      shuffle: false
+    },
+    ownedPlaylists: [],
+    imageUrl:
+      'https://zasymphonia.ddns.net/api/v1/images/users/Current-Joys.jpg',
+    followedAlbums: []
+  },
+  {
+    _id: mongoose.Types.ObjectId('5e8c770de37ac11ac4f0135c'),
+    followedUsers: [],
+    email: 'test15@test.com',
+    password: '$2b$12$GDzaxr1IqINkhDi7v67F3OLfD..QeYS7PUsLkIxUg8O4NO8lkP0cS',
+    name: 'Drab Majesty',
+    dateOfBirth: '1987-07-16T00:00:00.000+00:00',
+    gender: 'male',
+    type: 'artist',
+    queue: {
+      devices: [
+        {
+          _id: mongoose.Types.ObjectId('5e8ba7b243427f32bcb6e75d'),
+          devicesName: 'chrome'
+        }
+      ],
+      repeat: false,
+      repeatOnce: false,
+      shuffle: false
+    },
+    ownedPlaylists: [],
+    imageUrl:
+      'https://zasymphonia.ddns.net/api/v1/images/users/Drab-Majesty.jpg',
+    followedAlbums: []
+  },
+  {
+    _id: mongoose.Types.ObjectId('5e8c7746e37ac11ac4f0135d'),
+    followedUsers: [],
+    email: 'test16@test.com',
+    password: '$2b$12$GDzaxr1IqINkhDi7v67F3OLfD..QeYS7PUsLkIxUg8O4NO8lkP0cS',
+    name: 'Frank Ocean',
+    dateOfBirth: '1991-07-16T00:00:00.000+00:00',
+    gender: 'male',
+    type: 'artist',
+    queue: {
+      devices: [
+        {
+          _id: mongoose.Types.ObjectId('5e8ba7b243427f32bcb6e75d'),
+          devicesName: 'chrome'
+        }
+      ],
+      repeat: false,
+      repeatOnce: false,
+      shuffle: false
+    },
+    ownedPlaylists: [],
+    imageUrl:
+      'https://zasymphonia.ddns.net/api/v1/images/users/Frank-Ocean.jpg',
+    followedAlbums: []
+  },
+  {
+    _id: mongoose.Types.ObjectId('5e8c7786e37ac11ac4f0135e'),
+    followedUsers: [],
+    email: 'test17@test.com',
+    password: '$2b$12$GDzaxr1IqINkhDi7v67F3OLfD..QeYS7PUsLkIxUg8O4NO8lkP0cS',
+    name: 'Joji',
+    dateOfBirth: '1995-07-16T00:00:00.000+00:00',
+    gender: 'male',
+    type: 'artist',
+    queue: {
+      devices: [
+        {
+          _id: mongoose.Types.ObjectId('5e8ba7b243427f32bcb6e75d'),
+          devicesName: 'chrome'
+        }
+      ],
+      repeat: false,
+      repeatOnce: false,
+      shuffle: false
+    },
+    ownedPlaylists: [],
+    imageUrl: 'https://zasymphonia.ddns.net/api/v1/images/users/Joji.jpg',
+    followedAlbums: []
+  },
+  {
+    _id: mongoose.Types.ObjectId('5e8c77c1e37ac11ac4f0135f'),
+    followedUsers: [],
+    email: 'test18@test.com',
+    password: '$2b$12$GDzaxr1IqINkhDi7v67F3OLfD..QeYS7PUsLkIxUg8O4NO8lkP0cS',
+    name: 'Lana Del Rey',
+    dateOfBirth: '1985-08-16T00:00:00.000+00:00',
+    gender: 'female',
+    type: 'artist',
+    queue: {
+      devices: [
+        {
+          _id: mongoose.Types.ObjectId('5e8ba7b243427f32bcb6e75d'),
+          devicesName: 'chrome'
+        }
+      ],
+      repeat: false,
+      repeatOnce: false,
+      shuffle: false
+    },
+    ownedPlaylists: [],
+    imageUrl:
+      'https://zasymphonia.ddns.net/api/v1/images/users/Lana-Del-Rey.jpg',
+    followedAlbums: []
+  },
+  {
+    _id: mongoose.Types.ObjectId('5e8c780ae37ac11ac4f01360'),
+    followedUsers: [],
+    email: 'test19@test.com',
+    password: '$2b$12$GDzaxr1IqINkhDi7v67F3OLfD..QeYS7PUsLkIxUg8O4NO8lkP0cS',
+    name: 'Lebanon Hanover',
+    dateOfBirth: '1995-08-16T00:00:00.000+00:00',
+    gender: 'female',
+    type: 'artist',
+    queue: {
+      devices: [
+        {
+          _id: mongoose.Types.ObjectId('5e8ba7b243427f32bcb6e75d'),
+          devicesName: 'chrome'
+        }
+      ],
+      repeat: false,
+      repeatOnce: false,
+      shuffle: false
+    },
+    ownedPlaylists: [],
+    imageUrl:
+      'https://zasymphonia.ddns.net/api/v1/images/users/Lebanon-Hanover.jpg',
+    followedAlbums: []
+  },
+  {
+    _id: mongoose.Types.ObjectId('5e8c7843e37ac11ac4f01361'),
+    followedUsers: [],
+    email: 'test20@test.com',
+    password: '$2b$12$GDzaxr1IqINkhDi7v67F3OLfD..QeYS7PUsLkIxUg8O4NO8lkP0cS',
+    name: 'Lil Peep',
+    dateOfBirth: '1998-08-16T00:00:00.000+00:00',
+    gender: 'male',
+    type: 'artist',
+    queue: {
+      devices: [
+        {
+          _id: mongoose.Types.ObjectId('5e8ba7b243427f32bcb6e75d'),
+          devicesName: 'chrome'
+        }
+      ],
+      repeat: false,
+      repeatOnce: false,
+      shuffle: false
+    },
+    ownedPlaylists: [],
+    imageUrl: 'https://zasymphonia.ddns.net/api/v1/images/users/Lil-Peep.jpg',
+    followedAlbums: []
+  },
+  {
+    _id: mongoose.Types.ObjectId('5e8c787de37ac11ac4f01362'),
+    followedUsers: [],
+    email: 'test21@test.com',
+    password: '$2b$12$GDzaxr1IqINkhDi7v67F3OLfD..QeYS7PUsLkIxUg8O4NO8lkP0cS',
+    name: 'Man Without Country',
+    dateOfBirth: '1986-04-11T00:00:00.000+00:00',
+    gender: 'male',
+    type: 'artist',
+    queue: {
+      devices: [
+        {
+          _id: mongoose.Types.ObjectId('5e8ba7b243427f32bcb6e75d'),
+          devicesName: 'chrome'
+        }
+      ],
+      repeat: false,
+      repeatOnce: false,
+      shuffle: false
+    },
+    ownedPlaylists: [],
+    imageUrl:
+      'https://zasymphonia.ddns.net/api/v1/images/users/Man-Without-Country.jpg',
+    followedAlbums: []
+  },
+  {
+    _id: mongoose.Types.ObjectId('5e8c78c9e37ac11ac4f01363'),
+    followedUsers: [],
+    email: 'test22@test.com',
+    password: '$2b$12$GDzaxr1IqINkhDi7v67F3OLfD..QeYS7PUsLkIxUg8O4NO8lkP0cS',
+    name: 'Men I Trust',
+    dateOfBirth: '1991-04-01T00:00:00.000+00:00',
+    gender: 'female',
+    type: 'artist',
+    queue: {
+      devices: [
+        {
+          _id: mongoose.Types.ObjectId('5e8ba7b243427f32bcb6e75d'),
+          devicesName: 'chrome'
+        }
+      ],
+      repeat: false,
+      repeatOnce: false,
+      shuffle: false
+    },
+    ownedPlaylists: [],
+    imageUrl:
+      'https://zasymphonia.ddns.net/api/v1/images/users/Men-I-Trust.jpg',
+    followedAlbums: []
+  },
+  {
+    _id: mongoose.Types.ObjectId('5e8c7914e37ac11ac4f01364'),
+    followedUsers: [],
+    email: 'test23@test.com',
+    password: '$2b$12$GDzaxr1IqINkhDi7v67F3OLfD..QeYS7PUsLkIxUg8O4NO8lkP0cS',
+    name: 'Pastel Ghost',
+    dateOfBirth: '1995-04-01T00:00:00.000+00:00',
+    gender: 'female',
+    type: 'artist',
+    queue: {
+      devices: [
+        {
+          _id: mongoose.Types.ObjectId('5e8ba7b243427f32bcb6e75d'),
+          devicesName: 'chrome'
+        }
+      ],
+      repeat: false,
+      repeatOnce: false,
+      shuffle: false
+    },
+    ownedPlaylists: [],
+    imageUrl:
+      'https://zasymphonia.ddns.net/api/v1/images/users/Pastel-Ghost.jpg',
+    followedAlbums: []
+  },
+  {
+    _id: mongoose.Types.ObjectId('5e8c7969e37ac11ac4f01365'),
+    followedUsers: [],
+    email: 'test24@test.com',
+    password: '$2b$12$GDzaxr1IqINkhDi7v67F3OLfD..QeYS7PUsLkIxUg8O4NO8lkP0cS',
+    name: 'Purity Ring',
+    dateOfBirth: '1997-04-01T00:00:00.000+00:00',
+    gender: 'female',
+    type: 'artist',
+    queue: {
+      devices: [
+        {
+          _id: mongoose.Types.ObjectId('5e8ba7b243427f32bcb6e75d'),
+          devicesName: 'chrome'
+        }
+      ],
+      repeat: false,
+      repeatOnce: false,
+      shuffle: false
+    },
+    ownedPlaylists: [],
+    imageUrl:
+      'https://zasymphonia.ddns.net/api/v1/images/users/Purity-Ring.jpg',
+    followedAlbums: []
+  },
+  {
+    _id: mongoose.Types.ObjectId('5e8c7994e37ac11ac4f01366'),
+    followedUsers: [],
+    email: 'test25@test.com',
+    password: '$2b$12$GDzaxr1IqINkhDi7v67F3OLfD..QeYS7PUsLkIxUg8O4NO8lkP0cS',
+    name: 'Sleep Party People',
+    dateOfBirth: '1989-07-01T00:00:00.000+00:00',
+    gender: 'male',
+    type: 'artist',
+    queue: {
+      devices: [
+        {
+          _id: mongoose.Types.ObjectId('5e8ba7b243427f32bcb6e75d'),
+          devicesName: 'chrome'
+        }
+      ],
+      repeat: false,
+      repeatOnce: false,
+      shuffle: false
+    },
+    ownedPlaylists: [],
+    imageUrl:
+      'https://zasymphonia.ddns.net/api/v1/images/users/Sleep-Party-People.jpg',
+    followedAlbums: []
+  },
+  {
+    _id: mongoose.Types.ObjectId('5e8c79e6e37ac11ac4f01367'),
+    followedUsers: [],
+    email: 'test26@test.com',
+    password: '$2b$12$GDzaxr1IqINkhDi7v67F3OLfD..QeYS7PUsLkIxUg8O4NO8lkP0cS',
+    name: 'Soap and Skin',
+    dateOfBirth: '1981-07-01T00:00:00.000+00:00',
+    gender: 'female',
+    type: 'artist',
+    queue: {
+      devices: [
+        {
+          _id: mongoose.Types.ObjectId('5e8ba7b243427f32bcb6e75d'),
+          devicesName: 'chrome'
+        }
+      ],
+      repeat: false,
+      repeatOnce: false,
+      shuffle: false
+    },
+    ownedPlaylists: [],
+    imageUrl:
+      'https://zasymphonia.ddns.net/api/v1/images/users/Soap-And-Skin.jpg',
+    followedAlbums: []
+  },
+  {
+    _id: mongoose.Types.ObjectId('5e8c7a3ee37ac11ac4f01368'),
+    followedUsers: [],
+    email: 'test27@test.com',
+    password: '$2b$12$GDzaxr1IqINkhDi7v67F3OLfD..QeYS7PUsLkIxUg8O4NO8lkP0cS',
+    name: 'Son Lux',
+    dateOfBirth: '1988-07-01T00:00:00.000+00:00',
+    gender: 'male',
+    type: 'artist',
+    queue: {
+      devices: [
+        {
+          _id: mongoose.Types.ObjectId('5e8ba7b243427f32bcb6e75d'),
+          devicesName: 'chrome'
+        }
+      ],
+      repeat: false,
+      repeatOnce: false,
+      shuffle: false
+    },
+    ownedPlaylists: [],
+    imageUrl: 'https://zasymphonia.ddns.net/api/v1/images/users/Son-Lux.jpg',
+    followedAlbums: []
+  },
+  {
+    _id: mongoose.Types.ObjectId('5e8c7a7893ec63187898e826'),
+    followedUsers: [],
+    email: 'test28@test.com',
+    password: '$2b$12$GDzaxr1IqINkhDi7v67F3OLfD..QeYS7PUsLkIxUg8O4NO8lkP0cS',
+    name: 'Vansire',
+    dateOfBirth: '1976-12-15T00:00:00.000+00:00',
+    gender: 'male',
+    type: 'artist',
+    queue: {
+      devices: [
+        {
+          _id: mongoose.Types.ObjectId('5e8ba7b243427f32bcb6e75d'),
+          devicesName: 'chrome'
+        }
+      ],
+      repeat: false,
+      repeatOnce: false,
+      shuffle: false
+    },
+    ownedPlaylists: [],
+    imageUrl: 'https://zasymphonia.ddns.net/api/v1/images/users/Vansire.jpg',
+    followedAlbums: []
+  },
+  {
+    _id: mongoose.Types.ObjectId('5e8c7ab693ec63187898e827'),
+    followedUsers: [],
+    email: 'test29@test.com',
+    password: '$2b$12$GDzaxr1IqINkhDi7v67F3OLfD..QeYS7PUsLkIxUg8O4NO8lkP0cS',
+    name: 'Void Vision',
+    dateOfBirth: '1976-12-15T00:00:00.000+00:00',
+    gender: 'female',
+    type: 'artist',
+    queue: {
+      devices: [
+        {
+          _id: mongoose.Types.ObjectId('5e8ba7b243427f32bcb6e75d'),
+          devicesName: 'chrome'
+        }
+      ],
+      repeat: false,
+      repeatOnce: false,
+      shuffle: false
+    },
+    ownedPlaylists: [],
+    imageUrl:
+      'https://zasymphonia.ddns.net/api/v1/images/users/Void-Vision.jpg',
+    followedAlbums: []
+  },
+  {
+    _id: mongoose.Types.ObjectId('5e8c7aee93ec63187898e828'),
+    followedUsers: [],
+    email: 'test30@test.com',
+    password: '$2b$12$GDzaxr1IqINkhDi7v67F3OLfD..QeYS7PUsLkIxUg8O4NO8lkP0cS',
+    name: 'Washed Out',
+    dateOfBirth: '1978-12-15T00:00:00.000+00:00',
+    gender: 'male',
+    type: 'artist',
+    queue: {
+      devices: [
+        {
+          _id: mongoose.Types.ObjectId('5e8ba7b243427f32bcb6e75d'),
+          devicesName: 'chrome'
+        }
+      ],
+      repeat: false,
+      repeatOnce: false,
+      shuffle: false
+    },
+    ownedPlaylists: [],
+    imageUrl: 'https://zasymphonia.ddns.net/api/v1/images/users/Washed-Out.jpg',
+    followedAlbums: []
+  },
+  {
+    _id: mongoose.Types.ObjectId('5e8c7b2293ec63187898e829'),
+    followedUsers: [],
+    email: 'test31@test.com',
+    password: '$2b$12$GDzaxr1IqINkhDi7v67F3OLfD..QeYS7PUsLkIxUg8O4NO8lkP0cS',
+    name: 'XXXTENTACION',
+    dateOfBirth: '1998-12-15T00:00:00.000+00:00',
+    gender: 'male',
+    type: 'artist',
+    queue: {
+      devices: [
+        {
+          _id: mongoose.Types.ObjectId('5e8ba7b243427f32bcb6e75d'),
+          devicesName: 'chrome'
+        }
+      ],
+      repeat: false,
+      repeatOnce: false,
+      shuffle: false
+    },
+    ownedPlaylists: [],
+    imageUrl:
+      'https://zasymphonia.ddns.net/api/v1/images/users/XXXTENTACION.jpg',
+    followedAlbums: []
+  },
+  {
+    _id: mongoose.Types.ObjectId('5e8c7c030fab001100e883fc'),
+    followedUsers: [],
+    email: 'test32@test.com',
+    password: '$2b$12$GDzaxr1IqINkhDi7v67F3OLfD..QeYS7PUsLkIxUg8O4NO8lkP0cS',
+    name: 'Daft Punk',
+    dateOfBirth: '1987-12-15T00:00:00.000+00:00',
+    gender: 'male',
+    type: 'artist',
+    queue: {
+      devices: [
+        {
+          _id: mongoose.Types.ObjectId('5e8ba7b243427f32bcb6e75d'),
+          devicesName: 'chrome'
+        }
+      ],
+      repeat: false,
+      repeatOnce: false,
+      shuffle: false
+    },
+    ownedPlaylists: [],
+    imageUrl: 'https://zasymphonia.ddns.net/api/v1/images/users/Daft-Punk.jpg',
+    followedAlbums: []
+  },
+  {
+    _id: mongoose.Types.ObjectId('5e8c7c540fab001100e883fd'),
+    followedUsers: [],
+    email: 'test33@test.com',
+    password: '$2b$12$GDzaxr1IqINkhDi7v67F3OLfD..QeYS7PUsLkIxUg8O4NO8lkP0cS',
+    name: 'Ladytron',
+    dateOfBirth: '1987-12-15T00:00:00.000+00:00',
+    gender: 'female',
+    type: 'artist',
+    queue: {
+      devices: [
+        {
+          _id: mongoose.Types.ObjectId('5e8ba7b243427f32bcb6e75d'),
+          devicesName: 'chrome'
+        }
+      ],
+      repeat: false,
+      repeatOnce: false,
+      shuffle: false
+    },
+    ownedPlaylists: [],
+    imageUrl: 'https://zasymphonia.ddns.net/api/v1/images/users/Ladytron.jpg',
+    followedAlbums: []
+  },
+  {
+    _id: mongoose.Types.ObjectId('5e8c7c890fab001100e883fe'),
+    followedUsers: [],
+    email: 'test34@test.com',
+    password: '$2b$12$GDzaxr1IqINkhDi7v67F3OLfD..QeYS7PUsLkIxUg8O4NO8lkP0cS',
+    name: 'The Knife',
+    dateOfBirth: '1987-12-15T00:00:00.000+00:00',
+    gender: 'female',
+    type: 'artist',
+    queue: {
+      devices: [
+        {
+          _id: mongoose.Types.ObjectId('5e8ba7b243427f32bcb6e75d'),
+          devicesName: 'chrome'
+        }
+      ],
+      repeat: false,
+      repeatOnce: false,
+      shuffle: false
+    },
+    ownedPlaylists: [],
+    imageUrl: 'https://zasymphonia.ddns.net/api/v1/images/users/The-Knife.jpg',
+    followedAlbums: []
+  },
+  {
+    _id: mongoose.Types.ObjectId('5e8c7de75b5a8504fcd33a61'),
+    followedUsers: [],
+    email: 'test36@test.com',
+    password: '$2b$12$GDzaxr1IqINkhDi7v67F3OLfD..QeYS7PUsLkIxUg8O4NO8lkP0cS',
+    name: 'Adult',
+    dateOfBirth: '1987-12-15T00:00:00.000+00:00',
+    gender: 'male',
+    type: 'artist',
+    queue: {
+      devices: [
+        {
+          _id: mongoose.Types.ObjectId('5e8ba7b243427f32bcb6e75d'),
+          devicesName: 'chrome'
+        }
+      ],
+      repeat: false,
+      repeatOnce: false,
+      shuffle: false
+    },
+    ownedPlaylists: [],
+    imageUrl: 'https://zasymphonia.ddns.net/api/v1/images/users/Adult.jpg',
+    followedAlbums: []
+  },
+  {
+    _id: mongoose.Types.ObjectId('5e8c7e245b5a8504fcd33a62'),
+    followedUsers: [],
+    email: 'test37@test.com',
+    password: '$2b$12$GDzaxr1IqINkhDi7v67F3OLfD..QeYS7PUsLkIxUg8O4NO8lkP0cS',
+    name: 'Light Asylum',
+    dateOfBirth: '1997-12-15T00:00:00.000+00:00',
+    gender: 'male',
+    type: 'artist',
+    queue: {
+      devices: [
+        {
+          _id: mongoose.Types.ObjectId('5e8ba7b243427f32bcb6e75d'),
+          devicesName: 'chrome'
+        }
+      ],
+      repeat: false,
+      repeatOnce: false,
+      shuffle: false
+    },
+    ownedPlaylists: [],
+    imageUrl:
+      'https://zasymphonia.ddns.net/api/v1/images/users/Light-Asylum.jpg',
+    followedAlbums: []
+  },
+  {
+    _id: mongoose.Types.ObjectId('5e8c7e585b5a8504fcd33a63'),
+    followedUsers: [],
+    email: 'test38@test.com',
+    password: '$2b$12$GDzaxr1IqINkhDi7v67F3OLfD..QeYS7PUsLkIxUg8O4NO8lkP0cS',
+    name: 'Fever Ray',
+    dateOfBirth: '1997-12-15T00:00:00.000+00:00',
+    gender: 'female',
+    type: 'artist',
+    queue: {
+      devices: [
+        {
+          _id: mongoose.Types.ObjectId('5e8ba7b243427f32bcb6e75d'),
+          devicesName: 'chrome'
+        }
+      ],
+      repeat: false,
+      repeatOnce: false,
+      shuffle: false
+    },
+    ownedPlaylists: [],
+    imageUrl: 'https://zasymphonia.ddns.net/api/v1/images/users/Fever-Ray.jpg',
+    followedAlbums: []
   }
 ];
 

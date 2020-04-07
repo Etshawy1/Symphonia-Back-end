@@ -128,9 +128,11 @@ exports.playTrack = catchAsync(async (req, res) => {
       req.headers.range = updatedUser.queue.seek;
     }
   } else {
+    const playlist = await PlayList.findById(req.body.contextId);
     const item = {
       track: track._id,
       played_at: Date.now(),
+      context: playlist,
       contextUrl: req.body.context_url,
       contextType: req.body.context_type
     };
@@ -266,7 +268,6 @@ exports.updateCurrentUserProfile = catchAsync(async (req, res, next) => {
   );
   res.status(200).json(user);
 });
-
 exports.currentUserProfile = catchAsync(async (req, res, next) => {
   const currentUser = await exports.getProfileInfo(req.user._id);
   res.status(200).json(currentUser);
