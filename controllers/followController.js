@@ -3,6 +3,13 @@ const { User } = require('../models/userModel');
 const Playlist = require('../models/playlistModel');
 const AppError = require('../utils/appError');
 const APIFeatures = require('./../utils/apiFeatures');
+const mongoose = require('mongoose');
+
+// there must be ids middle ware that checks the ids
+// of the provided thing
+const checkIds = (req, res, next, Model) => {
+  // firstly check that these
+};
 
 exports.FollowUser = catchAsync(async (req, res, next) => {
   if (!req.query.ids) {
@@ -10,8 +17,12 @@ exports.FollowUser = catchAsync(async (req, res, next) => {
   }
   const ids = req.query.ids.split(',');
   // NOTE: not tested
+
   try {
     ids.forEach(e => {
+      if (!mongoose.Types.ObjectId.isValid(e)) {
+        throw new AppError('invalid ids provided', 400);
+      }
       if (req.user.followedUsers.includes(e)) {
         throw new AppError('user is already followed', 400);
       }
@@ -22,7 +33,7 @@ exports.FollowUser = catchAsync(async (req, res, next) => {
   req.user.followedUsers.push(...ids);
   user = await req.user.save({ validateBeforeSave: false });
 
-  res.status(200).json(user);
+  res.status(204).json(user);
 });
 
 exports.checkIfUserFollower = catchAsync(async (req, res, next) => {
