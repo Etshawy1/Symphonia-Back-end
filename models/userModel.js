@@ -120,6 +120,12 @@ const userSchema = new mongoose.Schema({
       ref: 'Album'
     }
   ],
+  followedTracks: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Track'
+    }
+  ],
   usersCount: {
     type: Number
   },

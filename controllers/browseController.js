@@ -99,7 +99,11 @@ exports.getCategories = catchAsync(async (req, res, next) => {
   });
 });
 
+/**
+ * @summary it returns the artists that the user isn't following
+ */
 exports.getArtists = catchAsync(async (req, res, next) => {
+  console.log('get artists');
   let limit = 20; // the default
   let offset = 0; // the default
   if (req.query.offset) {
@@ -108,8 +112,14 @@ exports.getArtists = catchAsync(async (req, res, next) => {
   if (req.query.limit) {
     limit = parseInt(req.query.limit);
   }
+  // push the user him self
+  excUsers = req.user.followedUsers;
+  excUsers.push(req.user._id);
 
-  const features = new APIFeatures(User.find({ type: 'artist' }), req.query)
+  const features = new APIFeatures(
+    User.find({ _id: { $nin: excUsers }, type: 'artist' }),
+    req.query
+  )
     .filter()
     .sort()
     .limitFields()
