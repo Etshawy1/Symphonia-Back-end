@@ -65,6 +65,11 @@ router.post(
 // Description: check if the current user follows a another user(partist or normal user)
 router.get('/following/contains', followController.checkIfUserFollower);
 
+router.get(
+  '/following/playlists/count',
+  followController.followedPlaylistCount
+);
+
 // Description: follow an artist or user
 router.put('/following', followController.FollowUser);
 

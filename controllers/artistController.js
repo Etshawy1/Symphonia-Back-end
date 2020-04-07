@@ -19,3 +19,15 @@ exports.relatedArtists = catchAsync(async (req, res, next) => {
     artists
   });
 });
+
+exports.ArtistFollowers = catchAsync(async (req, res, next) => {
+  console.log(req.params.id);
+  const followers = await User.find({
+    followedUsers: { $elemMatch: { $eq: req.params.id } }
+  }).select('-queue');
+
+  res.status(200).json({
+    followers,
+    followers_count: followers.length
+  });
+});
