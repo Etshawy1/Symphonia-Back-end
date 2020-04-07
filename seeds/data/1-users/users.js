@@ -32,12 +32,15 @@ const users = [
     googleId: 'googleId',
     imageGoogleUrl:
       'https://lh3.googleusercontent.com/a-/AOh14Gga4UgHOVM-hgdnV5Sv8OusgKzhsfmiYv5wEgSwxA',
-    imageUrl: 'http://zasymphonia.ddns.net/api/v1/images/users/default.png',
+    imageUrl: 'https://zasymphonia.ddns.net/api/v1/images/users/default.png',
     followedAlbums: []
   },
   {
     _id: mongoose.Types.ObjectId('5e812a3454660672fd699880'),
-    followedUsers: [],
+    followedUsers: [
+      mongoose.Types.ObjectId('5e82a48054660672fd699883'),
+      mongoose.Types.ObjectId('5e8b6d866253cb184eaac150')
+    ],
     email: 'test1@test.com',
     password: '$2b$12$GDzaxr1IqINkhDi7v67F3OLfD..QeYS7PUsLkIxUg8O4NO8lkP0cS',
     name: 'user1',
@@ -58,7 +61,7 @@ const users = [
       shuffle: false
     },
     ownedPlaylists: [],
-    imageUrl: 'http://zasymphonia.ddns.net/api/v1/images/users/default.png',
+    imageUrl: 'https://zasymphonia.ddns.net/api/v1/images/users/default.png',
     followedAlbums: []
   },
   {
@@ -84,7 +87,7 @@ const users = [
       shuffle: false
     },
     ownedPlaylists: [],
-    imageUrl: 'http://zasymphonia.ddns.net/api/v1/images/users/default.png',
+    imageUrl: 'https://zasymphonia.ddns.net/api/v1/images/users/default.png',
     followedAlbums: []
   },
 
@@ -111,7 +114,8 @@ const users = [
       shuffle: false
     },
     ownedPlaylists: [],
-    imageUrl: 'http://zasymphonia.ddns.net/api/v1/images/users/Tame-Impala.jpg',
+    imageUrl:
+      'https://zasymphonia.ddns.net/api/v1/images/users/Tame-Impala.jpg',
     followedAlbums: []
   },
   {
@@ -137,7 +141,7 @@ const users = [
       shuffle: false
     },
     ownedPlaylists: [],
-    imageUrl: 'http://zasymphonia.ddns.net/api/v1/images/users/Interpol.jpg',
+    imageUrl: 'https://zasymphonia.ddns.net/api/v1/images/users/Interpol.jpg',
     followedAlbums: []
   },
   {
@@ -164,7 +168,7 @@ const users = [
     },
     ownedPlaylists: [],
     imageUrl:
-      'http://zasymphonia.ddns.net/api/v1/images/users/Minuit-Machine.jpg',
+      'https://zasymphonia.ddns.net/api/v1/images/users/Minuit-Machine.jpg',
     followedAlbums: []
   },
   {
@@ -190,7 +194,7 @@ const users = [
       shuffle: false
     },
     ownedPlaylists: [],
-    imageUrl: 'http://zasymphonia.ddns.net/api/v1/images/users/tr-st.jpg',
+    imageUrl: 'https://zasymphonia.ddns.net/api/v1/images/users/tr-st.jpg',
     followedAlbums: []
   }
 ];

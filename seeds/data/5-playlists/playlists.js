@@ -9,7 +9,7 @@ const playlists = [
     public: true,
     followers: [],
     images: [
-      'http://zasymphonia.ddns.net/api/v1/images/playlists/playlist1.jpg'
+      'https://zasymphonia.ddns.net/api/v1/images/playlists/playlist1.jpg'
     ],
     tracks: [
       mongoose.Types.ObjectId('5e7d2dc03429e24340ff1396'),
@@ -27,7 +27,7 @@ const playlists = [
     public: true,
     followers: [],
     images: [
-      'http://zasymphonia.ddns.net/api/v1/images/playlists/playlist2.jpg'
+      'https://zasymphonia.ddns.net/api/v1/images/playlists/playlist2.jpg'
     ],
     tracks: [
       mongoose.Types.ObjectId('5e7d2ddd3429e24340ff1397'),
@@ -47,7 +47,7 @@ const playlists = [
     public: true,
     followers: [],
     images: [
-      'http://zasymphonia.ddns.net/api/v1/images/playlists/playlist3.jpg'
+      'https://zasymphonia.ddns.net/api/v1/images/playlists/playlist3.jpg'
     ],
     tracks: [mongoose.Types.ObjectId('5e8a1ea07937ec4d40c6debf')],
     category: mongoose.Types.ObjectId('5e8076e6a9902a4328cc285c')
@@ -62,7 +62,7 @@ const playlists = [
     public: true,
     followers: [],
     images: [
-      'http://zasymphonia.ddns.net/api/v1/images/playlists/playlist4.jpg'
+      'https://zasymphonia.ddns.net/api/v1/images/playlists/playlist4.jpg'
     ],
     tracks: [
       mongoose.Types.ObjectId('5e7d334860cd930408a5f995'),
@@ -81,7 +81,7 @@ const playlists = [
     public: true,
     followers: [],
     images: [
-      'http://zasymphonia.ddns.net/api/v1/images/playlists/playlist5.jpg'
+      'https://zasymphonia.ddns.net/api/v1/images/playlists/playlist5.jpg'
     ],
     tracks: [
       mongoose.Types.ObjectId('5e8a39f24e11cd46c8bde654'),
@@ -101,7 +101,7 @@ const playlists = [
     public: true,
     followers: [],
     images: [
-      'http://zasymphonia.ddns.net/api/v1/images/playlists/playlist6.jpg'
+      'https://zasymphonia.ddns.net/api/v1/images/playlists/playlist6.jpg'
     ],
     tracks: [
       mongoose.Types.ObjectId('5e8a39f24e11cd46c8bde654'),
@@ -123,7 +123,7 @@ const playlists = [
     public: true,
     followers: [],
     images: [
-      'http://zasymphonia.ddns.net/api/v1/images/playlists/playlist7.jpg'
+      'https://zasymphonia.ddns.net/api/v1/images/playlists/playlist7.jpg'
     ],
     tracks: [
       mongoose.Types.ObjectId('5e8a1e767937ec4d40c6debc'),
@@ -142,7 +142,7 @@ const playlists = [
     public: true,
     followers: [],
     images: [
-      'http://zasymphonia.ddns.net/api/v1/images/playlists/playlist8.jpg'
+      'https://zasymphonia.ddns.net/api/v1/images/playlists/playlist8.jpg'
     ],
     tracks: [
       mongoose.Types.ObjectId('5e7d2dc03429e24340ff1396'),
@@ -161,7 +161,7 @@ const playlists = [
     public: true,
     followers: [],
     images: [
-      'http://zasymphonia.ddns.net/api/v1/images/playlists/playlist9.jpg'
+      'https://zasymphonia.ddns.net/api/v1/images/playlists/playlist9.jpg'
     ],
     tracks: [mongoose.Types.ObjectId('5e8a39f24e11cd46c8bde654')],
     category: mongoose.Types.ObjectId('5e883e48c808fd1aa40ad1f8')
@@ -176,7 +176,7 @@ const playlists = [
     public: true,
     followers: [],
     images: [
-      'http://zasymphonia.ddns.net/api/v1/images/playlists/playlist10.jpg'
+      'https://zasymphonia.ddns.net/api/v1/images/playlists/playlist10.jpg'
     ],
     tracks: [
       mongoose.Types.ObjectId('5e8a39f24e11cd46c8bde654'),
@@ -199,7 +199,7 @@ const playlists = [
     public: true,
     followers: [],
     images: [
-      'http://zasymphonia.ddns.net/api/v1/images/playlists/playlist11.jpg'
+      'https://zasymphonia.ddns.net/api/v1/images/playlists/playlist11.jpg'
     ],
     tracks: [
       mongoose.Types.ObjectId('5e8a1e9a7937ec4d40c6debe'),
@@ -222,7 +222,7 @@ const playlists = [
     public: true,
     followers: [],
     images: [
-      'http://zasymphonia.ddns.net/api/v1/images/playlists/playlist12.jpg'
+      'https://zasymphonia.ddns.net/api/v1/images/playlists/playlist12.jpg'
     ],
     tracks: [
       mongoose.Types.ObjectId('5e8a1e727937ec4d40c6debb'),
