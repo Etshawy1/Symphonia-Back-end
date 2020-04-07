@@ -29,7 +29,9 @@ const trackSchema = new mongoose.Schema({
       ref: 'Category',
       required: true,
       validate: function (val) {
-        if (Array.isArray(val) && val.length === 0) { throw new Error('track should have a Category'); }
+        if (Array.isArray(val) && val.length === 0) {
+          throw new Error('track should have a Category');
+        }
       }
     }
   ],
@@ -49,8 +51,11 @@ const trackSchema = new mongoose.Schema({
   usersCount: {
     type: Number
   },
-  trackImageUrl: String,
-  trackPath: String
+  trackPath: String,
+  explicit: {
+    type: Boolean,
+    default: false
+  }
 });
 const Track = mongoose.model('Track', trackSchema);
 async function validateTrack (user) {

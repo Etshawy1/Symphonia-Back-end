@@ -257,14 +257,14 @@ exports.userProfile = catchAsync(async (req, res, next) => {
   res.status(200).json(currentUser);
 });
 exports.updateCurrentUserProfile = catchAsync(async (req, res, next) => {
-  const currentUser = await User.findByIdAndUpdate(
+  const user = await User.findByIdAndUpdate(
     req.user._id,
     {
-      ..._.pick(req.body, ['email', 'dateOfBirth', 'gender', 'phone'])
+      ..._.pick(req.body, ['email', 'dateOfBirth', 'gender', 'phone', 'name'])
     },
     { new: true, runValidators: true }
   );
-  res.status(200).json(currentUser);
+  res.status(200).json(user);
 });
 
 exports.currentUserProfile = catchAsync(async (req, res, next) => {
