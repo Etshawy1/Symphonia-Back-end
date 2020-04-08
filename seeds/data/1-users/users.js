@@ -28,6 +28,7 @@ const users = [
       repeatOnce: false,
       shuffle: false
     },
+    followedTracks: [mongoose.Types.ObjectId('5e7d2dc03429e24340ff1396')],
     ownedPlaylists: [
       mongoose.Types.ObjectId('5e7969965146d92e98ac3ef7'),
       mongoose.Types.ObjectId('5e7ac3c7d43a2c49909c549c'),
@@ -37,7 +38,7 @@ const users = [
     googleId: 'googleId',
     imageGoogleUrl:
       'https://lh3.googleusercontent.com/a-/AOh14Gga4UgHOVM-hgdnV5Sv8OusgKzhsfmiYv5wEgSwxA',
-    imageUrl: 'https://zasymphonia.ddns.net/api/v1/images/users/default.png',
+    imageUrl: 'https://thesymphonia.ddns.net/api/v1/images/users/default.png',
     followedAlbums: [
       mongoose.Types.ObjectId('5e701f4d2672a63a60573a02'),
       mongoose.Types.ObjectId('5e701fdf2672a63a60573a06')
@@ -74,7 +75,7 @@ const users = [
       mongoose.Types.ObjectId('5e8078b0dbaafc18605cb029'),
       mongoose.Types.ObjectId('5e8828df838d9835d207016d')
     ],
-    imageUrl: 'https://zasymphonia.ddns.net/api/v1/images/users/default.png',
+    imageUrl: 'https://thesymphonia.ddns.net/api/v1/images/users/default.png',
     followedAlbums: [mongoose.Types.ObjectId('5e794163c01c024ecc3c31d3')]
   },
   {
@@ -105,7 +106,7 @@ const users = [
       mongoose.Types.ObjectId('5e875bd6ba6ebe663fdbb2c0'),
       mongoose.Types.ObjectId('5e882913838d9835d207016e')
     ],
-    imageUrl: 'https://zasymphonia.ddns.net/api/v1/images/users/default.png',
+    imageUrl: 'https://thesymphonia.ddns.net/api/v1/images/users/default.png',
     followedAlbums: [
       mongoose.Types.ObjectId('5e89f33375bcc40cc4b5a736'),
       mongoose.Types.ObjectId('5e701fdf2672a63a60573a06')
@@ -135,8 +136,13 @@ const users = [
       shuffle: false
     },
     ownedPlaylists: [],
+    tracks: [
+      mongoose.Types.ObjectId('5e7d2dc03429e24340ff1396'),
+      mongoose.Types.ObjectId('5e7d2ddd3429e24340ff1397'),
+      mongoose.Types.ObjectId('5e7d2e023429e24340ff1398')
+    ],
     imageUrl:
-      'https://zasymphonia.ddns.net/api/v1/images/users/Tame-Impala.jpg',
+      'https://thesymphonia.ddns.net/api/v1/images/users/Tame-Impala.jpg',
     followedAlbums: []
   },
   {
@@ -162,7 +168,12 @@ const users = [
       shuffle: false
     },
     ownedPlaylists: [],
-    imageUrl: 'https://zasymphonia.ddns.net/api/v1/images/users/Interpol.jpg',
+    tracks: [
+      mongoose.Types.ObjectId('5e7d334860cd930408a5f995'),
+      mongoose.Types.ObjectId('5e8a1e0f7937ec4d40c6deba'),
+      mongoose.Types.ObjectId('5e8a1e727937ec4d40c6debb')
+    ],
+    imageUrl: 'https://thesymphonia.ddns.net/api/v1/images/users/Interpol.jpg',
     followedAlbums: []
   },
   {
@@ -188,8 +199,13 @@ const users = [
       shuffle: false
     },
     ownedPlaylists: [],
+    tracks: [
+      mongoose.Types.ObjectId('5e8a1e767937ec4d40c6debc'),
+      mongoose.Types.ObjectId('5e8a1e937937ec4d40c6debd'),
+      mongoose.Types.ObjectId('5e8a1e727937ec4d40c6debb')
+    ],
     imageUrl:
-      'https://zasymphonia.ddns.net/api/v1/images/users/Minuit-Machine.jpg',
+      'https://thesymphonia.ddns.net/api/v1/images/users/Minuit-Machine.jpg',
     followedAlbums: []
   },
   {
@@ -220,7 +236,7 @@ const users = [
       mongoose.Types.ObjectId('5e8a39f24e11cd46c8bde654')
     ],
     ownedPlaylists: [],
-    imageUrl: 'https://zasymphonia.ddns.net/api/v1/images/users/tr-st.jpg',
+    imageUrl: 'https://thesymphonia.ddns.net/api/v1/images/users/tr-st.jpg',
     followedAlbums: []
   },
   {
@@ -234,21 +250,21 @@ const users = [
     type: 'user',
     queue: {
       queueTracks: [
-        'https://zasymphonia.ddns.net/api/v1/me/player/tracks/5e7d2dc03429e24340ff1396',
-        'https://zasymphonia.ddns.net/api/v1/me/player/tracks/5e7d2ddd3429e24340ff1397',
-        'https://zasymphonia.ddns.net/api/v1/me/player/tracks/5e7d2e023429e24340ff1398'
+        'https://thesymphonia.ddns.net/api/v1/me/player/tracks/5e7d2dc03429e24340ff1396',
+        'https://thesymphonia.ddns.net/api/v1/me/player/tracks/5e7d2ddd3429e24340ff1397',
+        'https://thesymphonia.ddns.net/api/v1/me/player/tracks/5e7d2e023429e24340ff1398'
       ],
       currentlyPlaying: {
         currentTrack:
-          'https://zasymphonia.ddns.net/api/v1/me/player/tracks/5e7d2ddd3429e24340ff1397',
+          'https://thesymphonia.ddns.net/api/v1/me/player/tracks/5e7d2ddd3429e24340ff1397',
         device: {
           _id: mongoose.Types.ObjectId('5e8ba7b243427f32bcb6e75d')
         }
       },
       previousTrack:
-        'https://zasymphonia.ddns.net/api/v1/me/player/tracks/5e7d2dc03429e24340ff1396',
+        'https://thesymphonia.ddns.net/api/v1/me/player/tracks/5e7d2dc03429e24340ff1396',
       nextTrack:
-        'https://zasymphonia.ddns.net/api/v1/me/player/tracks/5e7d2e023429e24340ff1398',
+        'https://thesymphonia.ddns.net/api/v1/me/player/tracks/5e7d2e023429e24340ff1398',
       devices: [
         {
           _id: mongoose.Types.ObjectId('5e8ba7b243427f32bcb6e75d'),
@@ -260,7 +276,7 @@ const users = [
       shuffle: false
     },
     ownedPlaylists: [],
-    imageUrl: 'https://zasymphonia.ddns.net/api/v1/images/users/default.png',
+    imageUrl: 'https://thesymphonia.ddns.net/api/v1/images/users/default.png',
     followedAlbums: [],
     history: mongoose.Types.ObjectId('5e8298c93c8b02a9402482bc')
   },
@@ -285,7 +301,7 @@ const users = [
       shuffle: false
     },
     ownedPlaylists: [],
-    imageUrl: 'https://zasymphonia.ddns.net/api/v1/images/users/Austra.jpg',
+    imageUrl: 'https://thesymphonia.ddns.net/api/v1/images/users/Austra.jpg',
     followedAlbums: []
   },
   {
@@ -310,7 +326,7 @@ const users = [
     },
     ownedPlaylists: [],
     imageUrl:
-      'https://zasymphonia.ddns.net/api/v1/images/users/Boy-Harsher.jpg',
+      'https://thesymphonia.ddns.net/api/v1/images/users/Boy-Harsher.jpg',
     followedAlbums: []
   },
   {
@@ -334,7 +350,7 @@ const users = [
       shuffle: false
     },
     ownedPlaylists: [],
-    imageUrl: 'https://zasymphonia.ddns.net/api/v1/images/users/Chairlift.jpg',
+    imageUrl: 'https://thesymphonia.ddns.net/api/v1/images/users/Chairlift.jpg',
     followedAlbums: []
   },
   {
@@ -359,7 +375,7 @@ const users = [
     },
     ownedPlaylists: [],
     imageUrl:
-      'https://zasymphonia.ddns.net/api/v1/images/users/Cigarettes-After-Sex.jpg',
+      'https://thesymphonia.ddns.net/api/v1/images/users/Cigarettes-After-Sex.jpg',
     followedAlbums: []
   },
   {
@@ -383,7 +399,7 @@ const users = [
       shuffle: false
     },
     ownedPlaylists: [],
-    imageUrl: 'https://zasymphonia.ddns.net/api/v1/images/users/Clario.jpg',
+    imageUrl: 'https://thesymphonia.ddns.net/api/v1/images/users/Clario.jpg',
     followedAlbums: []
   },
   {
@@ -408,7 +424,7 @@ const users = [
     },
     ownedPlaylists: [],
     imageUrl:
-      'https://zasymphonia.ddns.net/api/v1/images/users/Crystal-Castles.jpg',
+      'https://thesymphonia.ddns.net/api/v1/images/users/Crystal-Castles.jpg',
     followedAlbums: []
   },
   {
@@ -433,7 +449,7 @@ const users = [
     },
     ownedPlaylists: [],
     imageUrl:
-      'https://zasymphonia.ddns.net/api/v1/images/users/Current-Joys.jpg',
+      'https://thesymphonia.ddns.net/api/v1/images/users/Current-Joys.jpg',
     followedAlbums: []
   },
   {
@@ -458,7 +474,7 @@ const users = [
     },
     ownedPlaylists: [],
     imageUrl:
-      'https://zasymphonia.ddns.net/api/v1/images/users/Drab-Majesty.jpg',
+      'https://thesymphonia.ddns.net/api/v1/images/users/Drab-Majesty.jpg',
     followedAlbums: []
   },
   {
@@ -483,7 +499,7 @@ const users = [
     },
     ownedPlaylists: [],
     imageUrl:
-      'https://zasymphonia.ddns.net/api/v1/images/users/Frank-Ocean.jpg',
+      'https://thesymphonia.ddns.net/api/v1/images/users/Frank-Ocean.jpg',
     followedAlbums: []
   },
   {
@@ -507,7 +523,7 @@ const users = [
       shuffle: false
     },
     ownedPlaylists: [],
-    imageUrl: 'https://zasymphonia.ddns.net/api/v1/images/users/Joji.jpg',
+    imageUrl: 'https://thesymphonia.ddns.net/api/v1/images/users/Joji.jpg',
     followedAlbums: []
   },
   {
@@ -532,7 +548,7 @@ const users = [
     },
     ownedPlaylists: [],
     imageUrl:
-      'https://zasymphonia.ddns.net/api/v1/images/users/Lana-Del-Rey.jpg',
+      'https://thesymphonia.ddns.net/api/v1/images/users/Lana-Del-Rey.jpg',
     followedAlbums: []
   },
   {
@@ -557,7 +573,7 @@ const users = [
     },
     ownedPlaylists: [],
     imageUrl:
-      'https://zasymphonia.ddns.net/api/v1/images/users/Lebanon-Hanover.jpg',
+      'https://thesymphonia.ddns.net/api/v1/images/users/Lebanon-Hanover.jpg',
     followedAlbums: []
   },
   {
@@ -581,7 +597,7 @@ const users = [
       shuffle: false
     },
     ownedPlaylists: [],
-    imageUrl: 'https://zasymphonia.ddns.net/api/v1/images/users/Lil-Peep.jpg',
+    imageUrl: 'https://thesymphonia.ddns.net/api/v1/images/users/Lil-Peep.jpg',
     followedAlbums: []
   },
   {
@@ -606,7 +622,7 @@ const users = [
     },
     ownedPlaylists: [],
     imageUrl:
-      'https://zasymphonia.ddns.net/api/v1/images/users/Man-Without-Country.jpg',
+      'https://thesymphonia.ddns.net/api/v1/images/users/Man-Without-Country.jpg',
     followedAlbums: []
   },
   {
@@ -631,7 +647,7 @@ const users = [
     },
     ownedPlaylists: [],
     imageUrl:
-      'https://zasymphonia.ddns.net/api/v1/images/users/Men-I-Trust.jpg',
+      'https://thesymphonia.ddns.net/api/v1/images/users/Men-I-Trust.jpg',
     followedAlbums: []
   },
   {
@@ -656,7 +672,7 @@ const users = [
     },
     ownedPlaylists: [],
     imageUrl:
-      'https://zasymphonia.ddns.net/api/v1/images/users/Pastel-Ghost.jpg',
+      'https://thesymphonia.ddns.net/api/v1/images/users/Pastel-Ghost.jpg',
     followedAlbums: []
   },
   {
@@ -681,7 +697,7 @@ const users = [
     },
     ownedPlaylists: [],
     imageUrl:
-      'https://zasymphonia.ddns.net/api/v1/images/users/Purity-Ring.jpg',
+      'https://thesymphonia.ddns.net/api/v1/images/users/Purity-Ring.jpg',
     followedAlbums: []
   },
   {
@@ -706,7 +722,7 @@ const users = [
     },
     ownedPlaylists: [],
     imageUrl:
-      'https://zasymphonia.ddns.net/api/v1/images/users/Sleep-Party-People.jpg',
+      'https://thesymphonia.ddns.net/api/v1/images/users/Sleep-Party-People.jpg',
     followedAlbums: []
   },
   {
@@ -731,7 +747,7 @@ const users = [
     },
     ownedPlaylists: [],
     imageUrl:
-      'https://zasymphonia.ddns.net/api/v1/images/users/Soap-And-Skin.jpg',
+      'https://thesymphonia.ddns.net/api/v1/images/users/Soap-And-Skin.jpg',
     followedAlbums: []
   },
   {
@@ -755,7 +771,7 @@ const users = [
       shuffle: false
     },
     ownedPlaylists: [],
-    imageUrl: 'https://zasymphonia.ddns.net/api/v1/images/users/Son-Lux.jpg',
+    imageUrl: 'https://thesymphonia.ddns.net/api/v1/images/users/Son-Lux.jpg',
     followedAlbums: []
   },
   {
@@ -779,7 +795,7 @@ const users = [
       shuffle: false
     },
     ownedPlaylists: [],
-    imageUrl: 'https://zasymphonia.ddns.net/api/v1/images/users/Vansire.jpg',
+    imageUrl: 'https://thesymphonia.ddns.net/api/v1/images/users/Vansire.jpg',
     followedAlbums: []
   },
   {
@@ -804,7 +820,7 @@ const users = [
     },
     ownedPlaylists: [],
     imageUrl:
-      'https://zasymphonia.ddns.net/api/v1/images/users/Void-Vision.jpg',
+      'https://thesymphonia.ddns.net/api/v1/images/users/Void-Vision.jpg',
     followedAlbums: []
   },
   {
@@ -828,7 +844,8 @@ const users = [
       shuffle: false
     },
     ownedPlaylists: [],
-    imageUrl: 'https://zasymphonia.ddns.net/api/v1/images/users/Washed-Out.jpg',
+    imageUrl:
+      'https://thesymphonia.ddns.net/api/v1/images/users/Washed-Out.jpg',
     followedAlbums: []
   },
   {
@@ -853,7 +870,7 @@ const users = [
     },
     ownedPlaylists: [],
     imageUrl:
-      'https://zasymphonia.ddns.net/api/v1/images/users/XXXTENTACION.jpg',
+      'https://thesymphonia.ddns.net/api/v1/images/users/XXXTENTACION.jpg',
     followedAlbums: []
   },
   {
@@ -877,7 +894,7 @@ const users = [
       shuffle: false
     },
     ownedPlaylists: [],
-    imageUrl: 'https://zasymphonia.ddns.net/api/v1/images/users/Daft-Punk.jpg',
+    imageUrl: 'https://thesymphonia.ddns.net/api/v1/images/users/Daft-Punk.jpg',
     followedAlbums: []
   },
   {
@@ -901,7 +918,7 @@ const users = [
       shuffle: false
     },
     ownedPlaylists: [],
-    imageUrl: 'https://zasymphonia.ddns.net/api/v1/images/users/Ladytron.jpg',
+    imageUrl: 'https://thesymphonia.ddns.net/api/v1/images/users/Ladytron.jpg',
     followedAlbums: []
   },
   {
@@ -925,7 +942,7 @@ const users = [
       shuffle: false
     },
     ownedPlaylists: [],
-    imageUrl: 'https://zasymphonia.ddns.net/api/v1/images/users/The-Knife.jpg',
+    imageUrl: 'https://thesymphonia.ddns.net/api/v1/images/users/The-Knife.jpg',
     followedAlbums: []
   },
   {
@@ -949,7 +966,7 @@ const users = [
       shuffle: false
     },
     ownedPlaylists: [],
-    imageUrl: 'https://zasymphonia.ddns.net/api/v1/images/users/Adult.jpg',
+    imageUrl: 'https://thesymphonia.ddns.net/api/v1/images/users/Adult.jpg',
     followedAlbums: []
   },
   {
@@ -974,7 +991,7 @@ const users = [
     },
     ownedPlaylists: [],
     imageUrl:
-      'https://zasymphonia.ddns.net/api/v1/images/users/Light-Asylum.jpg',
+      'https://thesymphonia.ddns.net/api/v1/images/users/Light-Asylum.jpg',
     followedAlbums: []
   },
   {
@@ -998,7 +1015,7 @@ const users = [
       shuffle: false
     },
     ownedPlaylists: [],
-    imageUrl: 'https://zasymphonia.ddns.net/api/v1/images/users/Fever-Ray.jpg',
+    imageUrl: 'https://thesymphonia.ddns.net/api/v1/images/users/Fever-Ray.jpg',
     followedAlbums: []
   }
 ];

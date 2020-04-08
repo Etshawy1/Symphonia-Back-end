@@ -1,6 +1,6 @@
 module.exports = {
   async up (db, client) {
-    await db.collection('users').updateMany({}, { $rename: { role: 'type' } });
+    db.collection('users').createIndex({ email: 1 }, { unique: true });
   },
 
   async down (db, client) {

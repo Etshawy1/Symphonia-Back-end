@@ -23,7 +23,7 @@ exports.getAlbum = catchAsync(async (req, res, next) => {
     .sort()
     .limitFields()
     .paginate();
-  const album = await features.query;
+  const album = await features.query.populate('tracks');
   res.status(200).send(album);
 });
 
@@ -37,7 +37,7 @@ exports.getAlbumTracks = catchAsync(async (req, res, next) => {
     .filter()
     .sort()
     .paginate();
-  const tracks = await features.query;
+  const tracks = await features.query.populate('tracks');
   res.status(200).send(tracks);
 });
 
