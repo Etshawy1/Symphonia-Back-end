@@ -9,6 +9,7 @@ const tracks = [
     artist: mongoose.Types.ObjectId('5e8137aa54660672fd699882'),
     trackPath: 'assets/tracks/Instant-Destiny.mp3',
     explicit: false,
+    premium: false,
     type: 'track'
   },
   {
@@ -20,6 +21,7 @@ const tracks = [
     artist: mongoose.Types.ObjectId('5e8137aa54660672fd699882'),
     trackPath: 'assets/tracks/Borderline.mp3',
     explicit: false,
+    premium: false,
     type: 'track'
   },
   {
@@ -31,6 +33,7 @@ const tracks = [
     artist: mongoose.Types.ObjectId('5e8137aa54660672fd699882'),
     trackPath: 'assets/tracks/Posthumous-Forgiveness.mp3',
     explicit: false,
+    premium: true,
     type: 'track'
   },
   {
@@ -42,6 +45,7 @@ const tracks = [
     artist: mongoose.Types.ObjectId('5e82a48054660672fd699883'),
     trackPath: 'assets/tracks/Everything-Is-Wrong.mp3',
     explicit: false,
+    premium: false,
     type: 'track'
   },
   {
@@ -53,6 +57,7 @@ const tracks = [
     artist: mongoose.Types.ObjectId('5e82a48054660672fd699883'),
     trackPath: 'assets/tracks/My-Desire.mp3',
     explicit: false,
+    premium: true,
     type: 'track'
   },
   {
@@ -64,6 +69,7 @@ const tracks = [
     artist: mongoose.Types.ObjectId('5e82a48054660672fd699883'),
     trackPath: 'assets/tracks/All-The-Rage-Back-Home.mp3',
     explicit: false,
+    premium: false,
     type: 'track'
   },
   {
@@ -75,6 +81,7 @@ const tracks = [
     artist: mongoose.Types.ObjectId('5e84b966681ae439edfc1d6f'),
     trackPath: 'assets/tracks/Honey.mp3',
     explicit: true,
+    premium: true,
     type: 'track'
   },
   {
@@ -86,6 +93,7 @@ const tracks = [
     artist: mongoose.Types.ObjectId('5e84b966681ae439edfc1d6f'),
     trackPath: 'assets/tracks/BATTLES.mp3',
     explicit: true,
+    premium: false,
     type: 'track'
   },
   {
@@ -97,6 +105,7 @@ const tracks = [
     artist: mongoose.Types.ObjectId('5e84b966681ae439edfc1d6f'),
     trackPath: 'assets/tracks/Black-is-my-anger.mp3',
     explicit: true,
+    premium: false,
     type: 'track'
   },
   {
@@ -108,6 +117,7 @@ const tracks = [
     artist: mongoose.Types.ObjectId('5e8b6d866253cb184eaac150'),
     trackPath: 'assets/tracks/Bulbform.mp3',
     explicit: true,
+    premium: false,
     type: 'track'
   },
   {
@@ -119,6 +129,7 @@ const tracks = [
     artist: mongoose.Types.ObjectId('5e8b6d866253cb184eaac150'),
     trackPath: 'assets/tracks/Dressed-For-Space.mp3',
     explicit: true,
+    premium: false,
     type: 'track'
   },
   {
@@ -130,6 +141,7 @@ const tracks = [
     artist: mongoose.Types.ObjectId('5e8b6d866253cb184eaac150'),
     trackPath: 'assets/tracks/Sulk.mp3',
     explicit: true,
+    premium: true,
     type: 'track'
   }
 ];
