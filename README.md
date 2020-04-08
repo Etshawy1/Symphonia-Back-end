@@ -32,7 +32,6 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### migrations & seeds
 
-- no need to run migrations as the existing seeds are up to date with our schemas.
 - to run seeds you need to type those commands:
 
       cd seeds/
@@ -42,6 +41,14 @@ These instructions will get you a copy of the project up and running on your loc
       node seed
 
   you also have to read the comments in file seed in the path `seeds\seed.js` in order to know how to configure the database to be connected when you seed.
+
+- to run migrations after seeding type the following commands:
+
+      cd ..
+
+      migrate-mongo up
+
+  Note: our migrations does one thing it creates a unique index for email in users schema to ensure uniqueness.
 
 ### Unit testing
 

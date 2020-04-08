@@ -1,7 +1,7 @@
 const path = require('path');
 process.env.DEBUG = 'mongo-seeding';
 const { Seeder } = require('mongo-seeding');
-require('dotenv').config();
+require('dotenv').config('../.env');
 
 // you should have a .env file in this directory to connect to a database to be seeded
 // but if you choose the online one the used npm library won't connect as online connection takes time

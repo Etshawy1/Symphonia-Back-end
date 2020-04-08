@@ -5,7 +5,7 @@ const categories = [
     icons: [
       {
         url:
-          'https://zasymphonia.ddns.net/api/v1/browse/categories/images/Psychedelic-pop.jpg',
+          'https://thesymphonia.ddns.net/api/v1/browse/categories/images/Psychedelic-pop.jpg',
         width: 300,
         height: 300
       }
@@ -19,7 +19,7 @@ const categories = [
     icons: [
       {
         url:
-          'https://zasymphonia.ddns.net/api/v1/browse/categories/images/Indie-rock.jpg',
+          'https://thesymphonia.ddns.net/api/v1/browse/categories/images/Indie-rock.jpg',
         width: 300,
         height: 300
       }
@@ -33,7 +33,7 @@ const categories = [
     icons: [
       {
         url:
-          'https://zasymphonia.ddns.net/api/v1/browse/categories/images/Alternative.jpg',
+          'https://thesymphonia.ddns.net/api/v1/browse/categories/images/Alternative.jpg',
         width: 300,
         height: 300
       }
@@ -47,7 +47,7 @@ const categories = [
     icons: [
       {
         url:
-          'https://zasymphonia.ddns.net/api/v1/browse/categories/images/Electronic.jpg',
+          'https://thesymphonia.ddns.net/api/v1/browse/categories/images/Electronic.jpg',
         width: 300,
         height: 300
       }
