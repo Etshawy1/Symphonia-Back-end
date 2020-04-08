@@ -40,6 +40,7 @@ router.get('/player/currently-playing', meController.getCurrentlyPlaying);
 router.get('/player/queue', meController.getQueue);
 // play the track
 router.post('/player/tracks/:track_id', meController.playTrack);
+router.get('/player/tracks/:track_id', meController.playTrack);
 
 // get top artist and top tracks
 router.get('/top/:type', meController.topTracksAndArtists);
