@@ -48,7 +48,7 @@ These instructions will get you a copy of the project up and running on your loc
 
       migrate-mongo up
 
-  Note: our migrations does one thing it creates a unique index for email in users schema to ensure uniqueness.
+  Note: our migrations does one thing it creates a unique index for necessary fields in the created collections.
 
 ### Unit testing
 

@@ -59,6 +59,10 @@ const trackSchema = new mongoose.Schema({
   previewUrl: {
     type: String,
     select: false
+  },
+  premium: {
+    type: Boolean,
+    defult: false
   }
 });
 trackSchema.methods.getPreviewUrl = function (localhost) {
