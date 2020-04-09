@@ -1,0 +1,1774 @@
+commit 2c1507d09a1866629cdec1ad108a006d5573fd6f
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Wed Apr 8 18:58:54 2020 +0200
+
+    added premium tracks attribute in the model and seeds under demand of front and android, updated readme
+
+commit 5da96bfb26790314f0cbd667cac1c4baad3a38e2
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Wed Apr 8 10:41:45 2020 +0200
+
+    final touch in seed configuration file
+
+commit 454a020fa8ce7bee450d1243c481a3d02e779543
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Wed Apr 8 10:28:28 2020 +0200
+
+    forgot to save a file before previous commit
+
+commit f4bfe4f70a7329e2955c5d126d51826041864ae3
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Wed Apr 8 10:27:18 2020 +0200
+
+    updating read me, removing old migrations as they are unimportant after the new seeds and added one important migration, also updated the seeds with the new dns of our server as DevOps changed it due to exceeding the weekly limit of something I am not sure about so you could ask him
+
+commit 150026ab8b8081419e2f7a45a24cd37899f5b921
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Tue Apr 7 23:42:24 2020 +0200
+
+    update readme again
+
+commit 0a242e36ec9b2819aa0e3620c31130f8e08bea66
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Tue Apr 7 23:22:15 2020 +0200
+
+    updated readme, user seed
+
+commit 197b1747f0b012ae32aa42d77837e121ba36410d
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Tue Apr 7 21:43:37 2020 +0200
+
+    modified readme again
+
+commit 7bd2f6879c8500914d53855ddca9423e891539f2
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Tue Apr 7 21:31:31 2020 +0200
+
+    updated read me file
+
+commit b762881fade1ca376dab9c271ecc8de40418aebb
+Merge: 1d0fdf6 d450811
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Tue Apr 7 20:34:20 2020 +0200
+
+    Merge branch 'dev' of https://github.com/Etshawy1/Symphonia-Back-end into dev
+
+commit 1d0fdf66ccfe4a06090f38e030db1f353cd04558
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Tue Apr 7 20:34:09 2020 +0200
+
+    remove rate limiting for the testing team to be able to stress test
+
+commit d45081165959fa369f12b21d054c5497b549095d
+Merge: 5f7a8a3 2fdb25b
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Tue Apr 7 20:23:23 2020 +0200
+
+    Merge branch 'dev' of github.com:Etshawy1/Symphonia-Back-end into dev
+
+commit 5f7a8a3002aeb7595ee64499e6a18d08b24d71c1
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Tue Apr 7 20:22:58 2020 +0200
+
+    passport and route fix
+
+commit 2fdb25b7a47b3d595ac330b823498d9298f807c5
+Merge: d1b5a82 acb0088
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Tue Apr 7 20:13:11 2020 +0200
+
+    Merge branch 'dev' of https://github.com/Etshawy1/Symphonia-Back-end into dev
+
+commit d1b5a8237688b662573777cb21bb8034b0a28058
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Tue Apr 7 20:11:58 2020 +0200
+
+    remove unimportant two files
+
+commit acb00888199c13803401743a9d1d87bb7bdaf25d
+Merge: 91daf16 a439c62
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Tue Apr 7 20:07:40 2020 +0200
+
+    Merge branch 'master' of github.com:Etshawy1/Symphonia-Back-end
+
+commit 91daf16f5556a19677082fe6c769bf35fc9734c5
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Tue Apr 7 20:07:18 2020 +0200
+
+    fix small error in seeds
+
+commit a439c62116b38b8d4da63b0d17737b6fdab7515e
+Merge: 2962fef 29a2dfe
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Tue Apr 7 20:00:16 2020 +0200
+
+    Merge branch 'dev' of https://github.com/Etshawy1/Symphonia-Back-end into dev
+
+commit 2962fef905cc836e16ebd63924b2099bcb3d111c
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Tue Apr 7 20:00:09 2020 +0200
+
+    populate some response instead of id only for the lazy androids
+
+commit 3f2ab3f7344294839418547441d13750a0c3e9ff
+Merge: 9622e2f e031c17
+Author: omar9984 <omartarek9984@gmail.com>
+Date:   Tue Apr 7 19:40:12 2020 +0200
+
+    Merge branch 'dev' of https://github.com/Etshawy1/Symphonia-Back-end into dev
+
+commit 9622e2fb26b6877cd0fb5a22060f1b32fbff3831
+Author: omar9984 <omartarek9984@gmail.com>
+Date:   Tue Apr 7 19:08:59 2020 +0200
+
+    removing some comments and debugging process
+
+commit 29a2dfe1314ed836b8b020c5d0d6e822fb015ad9
+Merge: d779668 3f2ab3f
+Author: marait123 <44650320+marait123@users.noreply.github.com>
+Date:   Tue Apr 7 09:52:23 2020 -0700
+
+    Merge branch 'dev' of https://github.com/Etshawy1/Symphonia-Back-end into dev
+
+commit d779668e1dd901ca21fba4cf762de89c41cb2500
+Author: marait123 <44650320+marait123@users.noreply.github.com>
+Date:   Tue Apr 7 09:51:38 2020 -0700
+
+    recommended artists added
+
+commit e031c17ac8ee67b66377580c2bd8a8323aaad78a
+Merge: b238593 9924e08
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Tue Apr 7 18:32:30 2020 +0200
+
+    Merge branch 'dev' of github.com:Etshawy1/Symphonia-Back-end into dev
+
+commit b238593a630f165aa83a808a77e0430f7ffeb732
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Tue Apr 7 18:32:07 2020 +0200
+
+     post the track
+
+commit 9924e087ecacf217fab674c3ee82f54dca191532
+Merge: f7e7af5 cdf2b72
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Tue Apr 7 18:10:04 2020 +0200
+
+    Merge branch 'dev' of https://github.com/Etshawy1/Symphonia-Back-end into dev
+
+commit f7e7af55485390f4dc75d23a96c49dc516d2de2e
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Tue Apr 7 18:09:35 2020 +0200
+
+    modify response of get playlist tracks to have track objects not ids only
+    '
+
+commit cdf2b724d86944d31d49933197ec1a3015c57bc1
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Tue Apr 7 17:27:21 2020 +0200
+
+    add history to seeds
+
+commit 1c911153dac9d4c3e7a8f59277390dbdd3488470
+Merge: f2d2218 54c497d
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Tue Apr 7 16:38:53 2020 +0200
+
+    Merge branch 'dev' of github.com:Etshawy1/Symphonia-Back-end into dev
+
+commit f2d2218863afb72d984af19a6f40f3b97971bf91
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Tue Apr 7 16:38:19 2020 +0200
+
+    reconstruct the history
+
+commit 54c497d611385c00d7d0bbfac86727ec1cd3434b
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Tue Apr 7 16:18:50 2020 +0200
+
+    seed configurations to connect to the database
+
+commit 129007b1eeaaaad0ccbd473982d328f2ba9b7283
+Merge: 5d38dfb 8d8dceb
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Tue Apr 7 15:22:48 2020 +0200
+
+    Merge branch 'dev' of https://github.com/Etshawy1/Symphonia-Back-end into dev
+
+commit 5d38dfb47a7ebf08ae1124a56af607f9b9b5e199
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Tue Apr 7 15:22:41 2020 +0200
+
+    adding more artists seeds for the android team
+
+commit bd1ae2e3d1041bf2293b2965e762ad052ad7d160
+Merge: db0964e 53c48b0
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Tue Apr 7 14:19:52 2020 +0200
+
+    Merge branch 'dev' of github.com:Etshawy1/Symphonia-Back-end into dev
+
+commit db0964ee980a52f9438423f479bc768c5d0930a5
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Tue Apr 7 14:19:03 2020 +0200
+
+    fix small error in seed
+
+commit 53c48b07391831461ce1775391fa26c14d65f3d4
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Tue Apr 7 14:07:42 2020 +0200
+
+    fix little problem in seed of last user that had duplicate id
+
+commit f70af51df5c6ecfa05a486fd50d5a792811ff8d5
+Merge: 87a681a f22d2c4
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Tue Apr 7 13:54:39 2020 +0200
+
+    Merge branch 'dev' of https://github.com/Etshawy1/Symphonia-Back-end into dev
+
+commit 87a681a5f89b8f34a8b435862e60b21b4254894a
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Tue Apr 7 13:54:25 2020 +0200
+
+    updated seeds, only missing is to have a seed data in queue object of the user and maybe history collection
+
+commit 8d8dceb61d0695fc05bb625052ac5b3194bed921
+Merge: 80b5130 bd1ae2e
+Author: marait123 <44650320+marait123@users.noreply.github.com>
+Date:   Tue Apr 7 04:47:02 2020 -0700
+
+    Merge branch 'dev' of https://github.com/Etshawy1/Symphonia-Back-end into dev
+
+commit 80b5130d2b4b4662e57f9706683b534d66566499
+Author: marait123 <44650320+marait123@users.noreply.github.com>
+Date:   Tue Apr 7 04:46:53 2020 -0700
+
+    added the recommended artists
+
+commit f22d2c4be1bae97aa6dfd632c8358ffc1be8df6e
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Tue Apr 7 12:38:19 2020 +0200
+
+    small add to history
+
+commit c37363c71f4caccde84f3619d550310206fb28c4
+Merge: b926af8 7b5ad74
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Tue Apr 7 12:35:20 2020 +0200
+
+    Merge branch 'dev' of github.com:Etshawy1/Symphonia-Back-end into dev
+
+commit b926af870bf4d5d395a14f9ef684334b3acb21c2
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Tue Apr 7 12:34:35 2020 +0200
+
+    small add to seeds
+
+commit b26b5f8daaf7216376931efaf56c6a13d64c4f4b
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Tue Apr 7 12:32:44 2020 +0200
+
+    add user queue test in seed and history
+
+commit 7b5ad74002325c2e02ec27e73b463fb72b84476e
+Merge: 6bb863f 2abea69
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Tue Apr 7 12:27:17 2020 +0200
+
+    Merge branch 'dev' of https://github.com/Etshawy1/Symphonia-Back-end into dev
+
+commit 6bb863f2088b95ee4c8775777a2341873d3c5607
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Tue Apr 7 12:26:55 2020 +0200
+
+    add get top tracks for artist endpoint
+
+commit 2abea69f8416ef38f0d11585d038d575ad521915
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Tue Apr 7 11:41:33 2020 +0200
+
+    fix test me
+
+commit faf68fa1fb053c8eac0404c31ad42086777dba16
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Tue Apr 7 11:17:41 2020 +0200
+
+    small error fix
+
+commit 7626c8c16f11aa620e5d7184b1d505c469758a65
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Tue Apr 7 04:49:44 2020 +0200
+
+    adding some endpoints for following by demand of android team
+
+commit 5c1bb042a89dd149c60fd15f6a83691f3fa56bfd
+Merge: 2e92e9f a853cfa
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Tue Apr 7 02:56:09 2020 +0200
+
+    Merge branch 'dev'
+
+commit a853cfa450c754874353bc8bdd1c13129980ba6f
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Tue Apr 7 02:53:10 2020 +0200
+
+    modified link in the seeds to be http secure
+
+commit fa3b20f8069273c5b57b9f6b49400443c0e98c46
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Tue Apr 7 02:48:57 2020 +0200
+
+    slight change in two endpoints that get the user profile
+
+commit 54f6b48a466d6c18553d72ad199ea019a8d5683e
+Merge: 10a549f ec27457
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Tue Apr 7 02:44:09 2020 +0200
+
+    Merge branch 'dev' of https://github.com/Etshawy1/Symphonia-Back-end into dev
+
+commit 10a549f2a783addcc325210527870601b71403b1
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Tue Apr 7 02:41:16 2020 +0200
+
+    adding seeeeeeds first version to be updated for more data later
+
+commit 2e92e9f426f57dcfde0225b527582ea81d9b4934
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Tue Apr 7 01:30:08 2020 +0200
+
+    fix small bug in popqueue
+
+commit 8588d4dd4d347c54790a07376442d8b1a70f1e2d
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Tue Apr 7 01:29:38 2020 +0200
+
+    fix small bug
+
+commit ec274574892dc5415a60e872692a4a42b02c526f
+Author: omar9984 <omartarek9984@gmail.com>
+Date:   Tue Apr 7 01:17:18 2020 +0200
+
+    Last Edit on Playlist
+
+commit 1dac9d8ead3ac413e426b7db2306dc867123b6df
+Merge: f7d084c 1466297
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Tue Apr 7 01:04:50 2020 +0200
+
+    Merge branch 'master' of github.com:Etshawy1/Symphonia-Back-end
+
+commit f7d084cdd72785361e53ade4006c77be327ecf91
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Tue Apr 7 01:04:27 2020 +0200
+
+    small fix to push queue error
+
+commit 14662978da2ba0152481baa778cdc892d9f0b256
+Author: Muhammed Alaa <42709288+MuhammeedAlaa@users.noreply.github.com>
+Date:   Mon Apr 6 23:40:13 2020 +0200
+
+    google call back
+
+commit c77c349f6bdfc2e7b8a4948a62cdf8dc6ddb502e
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Mon Apr 6 23:37:56 2020 +0200
+
+    prepare facebook call back url
+
+commit 8aa7f653a057651065efec44efc464c6fc886e2a
+Merge: 57f689d fdaab35
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Mon Apr 6 22:55:15 2020 +0200
+
+    Merge branch 'master' of github.com:Etshawy1/Symphonia-Back-end
+
+commit 57f689df3e974370469b63cadd61f59f44dc7d0d
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Mon Apr 6 22:54:27 2020 +0200
+
+    upload tracks
+
+commit bfccf74c92aaa2f7aabac0fae84c41fe76730703
+Author: omar9984 <omartarek9984@gmail.com>
+Date:   Mon Apr 6 18:25:17 2020 +0200
+
+    Remove get user privte profile & adding get Rand playlist req
+
+commit 810cff4c415d8f8de4a3722bad68d0af617fd7c4
+Author: omar9984 <omartarek9984@gmail.com>
+Date:   Mon Apr 6 17:34:12 2020 +0200
+
+    mostly format changes
+
+commit 1d2187fd7f56ae940590f61b3a142387f187897b
+Merge: 879c066 6a53f63
+Author: omar9984 <omartarek9984@gmail.com>
+Date:   Mon Apr 6 17:12:02 2020 +0200
+
+    Merge branch 'dev' of https://github.com/Etshawy1/Symphonia-Back-end into dev
+
+commit 879c066cb65a4a6c67beda32b607d74ae81bd97f
+Author: omar9984 <omartarek9984@gmail.com>
+Date:   Mon Apr 6 17:00:16 2020 +0200
+
+    Playlist Handling
+
+commit 6a53f63b8efe17fa24b03722bfc84ba090eb0aca
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Mon Apr 6 14:45:26 2020 +0200
+
+    changed some test due to slight change in the response
+
+commit 6e4032af2084490d54c2428cddca81172255b70e
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Mon Apr 6 14:43:34 2020 +0200
+
+    reviewed some code styles
+
+commit fdaab35b3cfb6b7a7b5b37c3333e41acf2e87ff6
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Mon Apr 6 14:28:16 2020 +0200
+
+    add update user data endpoint
+
+commit 5c1b4ef26db8d5f0016a887ffc3c4a2a8d890de6
+Merge: 925d012 0a4aff6
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Mon Apr 6 13:35:24 2020 +0200
+
+    Merge branch 'master' of github.com:Etshawy1/Symphonia-Back-end
+
+commit 925d012943375fb468200f9466d78f001f0e056f
+Merge: 9d8e71b 2396113
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Mon Apr 6 13:34:07 2020 +0200
+
+    Merge branch 'dev'
+
+commit 0a4aff6a63047861f5251cba8c257226ace22904
+Merge: 38efcf8 2396113
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Mon Apr 6 13:24:23 2020 +0200
+
+    Merge branch 'dev'
+
+commit 2396113cf942c0073990c1ee3b6cccfefd861a7c
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Mon Apr 6 13:24:08 2020 +0200
+
+    modify google Oauth for deployment
+
+commit c7a55508ed647ca6bdbe7450a8f75863a5a7ddc0
+Merge: cc48922 d3e12a8
+Author: omar9984 <omartarek9984@gmail.com>
+Date:   Mon Apr 6 12:41:09 2020 +0200
+
+    Merge branch 'dev' of https://github.com/Etshawy1/Symphonia-Back-end into dev
+
+commit cc4892217859b1d33e083b4bd80636188f2a5a3e
+Author: omar9984 <omartarek9984@gmail.com>
+Date:   Mon Apr 6 12:41:02 2020 +0200
+
+    Handling Added Tracks into Playlist
+
+commit 38efcf8f60cb3e63795f60790d255183d3f574d9
+Merge: 0b167c7 d3e12a8
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Mon Apr 6 02:49:31 2020 +0200
+
+    Merge branch 'dev'
+
+commit d3e12a8377bf826664307288e4feb662ab0265cc
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Mon Apr 6 02:49:13 2020 +0200
+
+    adding some default images
+
+commit 0b167c74ff2f8b406c7a92d5ce9915b19c676969
+Merge: c62bcb9 52753ff
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Mon Apr 6 01:41:01 2020 +0200
+
+    Merge branch 'dev'
+
+commit 52753ff3bd0b9b14de81a34db9a375942b932142
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Mon Apr 6 01:40:33 2020 +0200
+
+    fixed problem with streaming player which was due to operatig system issues
+
+commit c62bcb9872285eeb2ac4325180ec2b63e120c6ab
+Merge: b274c82 dae3bee
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Mon Apr 6 00:31:01 2020 +0200
+
+    Merge branch 'dev'
+
+commit dae3bee4b8a0aa718877907f4a5b4c4613eb4d3b
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Mon Apr 6 00:30:39 2020 +0200
+
+    test fix for server streaming
+
+commit ab2ac24483ca8e59f8fed83c1d1c3308a9e7bd3d
+Author: omar9984 <omartarek9984@gmail.com>
+Date:   Sun Apr 5 23:43:23 2020 +0200
+
+    Update playlistController.js
+
+commit a98deff90153c55b617199b4ad26f3481d1895af
+Author: omar9984 <omartarek9984@gmail.com>
+Date:   Sun Apr 5 23:20:50 2020 +0200
+
+    Refactoring
+
+commit 276903e066bf45e70bd386b0846ecc2289a9fad7
+Merge: 99e2426 dae3bee
+Author: marait123 <44650320+marait123@users.noreply.github.com>
+Date:   Sun Apr 5 13:56:22 2020 -0700
+
+    solved merge confilicts
+
+commit 99e2426dc8dba665e2fa2aa636dde109da73e3ac
+Merge: 20028ab 3d9f1d4
+Author: marait123 <44650320+marait123@users.noreply.github.com>
+Date:   Sat Apr 4 03:09:35 2020 -0700
+
+    finished the browse collection of endpoints and started on the library
+
+commit b274c827254f4998724a525662af0c216bd33d89
+Merge: 5852286 93022e1
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Sun Apr 5 22:44:56 2020 +0200
+
+    Merge branch 'dev'
+
+commit 93022e1e51e4f5c7c404a53f02fc428cea0e1f55
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Sun Apr 5 22:38:56 2020 +0200
+
+    basic implementation to be modified later for get related artists of a specific artist endpoint
+
+commit 58522860173924f6d5724a2271de3fab6436dfcd
+Merge: 6ec348c d05d1e0
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Sun Apr 5 21:30:19 2020 +0200
+
+    Merge branch 'dev'
+
+commit d05d1e000b18f0794b70acae5735504373dccfc6
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Sun Apr 5 21:30:02 2020 +0200
+
+    modified migration of default image for users
+
+commit 6ec348c4ffcfe1d04f523f6ae80674b3ec09d6c4
+Merge: 8e68820 91eaa9a
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Sun Apr 5 21:20:43 2020 +0200
+
+    Merge branch 'dev'
+
+commit 91eaa9a44f454f23559b8ace696e754c9641e8bd
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Sun Apr 5 21:20:27 2020 +0200
+
+    adding default photo for users
+
+commit 8e6882091b2b360d98d61921e86d47d0395a500b
+Merge: 41f2b51 cb12000
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Sun Apr 5 20:32:25 2020 +0200
+
+    Merge branch 'dev'
+
+commit cb12000f5a0f2ee4708511bab7a3eb0abd039459
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Sun Apr 5 19:16:47 2020 +0200
+
+    add endpoints of get artist and get several artists providing the id
+
+commit b54323919ba6ad0b29b48f00c1a3f9d9c0481631
+Merge: 8fcb4a3 9c643e8
+Author: omar9984 <omartarek9984@gmail.com>
+Date:   Sun Apr 5 14:19:06 2020 +0200
+
+    Merge branch 'dev' of https://github.com/Etshawy1/Symphonia-Back-end into dev
+
+commit 8fcb4a387f67bcea4af008a8debc78358454fad7
+Author: omar9984 <omartarek9984@gmail.com>
+Date:   Sun Apr 5 14:18:04 2020 +0200
+
+    Update playlistController.js
+
+commit 41f2b510a181b969182a556b6dd59608194a933f
+Merge: 9d8e71b 9c643e8
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Sat Apr 4 15:37:06 2020 +0200
+
+    Merge branch 'dev'
+
+commit 9c643e8e82edf2b9d97e72c9ba041c1dfe7f262c
+Merge: fb9936b 6b44465
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Sat Apr 4 15:35:08 2020 +0200
+
+    Merge branch 'dev' of https://github.com/Etshawy1/Symphonia-Back-end into dev
+
+commit fb9936b471d7ee9e2d60307b1858a2f35a2152bd
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Sat Apr 4 15:34:51 2020 +0200
+
+    user friendly error message for unique fields
+
+commit 6b44465d54da82022a49d5ab85723446b701e041
+Author: omar9984 <omartarek9984@gmail.com>
+Date:   Sat Apr 4 14:36:30 2020 +0200
+
+    Update playlistModel.js
+
+commit 10bcb96e360959b959fc6271621534d8c13935bd
+Merge: 56777b1 3d9f1d4
+Author: omar9984 <omartarek9984@gmail.com>
+Date:   Sat Apr 4 14:26:41 2020 +0200
+
+    Merge branch 'dev' of https://github.com/Etshawy1/Symphonia-Back-end into dev
+
+commit 3d9f1d4231bddc79b5038f894acd9b800b6f86ab
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Sat Apr 4 13:54:45 2020 +0200
+
+    fixing bug with integration test resulted from require app not {app}
+
+commit aaf62b3dce22db8684b9585d0bf60ae4c11996c2
+Merge: 643737d 3da6306
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Sat Apr 4 13:34:24 2020 +0200
+
+    Merge branch 'dev' of https://github.com/Etshawy1/Symphonia-Back-end into dev
+
+commit 643737d334bd792e38c9e81d6aa82d0534a49ceb
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Sat Apr 4 13:33:59 2020 +0200
+
+    migration to add playlist array to every user in the database
+
+commit 20028ab9dbc706daa1f36692efc352b30e6e6aa3
+Author: marait123 <44650320+marait123@users.noreply.github.com>
+Date:   Sat Apr 4 03:09:27 2020 -0700
+
+    new merge
+
+commit 3da6306d9a8a553e59adb3eb512aff411f46de71
+Merge: 9fc2b47 75f5ed2
+Author: marait123 <44650320+marait123@users.noreply.github.com>
+Date:   Sat Apr 4 01:59:49 2020 -0700
+
+    Merge branch 'dev' of https://github.com/Etshawy1/Symphonia-Back-end into dev
+
+commit 9fc2b4743583aff29da7884abf400a9839332c72
+Author: marait123 <44650320+marait123@users.noreply.github.com>
+Date:   Wed Apr 1 13:56:57 2020 -0700
+
+    fixed some refactoring problems with changing the name of followedUsers
+
+commit 9d8e71bc01f9732ddec6324ceedd7e8e82036b87
+Merge: 75f5ed2 1079ac3
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Sat Apr 4 08:36:51 2020 +0200
+
+    Merge branch 'master' of github.com:Etshawy1/Symphonia-Back-end
+
+commit 75f5ed2a351831079c4fc0254c335283edd49bcb
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Sat Apr 4 08:36:00 2020 +0200
+
+    finsh premium back end
+
+commit b4e47ad7aed6ec292bf899ee2f4a73005c1cfd19
+Merge: b5ec109 a23420a
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Sat Apr 4 08:15:16 2020 +0200
+
+    Merge branch 'dev' of github.com:Etshawy1/Symphonia-Back-end into dev
+
+commit b5ec109dfee868803d1ad229e32acc56fc0187f8
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Sat Apr 4 08:14:46 2020 +0200
+
+    setting up the payment for premium with credit cards
+
+commit 1079ac3ceece6976120e304656a889417f41195f
+Merge: bac4b32 a23420a
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Sat Apr 4 01:55:27 2020 +0200
+
+    Merge branch 'dev'
+
+commit a23420ae431e1b8e355e2336f362c87331d3bfa4
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Sat Apr 4 01:53:38 2020 +0200
+
+    fix small bug
+
+commit a775b793b782b025e98e70875d0352ec75032142
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Sat Apr 4 01:12:17 2020 +0200
+
+    added an endpoint to check if email exists in the database, fully covered with testing the auth controller file, fixed some bug in the error controller
+
+commit 4f130a90c2ce98e2a31a2b2aa20ead68e8d014a4
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Fri Apr 3 21:36:53 2020 +0200
+
+    track controller unit testing
+
+commit 3a79d7ba1fe4034bcac7a43e7c91ba0610b53c8b
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Fri Apr 3 16:52:35 2020 +0200
+
+    migration replace role with type in user model
+
+commit bac4b327a897ada7f3383c54e5f62b4a9e288128
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Fri Apr 3 14:48:01 2020 +0200
+
+    removed unimportant file
+
+commit 6c3976d35390d09b45afb0c1c057b3070bc2aba3
+Merge: 2a78ca4 c659ab0
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Fri Apr 3 14:47:39 2020 +0200
+
+    Merge branch 'dev'
+
+commit c659ab04f18cb518250bce18b27ffd528a1a38c2
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Fri Apr 3 14:44:52 2020 +0200
+
+    exposing some endpoints without authentication
+
+commit 4adc85e26afbfb980889008b055a9d383e141080
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Fri Apr 3 14:31:25 2020 +0200
+
+    modified socket.io
+
+commit dbb00ef50706c143423cc770f90926105e5f9dfe
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Fri Apr 3 14:02:22 2020 +0200
+
+    adding sockets to the project
+
+commit 2a78ca474a3d10770e5f2539819ce879c61db682
+Author: A00x40 <44728333+A00x40@users.noreply.github.com>
+Date:   Fri Apr 3 13:03:32 2020 +0200
+
+    Update Jenkinsfile
+
+commit 56777b16f603c67cb5e5af4a5327f746a4a86f5c
+Author: omar9984 <omartarek9984@gmail.com>
+Date:   Fri Apr 3 09:57:52 2020 +0200
+
+    Update meController.js
+
+commit fc0300f26e002665cd5fba8a4c8b7546393be30d
+Author: Muhammed Alaa <42709288+MuhammeedAlaa@users.noreply.github.com>
+Date:   Fri Apr 3 06:48:26 2020 +0200
+
+    Delete bash.exe.stackdump
+
+commit f9a7916c007e4fd1f9b6df7abd11e54497878197
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Fri Apr 3 01:34:22 2020 +0200
+
+    api doc for email class
+
+commit 1064a600e53e654e2b7862813a65eb6d2413f370
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Fri Apr 3 01:16:57 2020 +0200
+
+    add jsdoc html for apiFeature class
+
+commit f821b99cbd81fa94a8058211f6224f897d212e6a
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Fri Apr 3 00:15:19 2020 +0200
+
+    unit test queue
+
+commit cb35159302b1ff1391cbdd6b9cd53cd83c6a2dbf
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Thu Apr 2 23:56:19 2020 +0200
+
+    finsh unit test for poping the queue
+
+commit ecc4034d5c7ab92606d7994faef9694d0d74e9f8
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Thu Apr 2 23:21:33 2020 +0200
+
+    unit test get and push devices
+
+commit 878e0c77a6a80115b760a296fdcd9979d738151a
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Thu Apr 2 23:03:50 2020 +0200
+
+    fix remove devices
+
+commit 47b67f6531f783556b9a648b19fcecbb0c92a35e
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Thu Apr 2 22:16:42 2020 +0200
+
+    fix devices errors
+
+commit ea607abce46ebd09676c7821a47c0cd343579884
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Thu Apr 2 21:47:04 2020 +0200
+
+    fix small error to add devices
+
+commit 1fed7220ae04f9e9f55997e4b58dd0a83e4b3f69
+Merge: ce93387 58c6c7c
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Thu Apr 2 21:35:59 2020 +0200
+
+    Merge branch 'master' of github.com:Etshawy1/Symphonia-Back-end
+
+commit ce93387306b49cc9fad0132c2e963b6323238ae5
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Thu Apr 2 21:34:51 2020 +0200
+
+    finsh next and previous unit test
+
+commit 66e70ec584ec00d7b95454168e52a960ac0aacf9
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Thu Apr 2 18:45:22 2020 +0200
+
+    previous trck unit test (not complate
+
+commit 666d7132ac041fd2dc3e9652ec6beeeee9163eba
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Thu Apr 2 17:56:51 2020 +0200
+
+    finsh unit test to save user progress in volume
+
+commit e0c2069a891c073bd935cd845c3f144b049a59b5
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Thu Apr 2 17:52:07 2020 +0200
+
+    finsh unit test for saving the track seek
+
+commit 74b507d139348aee2186961221ec34d177d9bcab
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Thu Apr 2 17:43:36 2020 +0200
+
+    finsh unit test the repeatOnce
+
+commit af5378415333139baa482cb614edacbc162b1193
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Thu Apr 2 17:35:52 2020 +0200
+
+    finsh repeat and shuffle unit test
+
+commit 9f8656e3b25a5806b05f02ae6d273fe8e69aee1c
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Thu Apr 2 03:31:32 2020 +0200
+
+    removed some logging as it is unimportant now it was only for debugging purposes
+
+commit 88bac21f1efd7b2c5feacd69fd4a91b4fc81b8d9
+Merge: 01f34d9 00b7d32
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Thu Apr 2 02:42:00 2020 +0200
+
+    Merge branch 'dev' of github.com:Etshawy1/Symphonia-Back-end into dev
+
+commit 01f34d9a868c3370ced2d7f4f91f172a8ac0db00
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Thu Apr 2 02:41:41 2020 +0200
+
+    test repeat
+
+commit 58c6c7c04a0ab0f387f6d80c36c660fd4d73d63d
+Author: marait123 <44650320+marait123@users.noreply.github.com>
+Date:   Wed Apr 1 16:03:10 2020 -0700
+
+    Update README.md
+
+commit 7bf8bb3b0da96b0ce09fc90813e9bd571942e330
+Author: marait123 <44650320+marait123@users.noreply.github.com>
+Date:   Wed Apr 1 16:00:47 2020 -0700
+
+    Update README.md
+
+commit d677e0e896d639e45671a28730e4fb0c89f3db27
+Author: marait123 <44650320+marait123@users.noreply.github.com>
+Date:   Wed Apr 1 15:59:52 2020 -0700
+
+    Update README.md
+
+commit 325d1458afe4b0fc91b6c5e8b4ba1066e71a615a
+Author: marait123 <44650320+marait123@users.noreply.github.com>
+Date:   Wed Apr 1 15:58:34 2020 -0700
+
+    Update README.md
+
+commit 0e4e13b0516658279046b8a9e3c4b78cd483e679
+Author: marait123 <44650320+marait123@users.noreply.github.com>
+Date:   Wed Apr 1 15:57:15 2020 -0700
+
+    Update README.md
+
+commit 05fa779de67e5c38f0de2ea69ed8d6beb5e47ae0
+Author: marait123 <44650320+marait123@users.noreply.github.com>
+Date:   Wed Apr 1 15:50:28 2020 -0700
+
+    Update README.md
+
+commit 14955c21d1bd186b81b7d60cf66f17391184008d
+Author: marait123 <44650320+marait123@users.noreply.github.com>
+Date:   Wed Apr 1 15:49:30 2020 -0700
+
+    Update README.md
+
+commit c5f75af4c47e131f74601de06f0bff0fd6f38c94
+Author: marait123 <44650320+marait123@users.noreply.github.com>
+Date:   Wed Apr 1 15:48:18 2020 -0700
+
+    Update README.md
+
+commit 957babca936e42dfba06ec7c0efc955ecca8df4f
+Author: marait123 <44650320+marait123@users.noreply.github.com>
+Date:   Wed Apr 1 15:47:37 2020 -0700
+
+    Update README.md
+
+commit de1595251da4de5b722564ca5af14e276c8d077a
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Thu Apr 2 00:16:16 2020 +0200
+
+    test user profile
+
+commit 7abb1667b1d70cd32562e5c48a64d12c31e250f2
+Merge: a02278f 487d23b
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Wed Apr 1 23:49:27 2020 +0200
+
+    Merge branch 'dev' of github.com:Etshawy1/Symphonia-Back-end into dev
+
+commit a02278fe80c296b43aeef6e116ace52c86d7f4fe
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Wed Apr 1 23:37:41 2020 +0200
+
+    test repeat
+
+commit 487d23b4263a3f56ed15ab7864c4fe0d30f38e51
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Wed Apr 1 23:31:56 2020 +0200
+
+    basic way to unit test controller functions
+
+commit 00b7d329bef3a62db80ac2d732187498ba9aaf73
+Author: marait123 <44650320+marait123@users.noreply.github.com>
+Date:   Wed Apr 1 13:56:57 2020 -0700
+
+    deleted extra icon
+
+commit 019f000a347215b8d1d9cd3748b68fca0d336a39
+Author: marait123 <44650320+marait123@users.noreply.github.com>
+Date:   Wed Apr 1 13:55:59 2020 -0700
+
+    added icon
+
+commit 068379b43e1c9381bb166dcb4a11ccc602bbe491
+Merge: 10be57c de15952
+Author: marait123 <44650320+marait123@users.noreply.github.com>
+Date:   Wed Apr 1 13:54:09 2020 -0700
+
+    Merge branch 'dev' of https://github.com/Etshawy1/Symphonia-Back-end into dev
+
+commit 10be57c728e645a5a828940e9afee176f7444fe2
+Author: marait123 <44650320+marait123@users.noreply.github.com>
+Date:   Wed Apr 1 13:53:37 2020 -0700
+
+    added icon
+
+commit 65ecb6eccbf368d7eee6bc22bdceee7330e411a0
+Author: marait123 <44650320+marait123@users.noreply.github.com>
+Date:   Wed Apr 1 13:42:13 2020 -0700
+
+    added the uploader documentation and added solved the routing problem
+
+commit 7073b36cf62e892e2afb8aa78ee842475ea18c0b
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Wed Apr 1 22:26:16 2020 +0200
+
+    test getprofile function with jest (not comp)
+
+commit 2710b05f6e96f5fb3675db460bed3a5b147d750c
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Wed Apr 1 20:36:09 2020 +0200
+
+    remove parsing the token in meController
+
+commit 7747822e6e917d5ebf5cad38032220b775afd319
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Wed Apr 1 19:42:57 2020 +0200
+
+    test prod
+
+commit 31f5ed30c7bb48718a4f1b67833f81cda002ffde
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Wed Apr 1 19:35:21 2020 +0200
+
+    test deploy
+
+commit 213cbcb279c5e8cf839d59c9caabf68676403e9d
+Merge: 9fb09b7 794df7a
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Wed Apr 1 19:22:37 2020 +0200
+
+    Merge branch 'dev' of github.com:Etshawy1/Symphonia-Back-end into dev
+
+commit 9fb09b7e5766ff296310dd4824442ecb8a0e0bcb
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Wed Apr 1 19:21:29 2020 +0200
+
+    small fix ti error in production
+
+commit 794df7a90725ebafe0b1493e26748d327c68fc56
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Wed Apr 1 19:16:35 2020 +0200
+
+    fix some tests
+
+commit d1f984fdc4d44122be1d0cce3370bc5c61094221
+Merge: aec6d6c 36d927a
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Wed Apr 1 19:15:26 2020 +0200
+
+    Merge branch 'dev' of github.com:Etshawy1/Symphonia-Back-end into dev
+
+commit aec6d6cf555153ccc16cf527679771f5e1203ba2
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Wed Apr 1 19:15:05 2020 +0200
+
+    fix small error in production
+
+commit 36d927a084c95a957a298aff97a4c2f69222328f
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Wed Apr 1 19:05:39 2020 +0200
+
+    fix tests after changing its shape after integration
+
+commit fa5840a7a72860aec5eb7654a473ba54a32d177c
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Wed Apr 1 15:40:22 2020 +0200
+
+    test fix of forgot password link
+
+commit cb3f1f177e536f6f65e9e09f570eac979a115add
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Wed Apr 1 15:31:10 2020 +0200
+
+    test fix of forgot password link
+
+commit ca62fb3bac8267dc4d30993deb9099f93ae4b057
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Wed Apr 1 15:13:03 2020 +0200
+
+    probable fix for password reset url problem
+
+commit ac348e1b0504f5079ab9b59432e8e859c28bf385
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Tue Mar 31 18:18:25 2020 +0200
+
+    finish handling seek player
+
+commit fbde87a96e30ef70ed8e50424b2bf24a41db5cc8
+Merge: 3898fa2 84769e3
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Tue Mar 31 16:10:47 2020 +0200
+
+    Merge branch 'master' of github.com:Etshawy1/Symphonia-Back-end
+
+commit 3898fa261fd259c4bbdfb83b56dee55e207041d4
+Merge: bfaf277 36bd114
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Tue Mar 31 16:09:32 2020 +0200
+
+    Merge branch 'dev' of github.com:Etshawy1/Symphonia-Back-end
+
+commit bfaf2771c52d5e9b76fd949609437b89ae14770c
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Tue Mar 31 16:09:19 2020 +0200
+
+    small fix to player in nexttrack
+
+commit 84769e38d381943d38d63b993ee3b023fee36e99
+Merge: 5d5e024 36bd114
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Tue Mar 31 15:46:32 2020 +0200
+
+    Merge branch 'dev'
+
+commit 36bd114f2c01dba0402ee7ceb5c8ef57b748c0b1
+Merge: 187e4d4 9802993
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Tue Mar 31 15:06:18 2020 +0200
+
+    Merge branch 'dev' of github.com:Etshawy1/Symphonia-Back-end into dev
+
+commit 187e4d4d881e3d90248e51f43175c4aa4abed139
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Tue Mar 31 15:06:00 2020 +0200
+
+    return protection to player functions
+
+commit 5d5e024555a9fbfd764a2beda6a65a9e1d7f23ee
+Merge: 66f59e0 9802993
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Tue Mar 31 14:09:26 2020 +0200
+
+    Merge branch 'dev'
+
+commit 980299346e45556934b32e609f17f2211b925b22
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Tue Mar 31 14:09:05 2020 +0200
+
+    preparing the forgot password endpoint for production
+
+commit 3764df6cd03e0fcc065863135564f92635713084
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Tue Mar 31 03:24:32 2020 +0200
+
+    fix small errors to player
+
+commit 2b6244ba6c875a7c844a5b20e5d7470c42a2cbd7
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Tue Mar 31 00:57:22 2020 +0200
+
+    finsh the devices endpoint
+
+commit c48679073f0a3523fa272ef617593592c78a5a1b
+Merge: 6bedf92 5f6dd05
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Mon Mar 30 22:59:45 2020 +0200
+
+    Merge branch 'dev' of github.com:Etshawy1/Symphonia-Back-end into dev
+
+commit 6bedf92d684fc53b70640cb0ca0ea039904cfacc
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Mon Mar 30 22:59:14 2020 +0200
+
+    finsh the player queue and repeat and next and all stuff about it
+
+commit 66f59e02502a2798590552343b80ae8af73a9c3d
+Merge: 79a86a0 5f6dd05
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Sun Mar 29 23:53:05 2020 +0200
+
+    Merge branch 'dev'
+
+commit 5f6dd05cef35a008ad39abf52e6eaa18cfba44b1
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Sun Mar 29 23:52:31 2020 +0200
+
+    reformat the json response to any request in auth controller to consistant with the front end
+
+commit b8fe6028e5b7cca0631c52ac4775d8d8882f7460
+Merge: 1262d4d c473aef
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Sun Mar 29 21:38:09 2020 +0200
+
+    Merge branch 'dev' of github.com:Etshawy1/Symphonia-Back-end into dev
+
+commit 1262d4d37cfd2b2aa7f44f1bdd92dc27608ccbd9
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Sun Mar 29 21:36:23 2020 +0200
+
+    get the history and create a history for users
+
+commit 79a86a01b7e7fb007e6c49165425f7144fabdef8
+Merge: a8c4b3e c473aef
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Sun Mar 29 18:55:47 2020 +0200
+
+    Merge branch 'dev'
+
+commit c473aef7f816ff604c0ebe73aa0adf60244d4e05
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Sun Mar 29 18:55:26 2020 +0200
+
+    quick fix problem in reset password
+
+commit a8c4b3ef70a673bbff0a7f07a03c2ce507b1c2e9
+Merge: e98c4fb 2781f7e
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Sun Mar 29 16:57:56 2020 +0200
+
+    Merge branch 'dev'
+
+commit 2781f7ec758d519df78bdbcc0e73855523164ebd
+Merge: def7454 fc8dc85
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Sun Mar 29 16:27:42 2020 +0200
+
+    Merge branch 'dev' of https://github.com/Etshawy1/Symphonia-Back-end into dev
+
+commit def7454d353c53da00518744e4ec14ef475ace6d
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Sun Mar 29 16:27:37 2020 +0200
+
+    modified signup/login for integration with front-end
+
+commit fc8dc856737a66f4880e4fe7b630173a8ea881c1
+Author: marait123 <44650320+marait123@users.noreply.github.com>
+Date:   Sun Mar 29 04:56:06 2020 -0700
+
+    removed setup file and solved playlist creation problem
+
+commit 0b4f6f87d60f51b561fb0d1400b4ea1b15b99a71
+Merge: cf55ef5 6bca01f
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Sun Mar 29 00:53:03 2020 +0200
+
+    Merge branch 'dev' of https://github.com/Etshawy1/Symphonia-Back-end into dev
+
+commit cf55ef5d631a901e9f4fae7eda7771f74aa7263f
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Sun Mar 29 00:52:38 2020 +0200
+
+    modified some tests
+
+commit df4c84d8b48ebda3cf0253bf4e6a2205dd4afbb9
+Merge: b0cdd82 0b4f6f8
+Author: marait123 <44650320+marait123@users.noreply.github.com>
+Date:   Sat Mar 28 14:24:42 2020 -0700
+
+    Merge branch 'dev' of https://github.com/Etshawy1/Symphonia-Back-end into dev
+
+commit b0cdd8252d148eeed9db19561eb5ecf743121ec1
+Author: marait123 <44650320+marait123@users.noreply.github.com>
+Date:   Sat Mar 28 14:24:12 2020 -0700
+
+    fixed image upload problem and finished v2 of the uploader the coming one will be the last if god wishes
+
+commit a345e77d48c6843caf1c83c0f0d36b0e84141ede
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Sat Mar 28 21:43:58 2020 +0200
+
+    unit tested authentication and authorization middlewares,
+
+commit 6bca01f0d98f785bfa3418521d6619856ec6c746
+Merge: 17a5bb7 a345e77
+Author: marait123 <44650320+marait123@users.noreply.github.com>
+Date:   Sat Mar 28 11:27:56 2020 -0700
+
+    solved merge conflicts
+
+commit 17a5bb7b147385dee4d150dd10d9281ece208b47
+Author: marait123 <44650320+marait123@users.noreply.github.com>
+Date:   Sat Mar 28 11:25:56 2020 -0700
+
+    added the follow controller's functionality
+
+commit e98c4fb2f07773b474d5cfd93ebc77d575147bc0
+Merge: 51fd5dd dc3e5ef
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Sat Mar 28 18:26:32 2020 +0200
+
+    Merge branch 'dev'
+
+commit 51fd5dd093e2d74efabd4647bfd101edf7201fce
+Merge: f8458e6 786713b
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Sat Mar 28 18:26:11 2020 +0200
+
+    Merge branch 'master' of https://github.com/Etshawy1/Symphonia-Back-end
+
+commit dc3e5ef35af5b71bd36b2137421c650486e74015
+Merge: fc159ef a7ac144
+Author: marait123 <44650320+marait123@users.noreply.github.com>
+Date:   Fri Mar 27 10:07:07 2020 -0700
+
+    Merge branch 'dev' of https://github.com/Etshawy1/Symphonia-Back-end into dev
+
+commit fc159efac2f1d9739e8808576eaffff4846ca0cd
+Author: marait123 <44650320+marait123@users.noreply.github.com>
+Date:   Fri Mar 27 10:05:33 2020 -0700
+
+    added the clean script development helper module
+
+commit a7ac144ccf8ad5f3c317fa9968690ecd62dc93dc
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Fri Mar 27 01:03:45 2020 +0200
+
+    basic implementation for get track and add track endpoint, also added handlerFactory in controllers to handle basic crud operations for any model
+
+commit d79e4d25481a5c3a45b7d7d3b915e0f5f590779f
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Thu Mar 26 20:46:31 2020 +0200
+
+    added not completed unit test for authmiddleware
+
+commit 9263d36fd737a28db4e3411016690d7bec022f9e
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Thu Mar 26 18:34:52 2020 +0200
+
+    solved an error with the login controller function
+
+commit 4038a8dd89bda96947b68a4745072b4c627a77a9
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Thu Mar 26 18:17:13 2020 +0200
+
+    sign token is now a function in user model so I unit tested it also
+
+commit 01e9d9baa1fdbbe04c3b9619096701829b54a4ef
+Merge: 36b7834 573807d
+Author: marait123 <44650320+marait123@users.noreply.github.com>
+Date:   Wed Mar 25 14:50:17 2020 -0700
+
+    solved merge confilicts
+
+commit 36b7834d1cf498955ed4efea13c17e5aa6e21008
+Author: marait123 <44650320+marait123@users.noreply.github.com>
+Date:   Wed Mar 25 14:25:10 2020 -0700
+
+    added the v1.0 of the uploader module, which is used for file uploading
+
+commit 573807deb61ae7d018992558086b673de8f007a2
+Author: omar9984 <omartarek9984@gmail.com>
+Date:   Wed Mar 25 06:11:17 2020 +0200
+
+    Update playlistController.js
+
+commit 49adda1ce078e6c987f4326c4915f3df3eb48a44
+Author: omar9984 <omartarek9984@gmail.com>
+Date:   Tue Mar 24 09:53:59 2020 +0200
+
+    Update albumController.js
+    
+    providing a validation on album object
+
+commit 3c2bc8b2fb75f0df29376d8c5b74675855627e98
+Author: omar9984 <omartarek9984@gmail.com>
+Date:   Tue Mar 24 09:37:10 2020 +0200
+
+    playlist about to end
+    
+    implementing some patch requests
+
+commit a2659ad79f1a04fab006b497ae9e9a5be467671f
+Author: omar9984 <omartarek9984@gmail.com>
+Date:   Tue Mar 24 08:52:30 2020 +0200
+
+    some playlist requests
+    
+    still need some editing
+
+commit d42aa876274b537af7d27c5ebc212fca0f57f7cd
+Author: marait123 <44650320+marait123@users.noreply.github.com>
+Date:   Mon Mar 23 08:49:28 2020 -0700
+
+    added the uploader utility for multipart forms
+
+commit ae90fb2e97fe45461dbe2b5bc577598fabfcbce6
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Mon Mar 23 17:30:27 2020 +0200
+
+    small bug with test with db
+
+commit 8569b54f177af1db462de43c8a2e013ad2a42d30
+Author: marait123 <44650320+marait123@users.noreply.github.com>
+Date:   Mon Mar 23 08:28:35 2020 -0700
+
+    file upload works
+
+commit e35e0d0dca80f3d3c7b82c5b2776bd3f399b9ca6
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Mon Mar 23 17:08:33 2020 +0200
+
+    modified the test for a small problem in not deleting inserted data after each test.
+
+commit b3573c1c7451b692bbad1645e8fce433f65a6396
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Mon Mar 23 16:51:52 2020 +0200
+
+    documented a error class with jsdoc which is used also for functional documentation.
+
+commit d7e1893aad0c0a1764d2c24b322a963693782ae1
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Mon Mar 23 16:26:57 2020 +0200
+
+    added a possible way of testing the controllers. waiting for TA's approval by mail to continue with it
+
+commit 5c637fbd1b9b7e835dc0f4fd31c40be0e861de9c
+Author: marait123 <44650320+marait123@users.noreply.github.com>
+Date:   Mon Mar 23 06:41:06 2020 -0700
+
+    added the get all categories and create categories routes and added multer package for file  upload
+
+commit 84d3c668d480bded62f0d97e00b6787ff28f6675
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Sun Mar 22 18:25:10 2020 +0200
+
+    get top tracks and top artists
+
+commit 160ff5b39708694db1047c13df5706164b19abdc
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Sun Mar 22 16:52:07 2020 +0200
+
+    getting gender and brithday from facebook
+
+commit 80ed1b29aa56864a665c90625102ad38d2f54287
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Sun Mar 22 16:25:21 2020 +0200
+
+    fix oauth error and add some modifications to oauth
+
+commit b76385dd5867d41b37ed610b1d04c64b87675f9d
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Sun Mar 22 15:13:49 2020 +0200
+
+    sending artist application email
+
+commit 5e96e130c90fae9dbb0e9ef1b5e3d453ba3c4967
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Sun Mar 22 14:47:53 2020 +0200
+
+    add user profile end points and add catchAsync function that take 4 arguments to handle errors of OAuth(OAuth have small error need to be fixed and i'am working on it)
+
+commit ef7c0a327f65754f5ad09f90924ee00b201bdcd0
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Sat Mar 21 20:19:16 2020 +0200
+
+    add refrances in track model
+
+commit 582baf6eecb834d0fb921a1b1b62e0b4f40671f9
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Sat Mar 21 19:37:09 2020 +0200
+
+    Unit test the player functions
+
+commit 7dca64a0d2d064b17b2fffd7a798c4560db9a743
+Merge: a1b3f31 4351479
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Sat Mar 21 17:36:40 2020 +0200
+
+    Merge branch 'dev' of github.com:Etshawy1/Symphonia-Back-end into dev
+
+commit a1b3f31974b66bce0b65f574989964e037244451
+Merge: de40ef0 04204f1
+Author: marait123 <44650320+marait123@users.noreply.github.com>
+Date:   Sat Mar 21 03:22:26 2020 -0700
+
+    Merge branch 'dev' of https://github.com/Etshawy1/Symphonia-Back-end into dev
+
+commit 435147975d0c3b5721d119dd132eaa9596e373f3
+Merge: de40ef0 04204f1
+Author: marait123 <44650320+marait123@users.noreply.github.com>
+Date:   Sat Mar 21 03:22:26 2020 -0700
+
+    Merge branch 'dev' of https://github.com/Etshawy1/Symphonia-Back-end into dev
+
+commit de40ef0d6647aa883c79440c5cd9b0518359c29d
+Author: marait123 <44650320+marait123@users.noreply.github.com>
+Date:   Sat Mar 21 02:47:13 2020 -0700
+
+    recommiting untracked files
+
+commit 04204f1db45440db3be6ff70f99bcfe21837a867
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Sat Mar 21 01:29:31 2020 +0200
+
+    solved a small problem with validate user with JOI
+
+commit 59382d791a317ba01f62d45c9a2357b43abcc8b5
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Fri Mar 20 23:09:08 2020 +0200
+
+    user model all function are unit tested
+
+commit d068ca1c95f91f219ae59cfed8ec1f10484b6b4e
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Fri Mar 20 18:43:20 2020 +0200
+
+    updated the user schema with contraints goes along front and android's
+
+commit 97fde239f05a5cc0ea97cef726aaf86d4c6bfce8
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Fri Mar 20 17:22:57 2020 +0200
+
+    added cross origin and reviewed code style
+
+commit 50415a8f30205e343ac4ac4799bf7998ec5eee3c
+Author: omar9984 <omartarek9984@gmail.com>
+Date:   Wed Mar 18 02:09:18 2020 +0200
+
+    Update albumModel.js
+    
+    throw error when entering no tracks, Album name should be unique
+
+commit 2918560efc2fdee4ee89eb5891a21c9716d4b4e0
+Merge: 6df3a87 cfaefa9
+Author: omar9984 <omartarek9984@gmail.com>
+Date:   Tue Mar 17 19:18:03 2020 +0200
+
+    Merge branch 'dev' of https://github.com/Etshawy1/Symphonia-Back-end into dev
+
+commit 6df3a87c27de0f0c4ec3c2c2833c4be170def62f
+Author: omar9984 <omartarek9984@gmail.com>
+Date:   Tue Mar 17 17:38:36 2020 +0200
+
+    Album modules
+    
+    album is finished except unit testing, I also added a create request for testing and it could be kept for along.
+
+commit cfaefa98e8e13ca92daf39a22eebb504b618112c
+Author: marait123 <44650320+marait123@users.noreply.github.com>
+Date:   Mon Mar 16 13:13:44 2020 -0700
+
+    i added verasion 1.0 of the models of (album-playlist-categroy), i also added most of their relationships to each others and to the track and user objects
+
+commit f8458e62414c47ef4e2d62ba36b16b08a78691fd
+Author: A00x40 <44728333+A00x40@users.noreply.github.com>
+Date:   Mon Mar 16 16:16:19 2020 +0200
+
+    Create Jenkinsfile
+
+commit 786713b34434093ac647aec6519d74b54e905b19
+Author: A00x40 <44728333+A00x40@users.noreply.github.com>
+Date:   Mon Mar 16 16:16:19 2020 +0200
+
+    Create Jenkinsfile
+
+commit 5f2b32adadd3d84f097d4c47f11d8629f8a8094f
+Author: marait123 <44650320+marait123@users.noreply.github.com>
+Date:   Mon Mar 16 06:36:08 2020 -0700
+
+    Update README.md
+
+commit 4428fc35f4c67ea09ba12070f55b14b85a49c5cc
+Author: marait123 <44650320+marait123@users.noreply.github.com>
+Date:   Mon Mar 16 06:36:08 2020 -0700
+
+    Update README.md
+
+commit 9a7e4bffcf74a9b8a85b14dbafa0a12dc7a9330f
+Author: marait123 <44650320+marait123@users.noreply.github.com>
+Date:   Mon Mar 16 06:33:48 2020 -0700
+
+    Create README.md
+
+commit 77864f26ffc3b49adb9036eb16b2f2428b982e0e
+Author: marait123 <44650320+marait123@users.noreply.github.com>
+Date:   Mon Mar 16 06:33:48 2020 -0700
+
+    Create README.md
+
+commit aad950966c098b098462472c65c670a1b4a1ac2b
+Merge: 0600964 786713b
+Author: marait123 <44650320+marait123@users.noreply.github.com>
+Date:   Mon Mar 16 05:21:21 2020 -0700
+
+    Merge branch 'master' into dev
+
+commit f81f7dc898b1f1f6913f582b7dbe95bbcc9070f1
+Author: marait123 <44650320+marait123@users.noreply.github.com>
+Date:   Mon Mar 16 04:29:17 2020 -0700
+
+    added the placeholder for browse follow and library routes, Note: that i have also modified index.js because this firebase thing caused some problems when running so i commented it and required www file instead directly, please if you insist on using firebase coordinate with me beforehand
+
+commit 060096443a281410be763a4022a9c6bdd569a8c3
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Sun Mar 15 05:49:09 2020 +0200
+
+    return protection to player (small fix)
+
+commit 2245575e4e8387121f0f94d4100089a02cc85584
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Sun Mar 15 05:47:28 2020 +0200
+
+    create track model without referance any model until models created
+
+commit 47edec8c1838f78c7128e531f4ec81389af4ed24
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Sun Mar 15 04:16:27 2020 +0200
+
+    handle some side cases in oauth and create json web token for oauth with facebook and google and set up the unlink route to unlink facebook and google if user removed the app but those routes need to be discussed with the T.A because we will make the project protocal https for it because facebook don't allow to use this unless your website is https protocal
+
+commit 40734bb6777318633d726d6f17d83191df86cb99
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Sat Mar 14 23:54:48 2020 +0200
+
+    fixed some Oauth issue
+
+commit dca4ba97627d863fd23d1d4b0ede8791f092b6ff
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Sat Mar 14 21:18:35 2020 +0200
+
+    test dev branch
+
+commit 394b20dea90a61913d57c74a49c527651391923f
+Merge: fe60133 8e8015e
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Sat Mar 14 20:52:18 2020 +0200
+
+    merge master to dev
+
+commit 8e8015e79887fe597753fe58a043af496b43c9d0
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Sat Mar 14 20:45:41 2020 +0200
+
+    merge dev with master
+
+commit fe6013321e7d70e0509f81d0aedfffcd3c837462
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Sat Mar 14 20:14:19 2020 +0200
+
+    unifing styles, removing unimportant files
+
+commit d9baf549118e12a3e0e17467cf8d6a25431900f0
+Merge: 633c75d 5505462
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Sat Mar 14 18:36:39 2020 +0200
+
+    Merge remote-tracking branch 'origin/dev'
+
+commit 633c75d7afb916ec0db50d61925df7edbc33b7bd
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Sat Mar 14 18:17:15 2020 +0200
+
+    package.json problem solved
+
+commit 710285723b2de55f1ad0673be932ac8d1f3baaee
+Merge: 6e343cd c4901cd
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Sat Mar 14 18:08:44 2020 +0200
+
+    Merge branch 'master' of https://github.com/Etshawy1/Symphonia-Back-end
+
+commit 6e343cd56640c6a12f68a6113f8f6b8c7d2bd7d9
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Sat Mar 14 18:05:47 2020 +0200
+
+    minor updates of some used npm packages, error handling for JOI
+
+commit 55054620b621f81edf8320471b50e1a7f598a1b3
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Sun Mar 8 00:19:21 2020 +0200
+
+    get friend in facebook and get email from google oAuth but still have a problem
+
+commit a761632b31194c9e435a56929844572a8cc4f47d
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Sat Mar 7 21:45:08 2020 +0200
+
+    small fix to oauth but complet
+
+commit 64bc8d3a02705595bdb01c57f0aad07451b4705e
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Sat Mar 7 20:31:04 2020 +0200
+
+    add player to play track to loged in users
+
+commit c4901cd28b04bfbc53efe7850010a9537761aa2e
+Merge: 3093caa 6f28441
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Sat Mar 7 01:09:04 2020 +0200
+
+    mergeconfilict
+
+commit 3093caa5e2cc5f9c235eddd28c814c24665dcb0c
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Sat Mar 7 01:04:55 2020 +0200
+
+    add Oauth for facebook and google but still need to be fixed , add apiFeture to the progect to handel pagaination and limitation
+
+commit 6f28441c274d4706275ad8a3b098fbfbaeeb82d5
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Thu Mar 5 20:15:43 2020 +0200
+
+    test new approach swagger
+
+commit 399be32d1665b35d58f73c0659a3af2bedba654b
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Wed Mar 4 19:30:14 2020 +0200
+
+    prepared the repo for the api documentation
+
+commit 19729f9491aa6417d761ed86c0c3c8def5665ca9
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Sun Mar 1 04:55:45 2020 +0200
+
+    modify the email to be sent from a real gmail account to prevent send the mail to spam
+
+commit d94ead5145046858709cf7bb35a12f6c23671c22
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Sun Mar 1 04:20:13 2020 +0200
+
+    send ream emails by sendgrid and send welcome massage and complate the views with pug for welcome message and reset password Emails
+
+commit 570d4955fc5fb3dbd65d42a0cb0871939a585da6
+Merge: ec5a867 140f611
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Fri Feb 28 22:18:06 2020 +0200
+
+    solving some random merge confilct
+
+commit ec5a867ac88e76b387136ad7b83c2f239b716f25
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Fri Feb 28 22:04:47 2020 +0200
+
+    authentication and authorization is implemented with JWT
+
+commit 140f611090f6370844558d58e2a6c0decd7cd094
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Fri Feb 28 14:39:46 2020 +0200
+
+    modified logging file
+
+commit cadde521478b5c69dd12d745e2996bcf863d2571
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Fri Feb 28 14:39:46 2020 +0200
+
+    modified logging file
+
+commit d4d802db1c04faf82eaded3f8a469af12e5dde5d
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Fri Feb 28 14:29:14 2020 +0200
+
+    made the logging with files using winston
+
+commit d2dac8a273455664e2acd00c0dd09a9db171a993
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Fri Feb 28 14:29:14 2020 +0200
+
+    made the logging with files using winston
+
+commit 73025a0d1f6a072d2b27cfec78ba8dc15a146967
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Fri Feb 28 02:39:45 2020 +0200
+
+    setting up the server and connect to  database
+
+commit 8480c9446fd9942ce00452c9a90a95ac2cb5b926
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Fri Feb 28 02:39:45 2020 +0200
+
+    setting up the server and connect to  database
+
+commit 54cd385ec38d6955833c0a437b6afce9d4659926
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Wed Feb 26 23:41:26 2020 +0200
+
+    preparing the structure for the project files
+
+commit f4f359d9dbf2bcbfcdf4b7abc0a3f469976f603b
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Sat Feb 22 22:37:33 2020 +0200
+
+    first commit
