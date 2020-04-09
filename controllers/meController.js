@@ -193,12 +193,6 @@ exports.playTrack = catchAsync(async (req, res) => {
     });
     updatedUser.queue.currentlyPlaying.device = deviceId;
     await updatedUser.save({ validateBeforeSave: false });
-    if (
-      updatedUser.queue.seek !== undefined ||
-      updatedUser.queue.seek !== null
-    ) {
-      req.headers.range = updatedUser.queue.seek;
-    }
   }
   const { trackPath } = track;
   // Check if file exists. If not, will return the 404 'Not Found'.
