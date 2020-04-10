@@ -66,4 +66,4 @@ These instructions will get you a copy of the project up and running on your loc
 ### api documentation
 
 - we used postman documentation you can find the post man collection in the root of the repo in json format you can import it in postman application also if you the link of the current documentation, updated with real time example responses from seeds, but description of the returned objects to be updated.
-  `https://documenter.getpostman.com/view/10629897/SzRw3C6L?version=latest`
+  https://documenter.getpostman.com/view/10629897/SzRw3C6L?version=latest

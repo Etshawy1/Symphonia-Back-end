@@ -121,12 +121,6 @@ exports.playTrack = catchAsync(async (req, res) => {
     });
     updatedUser.queue.currentlyPlaying.device = deviceId;
     await updatedUser.save({ validateBeforeSave: false });
-    if (
-      updatedUser.queue.seek !== undefined ||
-      updatedUser.queue.seek !== null
-    ) {
-      req.headers.range = updatedUser.queue.seek;
-    }
   } else {
     const playlist = await PlayList.findById(req.body.contextId);
     const item = {
