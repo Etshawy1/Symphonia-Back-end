@@ -3,6 +3,7 @@ const { User } = require('./../../../models/userModel');
 const mongoose = require('mongoose');
 const AppError = require('../../../utils/appError');
 const { mockResponse } = require('../../utils/Requests');
+const { History } = require('../../../models/historyModel');
 describe('player.extention', () => {
   it('should return audio/mpeg if the file extention is .mp3 ', () => {
     expect(controller.getMimeNameFromExt('.mp3')).toEqual('audio/mpeg');
@@ -208,6 +209,84 @@ describe('meController.volume', () => {
     expect(user.queue.volume).toEqual('90');
   });
 });
+
+describe('meController.updateCurrentUserProfile', () => {
+  let req, res, next, user;
+  user = { _id: mongoose.Types.ObjectId() };
+  const exec = async () => {
+    res = mockResponse();
+    next = jest.fn();
+    await controller.updateCurrentUserProfile(req, res, next);
+  };
+  it('should return new user public profile data after update', async () => {
+    req = {
+      user,
+      body: {}
+    };
+    User.findByIdAndUpdate = jest.fn().mockResolvedValue(user);
+    await exec();
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith(user);
+  });
+});
+
+describe('meController.topTracksAndArtists', () => {
+  let req, res, next;
+  const exec = async () => {
+    res = mockResponse();
+    next = jest.fn();
+    await controller.topTracksAndArtists(req, res, next);
+  };
+  it('should return  top artists if type is artist', async () => {
+    req = {
+      params: { type: 'artist' },
+      query: {}
+    };
+    const artist = { _id: mongoose.Types.ObjectId() };
+    controller.getTopArtistsAndTracks = jest.fn().mockResolvedValue(artist);
+    await exec();
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith({ doc: artist });
+  });
+  it('should return  top tracks if type is track', async () => {
+    req = {
+      params: { type: 'track' },
+      query: {}
+    };
+    const track = { _id: mongoose.Types.ObjectId() };
+    controller.getTopArtistsAndTracks = jest.fn().mockResolvedValue(track);
+    await exec();
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith({ doc: track });
+  });
+});
+
+describe('meController.topTracksAndArtists', () => {
+  let req, res, next, user, hist;
+  const exec = async () => {
+    res = mockResponse();
+    next = jest.fn();
+    await controller.recentlyPlayed(req, res, next);
+  };
+  it('should return history of the current user', async () => {
+    const user = {};
+    user._id = mongoose.Types.ObjectId();
+    user.select = jest.fn().mockReturnValue(user);
+    user.hist = hist;
+    user.history = 'history';
+    hist = {
+      data: 'user history',
+      select: jest.fn().mockReturnValue('history')
+    };
+    req = { user };
+    User.findById = jest.fn().mockReturnValue(user);
+    History.findById = jest.fn().mockReturnValue(hist);
+    await exec();
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith({ history: 'history' });
+  });
+});
+
 describe('meController.userProfile', () => {
   let req, res, next, user;
   user = { _id: mongoose.Types.ObjectId() };

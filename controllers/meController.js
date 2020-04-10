@@ -270,8 +270,8 @@ exports.currentUserProfile = catchAsync(async (req, res, next) => {
 exports.topTracksAndArtists = catchAsync(async (req, res, next) => {
   const doc =
     req.params.type === 'track'
-      ? await getTopArtistsAndTracks(Track, req.query)
-      : await getTopArtistsAndTracks(User, req.query);
+      ? await exports.getTopArtistsAndTracks(Track, req.query)
+      : await exports.getTopArtistsAndTracks(User, req.query);
   res.status(200).json({
     doc
   });
@@ -554,3 +554,4 @@ module.exports.sendResponse = sendResponse;
 module.exports.getMimeNameFromExt = getMimeNameFromExt;
 module.exports.readRangeHeader = readRangeHeader;
 module.exports.getProfileInfo = getProfileInfo;
+module.exports.getTopArtistsAndTracks = getTopArtistsAndTracks;

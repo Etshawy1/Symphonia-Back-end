@@ -8,7 +8,7 @@
   "scripts": {
     "start": "nodemon ./bin/www",
     "debug": "ndb ./bin/www",
-    "test": "jest --watchAll --verbose --runInBand --detectOpenHandles",
+    "test": "jest --watchAll --verbose --runInBand --detectOpenHandles --coverage",
     "start:prod": "NODE_ENV=production nodemon server.js"
   },
   "jest": {
