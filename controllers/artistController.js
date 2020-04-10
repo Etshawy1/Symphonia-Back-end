@@ -50,7 +50,6 @@ exports.artistTopTracks = catchAsync(async (req, res, next) => {
     }
   });
   topTracks[0].tracks.forEach((item, index) => {
-    console.log(typeof item);
     item.previewUrl = item.getPreviewUrl(
       `${req.protocol}://${req.get('host')}/`
     );

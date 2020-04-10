@@ -39,7 +39,6 @@ exports.signup = catchAsync(async (req, res, next) => {
     passwordConfirm: req.body.password,
     imageUrl: `${url}/api/v1/images/users/default.png`
   });
-  console.log(newUser);
 
   await new Email(newUser, url).sendWelcome();
 

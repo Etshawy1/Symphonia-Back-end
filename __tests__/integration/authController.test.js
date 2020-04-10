@@ -9,15 +9,18 @@ describe('/signup', () => {
   afterEach(async () => {
     await User.deleteMany({});
   });
-  const user = {
-    name: 'etsh',
-    email: 'test52@test.com',
-    emailConfirm: 'test52@test.com',
-    password: 'password',
-    dateOfBirth: '1999-12-31',
-    gender: 'male',
-    type: 'user'
-  };
+  let user;
+  beforeEach(() => {
+    user = {
+      name: 'etsh',
+      email: 'test52@test.com',
+      emailConfirm: 'test52@test.com',
+      password: 'password',
+      dateOfBirth: '1999-12-31',
+      gender: 'male',
+      type: 'user'
+    };
+  });
 
   it('should sign up the valid user and return its data and a JWT token', async () => {
     const res = await request(app)
@@ -55,6 +58,35 @@ describe('/signup', () => {
       expect.objectContaining({
         status: 'fail',
         message: expect.stringContaining(`${user.email}`)
+      })
+    );
+  });
+
+  it('should not sign up a user if data is in wrong format', async () => {
+    user.name = 'l';
+    const res = await request(app)
+      .post('/api/v1/users/signup')
+      .send({ ...user })
+      .expect(400);
+    expect(res.body).toEqual(
+      expect.objectContaining({
+        status: 'fail',
+        message: expect.stringContaining('name')
+      })
+    );
+  });
+
+  it('should not sign up a user if email is in wrong format', async () => {
+    user.email = 'l@l.com';
+    user.emailConfirm = user.emal;
+    const res = await request(app)
+      .post('/api/v1/users/signup')
+      .send({ ...user })
+      .expect(400);
+    expect(res.body).toEqual(
+      expect.objectContaining({
+        status: 'fail',
+        message: expect.stringContaining('email')
       })
     );
   });
