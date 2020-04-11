@@ -61,7 +61,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### functional documentation
 
-- run the script `npm i -g jsdoc` then to generate documentation of a certain file in some path write `jsdoc {path}` this will generate files in folder name `./out`.
+- run the script `npm i -g jsdoc` then to generate documentation write `npm run doc` which is a script to generate documentation of all files generating files in folder name `./docs`.
 
 ### api documentation
 
