@@ -13,13 +13,11 @@ describe('getAllAlbums', () => {
     query = mockQuery();
 
     next = jest.fn();
-    req = { query: { gte: '1' } };
+    req = { query: {} };
     albums = {
       id1: mongoose.Types.ObjectId()
     };
     query.query = albums;
-    //query = { albums };
-
     Album.find = jest.fn().mockReturnValue(query);
   });
 
@@ -27,50 +25,48 @@ describe('getAllAlbums', () => {
     await controller.getAllAlbums(req, res, next);
 
     expect(res.status).toHaveBeenCalledWith(200);
-    expect(res.json).toHaveBeenCalledWith(albums);
+    expect(res.send).toHaveBeenCalledWith(query);
   });
 });
 
-// describe('getAlbumTracks', () => {
-//   let req, res, next, tracks, query;
-//   res = mockResponse();
-//   query = mockQuery();
-//   next = jest.fn();
-//   req = {
-//     params: { id: mongoose.Types.ObjectId() },
-//     query: { gte: '1' }
-//   };
+describe('getAlbumTracks', () => {
+  let req, res, next, tracks, query;
+  beforeAll(() => {
+    res = mockResponse();
+    query = mockQuery();
+    next = jest.fn();
+    req = {
+      params: { id: mongoose.Types.ObjectId },
+      query: { gte: '1' }
+    };
 
-//   tracks = [
-//     { id1: mongoose.Types.ObjectId() },
-//     { id2: mongoose.Types.ObjectId() }
-//   ];
-//   query.populate = jest.fn().mockReturnValue(tracks);
-//   Album.findById = jest.fn().mockReturnValue(query);
-
-//   it('Should return album tracks', async function() {
-//     await controller.getAlbumTracks(req, res, next);
-//     expect(res.status).toHaveBeenCalledWith(200);
-//     expect(res.json).toHaveBeenCalledWith(tracks);
-//   });
-// });
-
-// describe('getAlbum', () => {
-//   let req, res, next, album, query;
-//   res = mockResponse();
-//   query = mockQuery();
-//   next = jest.fn();
-//   req = {
-//     params: { id: mongoose.Types.ObjectId() },
-//     query: { gte: '1' }
-//   };
-//   album = { id: mongoose.Types.ObjectId };
-//   query.populate = jest.fn().mockReturnValue(album);
-//   Album.findById = jest.fn().mockReturnValue(query);
-
-//   it('Should return an album ', async function() {
-//     await controller.getAlbum(req, res, next);
-//     expect(res.status).toHaveBeenCalledWith(200);
-//     //expect(res.json).toHaveBeenCalledWith(album);
-//   });
-// });
+    tracks = [{ id1: mongoose.Types.ObjectId }];
+    query.populate = jest.fn().mockReturnValue(tracks);
+    Album.findById = jest.fn().mockReturnValue(query);
+  });
+  it('Should return album tracks', async function() {
+    await controller.getAlbumTracks(req, res, next);
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.send).toHaveBeenCalledWith(tracks);
+  });
+});
+describe('getAlbum', () => {
+  let req, res, next, album, query;
+  beforeAll(() => {
+    res = mockResponse();
+    query = mockQuery();
+    next = jest.fn();
+    req = {
+      params: { id: mongoose.Types.ObjectId },
+      query: { gte: '1' }
+    };
+    album = { id1: mongoose.Types.ObjectId };
+    query.populate = jest.fn().mockReturnValue(album);
+    Album.findById = jest.fn().mockReturnValue(query);
+  });
+  it('Should return an album ', async function() {
+    await controller.getAlbum(req, res, next);
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.send).toHaveBeenCalledWith(album);
+  });
+});
