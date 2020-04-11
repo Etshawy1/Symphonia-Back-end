@@ -1,6 +1,6 @@
 # Symphonia-Back-end
 
-<img style ="display:block;magin:0 auto;" src='https://github.com/Etshawy1/Symphonia-Back-end/blob/dev/assets/icons/icon.png?raw=true'></img>
+![Symphonia logo]('./assets/icons/icon.png')
 
 The back end of Symphonia website (a spotify-like music streaming application)
 
@@ -61,9 +61,9 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### functional documentation
 
-- run the script `npm i -g jsdoc` then to generate documentation write `npm run doc` which is a script to generate documentation of all files generating files in folder name `./docs`.
+- run the script `npm i -g jsdoc` then to generate documentation write `npm run doc` which is a script to generate documentation of all files generating files in a folder named `./docs`.
 
 ### api documentation
 
 - we used postman documentation you can find the post man collection in the root of the repo in json format you can import it in postman application also if you the link of the current documentation, updated with real time example responses from seeds, but description of the returned objects to be updated.
-  https://documenter.getpostman.com/view/10629897/SzRw3C6L?version=latest
+  <https://documenter.getpostman.com/view/10629897/SzRw3C6L?version=latest>
