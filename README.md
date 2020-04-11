@@ -1,6 +1,8 @@
 # Symphonia-Back-end
 
-![Symphonia logo](/assets/icons/icon.png)
+<p align="center"> 
+<img src="https://raw.githubusercontent.com/Etshawy1/Symphonia-Back-end/master/assets/icons/icon.png?token=AKF6D74HQOTUQYB3H6B67YK6TMPSQ">
+</p>
 
 The back end of Symphonia website (a spotify-like music streaming application)
 

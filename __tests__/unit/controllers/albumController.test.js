@@ -17,7 +17,6 @@ describe('getAllAlbums', () => {
     albums = {
       id1: mongoose.Types.ObjectId()
     };
-    query.query = albums;
     Album.find = jest.fn().mockReturnValue(query);
   });
 
@@ -36,18 +35,27 @@ describe('getAlbumTracks', () => {
     query = mockQuery();
     next = jest.fn();
     req = {
-      params: { id: mongoose.Types.ObjectId },
-      query: { gte: '1' }
+      params: { id: mongoose.Types.ObjectId() },
+      query: {}
     };
-
-    tracks = [{ id1: mongoose.Types.ObjectId }];
-    query.populate = jest.fn().mockReturnValue(tracks);
+    tracks = [
+      { _id: mongoose.Types.ObjectId() },
+      { _id: mongoose.Types.ObjectId() }
+    ];
+    query.populate = jest.fn().mockResolvedValue(tracks);
     Album.findById = jest.fn().mockReturnValue(query);
   });
-  it('Should return album tracks', async function() {
+
+  it('Should return album tracks', async () => {
     await controller.getAlbumTracks(req, res, next);
     expect(res.status).toHaveBeenCalledWith(200);
     expect(res.send).toHaveBeenCalledWith(tracks);
+  });
+  it('Should return error if album id not found', async () => {
+    Album.findById = jest.fn().mockReturnValue(null);
+    await controller.getAlbumTracks(req, res, next);
+    expect(res.status).toHaveBeenCalledWith(404);
+    expect(res.send).toHaveBeenCalledWith('This Album is not found!');
   });
 });
 describe('getAlbum', () => {
@@ -57,16 +65,24 @@ describe('getAlbum', () => {
     query = mockQuery();
     next = jest.fn();
     req = {
-      params: { id: mongoose.Types.ObjectId },
-      query: { gte: '1' }
+      params: { id: mongoose.Types.ObjectId() },
+      query: {}
     };
-    album = { id1: mongoose.Types.ObjectId };
+    album = { _id: mongoose.Types.ObjectId() };
     query.populate = jest.fn().mockReturnValue(album);
     Album.findById = jest.fn().mockReturnValue(query);
   });
-  it('Should return an album ', async function() {
+
+  it('Should return an album ', async () => {
     await controller.getAlbum(req, res, next);
     expect(res.status).toHaveBeenCalledWith(200);
     expect(res.send).toHaveBeenCalledWith(album);
+  });
+
+  it('Should return error if album id not found', async () => {
+    Album.findById = jest.fn().mockReturnValue(null);
+    await controller.getAlbumTracks(req, res, next);
+    expect(res.status).toHaveBeenCalledWith(404);
+    expect(res.send).toHaveBeenCalledWith('This Album is not found!');
   });
 });

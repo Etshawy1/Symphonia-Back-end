@@ -1,8 +1,153 @@
+commit c049aaf511ec00a94372db3fd838c57dd31364c2
+Author: omar9984 <omartarek9984@gmail.com>
+Date:   Sat Apr 11 22:21:50 2020 +0200
+
+    Album Unit Testing
+
+commit 6850786318e9422a3abe4474592db459b13f9654
+Author: omar9984 <omartarek9984@gmail.com>
+Date:   Sat Apr 11 20:31:08 2020 +0200
+
+    Update albumController.test.js
+
+commit bff916c4b29ef7c1e4c38e88e5e3706707087237
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Sat Apr 11 17:28:26 2020 +0200
+
+    adding documentation to track and user models
+
+commit 769ac790a25236288ad6c88fb98bf5684a465554
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Sat Apr 11 16:35:49 2020 +0200
+
+    remove unimportant files
+
+commit 2a9cd44ebe8cbafbbdee8766371f06a1b363153f
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Sat Apr 11 16:13:41 2020 +0200
+
+    update readme
+
+commit c2fa256340c3c6ccdd754ad0fbbd70b70ec5df0f
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Sat Apr 11 16:13:13 2020 +0200
+
+    update readme
+
+commit 2dfdfcf93a4f455b4b08e3d01647c9f9929a29e4
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Sat Apr 11 16:12:34 2020 +0200
+
+    update readme
+
+commit f55f11dc017f59b3aa3706c2dd91fb4cb8ec877b
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Sat Apr 11 16:03:56 2020 +0200
+
+    configuration for functional documentation and adding a documentation script, updating readme
+
+commit 09ea56deadad90f21a495ade95f67a63f6781626
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Sat Apr 11 00:52:11 2020 +0200
+
+    adding unit tests for artist controller
+
+commit c441cb38183d980d4f39ed86a57d298be7265a96
+Merge: 830e3f6 e33125c
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Fri Apr 10 21:47:00 2020 +0200
+
+    Merge branch 'master' of https://github.com/Etshawy1/Symphonia-Back-end
+
+commit 830e3f6c6c4f3a7011345caf49dea37b05e836e2
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Fri Apr 10 21:46:54 2020 +0200
+
+    adding a couple unit tests in mecontroller
+
+commit e33125cbe64836ff83e53155f6a3bc47098a1a47
+Author: Muhammed Alaa <42709288+MuhammeedAlaa@users.noreply.github.com>
+Date:   Thu Apr 9 17:58:10 2020 +0200
+
+    Update README.md
+
+commit 4c1203a05a200774ac2945fba9de3330aa4c9d7c
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Thu Apr 9 15:09:02 2020 +0200
+
+    handle packets
+
+commit b440ad60ad3da5fb334d52110f9da86e468fc1c0
+Merge: dcb3932 4b740dc
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Thu Apr 9 14:22:56 2020 +0200
+
+    Merge branch 'master' of github.com:Etshawy1/Symphonia-Back-end
+
+commit dcb3932315bb933de60f55716067175fe780eb99
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Thu Apr 9 14:22:27 2020 +0200
+
+    handle packets
+
+commit 4b740dc612ba526249cb4f5b22b1e111beda5732
+Merge: 25670f2 762176f
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Thu Apr 9 12:00:40 2020 +0200
+
+    Merge branch 'master' of https://github.com/Etshawy1/Symphonia-Back-end
+
+commit 25670f28f94417cafef39c0a531e31a478b1cab9
+Merge: d4fb94f 54733e7
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Thu Apr 9 12:00:20 2020 +0200
+
+    Merge branch 'dev'
+
+commit 54733e7592373402ce6bbc3062584eac6697cc3f
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Thu Apr 9 11:59:57 2020 +0200
+
+    fix small error in the seed
+
+commit 762176f6f300e9e26684737768aa0d29e6ab2fd6
+Merge: a7d9f9c d4fb94f
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Wed Apr 8 23:18:33 2020 +0200
+
+    Merge branch 'master' of github.com:Etshawy1/Symphonia-Back-end
+
+commit a7d9f9cdea7eda7b6023571f577ec959af202ba1
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Wed Apr 8 23:18:02 2020 +0200
+
+    handel player for andriod
+
+commit d4fb94f7bb90f658d509730bb10a1c6a82475000
+Merge: 2c1507d cb998ad
+Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
+Date:   Wed Apr 8 18:59:29 2020 +0200
+
+    Merge branch 'master' of https://github.com/Etshawy1/Symphonia-Back-end
+
 commit 2c1507d09a1866629cdec1ad108a006d5573fd6f
 Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
 Date:   Wed Apr 8 18:58:54 2020 +0200
 
     added premium tracks attribute in the model and seeds under demand of front and android, updated readme
+
+commit cb998ad9431e74b630ad257a7bc7931c01203071
+Merge: 4a745fa 5da96bf
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Wed Apr 8 17:13:51 2020 +0200
+
+    Merge branch 'master' of github.com:Etshawy1/Symphonia-Back-end
+
+commit 4a745faf9fdf3fc7e2b959a99936ccf4a1b84dbe
+Author: MuhammedAlaa <soupermado@gmail.com>
+Date:   Wed Apr 8 17:13:38 2020 +0200
+
+    facebook and google links
 
 commit 5da96bfb26790314f0cbd667cac1c4baad3a38e2
 Author: Etshawy1 <muhammad.mahmoud99@eng-st.cu.edu.eg>
