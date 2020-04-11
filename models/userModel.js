@@ -5,6 +5,10 @@ const validator = require('validator');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
+/**
+ * @module Models.user
+ */
+
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -179,13 +183,27 @@ userSchema.pre(/^find/, function (next) {
   next();
 });
 
-// this function is to compare a provided password with the stored one
+/**
+ * this function is to compare a provided password with the stored one
+ * @function correctPassword
+ * @param {string} candidatePassword - the provided password to be checked
+ * @param {string} userPassword - the hashed password of the user from the database
+ * @returns {boolean} - true if the password matches the one in the database
+ */
+
 userSchema.methods.correctPassword = async function (
   candidatePassword,
   userPassword
 ) {
   return await bcrypt.compare(candidatePassword, userPassword);
 };
+
+/**
+ * to check whether the password was changed after a given data.
+ * @function changedPasswordAfter
+ * @param {number} JWTTimestamp - the unix timestamp of when the jwt token was created.
+ * @returns {boolean} - true if the password changed after the token was issued.
+ */
 
 userSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
   if (this.passwordChangedAt) {
@@ -201,6 +219,12 @@ userSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
   return false;
 };
 
+/**
+ * to make a JWT token for the user using the is as payload
+ * @function signToken
+ * @returns {string} - a json web token to identify the user and to be used in bearer token authorization
+ */
+
 userSchema.methods.signToken = function () {
   return jwt.sign(
     {
@@ -212,6 +236,12 @@ userSchema.methods.signToken = function () {
     }
   );
 };
+
+/**
+ * creates a password reset token that is valid for 10 minutes only
+ * @function createPasswordResetToken
+ * @returns {string} - password reset token
+ */
 
 userSchema.methods.createPasswordResetToken = function () {
   const resetToken = crypto.randomBytes(32).toString('hex');
