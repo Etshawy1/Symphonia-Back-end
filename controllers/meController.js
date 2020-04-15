@@ -21,6 +21,13 @@ const mimeNames = {
   '.webm': 'video/webm'
 };
 
+/**
+ * get user profile
+ * @function getProfileInfo
+ * @param {number} userId - the user id that you want to get his profile
+ * @return {Document} - the user profile info without any sensitive information
+ */
+
 async function getProfileInfo (userId) {
   return await User.findById(userId)
     .select('-password')
@@ -33,6 +40,14 @@ async function getProfileInfo (userId) {
     .select('-facebookId');
 }
 
+/**
+ * get the top tarcks or top artists
+ * @function getTopArtistsAndTracks
+ * @param {Object} Model - the model of the object that you want to get the top documents in it
+ * @param {Object} query - the query string object of express framework
+ * @return {Documents} - the top  artists or tracks
+ */
+
 async function getTopArtistsAndTracks (Model, query) {
   const top = new APIFeatures(Model.find().sort({ usersCount: -1 }), query)
     .filter()
@@ -40,6 +55,17 @@ async function getTopArtistsAndTracks (Model, query) {
     .paginate();
   return await top.query;
 }
+
+/**
+ * open the file and send it to user
+ * @function sendResponse
+ * @param {Object} response - the response object of express framework
+ * @param {number} statusCode - the status code of the response
+ * @param {Object} responseHeaders - the header of the response
+ * @param {File} readable - the File you want to send to the user
+ * @return {File_Packets} - open the file and send it to the user
+ */
+
 function sendResponse (response, responseStatus, responseHeaders, readable) {
   response.writeHead(responseStatus, responseHeaders);
 
@@ -53,6 +79,13 @@ function sendResponse (response, responseStatus, responseHeaders, readable) {
   return null;
 }
 
+/**
+ * get the track extension
+ * @function getMimeNameFromExt
+ * @param {String} ext - track extenstion
+ * @return {String} - the header extension name
+ */
+
 function getMimeNameFromExt (ext) {
   let result = mimeNames[ext.toLowerCase()];
   if (!result) {
@@ -60,6 +93,13 @@ function getMimeNameFromExt (ext) {
   }
   return result;
 }
+/**
+ * get the packet start and end bytes
+ * @function readRangeHeader
+ * @param {Array} range - track range of packets
+ * @param {number} totalLength - the total length of the track
+ * @return {Object} - object containing the start and the end of the packet
+ */
 
 function readRangeHeader (range, totalLength) {
   if (!range || range.length === 0) {

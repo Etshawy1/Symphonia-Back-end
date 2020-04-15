@@ -46,6 +46,7 @@ exports.signup = catchAsync(async (req, res, next) => {
       'gender',
       'type'
     ]),
+    last_login: Date.now(),
     passwordConfirm: req.body.password,
     imageUrl: `${url}/api/v1/images/users/default.png`
   });
