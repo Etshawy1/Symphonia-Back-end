@@ -3,6 +3,7 @@ const APIFeatures = require('./../utils/apiFeatures');
 const catchAsync = require('./../utils/catchAsync').threeArg;
 const User = require('./../models/userModel');
 const Track = require('./../models/trackModel');
+const _ = require('lodash');
 
 exports.getPlaylist = catchAsync(async (req, res, next) => {
   const playlistCheck = await Playlist.findById(req.params.id);
@@ -208,21 +209,15 @@ exports.changePlaylistDetails = catchAsync(async (req, res, next) => {
   if (
     (!playlistCheck.public || !playlistCheck.collaborative) &&
     playlistCheck.owner != req.user.id
-  )
-    return res.status(500).send('This playlist is restricted');
-
+  ) {
+    return next(new AppError('This playlist is restricted.', 401));
+  }
   const playlist = await Playlist.findByIdAndUpdate(
     req.params.id,
-    {
-      name: req.body.name,
-      collaborative: req.body.collaborative,
-      public: req.body.public,
-      description: req.body.description
-    },
-    { new: true }
+    _.pick(req.body, ['name', 'collaborative', 'public', 'description']),
+    { new: true, runValidators: true }
   );
-  await playlist.save();
-  res.send(playlist);
+  res.json(playlist);
 });
 exports.maintainPlaylistTracks = catchAsync(async (req, res, next) => {
   let playlistCheck = await Playlist.findById(req.params.id);

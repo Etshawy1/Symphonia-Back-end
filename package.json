@@ -6,7 +6,7 @@
     "test": "tests"
   },
   "scripts": {
-    "start": "nodemon ./bin/www",
+    "start": "node ./bin/www",
     "debug": "ndb ./bin/www",
     "test": "jest --watchAll --verbose --runInBand --detectOpenHandles --coverage",
     "start:prod": "NODE_ENV=production nodemon server.js",
