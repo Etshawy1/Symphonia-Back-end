@@ -136,6 +136,8 @@ const userSchema = new mongoose.Schema({
   passwordChangedAt: Date,
   passwordResetToken: String,
   passwordResetExpires: Date,
+  artistApplicationToken: String,
+  artistApplicationExpires: Date,
   googleId: String,
   facebookId: String,
   imageFacebookUrl: String,
@@ -255,6 +257,25 @@ userSchema.methods.createPasswordResetToken = function () {
   this.passwordResetExpires = Date.now() + 10 * 60 * 1000;
 
   return resetToken;
+};
+/**
+ * creates a artist application token that is valid for 10 minutes only
+ * @function createArtistToken
+ * @returns {string} - password reset token
+ */
+
+userSchema.methods.createArtistToken = function () {
+  const applicationToken = crypto.randomBytes(32).toString('hex');
+
+  this.artistApplicationToken = crypto
+    .createHash('sha256')
+    .update(applicationToken)
+    .digest('hex');
+
+  // the token to reset the password is valit only for 10 minutes
+  this.artistApplicationExpires = Date.now() + 10 * 60 * 1000;
+
+  return applicationToken;
 };
 
 const User = mongoose.model('User', userSchema);

@@ -9,4 +9,14 @@ router.get('/:id', artistController.getArtist);
 router.get('/:id/related-artists', artistController.relatedArtists);
 router.get('/:id/followers', artistController.artistFollowers);
 router.get('/:id/top-tracks', artistController.artistTopTracks);
+router.post(
+  '/apply-artist',
+  authController.protect,
+  artistController.applyArtist
+);
+router.patch(
+  '/apply-artist/:token',
+  authController.protect,
+  artistController.confirmApplication
+);
 module.exports = router;
