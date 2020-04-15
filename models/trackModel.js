@@ -80,15 +80,5 @@ trackSchema.methods.getPreviewUrl = function (localhost) {
   else return `${localhost}api/v1/me/player/tracks/${this._id}`;
 };
 const Track = mongoose.model('Track', trackSchema);
-async function validateTrack (user) {
-  const schema = Joi.object({
-    name: Joi.string()
-      .min(2)
-      .max(255)
-      .required()
-  });
-  return schema.validateAsync(user);
-}
 
-exports.Track = Track;
-exports.validate = validateTrack;
+module.exports = Track;

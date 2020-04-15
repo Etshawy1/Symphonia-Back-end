@@ -1,5 +1,5 @@
 const Category = require('../models/categoryModel');
-const { Track } = require('../models/trackModel');
+const Track = require('../models/trackModel');
 const Playlist = require('../models/playlistModel');
 const sharp = require('sharp');
 const APIFeatures = require('../utils/apiFeatures');

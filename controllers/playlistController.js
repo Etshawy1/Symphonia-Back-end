@@ -4,6 +4,8 @@ const catchAsync = require('./../utils/catchAsync').threeArg;
 const User = require('./../models/userModel');
 const Track = require('./../models/trackModel');
 const _ = require('lodash');
+const mongoose = require('mongoose');
+const AppError = require('../utils/appError');
 
 exports.getPlaylist = catchAsync(async (req, res, next) => {
   const playlistCheck = await Playlist.findById(req.params.id);
@@ -93,44 +95,38 @@ exports.getPlaylistCoverImage = catchAsync(async (req, res, next) => {
 });
 
 exports.getPlaylistTracks = catchAsync(async (req, res, next) => {
-  const playlistCheck = await Playlist.findById(req.params.id);
-
-  if (!playlistCheck)
-    return res
-      .status(404)
-      .send('The playlist with the given ID was not found.');
-
-  if (!playlistCheck.public && playlistCheck.owner != req.user.id)
-    return res.status(500).send('This playlist is not Public');
-
+  const playlistTracks = await Playlist.findById(req.params.id, 'tracks');
+  if (!playlistTracks) {
+    return next(new AppError('that document does not exist', 404));
+  }
   const features = new APIFeatures(
-    Playlist.findById(req.params.id).select('tracks'),
+    Track.find({ _id: { $in: playlistTracks.tracks } }).populate([
+      {
+        path: 'tracks',
+        model: 'Track',
+        populate: {
+          path: 'album',
+          model: 'Album'
+        }
+      },
+      {
+        path: 'tracks',
+        model: 'Track',
+        populate: {
+          path: 'artist',
+          model: 'User'
+        }
+      }
+    ]),
     req.query
   )
     .filter()
     .sort()
     .paginate();
 
-  const tracks = await features.query.populate([
-    {
-      path: 'tracks',
-      model: 'Track',
-      populate: {
-        path: 'album',
-        model: 'Album'
-      }
-    },
-    {
-      path: 'tracks',
-      model: 'Track',
-      populate: {
-        path: 'artist',
-        model: 'User'
-      }
-    }
-  ]);
+  const tracks = await features.query;
 
-  res.send(tracks);
+  res.status(200).json(tracks);
 });
 
 exports.removePlaylistTracks = catchAsync(async (req, res, next) => {

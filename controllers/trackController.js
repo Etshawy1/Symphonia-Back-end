@@ -1,4 +1,4 @@
-const { Track } = require('./../models/trackModel');
+const Track = require('./../models/trackModel');
 const factory = require('./handlerFactory');
 
 exports.getTrack = factory.getOne(Track, 'category');
