@@ -126,7 +126,8 @@ function readRangeHeader (range, totalLength) {
 
   return result;
 }
-exports.playTrack = catchAsync(async (req, res) => {
+exports.playInfo = catchAsync(async (req, res, next) => {
+  const currentUser = await User.findById(req.user._id).select('+history');
   const track = await Track.findById(req.params.track_id);
   if (
     req.body.context_url === undefined &&
@@ -136,7 +137,6 @@ exports.playTrack = catchAsync(async (req, res) => {
       track: track._id,
       played_at: Date.now()
     };
-    const currentUser = await User.findById(req.user._id).select('+history');
     currentUser.queue.currentlyPlaying.currentTrack = `${
       req.protocol
     }://${req.get('host')}/api/v1/me/player/tracks/${track._id}`;
@@ -205,7 +205,6 @@ exports.playTrack = catchAsync(async (req, res) => {
       nextTrack: indexOfNextTrack !== -1 ? TracksUrl[indexOfNextTrack] : null,
       devices: [{ devicesName: req.body.device }]
     };
-    const currentUser = await User.findById(req.user._id).select('+history');
     if (currentUser.history === undefined) {
       const history = await History.create({
         items: [item]
@@ -228,6 +227,10 @@ exports.playTrack = catchAsync(async (req, res) => {
     updatedUser.queue.currentlyPlaying.device = deviceId;
     await updatedUser.save({ validateBeforeSave: false });
   }
+  res.status(204).json({ data: null });
+});
+exports.playTrack = catchAsync(async (req, res) => {
+  const track = await Track.findById(req.params.track_id);
   const { trackPath } = track;
   // Check if file exists. If not, will return the 404 'Not Found'.
   if (!fs.existsSync(`${trackPath}`)) {
@@ -300,7 +303,6 @@ exports.currentUserProfile = catchAsync(async (req, res, next) => {
   const currentUser = await exports.getProfileInfo(req.user._id);
   res.status(200).json(currentUser);
 });
-//wait
 exports.topTracksAndArtists = catchAsync(async (req, res, next) => {
   const doc =
     req.params.type === 'track'
@@ -313,6 +315,9 @@ exports.topTracksAndArtists = catchAsync(async (req, res, next) => {
 exports.recentlyPlayed = catchAsync(async (req, res, next) => {
   const currentUser = await User.findById(req.user._id).select('+history');
   const history = await History.findById(currentUser.history).select('-__v');
+  if (!history) {
+    return next(new Error('this user has no tracks in history.', 404));
+  }
   res.status(200).json({
     history
   });
@@ -496,6 +501,9 @@ exports.popQueue = catchAsync(async (req, res, next) => {
 exports.getDevices = catchAsync(async (req, res, next) => {
   const user = await User.findById(req.user._id);
   const currentUserQueue = user.queue;
+  if (!currentUserQueue.devices) {
+    return next(new Error('this user has no devices at this time.', 404));
+  }
   res.status(200).json({
     data: currentUserQueue.devices
   });
@@ -530,6 +538,11 @@ exports.pushDevices = catchAsync(async (req, res, next) => {
 exports.getCurrentlyPlaying = catchAsync(async (req, res, next) => {
   const user = await User.findById(req.user._id);
   const currentPlaying = user.queue.currentlyPlaying;
+  if (!currentPlaying) {
+    return next(
+      new AppError('this user is not playing any track right now', 404)
+    );
+  }
   res.status(200).json({
     data: currentPlaying
   });
@@ -537,6 +550,9 @@ exports.getCurrentlyPlaying = catchAsync(async (req, res, next) => {
 exports.getQueue = catchAsync(async (req, res, next) => {
   const user = await User.findById(req.user._id);
   const currentQueue = user.queue;
+  if (!currentQueue) {
+    return next(new AppError('there is no queue for this user right now', 404));
+  }
   res.status(200).json({
     data: currentQueue
   });
