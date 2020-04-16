@@ -18,14 +18,13 @@ router.get(
 );
 
 router.get('/featured-playlists', browseController.getCategoriesPlaylists);
-
 router.use(authController.protect);
-
 router.get('/artists', browseController.getRecommendedArtists);
 // TODO: solve the problem of disappearing fields
 let uploadBuilder = new UploadBuilder();
 // this means to name the file in icon field with name in the req.body
-uploadBuilder.addfileField('icon', 'name', '', 1);
+// uploadBuilder.addfileField('icon', 'name', '', 1);
+uploadBuilder.addfileField('icon');
 //uploadBuilder.addfileField('icon_md', 'name', '_md', 1);
 uploadBuilder.addTypeFilter('image/jpeg');
 uploadBuilder.addTypeFilter('image/png');

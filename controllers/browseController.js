@@ -6,7 +6,7 @@ const sharp = require('sharp');
 const APIFeatures = require('./../utils/apiFeatures');
 const catchAsync = require('./../utils/catchAsync').threeArg;
 const AppError = require('../utils/appError');
-
+const Responser = require('../utils/responser');
 /**
  * @module browseController
  */
@@ -51,32 +51,9 @@ exports.getCategoriesPlaylists = catchAsync(async (req, res, next) => {
     .offset();
 
   playlists = await features.query;
-  let LOCAL_HOST = `${req.protocol}://${req.get('host')}/`;
-  let href = LOCAL_HOST + `api/v1/browse/categories/${myCat.id}/playlists`;
-  let nnext = `${href}?offset=${offset + limit}&limit=${limit}`;
-  let preOffset = offset - limit;
-  if (preOffset < 0) {
-    preOffset = 0;
-  }
-
-  let previous = `${href}?offset=${preOffset}&limit=${limit}`;
-  if (preOffset == offset) {
-    previous = null;
-  }
-
-  href = `${href}?offset=${offset}&limit=${limit}`;
-
-  res.status(200).json({
-    playlists: {
-      total: playlists.length,
-      next: nnext,
-      previous: previous,
-      href: href,
-      items: playlists,
-      limit,
-      offset
-    }
-  });
+  res
+    .status(200)
+    .json(Responser.getPaging(playlists, 'playlists', req, limit, offset));
 });
 
 exports.getCategories = catchAsync(async (req, res, next) => {
@@ -130,31 +107,9 @@ exports.getRecommendedArtists = catchAsync(async (req, res, next) => {
     .offset();
 
   artists = await features.query.select('-queue');
-
-  let LOCAL_HOST = `${req.protocol}://${req.get('host')}/`;
-  let href = LOCAL_HOST + `api/v1/browse/artists`;
-  let nnext = `${href}?offset=${offset + limit}&limit=${limit}`;
-  let preOffset = offset - limit;
-  if (preOffset < 0) {
-    preOffset = 0;
-  }
-
-  let previous = `${href}?offset=${preOffset}&limit=${limit}`;
-  if (preOffset == offset) {
-    previous = null;
-  }
-  href = `${href}?offset=${offset}&limit=${limit}`;
-  res.status(200).json({
-    artists: {
-      total: artists.length,
-      next: nnext,
-      previous: previous,
-      href: href,
-      items: artists,
-      limit,
-      offset
-    }
-  });
+  res
+    .status(200)
+    .json(Responser.getPaging(artists, 'artists', req, limit, offset));
 });
 
 exports.getFeaturedPlaylists = catchAsync(async (req, res, next) => {
@@ -172,7 +127,6 @@ exports.getNewRelease = catchAsync(async (req, res, next) => {
   if (req.query.limit) {
     limit = parseInt(req.query.limit);
   }
-
   const features = new APIFeatures(
     Album.find({ releaseDate: { $exists: true } }),
     req.query
@@ -182,33 +136,9 @@ exports.getNewRelease = catchAsync(async (req, res, next) => {
     .offset();
   features.query = features.query.sort('-releaseDate');
   let albums = await features.query;
-  console.log(albums);
-
-  let LOCAL_HOST = `${req.protocol}://${req.get('host')}/`;
-  let href = LOCAL_HOST + `api/v1/browse/new-releases`;
-  let nnext = `${href}?offset=${offset + limit}&limit=${limit}`;
-  let preOffset = offset - limit;
-  if (preOffset < 0) {
-    preOffset = 0;
-  }
-
-  let previous = `${href}?offset=${preOffset}&limit=${limit}`;
-  if (preOffset == offset) {
-    previous = null;
-  }
-
-  href = `${href}?offset=${offset}&limit=${limit}`;
-  res.status(200).json({
-    albums: {
-      total: albums.length,
-      next: nnext,
-      previous: previous,
-      href: href,
-      items: albums,
-      limit,
-      offset
-    }
-  });
+  res
+    .status(200)
+    .json(Responser.getPaging(albums, 'albums', req, limit, offset));
 });
 
 exports.getRecommendations = catchAsync(async (req, res, next) => {
