@@ -104,8 +104,21 @@ exports.followedPlaylistCount = catchAsync(async (req, res, next) => {
   const count = await Playlist.count({
     followers: { $elemMatch: { $eq: req.user._id } }
   });
-  console.log(count);
   res.status(200).json({ FollowedPlaylists: count });
+});
+
+exports.followedPlaylist = catchAsync(async (req, res, next) => {
+  const features = new APIFeatures(
+    Playlist.find({
+      followers: { $elemMatch: { $eq: req.user._id } }
+    }),
+    req.query
+  )
+    .filter()
+    .sort()
+    .paginate();
+  const playlists = await features.query;
+  res.status(200).json(playlists);
 });
 
 // TODO: handle the next href and the
@@ -202,7 +215,7 @@ exports.unfollowPlaylist = catchAsync(async (req, res, next) => {
   let playlistId = req.params.id;
   // remove the user from the playlist
   let playlist = await Playlist.findById(playlistId);
-  playlist.followers = playlist.followers.filter(function(value, index, arr) {
+  playlist.followers = playlist.followers.filter(function (value, index, arr) {
     return value != userId;
   });
   await playlist.save();

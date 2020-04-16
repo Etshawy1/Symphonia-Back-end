@@ -16,6 +16,7 @@ router.use(authController.protect);
 router.delete('/:id/tracks', playlistController.removePlaylistTracks);
 router.post('/:id/tracks', playlistController.addTracksToPlaylist);
 router.patch('/:id/', playlistController.changePlaylistDetails);
+router.delete('/:id', playlistController.deletePlaylist);
 router.patch('/:id/tracks', playlistController.maintainPlaylistTracks);
 router.patch('/:id/images', playlistController.uploadCustomPlaylistCoverImage);
 

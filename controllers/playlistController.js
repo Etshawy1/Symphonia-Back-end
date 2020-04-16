@@ -101,22 +101,8 @@ exports.getPlaylistTracks = catchAsync(async (req, res, next) => {
   }
   const features = new APIFeatures(
     Track.find({ _id: { $in: playlistTracks.tracks } }).populate([
-      {
-        path: 'tracks',
-        model: 'Track',
-        populate: {
-          path: 'album',
-          model: 'Album'
-        }
-      },
-      {
-        path: 'tracks',
-        model: 'Track',
-        populate: {
-          path: 'artist',
-          model: 'User'
-        }
-      }
+      'artist',
+      'album'
     ]),
     req.query
   )
@@ -325,4 +311,32 @@ exports.getRandomPlaylist = catchAsync(async (req, res, next) => {
   ]);
 
   res.send(playlists);
+});
+
+exports.deletePlaylist = catchAsync(async (req, res, next) => {
+  await Playlist.findByIdAndUpdate(
+    req.params.id,
+    {
+      active: false
+    },
+    {
+      owner: req.user.id
+    }
+  );
+
+  res.status(204).json({});
+});
+
+exports.recoverCurrentUserPlaylists = catchAsync(async (req, res, next) => {
+  const results = await Playlist.updateMany(
+    {
+      owner: req.user.id,
+      active: false
+    },
+    {
+      active: true
+    }
+  );
+
+  res.status(200).json({ recoveredPlaylistsCount: results.nModified });
 });
