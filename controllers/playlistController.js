@@ -27,6 +27,8 @@ exports.getPlaylist = catchAsync(async (req, res, next) => {
 });
 
 exports.createPlaylist = catchAsync(async (req, res, next) => {
+  console.log(req.params.id);
+
   let playlistCheck = await User.User.findById(req.params.id);
 
   if (!playlistCheck) return res.status(400).send('Invalid User ID');
@@ -163,7 +165,7 @@ exports.addTracksToPlaylist = catchAsync(async (req, res, next) => {
       if (trackarr[j] == InputTrackarr[i]) delete InputTrackarr[i];
     }
   }
-  let RealTracksArray = InputTrackarr.filter(function (el) {
+  let RealTracksArray = InputTrackarr.filter(function(el) {
     return el != null;
   });
 
@@ -235,7 +237,7 @@ exports.maintainPlaylistTracks = catchAsync(async (req, res, next) => {
         delete playlistTracks[i++];
       }
 
-      playlistTracks = playlistTracks.filter(function (el) {
+      playlistTracks = playlistTracks.filter(function(el) {
         return el != null;
       });
 

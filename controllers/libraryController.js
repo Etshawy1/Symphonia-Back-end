@@ -8,7 +8,7 @@ const APIFeatures = require('./../utils/apiFeatures');
 const catchAsync = require('./../utils/catchAsync').threeArg;
 const AppError = require('../utils/appError');
 const mongoose = require('mongoose');
-
+const Responser = require('../utils/responser');
 // TODO: finish the functions for the end points
 exports.checkUserSavedAlbums = catchAsync(async (req, res, next) => {
   if (!req.query.ids) {
@@ -71,8 +71,14 @@ const getPaging = (
   return page;
 };
 const getLinkSPec = (req, limit, offset) => {
-  let LOCAL_HOST = `${req.protocol}://${req.get('host')}/`;
-  let href = LOCAL_HOST + `api/v1/me/albums`;
+  let LOCAL_HOST = `${req.protocol}://${req.get('host')}`;
+  console.log(req.originalUrl);
+  let originalUrl = req.originalUrl;
+  if (originalUrl.includes('?')) {
+    let index = originalUrl.indexOf('?');
+    originalUrl = originalUrl.substring(0, index);
+  }
+  let href = LOCAL_HOST + originalUrl;
   let nnext = `${href}?offset=${offset + limit}&limit=${limit}`;
   let preOffset = offset - limit;
   if (preOffset < 0) {
@@ -94,7 +100,6 @@ const getLinkSPec = (req, limit, offset) => {
 exports.getCurrentUserSavedAlbums = catchAsync(async (req, res, next) => {
   // first get the ids of the saved Albums
   ids = req.user.followedAlbums;
-
   let limit = 20; // the default
   let offset = 0; // the default
   if (req.query.offset) {
@@ -111,18 +116,9 @@ exports.getCurrentUserSavedAlbums = catchAsync(async (req, res, next) => {
     .offset();
   let albums = await features.query;
   let linkSpec = getLinkSPec(req, limit, offset);
-  res.status(200).json(
-    getPaging(
-      albums,
-      'Albums',
-
-      linkSpec.limit,
-      linkSpec.offset,
-      linkSpec.next,
-      linkSpec.previous,
-      linkSpec.href
-    )
-  );
+  res
+    .status(200)
+    .json(Responser.getPaging(albums, 'Albums', req, limit, offset));
 });
 
 exports.getCurrentUserSavedTracks = catchAsync(async (req, res, next) => {
@@ -145,20 +141,9 @@ exports.getCurrentUserSavedTracks = catchAsync(async (req, res, next) => {
 
   let tracks = await features.query;
   let linkSpec = getLinkSPec(req, limit, offset);
-
   res
     .status(200)
-    .json(
-      getPaging(
-        tracks,
-        'tracks',
-        linkSpec.limit,
-        linkSpec.offset,
-        linkSpec.next,
-        linkSpec.previous,
-        linkSpec.href
-      )
-    );
+    .json(Responser.getPaging(tracks, 'tracks', req, limit, offset));
 });
 
 exports.removeCurrentUserAlbums = catchAsync(async (req, res, next) => {

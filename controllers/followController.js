@@ -5,19 +5,12 @@ const AppError = require('../utils/appError');
 const APIFeatures = require('./../utils/apiFeatures');
 const mongoose = require('mongoose');
 
-// there must be ids middle ware that checks the ids
-// of the provided thing
-const checkIds = (req, res, next, Model) => {
-  // firstly check that these
-};
-
 exports.FollowUser = catchAsync(async (req, res, next) => {
   if (!req.query.ids) {
     return next(new AppError('ids field is missing', 400)); // bad request
   }
   const ids = req.query.ids.split(',');
   // NOTE: not tested
-
   try {
     ids.forEach(e => {
       if (!mongoose.Types.ObjectId.isValid(e)) {
@@ -215,7 +208,7 @@ exports.unfollowPlaylist = catchAsync(async (req, res, next) => {
   let playlistId = req.params.id;
   // remove the user from the playlist
   let playlist = await Playlist.findById(playlistId);
-  playlist.followers = playlist.followers.filter(function (value, index, arr) {
+  playlist.followers = playlist.followers.filter(function(value, index, arr) {
     return value != userId;
   });
   await playlist.save();
