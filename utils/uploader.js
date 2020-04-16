@@ -3,7 +3,7 @@ const multer = require('multer');
 const imagePath = path.resolve(__dirname, '..') + '/assets/images/categories';
 const appError = require('../utils/appError');
 const slugify = require('slugify');
-
+const helper = require('./helper');
 // TODO: to do handle the sm and md and lg make them obligatory
 
 // NOTE:
@@ -26,6 +26,7 @@ const slugify = require('slugify');
  * @example
  * let uploadBuilder = new UploadBuilder();
  * uploadBuilder.addfileField('icon', 'name', '', 1);
+ * uploadBuilder.addfileField('icon');
  * uploadBuilder.addfileField('icon_md', 'name', '_md', 1);
  * uploadBuilder.addTypeFilter('image/jpeg');
  * uploadBuilder.setPath(
@@ -65,13 +66,13 @@ class UploadBuilder {
   }
 
   /**
-   *
+   *@summary first argument is required the rest are optional
    * @param {string} fieldName the fieldName like icon or so in which the file is stored
    * @param {string} saveByReqName the field in the request whose value is used to name the file
    * @param {string} prefix optional-any prefix you want to add to the filename: it is added before extension
    * @param {number} maxCount the maximum count of fields to expect in usually one if one file is sent and not an array
    */
-  addfileField(fieldName, saveByReqName, prefix = '', maxCount = 1) {
+  addfileField(fieldName, saveByReqName = null, prefix = '', maxCount = 1) {
     this.fileFields.push({
       name: fieldName,
       maxCount: maxCount
@@ -115,8 +116,17 @@ class UploadBuilder {
         let ext = file.mimetype.substring(i + 1, file.mimetype.length);
 
         const map = new Map(Object.entries(req.body));
+        let uniqueName;
+        if (saveByReqName.get(file.fieldname).saveByReqName == null) {
+          uniqueName = helper.randomStr(20);
+        } else {
+          uniqueName = map.get(saveByReqName.get(file.fieldname).saveByReqName);
+        }
+
         const f_name =
-          map.get(saveByReqName.get(file.fieldname).saveByReqName) +
+          uniqueName +
+          '_' +
+          Date.now() +
           saveByReqName.get(file.fieldname).prefix;
         const imName = slugify(f_name, { lower: true }) + '.' + ext;
         cb(null, imName);
@@ -126,7 +136,6 @@ class UploadBuilder {
     function filter1(req, file, next) {
       // reject a file
       // i have the problem to check for fieldTypes
-      console.log(mimeTypes);
       let found = false;
       if (mimeTypes.length == 0) found = true; // no types to filter
       for (let index = 0; index < mimeTypes.length; index++) {
@@ -136,7 +145,6 @@ class UploadBuilder {
           break;
         }
       }
-      console.log(found);
       if (found) {
         next(null, true);
       } else {

@@ -25,3 +25,22 @@ describe('getCategory', () => {
     expect(res.json).toHaveBeenCalledWith(category);
   });
 });
+
+describe('get list of categories', () => {
+  let req, res, next, track;
+  beforeAll(() => {
+    res = mockResponse();
+    next = jest.fn();
+    const id = 'rocky_has_12';
+    category = {};
+    category.id = id;
+    category.select = jest.fn().mockReturnValue(category);
+    req = { params: { id: category.id } };
+    Category.findOne = jest.fn().mockReturnValue(category);
+  });
+  it('should return a list of categories', async () => {
+    await controller.getCategory(req, res, next);
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith(category);
+  });
+});
