@@ -39,7 +39,8 @@ router.get('/player/currently-playing', meController.getCurrentlyPlaying);
 // get queue
 router.get('/player/queue', meController.getQueue);
 // play the track
-router.post('/player/tracks/:track_id', meController.playTrack);
+router.post('/player/tracks/:track_id', meController.playInfo);
+router.get('/player/tracks/:track_id', meController.playTrack);
 
 // get top artist and top tracks
 router.get('/top/:type', meController.topTracksAndArtists);
@@ -66,6 +67,8 @@ router.get(
   '/following/playlists/count',
   followController.followedPlaylistCount
 );
+
+router.get('/following/playlists', followController.followedPlaylist);
 
 // Description: follow an artist or user
 router.put('/following', followController.FollowUser);
@@ -103,12 +106,8 @@ router.put('/tracks', libraryController.saveCurrentUserTracks);
 
 // section: Playlist routes
 
-// Description: Get a list of the playlists owned or followed by the current Symphonia user.
 router.get('/playlists', playlistController.getCurrentUserPlaylists);
-
-// get public profile
-// hint: moved the end of file to avoid confusion /name routes like /following /playlists
-// albums
+router.patch('/playlists', playlistController.recoverCurrentUserPlaylists);
 router.get('/:user_id', meController.userProfile);
 
 module.exports = router;

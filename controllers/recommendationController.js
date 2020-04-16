@@ -1,10 +1,14 @@
 const Category = require('../models/categoryModel');
-const { Track } = require('../models/trackModel');
+const Track = require('../models/trackModel');
 const Playlist = require('../models/playlistModel');
 const sharp = require('sharp');
 const APIFeatures = require('../utils/apiFeatures');
 const catchAsync = require('../utils/catchAsync').threeArg;
 const AppError = require('../utils/appError');
+
+/**
+ * @module recommendationController
+ */
 
 /**
  * @summary right now all it does is to return in the request all the names of the available genres

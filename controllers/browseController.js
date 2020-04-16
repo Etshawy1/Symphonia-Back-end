@@ -6,6 +6,11 @@ const sharp = require('sharp');
 const APIFeatures = require('./../utils/apiFeatures');
 const catchAsync = require('./../utils/catchAsync').threeArg;
 const AppError = require('../utils/appError');
+
+/**
+ * @module browseController
+ */
+
 exports.getCategory = catchAsync(async (req, res, next) => {
   console.log(req.params);
   category = await Category.findOne({

@@ -1,6 +1,9 @@
 const mongoose = require('mongoose');
 const Joi = require('@hapi/joi');
 
+/**
+ * @module Models.track
+ */
 const trackSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -65,20 +68,17 @@ const trackSchema = new mongoose.Schema({
     defult: false
   }
 });
+
+/**
+ * this function is to populate the track object with link to stream it
+ * @function getPreviewUrl
+ * @param {string} localhost - the base url for the project
+ * @returns {string}  the url for the track
+ */
 trackSchema.methods.getPreviewUrl = function (localhost) {
   if (!localhost) return '';
-  else return `${localhost}api/v1/me/player/tracks/5e8a1e0f7937ec4d40c6deba`;
+  else return `${localhost}api/v1/me/player/tracks/${this._id}`;
 };
 const Track = mongoose.model('Track', trackSchema);
-async function validateTrack (user) {
-  const schema = Joi.object({
-    name: Joi.string()
-      .min(2)
-      .max(255)
-      .required()
-  });
-  return schema.validateAsync(user);
-}
 
-exports.Track = Track;
-exports.validate = validateTrack;
+module.exports = Track;

@@ -1,5 +1,8 @@
 node_modules/
 .idea/
+docs/
+home.js
+cleanScript.js
 
 # Logs
 logs

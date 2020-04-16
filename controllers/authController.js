@@ -7,7 +7,16 @@ const { User, validate } = require('../models/userModel');
 const catchAsync = require('../utils/catchAsync').threeArg;
 const AppError = require('../utils/appError');
 const Email = require('../utils/email');
+/**
+ * @module authController
+ */
 
+/**
+ * sends response to the user
+ * @param {object} user - user object retrieved from the database
+ * @param {number} statusCode - the status code of the response
+ * @param {object} res - the response object of express framework
+ */
 const createSendToken = (user, statusCode, res) => {
   const token = user.signToken();
   // Remove password and tracks from output
@@ -20,6 +29,7 @@ const createSendToken = (user, statusCode, res) => {
     user
   });
 };
+
 exports.signup = catchAsync(async (req, res, next) => {
   // validate with JOI as a first layer of validation
   await validate(req.body);
@@ -36,10 +46,10 @@ exports.signup = catchAsync(async (req, res, next) => {
       'gender',
       'type'
     ]),
+    last_login: Date.now(),
     passwordConfirm: req.body.password,
     imageUrl: `${url}/api/v1/images/users/default.png`
   });
-  console.log(newUser);
 
   await new Email(newUser, url).sendWelcome();
 

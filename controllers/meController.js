@@ -2,7 +2,7 @@ const path = require('path');
 const fs = require('fs');
 const catchAsync = require('./../utils/catchAsync').threeArg;
 const AppError = require('./../utils/appError');
-const { Track } = require('./../models/trackModel');
+const Track = require('./../models/trackModel');
 const { User } = require('./../models/userModel');
 const PlayList = require('./../models/playlistModel');
 const Album = require('./../models/albumModel');
@@ -21,6 +21,13 @@ const mimeNames = {
   '.webm': 'video/webm'
 };
 
+/**
+ * get user profile
+ * @function getProfileInfo
+ * @param {number} userId - the user id that you want to get his profile
+ * @return {Document} - the user profile info without any sensitive information
+ */
+
 async function getProfileInfo (userId) {
   return await User.findById(userId)
     .select('-password')
@@ -33,6 +40,14 @@ async function getProfileInfo (userId) {
     .select('-facebookId');
 }
 
+/**
+ * get the top tarcks or top artists
+ * @function getTopArtistsAndTracks
+ * @param {Object} Model - the model of the object that you want to get the top documents in it
+ * @param {Object} query - the query string object of express framework
+ * @return {Documents} - the top  artists or tracks
+ */
+
 async function getTopArtistsAndTracks (Model, query) {
   const top = new APIFeatures(Model.find().sort({ usersCount: -1 }), query)
     .filter()
@@ -40,6 +55,17 @@ async function getTopArtistsAndTracks (Model, query) {
     .paginate();
   return await top.query;
 }
+
+/**
+ * open the file and send it to user
+ * @function sendResponse
+ * @param {Object} response - the response object of express framework
+ * @param {number} statusCode - the status code of the response
+ * @param {Object} responseHeaders - the header of the response
+ * @param {File} readable - the File you want to send to the user
+ * @return {File_Packets} - open the file and send it to the user
+ */
+
 function sendResponse (response, responseStatus, responseHeaders, readable) {
   response.writeHead(responseStatus, responseHeaders);
 
@@ -53,6 +79,13 @@ function sendResponse (response, responseStatus, responseHeaders, readable) {
   return null;
 }
 
+/**
+ * get the track extension
+ * @function getMimeNameFromExt
+ * @param {String} ext - track extenstion
+ * @return {String} - the header extension name
+ */
+
 function getMimeNameFromExt (ext) {
   let result = mimeNames[ext.toLowerCase()];
   if (!result) {
@@ -60,6 +93,13 @@ function getMimeNameFromExt (ext) {
   }
   return result;
 }
+/**
+ * get the packet start and end bytes
+ * @function readRangeHeader
+ * @param {Array} range - track range of packets
+ * @param {number} totalLength - the total length of the track
+ * @return {Object} - object containing the start and the end of the packet
+ */
 
 function readRangeHeader (range, totalLength) {
   if (!range || range.length === 0) {
@@ -86,7 +126,8 @@ function readRangeHeader (range, totalLength) {
 
   return result;
 }
-exports.playTrack = catchAsync(async (req, res) => {
+exports.playInfo = catchAsync(async (req, res, next) => {
+  const currentUser = await User.findById(req.user._id).select('+history');
   const track = await Track.findById(req.params.track_id);
   if (
     req.body.context_url === undefined &&
@@ -96,7 +137,6 @@ exports.playTrack = catchAsync(async (req, res) => {
       track: track._id,
       played_at: Date.now()
     };
-    const currentUser = await User.findById(req.user._id).select('+history');
     currentUser.queue.currentlyPlaying.currentTrack = `${
       req.protocol
     }://${req.get('host')}/api/v1/me/player/tracks/${track._id}`;
@@ -121,12 +161,6 @@ exports.playTrack = catchAsync(async (req, res) => {
     });
     updatedUser.queue.currentlyPlaying.device = deviceId;
     await updatedUser.save({ validateBeforeSave: false });
-    if (
-      updatedUser.queue.seek !== undefined ||
-      updatedUser.queue.seek !== null
-    ) {
-      req.headers.range = updatedUser.queue.seek;
-    }
   } else {
     const playlist = await PlayList.findById(req.body.contextId);
     const item = {
@@ -171,7 +205,6 @@ exports.playTrack = catchAsync(async (req, res) => {
       nextTrack: indexOfNextTrack !== -1 ? TracksUrl[indexOfNextTrack] : null,
       devices: [{ devicesName: req.body.device }]
     };
-    const currentUser = await User.findById(req.user._id).select('+history');
     if (currentUser.history === undefined) {
       const history = await History.create({
         items: [item]
@@ -193,13 +226,11 @@ exports.playTrack = catchAsync(async (req, res) => {
     });
     updatedUser.queue.currentlyPlaying.device = deviceId;
     await updatedUser.save({ validateBeforeSave: false });
-    if (
-      updatedUser.queue.seek !== undefined ||
-      updatedUser.queue.seek !== null
-    ) {
-      req.headers.range = updatedUser.queue.seek;
-    }
   }
+  res.status(204).json({ data: null });
+});
+exports.playTrack = catchAsync(async (req, res) => {
+  const track = await Track.findById(req.params.track_id);
   const { trackPath } = track;
   // Check if file exists. If not, will return the 404 'Not Found'.
   if (!fs.existsSync(`${trackPath}`)) {
@@ -272,12 +303,11 @@ exports.currentUserProfile = catchAsync(async (req, res, next) => {
   const currentUser = await exports.getProfileInfo(req.user._id);
   res.status(200).json(currentUser);
 });
-//wait
 exports.topTracksAndArtists = catchAsync(async (req, res, next) => {
   const doc =
     req.params.type === 'track'
-      ? await getTopArtistsAndTracks(Track, req.query)
-      : await getTopArtistsAndTracks(User, req.query);
+      ? await exports.getTopArtistsAndTracks(Track, req.query)
+      : await exports.getTopArtistsAndTracks(User, req.query);
   res.status(200).json({
     doc
   });
@@ -285,6 +315,9 @@ exports.topTracksAndArtists = catchAsync(async (req, res, next) => {
 exports.recentlyPlayed = catchAsync(async (req, res, next) => {
   const currentUser = await User.findById(req.user._id).select('+history');
   const history = await History.findById(currentUser.history).select('-__v');
+  if (!history) {
+    return next(new Error('this user has no tracks in history.', 404));
+  }
   res.status(200).json({
     history
   });
@@ -468,6 +501,9 @@ exports.popQueue = catchAsync(async (req, res, next) => {
 exports.getDevices = catchAsync(async (req, res, next) => {
   const user = await User.findById(req.user._id);
   const currentUserQueue = user.queue;
+  if (!currentUserQueue.devices) {
+    return next(new Error('this user has no devices at this time.', 404));
+  }
   res.status(200).json({
     data: currentUserQueue.devices
   });
@@ -502,6 +538,11 @@ exports.pushDevices = catchAsync(async (req, res, next) => {
 exports.getCurrentlyPlaying = catchAsync(async (req, res, next) => {
   const user = await User.findById(req.user._id);
   const currentPlaying = user.queue.currentlyPlaying;
+  if (!currentPlaying) {
+    return next(
+      new AppError('this user is not playing any track right now', 404)
+    );
+  }
   res.status(200).json({
     data: currentPlaying
   });
@@ -509,6 +550,9 @@ exports.getCurrentlyPlaying = catchAsync(async (req, res, next) => {
 exports.getQueue = catchAsync(async (req, res, next) => {
   const user = await User.findById(req.user._id);
   const currentQueue = user.queue;
+  if (!currentQueue) {
+    return next(new AppError('there is no queue for this user right now', 404));
+  }
   res.status(200).json({
     data: currentQueue
   });
@@ -560,3 +604,4 @@ module.exports.sendResponse = sendResponse;
 module.exports.getMimeNameFromExt = getMimeNameFromExt;
 module.exports.readRangeHeader = readRangeHeader;
 module.exports.getProfileInfo = getProfileInfo;
+module.exports.getTopArtistsAndTracks = getTopArtistsAndTracks;

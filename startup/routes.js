@@ -5,8 +5,6 @@ const meRouter = require('../routes/meRouter');
 const albumRouter = require('../routes/albumRouter');
 const browseRouter = require('../routes/browseRouter');
 const recommendationRouter = require('../routes/recommendationRouter');
-// const browseRouter = require('../routes/browseRouter');
-// const playlistsRouter = require('../routes/playlistsRouter');
 const artistRouter = require('../routes/artistRouter');
 const playlistRouter = require('./../routes/playlistRouter');
 const AppError = require('../utils/appError');
@@ -25,7 +23,6 @@ module.exports = function (app) {
   app.set('trust proxy', 'loopback'); // for deployment to get the host in the code
   app.use(bodyParser.urlencoded({ extended: false }));
 
-  app.use('/api/v1/recommendations', recommendationRouter);
   // serve static
   app.use('/api/v1/images', staticImages);
   app.use(
@@ -41,12 +38,9 @@ module.exports = function (app) {
   app.use('/api/v1/browse', browseRouter);
   app.use('/api/v1/playlists', playlistRouter);
   app.use('/api/v1/artists', artistRouter);
+  app.use('/api/v1/recommendations', recommendationRouter);
 
-  // app.use('/api/v1/browse', browseRouter);
-  // app.use('api/v1/me', me1Router);
-  // app.use('/api/v1/playlists', playlistsRouter);
-
-  // app.use('/v1', v1Router);
+  // if any link is visited and not mentioned above will go to that next middleware
   app.all('*', (req, res, next) => {
     next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
   });

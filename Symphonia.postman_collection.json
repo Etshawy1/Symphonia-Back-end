@@ -3014,7 +3014,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{URL}}api/v1/me/following?ids=5e7f799991f8ed09303e5076",
+							"raw": "{{URL}}api/v1/me/following?ids=5e8c7c030fab001100e883fc",
 							"host": [
 								"{{URL}}api"
 							],
@@ -3026,7 +3026,7 @@
 							"query": [
 								{
 									"key": "ids",
-									"value": "5e7f799991f8ed09303e5076"
+									"value": "5e8c7c030fab001100e883fc"
 								}
 							]
 						},
@@ -3476,14 +3476,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{URL}}api/v1/Artists/5e82a48054660672fd699883/followers",
+							"raw": "{{URL}}api/v1/Artists/5e8125dc54660672fd69987f/followers",
 							"host": [
 								"{{URL}}api"
 							],
 							"path": [
 								"v1",
 								"Artists",
-								"5e82a48054660672fd699883",
+								"5e8125dc54660672fd69987f",
 								"followers"
 							]
 						}
@@ -4090,6 +4090,26 @@
 							"_postman_previewlanguage": "json",
 							"header": [
 								{
+									"key": "Server",
+									"value": "nginx/1.14.0 (Ubuntu)"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 08 Apr 2020 19:32:03 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "407"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
 									"key": "Access-Control-Allow-Origin",
 									"value": "*"
 								},
@@ -4118,32 +4138,16 @@
 									"value": "1; mode=block"
 								},
 								{
-									"key": "Content-Type",
-									"value": "application/json; charset=utf-8"
-								},
-								{
-									"key": "Content-Length",
-									"value": "131"
-								},
-								{
 									"key": "ETag",
-									"value": "W/\"83-hF8wwXocZHWzAhGG5Q0GBbiAocQ\""
+									"value": "W/\"197-0uQO565YuwlD58pyQKvcrljESjI\""
 								},
 								{
 									"key": "Vary",
 									"value": "Accept-Encoding"
-								},
-								{
-									"key": "Date",
-									"value": "Tue, 07 Apr 2020 21:02:47 GMT"
-								},
-								{
-									"key": "Connection",
-									"value": "keep-alive"
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"tracks\": {\n        \"total\": 0,\n        \"items\": [],\n        \"limit\": 20,\n        \"offset\": 0,\n        \"next\": null,\n        \"previous\": null,\n        \"href\": \"http://localhost:3000/api/v1/me/albums\"\n    }\n}"
+							"body": "{\n    \"tracks\": {\n        \"total\": 1,\n        \"items\": [\n            {\n                \"category\": [\n                    \"5e8072e5e478cf39b47bd1ef\"\n                ],\n                \"explicit\": false,\n                \"_id\": \"5e7d2dc03429e24340ff1396\",\n                \"album\": \"5e701fdf2672a63a60573a06\",\n                \"name\": \"Instant Destiny\",\n                \"durationMs\": 30000,\n                \"artist\": \"5e8137aa54660672fd699882\",\n                \"trackPath\": \"assets/tracks/Instant-Destiny.mp3\",\n                \"type\": \"track\"\n            }\n        ],\n        \"limit\": 20,\n        \"offset\": 0,\n        \"next\": null,\n        \"previous\": null,\n        \"href\": \"http://thesymphonia.ddns.net/api/v1/me/albums\"\n    }\n}"
 						}
 					]
 				},
@@ -4396,6 +4400,16 @@
 				{
 					"name": "Save Tracks for User",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PUT",
 						"header": [
 							{
@@ -4405,22 +4419,27 @@
 								"value": ""
 							},
 							{
-								"warning": "Key contains invalid whitespace characters.",
 								"description": "*Required*  The content type of the request body: ",
-								"key": "Content-Type\t",
+								"key": "Content-Type",
 								"type": "text",
 								"value": "application/json"
 							}
 						],
 						"url": {
-							"raw": "{{URL}api/v1/me/tracks",
+							"raw": "{{URL}}api/v1/me/tracks?ids=5e7d2dc03429e24340ff1396",
 							"host": [
-								"{{URL}api"
+								"{{URL}}api"
 							],
 							"path": [
 								"v1",
 								"me",
 								"tracks"
+							],
+							"query": [
+								{
+									"key": "ids",
+									"value": "5e7d2dc03429e24340ff1396"
+								}
 							]
 						},
 						"description": "# Description\r\n\r\nSave one or more tracks to the current user’s ‘Your Music’ library.\r\n\r\n## RESPONSE FORMAT\r\nOn success, the HTTP status code in the response header is `200` OK. On error, the header status code is an error code and the response body contains an error object. Trying to add a track when you do not have the user’s authorization, or when you have over 10.000 tracks in Your Music, returns error `403` Forbidden.\r\n\r\n\r\n\r\n## Request parameters\r\n\r\n### Body Parameters\r\n<table>\r\n  <thead>\r\n    <tr>\r\n      <th>Request Body Data</th>\r\n      <th>Value Type</th>\r\n      <th>Value</th>\r\n    </tr>\r\n  </thead>\r\n  <tbody>\r\n    <tr>\r\n      <td></td>\r\n      <td>array of Symphonia ID strings</td>\r\n      <td><em>Optional</em>. A JSON array of the Symphonia IDs. For example: <code class=\"highlighter-rouge\">[\"4iV5W9uYEdYUVa79Axb7Rh\", \"1301WleyT98MSxVHPZCA6M\"]</code><br>A maximum of 50 items can be specified in one request.</td>\r\n    </tr>\r\n  </tbody>\r\n</table>\r\n<br>"
@@ -4905,8 +4924,7 @@
 				{
 					"name": "Play_Track",
 					"protocolProfileBehavior": {
-						"disabledSystemHeaders": {},
-						"disableBodyPruning": true
+						"disabledSystemHeaders": {}
 					},
 					"request": {
 						"auth": {
@@ -4919,32 +4937,30 @@
 								}
 							]
 						},
-						"method": "GET",
+						"method": "POST",
 						"header": [
 							{
 								"key": "Content-Type",
 								"value": "application/json",
-								"type": "text",
-								"disabled": true
+								"type": "text"
 							},
 							{
 								"key": "Range",
-								"value": "bytes=800000-8016251",
-								"type": "text",
-								"disabled": true
+								"value": "bytes:0-1023",
+								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"contextId\": \"1203809ufhadhf89\",\n\t\"context_type\": \"playlist\",\n\t\"context_url\": \"https://localhost:3000/\",\n\t\"device\": \"Chrome\"\n}",
+							"raw": "{\n\t\"contextId\": \"5e701fdf2672a63a60573a06\",\n\t\"context_type\": \"album\",\n\t\"context_url\": \"https://thesymphonia.ddns.net/\",\n\t\"device\": \"Android\"\n}",
 							"options": {
 								"raw": {
-									"language": "javascript"
+									"language": "json"
 								}
 							}
 						},
 						"url": {
-							"raw": "{{URL}}api/v1/me/player/tracks/5e8a1e0f7937ec4d40c6deba",
+							"raw": "{{URL}}api/v1/me/player/tracks/5e7d2ddd3429e24340ff1397",
 							"host": [
 								"{{URL}}api"
 							],
@@ -4953,7 +4969,7 @@
 								"me",
 								"player",
 								"tracks",
-								"5e8a1e0f7937ec4d40c6deba"
+								"5e7d2ddd3429e24340ff1397"
 							]
 						},
 						"description": "## Get user Track and Play it\r\n\r\n send the track in pakects to be played in partial content \r\n \r\n  \r\n## First Scenario\r\n  | KEY     \t|  VALUE TYPE       |  VALUE DESCRIPTION\t\t\t\t\t\t\t\t\t\t\t|\r\n  |-------------|-------------------|---------------------------------------------------------------|\r\n  | contextId   |  MongoDb ObjectId |  The Id of the context that you want to play that track from  |\r\n  | context_url |  String           |  The Url of the context that you want to play that track from |\r\n  | context_type|  String           |  The type of the context that you want to play that track from|\r\n  | device      |  String           |  The device name that the user use to play the track\t\t\t|\r\n  \r\n - This scenario when the user go to a playlist or almub and try to play a song in that context\r\n\r\n## Secnod Scenario\r\n  | KEY     \t|  VALUE TYPE       |  VALUE DESCRIPTION\t\t\t\t\t\t\t\t\t\t\t|\r\n  |-------------|-------------------|---------------------------------------------------------------|\r\n  | device      |  String           |  The device name that the user use to play the track\t\t\t|\r\n \r\n- This secario when the user use the add to queue feature\t\r\n\r\n## Response Format\r\n  On success, the HTTP status code in the response header is 200 OK or 206 Partial content, the header status code is an error code and the response body contains an error object."
@@ -7953,7 +7969,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n\t\"name\": \"etsh\",\n\t\"email\": \"test133@test.com\",\n\t\"emailConfirm\": \"test133@test.com\",\n\t\"password\": \"password\",\n\t\"dateOfBirth\": \"1999-04-30\",\n\t\"gender\": \"male\",\n\t\"type\": \"artist\"\n}",
+									"raw": "{\n\t\"name\": \"etsh\",\n\t\"email\": \"test135@test.com\",\n\t\"emailConfirm\": \"test135@test.com\",\n\t\"password\": \"password\",\n\t\"dateOfBirth\": \"1999-04-30\",\n\t\"gender\": \"male\",\n\t\"type\": \"artist\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -8014,7 +8030,7 @@
 								},
 								{
 									"key": "ETag",
-									"value": "W/\"277-I0gi2BIl3n8rrO44Os1wxRInW0c\""
+									"value": "W/\"277-pFHi2TFXoxPHV2PkwzakmQ/grFA\""
 								},
 								{
 									"key": "Vary",
@@ -8022,7 +8038,7 @@
 								},
 								{
 									"key": "Date",
-									"value": "Tue, 07 Apr 2020 21:15:38 GMT"
+									"value": "Wed, 08 Apr 2020 16:29:53 GMT"
 								},
 								{
 									"key": "Connection",
@@ -8030,7 +8046,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlOGNlZDdhMmI3ODNlMjgzOGY5ZDVlNCIsImlhdCI6MTU4NjI5NDEzOCwiZXhwIjoxNzU5MDk0MTM4fQ.7EZNfwQxPyyV1KMyiqWF8AyvOAcI2UhJnvh4aWx7BeI\",\n    \"user\": {\n        \"queue\": {\n            \"currentlyPlaying\": {\n                \"currentTrack\": null\n            },\n            \"queueTracks\": [],\n            \"previousTrack\": null,\n            \"repeat\": false,\n            \"shuffle\": false,\n            \"play\": false,\n            \"repeatOnce\": false,\n            \"devices\": []\n        },\n        \"ownedPlaylists\": [],\n        \"followedAlbums\": [],\n        \"followedTracks\": [],\n        \"_id\": \"5e8ced7a2b783e2838f9d5e4\",\n        \"email\": \"test133@test.com\",\n        \"name\": \"etsh\",\n        \"dateOfBirth\": \"1999-04-30T00:00:00.000Z\",\n        \"gender\": \"male\",\n        \"type\": \"artist\",\n        \"imageUrl\": \"http://localhost:3000/api/v1/images/users/default.png\"\n    }\n}"
+							"body": "{\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlOGRmYzAxMDNiYjIxMzQ0ODM0ODJhYyIsImlhdCI6MTU4NjM2MzM5MywiZXhwIjoxNzU5MTYzMzkzfQ.eqt2T3Dih1IZdabgh9AvKQ9Uqo4CxjqmX_p72JbV64k\",\n    \"user\": {\n        \"queue\": {\n            \"currentlyPlaying\": {\n                \"currentTrack\": null\n            },\n            \"queueTracks\": [],\n            \"previousTrack\": null,\n            \"repeat\": false,\n            \"shuffle\": false,\n            \"play\": false,\n            \"repeatOnce\": false,\n            \"devices\": []\n        },\n        \"ownedPlaylists\": [],\n        \"followedAlbums\": [],\n        \"followedTracks\": [],\n        \"_id\": \"5e8dfc0103bb2134483482ac\",\n        \"email\": \"test135@test.com\",\n        \"name\": \"etsh\",\n        \"dateOfBirth\": \"1999-04-30T00:00:00.000Z\",\n        \"gender\": \"male\",\n        \"type\": \"artist\",\n        \"imageUrl\": \"http://localhost:3000/api/v1/images/users/default.png\"\n    }\n}"
 						}
 					]
 				},
@@ -8061,7 +8077,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"email\": \"generalmohamed1999@gmail.com\",\n\t\"password\": \"password\"\n}\n",
+							"raw": "{\n\t\"email\": \"test4@test.com\",\n\t\"password\": \"password\"\n}\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -8097,7 +8113,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n\t\"email\": \"generalmohamed1999@gmail.com\",\n\t\"password\": \"password\"\n}\n",
+									"raw": "{\n\t\"email\": \"test1@test.com\",\n\t\"password\": \"password\"\n}\n",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -8154,7 +8170,7 @@
 								},
 								{
 									"key": "ETag",
-									"value": "W/\"446-OoGp4+ThrDCQYdZYl8QS8Po/XGM\""
+									"value": "W/\"540-E/Q5UZ6XzOQWlcfcvWzeghr5dDE\""
 								},
 								{
 									"key": "Vary",
@@ -8166,7 +8182,7 @@
 								},
 								{
 									"key": "Date",
-									"value": "Tue, 07 Apr 2020 21:16:00 GMT"
+									"value": "Wed, 08 Apr 2020 16:22:12 GMT"
 								},
 								{
 									"key": "Connection",
@@ -8178,7 +8194,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlODEyNWRjNTQ2NjA2NzJmZDY5OTg3ZiIsImlhdCI6MTU4NjI5NDE2MCwiZXhwIjoxNzU5MDk0MTYwfQ.n6sRqtFl441iXP9cb9YAm7oWFm7NJ33zTrUxBDgRy4A\",\n    \"user\": {\n        \"queue\": {\n            \"currentlyPlaying\": {\n                \"currentTrack\": null\n            },\n            \"queueTracks\": [],\n            \"previousTrack\": null,\n            \"repeat\": false,\n            \"shuffle\": false,\n            \"play\": false,\n            \"repeatOnce\": false,\n            \"devices\": [\n                {\n                    \"_id\": \"5e8a5a78b2859207bf1fc2e8\",\n                    \"devicesName\": \"chrome\"\n                }\n            ]\n        },\n        \"ownedPlaylists\": [\n            \"5e7969965146d92e98ac3ef7\",\n            \"5e7ac3c7d43a2c49909c549c\",\n            \"5e805a8a3711912168602afa\",\n            \"5e875c15ba6ebe663fdbb2c1\"\n        ],\n        \"followedAlbums\": [\n            \"5e701f4d2672a63a60573a02\",\n            \"5e701fdf2672a63a60573a06\"\n        ],\n        \"followedTracks\": [],\n        \"_id\": \"5e8125dc54660672fd69987f\",\n        \"email\": \"generalmohamed1999@gmail.com\",\n        \"name\": \"Muhammad Ahmad Hesham\",\n        \"dateOfBirth\": \"1999-05-12T00:00:00.000Z\",\n        \"gender\": \"male\",\n        \"type\": \"user\",\n        \"last_login\": \"2020-04-07T21:16:00.918Z\",\n        \"passwordChangedAt\": \"2020-04-01T15:38:48.450Z\",\n        \"googleId\": \"googleId\",\n        \"imageGoogleUrl\": \"https://lh3.googleusercontent.com/a-/AOh14Gga4UgHOVM-hgdnV5Sv8OusgKzhsfmiYv5wEgSwxA\",\n        \"imageUrl\": \"https://zasymphonia.ddns.net/api/v1/images/users/default.png\"\n    }\n}"
+							"body": "{\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlODEyYTM0NTQ2NjA2NzJmZDY5OTg4MCIsImlhdCI6MTU4NjM2MjkzMiwiZXhwIjoxNzU5MTYyOTMyfQ.BvbUK1NUIm4nzdmLSK4lSUM2uI1DoKiAgRpvS35OiU8\",\n    \"user\": {\n        \"queue\": {\n            \"currentlyPlaying\": {\n                \"currentTrack\": \"http://localhost:3000/api/v1/me/player/tracks/5e7d2ddd3429e24340ff1397\",\n                \"device\": \"5e8de79f03bb2134483482aa\"\n            },\n            \"queueTracks\": [\n                \"http://localhost:3000/api/v1/me/player/tracks/5e7d2dc03429e24340ff1396\",\n                \"http://localhost:3000/api/v1/me/player/tracks/5e7d2ddd3429e24340ff1397\",\n                \"http://localhost:3000/api/v1/me/player/tracks/5e7d2e023429e24340ff1398\"\n            ],\n            \"previousTrack\": \"http://localhost:3000/api/v1/me/player/tracks/5e7d2dc03429e24340ff1396\",\n            \"repeat\": false,\n            \"shuffle\": false,\n            \"play\": false,\n            \"repeatOnce\": false,\n            \"nextTrack\": \"http://localhost:3000/api/v1/me/player/tracks/5e7d2e023429e24340ff1398\",\n            \"devices\": [\n                {\n                    \"_id\": \"5e8de79f03bb2134483482aa\",\n                    \"devicesName\": \"Android\"\n                }\n            ]\n        },\n        \"ownedPlaylists\": [\n            \"5e806865ef653f5a541e0b1d\",\n            \"5e8069722fcb0d35900c4d64\",\n            \"5e8078b0dbaafc18605cb029\",\n            \"5e8828df838d9835d207016d\"\n        ],\n        \"followedAlbums\": [\n            \"5e794163c01c024ecc3c31d3\"\n        ],\n        \"followedTracks\": [],\n        \"_id\": \"5e812a3454660672fd699880\",\n        \"email\": \"test1@test.com\",\n        \"name\": \"user1\",\n        \"dateOfBirth\": \"1999-06-25T00:00:00.000Z\",\n        \"gender\": \"female\",\n        \"type\": \"user\",\n        \"imageUrl\": \"https://thesymphonia.ddns.net/api/v1/images/users/default.png\",\n        \"last_login\": \"2020-04-08T16:22:12.649Z\"\n    }\n}"
 						}
 					]
 				},
@@ -8545,8 +8561,7 @@
 									"variable": [
 										{
 											"key": "{token}",
-											"value": "f31c2eb07635197b475353b52140f202dbc6962045bc64929b0c3d2b0ec4b0c6",
-											"description": "*required: *  A valid Token that the server sent it to the user email."
+											"value": ""
 										}
 									]
 								}
@@ -8555,26 +8570,6 @@
 							"code": 200,
 							"_postman_previewlanguage": "json",
 							"header": [
-								{
-									"key": "Server",
-									"value": "nginx/1.14.0 (Ubuntu)"
-								},
-								{
-									"key": "Date",
-									"value": "Mon, 30 Mar 2020 18:04:05 GMT"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json; charset=utf-8"
-								},
-								{
-									"key": "Content-Length",
-									"value": "439"
-								},
-								{
-									"key": "Connection",
-									"value": "keep-alive"
-								},
 								{
 									"key": "Access-Control-Allow-Origin",
 									"value": "*"
@@ -8604,24 +8599,36 @@
 									"value": "1; mode=block"
 								},
 								{
-									"key": "X-RateLimit-Limit",
-									"value": "1000"
-								},
-								{
-									"key": "X-RateLimit-Remaining",
-									"value": "998"
-								},
-								{
-									"key": "X-RateLimit-Reset",
-									"value": "1585591549"
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
 								},
 								{
 									"key": "ETag",
-									"value": "W/\"1b7-BD8v2w/mff0a8RmfAdR2ttOuNro\""
+									"value": "W/\"461-I+md5cydQYq5EFszWlzxYesxHpI\""
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 08 Apr 2020 16:32:27 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlODEyNWRjNTQ2NjA2NzJmZDY5OTg3ZiIsImlhdCI6MTU4NTU5MTQ0NSwiZXhwIjoxNTg1NTk1MDQ1fQ.L4QXscxpTpadxkA3T0dGMdSbS3Cp1NLBBaHEgtjntH0\",\n    \"user\": {\n        \"_id\": \"5e8125dc54660672fd69987f\",\n        \"email\": \"generalmohamed1999@gmail.com\",\n        \"name\": \"nigga\",\n        \"dateOfBirth\": \"1999-05-12T00:00:00.000Z\",\n        \"gender\": \"male\",\n        \"type\": \"artist\",\n        \"last_login\": \"2020-03-30T11:17:32.422Z\",\n        \"passwordChangedAt\": \"2020-03-30T18:04:04.533Z\"\n    }\n}"
+							"body": "{\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlODEyNWRjNTQ2NjA2NzJmZDY5OTg3ZiIsImlhdCI6MTU4NjM2MzU0NywiZXhwIjoxNzU5MTYzNTQ3fQ.svKEbb352eWc8_FfHG055gSi3edEs0VScaTSlaP45zQ\",\n    \"user\": {\n        \"queue\": {\n            \"currentlyPlaying\": {\n                \"currentTrack\": null\n            },\n            \"queueTracks\": [],\n            \"previousTrack\": null,\n            \"repeat\": false,\n            \"shuffle\": false,\n            \"play\": false,\n            \"repeatOnce\": false,\n            \"devices\": [\n                {\n                    \"_id\": \"5e8a5a78b2859207bf1fc2e8\",\n                    \"devicesName\": \"chrome\"\n                }\n            ]\n        },\n        \"ownedPlaylists\": [\n            \"5e7969965146d92e98ac3ef7\",\n            \"5e7ac3c7d43a2c49909c549c\",\n            \"5e805a8a3711912168602afa\",\n            \"5e875c15ba6ebe663fdbb2c1\"\n        ],\n        \"followedAlbums\": [\n            \"5e701f4d2672a63a60573a02\",\n            \"5e701fdf2672a63a60573a06\"\n        ],\n        \"followedTracks\": [\n            \"5e7d2dc03429e24340ff1396\"\n        ],\n        \"_id\": \"5e8125dc54660672fd69987f\",\n        \"email\": \"generalmohamed1999@gmail.com\",\n        \"name\": \"Muhammad Ahmad Hesham\",\n        \"dateOfBirth\": \"1999-05-12T00:00:00.000Z\",\n        \"gender\": \"male\",\n        \"type\": \"user\",\n        \"last_login\": \"2020-04-06T10:21:58.141Z\",\n        \"passwordChangedAt\": \"2020-04-08T16:32:26.921Z\",\n        \"googleId\": \"googleId\",\n        \"imageGoogleUrl\": \"https://lh3.googleusercontent.com/a-/AOh14Gga4UgHOVM-hgdnV5Sv8OusgKzhsfmiYv5wEgSwxA\",\n        \"imageUrl\": \"https://thesymphonia.ddns.net/api/v1/images/users/default.png\"\n    }\n}"
 						}
 					]
 				},

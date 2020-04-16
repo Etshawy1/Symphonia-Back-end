@@ -16,7 +16,7 @@ passport.use(
   new GoogleStrategy(
     {
       callbackURL:
-        'https://zasymphonia.ddns.net/api/v1/users/auth/google/Symphonia',
+        'https://thesymphonia.ddns.net/api/v1/users/auth/google/Symphonia',
       clientID: process.env.CLIENT_ID_GOOGLE,
       clientSecret: process.env.CLIENT_SECRET_GOOGLE
     },
@@ -67,7 +67,7 @@ passport.use(
   new FeacbookStrategy(
     {
       callbackURL:
-        'https://zasymphonia.ddns.net/api/v1/users/auth/facebook/Symphonia',
+        'https://thesymphonia.ddns.net/api/v1/users/auth/facebook/Symphonia',
       clientID: process.env.CLIENT_ID_FACEBOOK,
       clientSecret: process.env.CLIENT_SECRET_FACEBOOK,
       profileFields: ['id', 'displayName', 'name', 'photos', 'email']

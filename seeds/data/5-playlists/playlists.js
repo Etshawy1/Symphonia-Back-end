@@ -19,7 +19,8 @@ const playlists = [
       mongoose.Types.ObjectId('5e8a1e767937ec4d40c6debc'),
       mongoose.Types.ObjectId('5e8a1e9a7937ec4d40c6debe')
     ],
-    category: mongoose.Types.ObjectId('5e883e48c808fd1aa40ad1f8')
+    category: mongoose.Types.ObjectId('5e883e48c808fd1aa40ad1f8'),
+    active: true
   },
   {
     _id: mongoose.Types.ObjectId('5e7ac3c7d43a2c49909c549c'),
@@ -41,7 +42,8 @@ const playlists = [
       mongoose.Types.ObjectId('5e7d334860cd930408a5f995'),
       mongoose.Types.ObjectId('5e8a1e0f7937ec4d40c6deba')
     ],
-    category: mongoose.Types.ObjectId('5e883e48c808fd1aa40ad1f8')
+    category: mongoose.Types.ObjectId('5e883e48c808fd1aa40ad1f8'),
+    active: true
   },
   {
     _id: mongoose.Types.ObjectId('5e805a8a3711912168602afa'),
@@ -59,7 +61,8 @@ const playlists = [
       'https://thesymphonia.ddns.net/api/v1/images/playlists/playlist3.jpg'
     ],
     tracks: [mongoose.Types.ObjectId('5e8a1ea07937ec4d40c6debf')],
-    category: mongoose.Types.ObjectId('5e8076e6a9902a4328cc285c')
+    category: mongoose.Types.ObjectId('5e8076e6a9902a4328cc285c'),
+    active: true
   },
   {
     _id: mongoose.Types.ObjectId('5e806865ef653f5a541e0b1d'),
@@ -78,7 +81,8 @@ const playlists = [
       mongoose.Types.ObjectId('5e8a1e0f7937ec4d40c6deba'),
       mongoose.Types.ObjectId('5e8a1e727937ec4d40c6debb')
     ],
-    category: mongoose.Types.ObjectId('5e807517e478cf39b47bd1f0')
+    category: mongoose.Types.ObjectId('5e807517e478cf39b47bd1f0'),
+    active: true
   },
   {
     _id: mongoose.Types.ObjectId('5e8069722fcb0d35900c4d64'),
@@ -101,7 +105,8 @@ const playlists = [
       mongoose.Types.ObjectId('5e8a1ea07937ec4d40c6debf'),
       mongoose.Types.ObjectId('5e8a1e9a7937ec4d40c6debe')
     ],
-    category: mongoose.Types.ObjectId('5e807517e478cf39b47bd1f0')
+    category: mongoose.Types.ObjectId('5e807517e478cf39b47bd1f0'),
+    active: true
   },
   {
     _id: mongoose.Types.ObjectId('5e8078b0dbaafc18605cb029'),
@@ -123,7 +128,8 @@ const playlists = [
       mongoose.Types.ObjectId('5e8a1e937937ec4d40c6debd'),
       mongoose.Types.ObjectId('5e8a1e767937ec4d40c6debc')
     ],
-    category: mongoose.Types.ObjectId('5e8076e6a9902a4328cc285c')
+    category: mongoose.Types.ObjectId('5e8076e6a9902a4328cc285c'),
+    active: true
   },
   {
     _id: mongoose.Types.ObjectId('5e8088fa79844f135496ec7f'),
@@ -142,7 +148,8 @@ const playlists = [
       mongoose.Types.ObjectId('5e8a1e937937ec4d40c6debd'),
       mongoose.Types.ObjectId('5e8a1e9a7937ec4d40c6debe')
     ],
-    category: mongoose.Types.ObjectId('5e8076e6a9902a4328cc285c')
+    category: mongoose.Types.ObjectId('5e8076e6a9902a4328cc285c'),
+    active: true
   },
   {
     _id: mongoose.Types.ObjectId('5e875b1cba6ebe663fdbb2bc'),
@@ -161,7 +168,8 @@ const playlists = [
       mongoose.Types.ObjectId('5e7d2ddd3429e24340ff1397'),
       mongoose.Types.ObjectId('5e7d2e023429e24340ff1398')
     ],
-    category: mongoose.Types.ObjectId('5e8072e5e478cf39b47bd1ef')
+    category: mongoose.Types.ObjectId('5e8072e5e478cf39b47bd1ef'),
+    active: true
   },
   {
     _id: mongoose.Types.ObjectId('5e875bd6ba6ebe663fdbb2c0'),
@@ -176,7 +184,8 @@ const playlists = [
       'https://thesymphonia.ddns.net/api/v1/images/playlists/playlist9.jpg'
     ],
     tracks: [mongoose.Types.ObjectId('5e8a39f24e11cd46c8bde654')],
-    category: mongoose.Types.ObjectId('5e883e48c808fd1aa40ad1f8')
+    category: mongoose.Types.ObjectId('5e883e48c808fd1aa40ad1f8'),
+    active: true
   },
   {
     _id: mongoose.Types.ObjectId('5e875c15ba6ebe663fdbb2c1'),
@@ -199,7 +208,8 @@ const playlists = [
       mongoose.Types.ObjectId('5e8a1e767937ec4d40c6debc'),
       mongoose.Types.ObjectId('5e8a1e727937ec4d40c6debb')
     ],
-    category: mongoose.Types.ObjectId('5e8072e5e478cf39b47bd1ef')
+    category: mongoose.Types.ObjectId('5e8072e5e478cf39b47bd1ef'),
+    active: true
   },
   {
     _id: mongoose.Types.ObjectId('5e8828df838d9835d207016d'),
@@ -222,7 +232,8 @@ const playlists = [
       mongoose.Types.ObjectId('5e8a1e727937ec4d40c6debb'),
       mongoose.Types.ObjectId('5e8a37d0d56ea252c3860a1a')
     ],
-    category: mongoose.Types.ObjectId('5e8072e5e478cf39b47bd1ef')
+    category: mongoose.Types.ObjectId('5e8072e5e478cf39b47bd1ef'),
+    active: true
   },
   {
     _id: mongoose.Types.ObjectId('5e882913838d9835d207016e'),
@@ -240,7 +251,8 @@ const playlists = [
       mongoose.Types.ObjectId('5e8a1e727937ec4d40c6debb'),
       mongoose.Types.ObjectId('5e8a37d0d56ea252c3860a1a')
     ],
-    category: mongoose.Types.ObjectId('5e8072e5e478cf39b47bd1ef')
+    category: mongoose.Types.ObjectId('5e8072e5e478cf39b47bd1ef'),
+    active: true
   },
   {
     _id: mongoose.Types.ObjectId('5e8a6d96d4be480ab1d91c95'),
@@ -259,7 +271,8 @@ const playlists = [
       mongoose.Types.ObjectId('5e7d2ddd3429e24340ff1397'),
       mongoose.Types.ObjectId('5e7d2e023429e24340ff1398')
     ],
-    category: mongoose.Types.ObjectId('5e8072e5e478cf39b47bd1ef')
+    category: mongoose.Types.ObjectId('5e8072e5e478cf39b47bd1ef'),
+    active: true
   }
 ];
 

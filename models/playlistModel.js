@@ -41,6 +41,11 @@ const playlistSchema = new mongoose.Schema(
     category: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Category'
+    },
+    active: {
+      type: Boolean,
+      defult: true,
+      select: false
     }
   },
   {
@@ -48,17 +53,18 @@ const playlistSchema = new mongoose.Schema(
     toObject: { virtuals: true }
   }
 );
-// Note:
-// i didn't implemnent the uri field mostly itisn't needed
 
-// the type field is required
-/* playlistSchema.virtual('type').get(function() {
-  return 'playlist';
+// to not get the inactive users from queries
+// we use regex to make this function apply on all that start with 'find'
+playlistSchema.pre(/^find/, function (next) {
+  // this points to the current query
+  this.find({
+    active: {
+      $ne: false
+    }
+  });
+  next();
 });
-playlistSchema.virtual('href').get(function() {
-  const href = `url/${slugify(this.name, { lower: true })}`;
-  return href;
-}); */
 
 const Playlist = mongoose.model('Playlist', playlistSchema);
 module.exports = Playlist;
