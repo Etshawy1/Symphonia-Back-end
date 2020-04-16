@@ -27,8 +27,6 @@ exports.getPlaylist = catchAsync(async (req, res, next) => {
 });
 
 exports.createPlaylist = catchAsync(async (req, res, next) => {
-  console.log(req.params.id);
-
   let playlistCheck = await User.User.findById(req.params.id);
 
   if (!playlistCheck) return res.status(400).send('Invalid User ID');
