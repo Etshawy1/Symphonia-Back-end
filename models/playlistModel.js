@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const slugify = require('slugify');
+const mongoose_delete = require('mongoose-delete');
 
 const playlistSchema = new mongoose.Schema(
   {
@@ -54,16 +54,9 @@ const playlistSchema = new mongoose.Schema(
   }
 );
 
-// to not get the inactive users from queries
-// we use regex to make this function apply on all that start with 'find'
-playlistSchema.pre(/^find/, function (next) {
-  // this points to the current query
-  this.find({
-    active: {
-      $ne: false
-    }
-  });
-  next();
+playlistSchema.plugin(mongoose_delete, {
+  deletedAt: true,
+  overrideMethods: 'all'
 });
 
 const Playlist = mongoose.model('Playlist', playlistSchema);
