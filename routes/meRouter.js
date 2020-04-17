@@ -107,7 +107,11 @@ router.put('/tracks', libraryController.saveCurrentUserTracks);
 // section: Playlist routes
 
 router.get('/playlists', playlistController.getCurrentUserPlaylists);
-router.patch('/playlists', playlistController.recoverCurrentUserPlaylists);
+router.get(
+  '/playlists/deleted',
+  playlistController.getCurrentUserDeletedPlaylists
+);
+router.patch('/playlists/:id', playlistController.recoverCurrentUserPlaylists);
 router.get('/:user_id', meController.userProfile);
 
 module.exports = router;
