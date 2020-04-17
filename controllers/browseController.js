@@ -7,6 +7,7 @@ const APIFeatures = require('./../utils/apiFeatures');
 const catchAsync = require('./../utils/catchAsync').threeArg;
 const AppError = require('../utils/appError');
 const Responser = require('../utils/responser');
+const Helper = require('../utils/helper');
 /**
  * @module browseController
  */
@@ -21,9 +22,9 @@ exports.getCategory = catchAsync(async (req, res, next) => {
 });
 
 exports.getCategoriesPlaylists = catchAsync(async (req, res, next) => {
-  if (!req.params.id) {
-    return next(new AppError('please provide an id for the category'), 400);
-  }
+  // if (!req.params.id) {
+  //   return next(new AppError('please provide an id for the category'), 400);
+  // }
 
   let limit = 20; // the default
 
@@ -66,7 +67,6 @@ exports.getCategories = catchAsync(async (req, res, next) => {
   let LOCAL_HOST = `${req.protocol}://${req.get('host')}/`;
 
   // TODO: adding .href to  the objects doesn't work
-
   /*
   categorys = categorys.forEach(element => {
     element.href = 'toto';
@@ -79,6 +79,33 @@ exports.getCategories = catchAsync(async (req, res, next) => {
       categorys
     }
   });
+});
+
+exports.getCategories = catchAsync(async (req, res, next) => {
+  pageMeta = Helper.getPageMeta(req);
+  const features = new APIFeatures(Category.find(), req.query)
+    .filter()
+    .sort()
+    .limitFields()
+    .offset();
+  let categorys = await features.query;
+  // TODO: adding .href to  the objects doesn't work
+  /*
+  categorys = categorys.forEach(element => {
+    element.href = 'toto';
+  });
+*/
+  res
+    .status(200)
+    .json(
+      Responser.getPaging(
+        categorys,
+        'categories',
+        req,
+        pageMeta.limit,
+        pageMeta.offset
+      )
+    );
 });
 
 /**

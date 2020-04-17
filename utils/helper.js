@@ -16,3 +16,15 @@ module.exports.randomStr = function(length) {
     }, '')
     .substring(0, length);
 };
+
+module.exports.getPageMeta = req => {
+  let limit = 20; // the default
+  let offset = 0; // the default
+  if (req.query.offset) {
+    offset = parseInt(req.query.offset);
+  }
+  if (req.query.limit) {
+    limit = parseInt(req.query.limit);
+  }
+  return { limit, offset };
+};
