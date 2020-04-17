@@ -57,7 +57,8 @@ exports.getCategoriesPlaylists = catchAsync(async (req, res, next) => {
     .json(Responser.getPaging(playlists, 'playlists', req, limit, offset));
 });
 
-exports.getCategories = catchAsync(async (req, res, next) => {
+exports.getCategoriesTemp = catchAsync(async (req, res, next) => {
+  pageMeta = Helper.getPageMeta(req);
   const features = new APIFeatures(Category.find(), req.query)
     .filter()
     .sort()
@@ -88,6 +89,7 @@ exports.getCategories = catchAsync(async (req, res, next) => {
     .sort()
     .limitFields()
     .offset();
+  //console.log(typeof features.query)
   let categorys = await features.query;
   // TODO: adding .href to  the objects doesn't work
   /*
@@ -112,14 +114,7 @@ exports.getCategories = catchAsync(async (req, res, next) => {
  * @summary it returns the artists that the user isn't following
  */
 exports.getRecommendedArtists = catchAsync(async (req, res, next) => {
-  let limit = 20; // the default
-  let offset = 0; // the default
-  if (req.query.offset) {
-    offset = parseInt(req.query.offset);
-  }
-  if (req.query.limit) {
-    limit = parseInt(req.query.limit);
-  }
+  let pageMeta = Helper.getPageMeta(req);
   // push the user him self
   excUsers = req.user.followedUsers;
   excUsers.push(req.user._id);
@@ -133,12 +128,22 @@ exports.getRecommendedArtists = catchAsync(async (req, res, next) => {
     .limitFields()
     .offset();
 
+  // artists = [{ id: 1 }, { id: 2 }, { id: 3 }];
   artists = await features.query.select('-queue');
   res
     .status(200)
-    .json(Responser.getPaging(artists, 'artists', req, limit, offset));
+    .json(
+      Responser.getPaging(
+        artists,
+        'artists',
+        req,
+        pageMeta.limit,
+        pageMeta.offset
+      )
+    );
 });
 
+//TODO: remove this if not needed
 exports.getFeaturedPlaylists = catchAsync(async (req, res, next) => {
   res.status(200).json({
     message: 'not implementedd yet getFeaturedPlaylists'
@@ -168,15 +173,16 @@ exports.getNewRelease = catchAsync(async (req, res, next) => {
     .json(Responser.getPaging(albums, 'albums', req, limit, offset));
 });
 
+//TODO: remove this if not needed
 exports.getRecommendations = catchAsync(async (req, res, next) => {
   res.status(200).json({
     message: 'not implementedd yet getRecommendations'
   });
 });
+// NOTE: it is better to do an itegeration testing for it
 exports.createCategory = catchAsync(async (req, res, next) => {
   let category = await Category.create({
     name: req.body.name
-    //  ,icons: req.files.icon[0].filename
   });
 
   if (!req.files) {
