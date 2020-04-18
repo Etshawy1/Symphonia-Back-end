@@ -5,19 +5,12 @@ const AppError = require('../utils/appError');
 const APIFeatures = require('./../utils/apiFeatures');
 const mongoose = require('mongoose');
 
-// there must be ids middle ware that checks the ids
-// of the provided thing
-const checkIds = (req, res, next, Model) => {
-  // firstly check that these
-};
-
 exports.FollowUser = catchAsync(async (req, res, next) => {
   if (!req.query.ids) {
     return next(new AppError('ids field is missing', 400)); // bad request
   }
   const ids = req.query.ids.split(',');
   // NOTE: not tested
-
   try {
     ids.forEach(e => {
       if (!mongoose.Types.ObjectId.isValid(e)) {
@@ -104,8 +97,21 @@ exports.followedPlaylistCount = catchAsync(async (req, res, next) => {
   const count = await Playlist.count({
     followers: { $elemMatch: { $eq: req.user._id } }
   });
-  console.log(count);
   res.status(200).json({ FollowedPlaylists: count });
+});
+
+exports.followedPlaylist = catchAsync(async (req, res, next) => {
+  const features = new APIFeatures(
+    Playlist.find({
+      followers: { $elemMatch: { $eq: req.user._id } }
+    }),
+    req.query
+  )
+    .filter()
+    .sort()
+    .paginate();
+  const playlists = await features.query;
+  res.status(200).json(playlists);
 });
 
 // TODO: handle the next href and the

@@ -1,44 +1,33 @@
 /* eslint-disable no-console */
 // const {Album,validateAlbum} = require('./../models/albumModel');
-const Album = require('./../models/albumModel');
-const APIFeatures = require('./../utils/apiFeatures');
-const catchAsync = require('./../utils/catchAsync').threeArg;
+const Album = require('../models/albumModel');
+const Track = require('../models/trackModel');
+const APIFeatures = require('../utils/apiFeatures');
+const catchAsync = require('../utils/catchAsync').threeArg;
+const factory = require('./handlerFactory');
+const AppError = require('../utils/appError');
 
-exports.getAllAlbums = catchAsync(async (req, res, next) => {
-  const features = new APIFeatures(Album.find(), req.query)
-    .filter()
-    .sort()
-    .limitFields()
-    .paginate();
-  const albums = await features.query;
-
-  res.status(200).send(albums);
-});
-
-exports.getAlbum = catchAsync(async (req, res, next) => {
-  const check = await Album.findById(req.params.id);
-  if (!check) return res.status(404).send('This Album is not found!');
-  const features = new APIFeatures(Album.findById(req.params.id), req.query)
-    .filter()
-    .sort()
-    .limitFields()
-    .paginate();
-  const album = await features.query.populate('tracks');
-  res.status(200).send(album);
-});
-
+exports.getManyAlbums = factory.getMany(Album, ['tracks', 'artist']);
+exports.getAlbum = factory.getOne(Album, ['tracks', 'artist']);
 exports.getAlbumTracks = catchAsync(async (req, res, next) => {
-  const check = await Album.findById(req.params.id);
-  if (!check) return res.status(404).send('This Album is not found!');
+  const albumTracks = await Album.findById(req.params.id, 'tracks');
+  if (!albumTracks) {
+    return next(new AppError('that document does not exist', 404));
+  }
   const features = new APIFeatures(
-    Album.findById(req.params.id).select('tracks'),
+    Track.find({ _id: { $in: albumTracks.tracks } }).populate([
+      'artist',
+      'album'
+    ]),
     req.query
   )
     .filter()
     .sort()
     .paginate();
-  const tracks = await features.query.populate('tracks');
-  res.status(200).send(tracks);
+
+  const tracks = await features.query;
+
+  res.status(200).json(tracks);
 });
 
 exports.createAlbum = catchAsync(async (req, res, next) => {

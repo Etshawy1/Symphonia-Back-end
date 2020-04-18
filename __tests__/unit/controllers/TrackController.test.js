@@ -1,5 +1,5 @@
 const controller = require('../../../controllers/trackController');
-const { Track } = require('../../../models/trackModel');
+const Track = require('../../../models/trackModel');
 const mongoose = require('mongoose');
 const AppError = require('../../../utils/appError');
 const _ = require('lodash');
