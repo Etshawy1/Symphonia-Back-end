@@ -10,6 +10,7 @@ const { History } = require('./../models/historyModel');
 const APIFeatures = require('./../utils/apiFeatures');
 const _ = require('lodash');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+const crypto = require('crypto');
 
 const mimeNames = {
   '.mp3': 'audio/mpeg',
@@ -128,6 +129,9 @@ function readRangeHeader (range, totalLength) {
 }
 exports.playInfo = catchAsync(async (req, res, next) => {
   const currentUser = await User.findById(req.user._id).select('+history');
+  const user = await User.findById(req.user._id);
+  const playerToken = user.createPlayerToken();
+  user.save({ validateBeforeSave: false });
   const track = await Track.findById(req.params.track_id);
   if (
     req.body.context_url === undefined &&
@@ -227,9 +231,24 @@ exports.playInfo = catchAsync(async (req, res, next) => {
     updatedUser.queue.currentlyPlaying.device = deviceId;
     await updatedUser.save({ validateBeforeSave: false });
   }
-  res.status(204).json({ data: null });
+  res.status(200).json({
+    data: playerToken
+  });
 });
-exports.playTrack = catchAsync(async (req, res) => {
+exports.playTrack = catchAsync(async (req, res, next) => {
+  const hashedToken = crypto
+    .createHash('sha256')
+    .update(req.params.token)
+    .digest('hex');
+  const user = await User.findOne({
+    playerToken: hashedToken,
+    playerTokenExpires: {
+      $gt: Date.now()
+    }
+  });
+  if (!user) {
+    return next(new AppError('Token is invalid or has expired', 400));
+  }
   const track = await Track.findById(req.params.track_id);
   const { trackPath } = track;
   // Check if file exists. If not, will return the 404 'Not Found'.

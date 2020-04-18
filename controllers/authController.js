@@ -106,7 +106,6 @@ exports.facebookOauth = catchAsync(async (req, res, next) => {
   req.user.imageGoogleUrl = undefined;
   createSendToken(req.user, req.user.status, res);
 });
-// this will be handeled by making the website protocol https://localhost:3000 not http://localhost:3000
 exports.googleUnlink = catchAsync(async (req, res, next) => {});
 exports.facebookUnlink = catchAsync(async (req, res, next) => {});
 

@@ -144,6 +144,8 @@ const userSchema = new mongoose.Schema({
   imageGoogleUrl: String,
   imageUrl: String,
   last_login: Date,
+  playerToken: String,
+  playerTokenExpires: Date,
   active: {
     type: Boolean,
     defult: true,
@@ -261,7 +263,7 @@ userSchema.methods.createPasswordResetToken = function () {
 /**
  * creates a artist application token that is valid for 10 minutes only
  * @function createArtistToken
- * @returns {string} - password reset token
+ * @returns {string} - artist reset token
  */
 
 userSchema.methods.createArtistToken = function () {
@@ -274,8 +276,24 @@ userSchema.methods.createArtistToken = function () {
 
   // the token to reset the password is valit only for 10 minutes
   this.artistApplicationExpires = Date.now() + 10 * 60 * 1000;
-
   return applicationToken;
+};
+/**
+ * creates a artist application token that is valid for 10 minutes only
+ * @function createPlayerToken
+ * @returns {string} -Trak reset token
+ */
+
+userSchema.methods.createPlayerToken = function () {
+  const playerToken = crypto.randomBytes(32).toString('hex');
+
+  this.playerToken = crypto
+    .createHash('sha256')
+    .update(playerToken)
+    .digest('hex');
+  // the token to reset the password is valit only for 10 minutes
+  this.playerTokenExpires = Date.now() + 10 * 60 * 1000;
+  return playerToken;
 };
 
 const User = mongoose.model('User', userSchema);

@@ -7,9 +7,8 @@ const playlistController = require('./../controllers/playlistController');
 const bodyParser = require('body-parser');
 
 const router = express.Router();
+router.get('/player/tracks/:track_id/:token', meController.playTrack);
 router.use(authController.protect);
-// don't change anyline of my code again there is no problem to put these routes here if there is a problem with you it must be from your work not from the postion of my routes
-
 //save shuffle
 router.patch('/player/shuffle', meController.shuffle);
 //save volume
@@ -40,8 +39,6 @@ router.get('/player/currently-playing', meController.getCurrentlyPlaying);
 router.get('/player/queue', meController.getQueue);
 // play the track
 router.post('/player/tracks/:track_id', meController.playInfo);
-router.get('/player/tracks/:track_id', meController.playTrack);
-
 // get top artist and top tracks
 router.get('/top/:type', meController.topTracksAndArtists);
 // get recent tracks
