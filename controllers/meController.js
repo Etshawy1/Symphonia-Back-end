@@ -129,9 +129,7 @@ function readRangeHeader (range, totalLength) {
 }
 exports.playInfo = catchAsync(async (req, res, next) => {
   const currentUser = await User.findById(req.user._id).select('+history');
-  const user = await User.findById(req.user._id);
   const playerToken = user.createPlayerToken();
-  user.save({ validateBeforeSave: false });
   const track = await Track.findById(req.params.track_id);
   if (
     req.body.context_url === undefined &&
