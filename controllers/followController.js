@@ -208,7 +208,7 @@ exports.unfollowPlaylist = catchAsync(async (req, res, next) => {
   let playlistId = req.params.id;
   // remove the user from the playlist
   let playlist = await Playlist.findById(playlistId);
-  playlist.followers = playlist.followers.filter(function(value, index, arr) {
+  playlist.followers = playlist.followers.filter(function (value, index, arr) {
     return value != userId;
   });
   await playlist.save();

@@ -104,6 +104,7 @@ router.put('/tracks', libraryController.saveCurrentUserTracks);
 // section: Playlist routes
 
 router.get('/playlists', playlistController.getCurrentUserPlaylists);
+router.get('/playlists/owned', playlistController.getCurrentUserOwnedPlaylists);
 router.get(
   '/playlists/deleted',
   playlistController.getCurrentUserDeletedPlaylists
