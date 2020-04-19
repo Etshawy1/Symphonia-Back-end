@@ -100,9 +100,7 @@ exports.googleOauth = catchAsync(async (req, res, next) => {
   user.tracks = undefined;
   user.__v = undefined;
   user.followedUsers = undefined;
-  res.redirect(
-    `https://thesymphonia.ddns.net/api/v1/users/auth/google/${token}/?${user}`
-  );
+  res.redirect(`https://thesymphonia.ddns.net/google/${token}/?${user}`);
 });
 exports.facebookOauth = catchAsync(async (req, res, next) => {
   if (req.user.status === 201) {
@@ -116,9 +114,7 @@ exports.facebookOauth = catchAsync(async (req, res, next) => {
   user.tracks = undefined;
   user.__v = undefined;
   user.followedUsers = undefined;
-  res.redirect(
-    `https://thesymphonia.ddns.net/api/v1/users/auth/facebook/${token}/?${user}`
-  );
+  res.redirect(`https://thesymphonia.ddns.net/facebook/${token}/?${user}`);
 });
 exports.googleUnlink = catchAsync(async (req, res, next) => {});
 exports.facebookUnlink = catchAsync(async (req, res, next) => {});
