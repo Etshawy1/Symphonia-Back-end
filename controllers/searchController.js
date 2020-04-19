@@ -8,34 +8,97 @@ const Track = require('../models/trackModel');
 const Album = require('../models/albumModel');
 const Playlist = require('../models/playlistModel');
 const Category = require('../models/categoryModel');
+const Responser = require('../utils/responser');
+
+const getModel = {
+  profile: User,
+  artist: User,
+  track: Track,
+  album: Album,
+  category: Category,
+  playlist: Playlist
+};
+
+async function getSearchQuery (
+  type,
+  additionalConditions,
+  keyword,
+  limit,
+  offset = 0
+) {
+  const Model = getModel[type];
+  if (!Model) return null;
+  return Model.find({
+    name: { $regex: keyword, $options: 'i' },
+    ...additionalConditions
+  })
+    .limit(limit)
+    .skip(offset);
+}
 
 exports.searchGeneric = catchAsync(async (req, res, next) => {
-  const limit = req.query.limit ? req.query.limit * 1 : 16;
-  const profiles = await User.find({
-    name: { $regex: req.params.keyword, $options: 'i' },
-    type: 'user'
-  }).limit(limit);
-  const artists = await User.find({
-    name: { $regex: req.params.keyword, $options: 'i' },
-    type: 'artist'
-  }).limit(limit);
-  const tracks = await Track.find({
-    name: { $regex: req.params.keyword, $options: 'i' }
-  }).limit(limit);
-  const albums = await Album.find({
-    name: { $regex: req.params.keyword, $options: 'i' }
-  }).limit(limit);
-  const category = await Category.find({
-    name: { $regex: req.params.keyword, $options: 'i' }
-  }).limit(limit);
-  const playlist = await Playlist.find({
-    name: { $regex: req.params.keyword, $options: 'i' },
-    $or: [
-      { public: true },
-      { owner: req.user ? req.user.id : mongoose.Types.ObjectId() }
-    ]
-  }).limit(limit);
+  const limit = req.query.limit * 1 || 16;
+  const keyword = req.params.keyword;
+  const profiles = await getSearchQuery(
+    'profile',
+    { type: 'user' },
+    keyword,
+    limit
+  );
+  const artists = await getSearchQuery(
+    'artist',
+    { type: 'artist' },
+    keyword,
+    limit
+  );
+  const tracks = await getSearchQuery('track', {}, keyword, limit);
+  const albums = await getSearchQuery('album', {}, keyword, limit);
+  const category = await getSearchQuery('category', {}, keyword, limit);
+  const playlist = await getSearchQuery(
+    'playlist',
+    {
+      $or: [
+        { public: true },
+        { owner: req.user ? req.user.id : mongoose.Types.ObjectId() }
+      ]
+    },
+    keyword,
+    limit
+  );
   res
     .status(200)
     .json({ profiles, artists, tracks, albums, category, playlist });
+});
+
+exports.searchType = catchAsync(async (req, res, next) => {
+  if (!req.query.q) return next(new AppError('missing q query parameter', 400));
+  if (!req.query.type || !getModel[req.query.type])
+    return next(
+      new AppError('missing type query parameter or type not supported', 400)
+    );
+  const limit = req.query.limit * 1 || 20;
+  const offset = req.query.offset * 1 || 0;
+  const additionalConditions = {};
+  if (req.query.type === 'profile' || req.query.type === 'artist')
+    additionalConditions.type = req.query.type;
+  else if (req.query.type === 'playlist')
+    additionalConditions.$or = [
+      { public: true },
+      { owner: req.user ? req.user.id : mongoose.Types.ObjectId() }
+    ];
+  const features = new APIFeatures(
+    getSearchQuery(
+      req.query.type,
+      additionalConditions,
+      req.query.q,
+      limit,
+      offset
+    ),
+    req.query
+  );
+
+  const results = await features.query;
+  res
+    .status(200)
+    .json(Responser.getPaging(results, req.query.type, req, limit, offset));
 });
