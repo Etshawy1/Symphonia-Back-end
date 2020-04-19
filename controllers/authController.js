@@ -88,6 +88,38 @@ exports.checkEmail = catchAsync(async (req, res, next) => {
   // If everything ok, send type of user to client
   res.status(200).json({ exists: true, type: user.type });
 });
+exports.googleOauth = catchAsync(async (req, res, next) => {
+  if (req.user.status === 201) {
+    const url = `${req.protocol}://${req.get('host')}`;
+    await new Email(req.user, url).sendWelcome();
+  }
+  const token = user.signToken();
+  req.user.facebookId = undefined;
+  req.user.imageFacebookUrl = undefined;
+  user.password = undefined;
+  user.tracks = undefined;
+  user.__v = undefined;
+  user.followedUsers = undefined;
+  res.redirect(
+    'https://thesymphonia.ddns.net/api/v1/users/auth/google/' + token
+  );
+});
+exports.facebookOauth = catchAsync(async (req, res, next) => {
+  if (req.user.status === 201) {
+    const url = `${req.protocol}://${req.get('host')}`;
+    await new Email(req.user, url).sendWelcome();
+  }
+  const token = user.signToken();
+  req.user.googleId = undefined;
+  req.user.imageGoogleUrl = undefined;
+  user.password = undefined;
+  user.tracks = undefined;
+  user.__v = undefined;
+  user.followedUsers = undefined;
+  res.redirect(
+    'https://thesymphonia.ddns.net/api/v1/users/auth/facebook/' + token
+  );
+});
 exports.googleUnlink = catchAsync(async (req, res, next) => {});
 exports.facebookUnlink = catchAsync(async (req, res, next) => {});
 
