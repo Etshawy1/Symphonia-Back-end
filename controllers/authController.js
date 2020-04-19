@@ -101,7 +101,7 @@ exports.googleOauth = catchAsync(async (req, res, next) => {
   user.__v = undefined;
   user.followedUsers = undefined;
   res.redirect(
-    'https://thesymphonia.ddns.net/api/v1/users/auth/google/' + token
+    `https://thesymphonia.ddns.net/api/v1/users/auth/google/${token}/?${user}`
   );
 });
 exports.facebookOauth = catchAsync(async (req, res, next) => {
@@ -117,7 +117,7 @@ exports.facebookOauth = catchAsync(async (req, res, next) => {
   user.__v = undefined;
   user.followedUsers = undefined;
   res.redirect(
-    'https://thesymphonia.ddns.net/api/v1/users/auth/facebook/' + token
+    `https://thesymphonia.ddns.net/api/v1/users/auth/facebook/${token}/?${user}`
   );
 });
 exports.googleUnlink = catchAsync(async (req, res, next) => {});
