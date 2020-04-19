@@ -88,24 +88,6 @@ exports.checkEmail = catchAsync(async (req, res, next) => {
   // If everything ok, send type of user to client
   res.status(200).json({ exists: true, type: user.type });
 });
-exports.googleOauth = catchAsync(async (req, res, next) => {
-  if (req.user.status === 201) {
-    const url = `${req.protocol}://${req.get('host')}`;
-    await new Email(req.user, url).sendWelcome();
-  }
-  req.user.facebookId = undefined;
-  req.user.imageFacebookUrl = undefined;
-  createSendToken(req.user, req.user.status, res);
-});
-exports.facebookOauth = catchAsync(async (req, res, next) => {
-  if (req.user.status === 201) {
-    const url = `${req.protocol}://${req.get('host')}`;
-    await new Email(req.user, url).sendWelcome();
-  }
-  req.user.googleId = undefined;
-  req.user.imageGoogleUrl = undefined;
-  createSendToken(req.user, req.user.status, res);
-});
 exports.googleUnlink = catchAsync(async (req, res, next) => {});
 exports.facebookUnlink = catchAsync(async (req, res, next) => {});
 

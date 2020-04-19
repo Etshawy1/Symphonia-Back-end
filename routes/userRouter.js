@@ -18,14 +18,6 @@ router.get(
     scope: ['email']
   })
 );
-router.get(
-  '/auth/facebook/Symphonia',
-  passport.authenticate('facebook', {
-    failureRedirect: '/login',
-    scope: ['email']
-  }),
-  authController.facebookOauth
-);
 
 router.get(
   '/auth/google',
@@ -33,15 +25,6 @@ router.get(
     session: false,
     scope: ['profile', 'email']
   })
-);
-
-router.get(
-  '/auth/google/Symphonia',
-  passport.authenticate('google', {
-    failureRedirect: '/login',
-    scope: ['profile', 'email']
-  }),
-  authController.googleOauth
 );
 
 router.post('/forgotpassword', authController.forgotPassword);

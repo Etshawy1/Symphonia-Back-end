@@ -3,7 +3,7 @@ const GoogleStrategy = require('passport-google-oauth20');
 const FeacbookStrategy = require('passport-facebook');
 const catchAsync = require('./../utils/catchAsync').fourArg;
 const { User } = require('./../models/userModel');
-
+const Email = require('./../utils/email');
 passport.serializeUser(function (user, done) {
   done(null, user);
 });
@@ -56,7 +56,8 @@ passport.use(
           newUser.save({
             validateBeforeSave: false
           });
-          newUser.status = 201;
+          const url = `${req.protocol}://${req.get('host')}`;
+          await new Email(req.user, url).sendWelcome();
           done(null, newUser);
         }
       }
@@ -107,7 +108,8 @@ passport.use(
           newUser.save({
             validateBeforeSave: false
           });
-          newUser.status = 201;
+          const url = `${req.protocol}://${req.get('host')}`;
+          await new Email(req.user, url).sendWelcome();
           done(null, newUser);
         }
       }
