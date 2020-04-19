@@ -5,7 +5,7 @@ const recommendationController = require('../controllers/recommendationControlle
 const path = require('path');
 const router = express.Router();
 
-router.use(authController.protect);
+router.use(authController.protect(true));
 router.get(
   '/available-genre-seeds',
   recommendationController.getAvailabeGenreSeed

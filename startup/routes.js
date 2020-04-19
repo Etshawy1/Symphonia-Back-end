@@ -6,6 +6,7 @@ const albumRouter = require('../routes/albumRouter');
 const browseRouter = require('../routes/browseRouter');
 const recommendationRouter = require('../routes/recommendationRouter');
 const artistRouter = require('../routes/artistRouter');
+const searchRouter = require('../routes/searchRouter');
 const playlistRouter = require('./../routes/playlistRouter');
 const AppError = require('../utils/appError');
 const globalErrorHandler = require('../controllers/errorController');
@@ -38,6 +39,7 @@ module.exports = function (app) {
   app.use('/api/v1/browse', browseRouter);
   app.use('/api/v1/playlists', playlistRouter);
   app.use('/api/v1/artists', artistRouter);
+  app.use('/api/v1/search', searchRouter);
   app.use('/api/v1/recommendations', recommendationRouter);
 
   // if any link is visited and not mentioned above will go to that next middleware

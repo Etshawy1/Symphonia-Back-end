@@ -18,7 +18,7 @@ router.get(
 );
 
 router.get('/featured-playlists', browseController.getCategoriesPlaylists);
-router.use(authController.protect);
+router.use(authController.protect(true));
 router.get('/artists', browseController.getRecommendedArtists);
 // TODO: solve the problem of disappearing fields
 let uploadBuilder = new UploadBuilder();

@@ -8,7 +8,7 @@ const bodyParser = require('body-parser');
 
 const router = express.Router();
 router.get('/player/tracks/:track_id/:token', meController.playTrack);
-router.use(authController.protect);
+router.use(authController.protect(true));
 //save shuffle
 router.patch('/player/shuffle', meController.shuffle);
 //save volume

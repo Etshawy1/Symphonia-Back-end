@@ -11,7 +11,7 @@ router.get('/:id', playlistController.getPlaylist);
 router.get('/:id/images', playlistController.getPlaylistCoverImage);
 router.get('/:id/tracks', playlistController.getPlaylistTracks);
 
-router.use(authController.protect);
+router.use(authController.protect(true));
 
 router.delete('/:id/tracks', playlistController.removePlaylistTracks);
 router.post('/:id/tracks', playlistController.addTracksToPlaylist);
