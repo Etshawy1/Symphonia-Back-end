@@ -6,6 +6,7 @@ const Track = require('./../models/trackModel');
 const _ = require('lodash');
 const AppError = require('../utils/appError');
 const factory = require('./handlerFactory');
+const Responser = require('../utils/responser');
 
 exports.getPlaylist = factory.getOne(Playlist);
 
@@ -60,17 +61,28 @@ exports.getUserPlaylists = catchAsync(async (req, res, next) => {
 
 exports.getCurrentUserPlaylists = catchAsync(async (req, res, next) => {
   const playlistsIds = await User.findById(req.user._id, 'ownedPlaylists');
+
   const features = new APIFeatures(
-    Playlist.find({ _id: { $in: playlistsIds.ownedPlaylists } }),
+    Playlist.find({
+      $or: [
+        { _id: { $in: playlistsIds.ownedPlaylists } },
+        {
+          followers: { $elemMatch: { $eq: req.user._id } }
+        }
+      ]
+    }),
     req.query
   )
     .filter()
     .sort()
-    .paginate();
+    .offset();
 
-  const playlists = await features.query;
-
-  res.status(200).json(playlists);
+  const playlists = await features.query.populate('owner', 'name');
+  const limit = req.query.limit * 1 || 20;
+  const offset = req.query.offset * 1 || 0;
+  res
+    .status(200)
+    .json(Responser.getPaging(playlists, 'playlists', req, limit, offset));
 });
 
 exports.getPlaylistCoverImage = catchAsync(async (req, res, next) => {
