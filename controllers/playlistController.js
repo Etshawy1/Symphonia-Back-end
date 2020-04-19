@@ -47,16 +47,26 @@ exports.getUserPlaylists = catchAsync(async (req, res, next) => {
     return next(new AppError('the user does not exists', 404));
   }
   const features = new APIFeatures(
-    Playlist.find({ _id: { $in: playlistIds.ownedPlaylists } }),
+    Playlist.find({
+      $or: [
+        { _id: { $in: playlistIds.ownedPlaylists } },
+        {
+          followers: { $elemMatch: { $eq: req.params.id } }
+        }
+      ]
+    }),
     req.query
   )
     .filter()
     .sort()
-    .paginate();
+    .offset();
 
-  const playlists = await features.query;
-
-  res.status(200).json(playlists);
+  const playlists = await features.query.populate('owner', 'name');
+  const limit = req.query.limit * 1 || 20;
+  const offset = req.query.offset * 1 || 0;
+  res
+    .status(200)
+    .json(Responser.getPaging(playlists, 'playlists', req, limit, offset));
 });
 
 exports.getCurrentUserPlaylists = catchAsync(async (req, res, next) => {
