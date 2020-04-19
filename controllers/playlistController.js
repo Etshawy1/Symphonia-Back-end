@@ -114,10 +114,10 @@ exports.getPlaylistTracks = catchAsync(async (req, res, next) => {
     return next(new AppError('that document does not exist', 404));
   }
   const features = new APIFeatures(
-    Track.find({ _id: { $in: playlistTracks.tracks } }).populate([
-      'artist',
-      'album'
-    ]),
+    Track.find({ _id: { $in: playlistTracks.tracks } })
+      .populate('artist', 'name')
+      .populate('album', 'name'),
+
     req.query
   )
     .filter()

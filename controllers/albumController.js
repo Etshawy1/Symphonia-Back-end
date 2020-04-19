@@ -7,8 +7,14 @@ const catchAsync = require('../utils/catchAsync').threeArg;
 const factory = require('./handlerFactory');
 const AppError = require('../utils/appError');
 
-exports.getManyAlbums = factory.getMany(Album, ['tracks', 'artist']);
-exports.getAlbum = factory.getOne(Album, ['tracks', 'artist']);
+exports.getManyAlbums = factory.getMany(Album, [
+  { path: 'tracks', select: 'name' },
+  { path: 'artist', select: 'name' }
+]);
+exports.getAlbum = factory.getOne(Album, [
+  { path: 'tracks', select: 'name' },
+  { path: 'artist', select: 'name' }
+]);
 exports.getAlbumTracks = catchAsync(async (req, res, next) => {
   const albumTracks = await Album.findById(req.params.id, 'tracks');
   if (!albumTracks) {
@@ -16,8 +22,8 @@ exports.getAlbumTracks = catchAsync(async (req, res, next) => {
   }
   const features = new APIFeatures(
     Track.find({ _id: { $in: albumTracks.tracks } }).populate([
-      'artist',
-      'album'
+      { path: 'artist', select: 'name' },
+      { path: 'album', select: 'name' }
     ]),
     req.query
   )
