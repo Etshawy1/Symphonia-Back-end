@@ -54,6 +54,11 @@ const playlistSchema = new mongoose.Schema(
   }
 );
 
+playlistSchema.virtual('tracksCount').get(function () {
+  if (this.tracks) return this.tracks.length;
+  else return undefined;
+});
+
 playlistSchema.plugin(mongoose_delete, {
   deletedAt: true,
   overrideMethods: 'all'

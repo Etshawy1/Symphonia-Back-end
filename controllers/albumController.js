@@ -6,6 +6,7 @@ const APIFeatures = require('../utils/apiFeatures');
 const catchAsync = require('../utils/catchAsync').threeArg;
 const factory = require('./handlerFactory');
 const AppError = require('../utils/appError');
+const Responser = require('../utils/responser');
 
 exports.getManyAlbums = factory.getMany(Album, [
   { path: 'tracks', select: 'name' },
@@ -23,17 +24,20 @@ exports.getAlbumTracks = catchAsync(async (req, res, next) => {
   const features = new APIFeatures(
     Track.find({ _id: { $in: albumTracks.tracks } }).populate([
       { path: 'artist', select: 'name' },
-      { path: 'album', select: 'name' }
+      { path: 'album', select: 'name image' }
     ]),
     req.query
   )
     .filter()
     .sort()
-    .paginate();
-
+    .offset();
+  const limit = req.query.limit * 1 || 20;
+  const offset = req.query.offset * 1 || 0;
   const tracks = await features.query;
 
-  res.status(200).json(tracks);
+  res
+    .status(200)
+    .json(Responser.getPaging(tracks, 'tracks', req, limit, offset));
 });
 
 exports.createAlbum = catchAsync(async (req, res, next) => {

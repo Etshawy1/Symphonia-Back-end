@@ -95,6 +95,25 @@ exports.getCurrentUserPlaylists = catchAsync(async (req, res, next) => {
     .json(Responser.getPaging(playlists, 'playlists', req, limit, offset));
 });
 
+exports.getCurrentUserOwnedPlaylists = catchAsync(async (req, res, next) => {
+  const playlistsIds = await User.findById(req.user._id, 'ownedPlaylists');
+
+  const features = new APIFeatures(
+    Playlist.find({ _id: { $in: playlistsIds.ownedPlaylists } }),
+    req.query
+  )
+    .filter()
+    .sort()
+    .offset();
+
+  const playlists = await features.query.populate('owner', 'name');
+  const limit = req.query.limit * 1 || 20;
+  const offset = req.query.offset * 1 || 0;
+  res
+    .status(200)
+    .json(Responser.getPaging(playlists, 'playlists', req, limit, offset));
+});
+
 exports.getPlaylistCoverImage = catchAsync(async (req, res, next) => {
   const playlistCheck = await Playlist.findById(req.params.id);
   if (!playlistCheck) {
@@ -114,19 +133,23 @@ exports.getPlaylistTracks = catchAsync(async (req, res, next) => {
     return next(new AppError('that document does not exist', 404));
   }
   const features = new APIFeatures(
-    Track.find({ _id: { $in: playlistTracks.tracks } })
-      .populate('artist', 'name')
-      .populate('album', 'name'),
-
+    Track.find({ _id: { $in: playlistTracks.tracks } }).populate([
+      { path: 'artist', select: 'name' },
+      { path: 'album', select: 'name' }
+    ]),
     req.query
   )
     .filter()
     .sort()
-    .paginate();
+    .offset();
 
   const tracks = await features.query;
-
-  res.status(200).json(tracks);
+  const limit = req.query.limit * 1 || 20;
+  const offset = req.query.offset * 1 || 0;
+  console.log(tracks);
+  res
+    .status(200)
+    .json(Responser.getPaging(tracks, 'tracks', req, limit, offset));
 });
 
 exports.removePlaylistTracks = catchAsync(async (req, res, next) => {
@@ -148,7 +171,7 @@ exports.removePlaylistTracks = catchAsync(async (req, res, next) => {
     { multi: true }
   );
 
-  res.send(playlist);
+  res.status(200).json(playlist);
 });
 
 exports.addTracksToPlaylist = catchAsync(async (req, res, next) => {
@@ -191,15 +214,15 @@ exports.addTracksToPlaylist = catchAsync(async (req, res, next) => {
 
   await playlist.save();
 
-  res.send(playlist);
+  res.status(200).json(playlist);
 });
 
 exports.changePlaylistDetails = catchAsync(async (req, res, next) => {
   let playlistCheck = await Playlist.findById(req.params.id);
   if (!playlistCheck) {
-    return res
-      .status(404)
-      .send('The playlist with the given ID was not found.');
+    return next(
+      new AppError('The playlist with the given ID was not found.', 404)
+    );
   }
 
   if (
@@ -213,7 +236,7 @@ exports.changePlaylistDetails = catchAsync(async (req, res, next) => {
     _.pick(req.body, ['name', 'collaborative', 'public', 'description']),
     { new: true, runValidators: true }
   );
-  res.json(playlist);
+  res.status(200).json(playlist);
 });
 exports.maintainPlaylistTracks = catchAsync(async (req, res, next) => {
   let playlistCheck = await Playlist.findById(req.params.id);

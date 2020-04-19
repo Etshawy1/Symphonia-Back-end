@@ -23,10 +23,6 @@ exports.getCategory = catchAsync(async (req, res, next) => {
 });
 
 exports.getCategoriesPlaylists = catchAsync(async (req, res, next) => {
-  // if (!req.params.id) {
-  //   return next(new AppError('please provide an id for the category'), 400);
-  // }
-
   let limit = req.query.limit * 1 || 20; // the default
   let offset = req.query.offset * 1 || 0;
   // firstly i need to get the category with the name provided
@@ -150,22 +146,16 @@ exports.getFeaturedPlaylists = catchAsync(async (req, res, next) => {
 });
 
 exports.getNewRelease = catchAsync(async (req, res, next) => {
-  let limit = 20; // the default
-  let offset = 0; // the default
-  if (req.query.offset) {
-    offset = parseInt(req.query.offset);
-  }
-  if (req.query.limit) {
-    limit = parseInt(req.query.limit);
-  }
+  const limit = req.query.limit * 1 || 20;
+  const offset = req.query.offset * 1 || 0;
   const features = new APIFeatures(
-    Album.find({ releaseDate: { $exists: true } }),
+    Album.find({ year: { $exists: true } }),
     req.query
   )
     .filter()
     .limitFields()
     .offset();
-  features.query = features.query.sort('-releaseDate');
+  features.query = features.query.sort('-year');
   let albums = await features.query;
   res
     .status(200)
