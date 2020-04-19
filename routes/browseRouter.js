@@ -14,6 +14,7 @@ router.get('/categories/:id', browseController.getCategory);
 
 router.get(
   '/categories/:id/playlists',
+  authController.protect(false),
   browseController.getCategoriesPlaylists
 );
 

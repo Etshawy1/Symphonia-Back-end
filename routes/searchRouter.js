@@ -1,7 +1,10 @@
 const express = require('express');
 const authController = require('../controllers/authController');
-const artistController = require('./../controllers/artistController');
+const searchController = require('./../controllers/searchController');
 
 const router = express.Router();
+router.use(authController.protect(false));
+
+router.get('/:keyword', searchController.searchGeneric);
 
 module.exports = router;
