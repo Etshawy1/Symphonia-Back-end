@@ -256,7 +256,7 @@ userSchema.methods.createPasswordResetToken = function () {
     .digest('hex');
 
   // the token to reset the password is valit only for 10 minutes
-  this.passwordResetExpires = Date.now() + 10 * 60 * 1000;
+  this.passwordResetExpires = Date.now() + 60 * 60 * 1000;
 
   return resetToken;
 };
