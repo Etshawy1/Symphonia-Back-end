@@ -17,7 +17,7 @@ const tracks = [
     category: [mongoose.Types.ObjectId('5e8072e5e478cf39b47bd1ef')],
     album: mongoose.Types.ObjectId('5e701fdf2672a63a60573a06'),
     name: 'Borderline',
-    durationMs: 30000,
+    durationMs: 237000,
     artist: mongoose.Types.ObjectId('5e8137aa54660672fd699882'),
     trackPath: 'assets/tracks/Borderline.mp3',
     explicit: false,

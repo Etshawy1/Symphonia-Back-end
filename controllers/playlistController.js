@@ -135,7 +135,7 @@ exports.getPlaylistTracks = catchAsync(async (req, res, next) => {
   const features = new APIFeatures(
     Track.find({ _id: { $in: playlistTracks.tracks } }).populate([
       { path: 'artist', select: 'name' },
-      { path: 'album', select: 'name' }
+      { path: 'album', select: 'name image' }
     ]),
     req.query
   )

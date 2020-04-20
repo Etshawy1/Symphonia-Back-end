@@ -167,18 +167,34 @@ exports.playInfo = catchAsync(async (req, res, next) => {
     let context;
     if (req.body.context_type === 'album') {
       context = await Album.findById(req.body.contextId);
+      context.contextImage = context.image;
+      context.contextName = context.name;
+      context.contextId = context._id;
     } else if (req.body.context_type === 'playlist') {
       context = await PlayList.findById(req.body.contextId);
+      context.contextImage = context.images[0];
+      context.contextName = context.name;
+      context.contextId = context._id;
+      context.contextDescription = context.description;
     } else {
       context = await User.findById(req.body.contextId);
+      context.contextImage = context.imageUrl;
+      context.contextName = context.name;
+      context.contextId = context._id;
     }
     const item = {
       track: track._id,
       played_at: Date.now(),
-      context,
+      ..._.pick(context, [
+        'contextImage',
+        'contextName',
+        'contextId',
+        'contextDescription'
+      ]),
       contextUrl: req.body.context_url,
       contextType: req.body.context_type
     };
+    console.log(item);
     const TracksUrl = [];
     context.tracks.forEach(tracks => {
       TracksUrl.push(
@@ -336,7 +352,7 @@ exports.recentlyPlayed = catchAsync(async (req, res, next) => {
   }
   res.status(200).json({
     history: _.reverse(
-      history.items.slice(Math.max(history.items.length - 6, 0))
+      history.items.slice(Math.max(history.items.length - 10, 0))
     )
   });
 });

@@ -28,7 +28,7 @@ describe('user.createPasswordResetToken', () => {
     const user = new User({});
     resetToken = user.createPasswordResetToken();
     expect(new Date(user.passwordResetExpires).getTime()).toBeLessThanOrEqual(
-      Date.now() + 10 * 60 * 1000
+      Date.now() + 60 * 60 * 1000
     );
     expect(user.passwordResetToken).toBeDefined();
   });
