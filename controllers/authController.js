@@ -104,14 +104,23 @@ exports.googleOauth = catchAsync(async (req, res, next) => {
   user.__v = undefined;
   user.followedUsers = undefined;
   user.queue = undefined;
+  console.log(JSON.stringify(user, replacer));
   res
     .status(301)
     .redirect(
       `https://thesymphonia.ddns.net/google/${token}/?user=${JSON.stringify(
-        user
+        user,
+        replacer
       )}`
     );
 });
+function replacer (key, value) {
+  var maskedValue = value;
+  if (key == '?') {
+    maskedValue = '******';
+  }
+  return maskedValue;
+}
 exports.facebookOauth = catchAsync(async (req, res, next) => {
   if (req.user.status === 201) {
     const url = `${req.protocol}://${req.get('host')}`;
