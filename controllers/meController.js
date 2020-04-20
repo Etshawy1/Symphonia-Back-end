@@ -352,7 +352,7 @@ exports.recentlyPlayed = catchAsync(async (req, res, next) => {
     }
   }).select('-__v');
   if (!history) {
-    return next(new Error('this user has no tracks in history.', 404));
+    return next(new AppError('this user has no tracks in history.', 404));
   }
   results = history.items
     ? _.reverse(history.items.slice(Math.max(history.items.length - 10, 0)))
@@ -541,7 +541,7 @@ exports.getDevices = catchAsync(async (req, res, next) => {
   const user = await User.findById(req.user._id);
   const currentUserQueue = user.queue;
   if (!currentUserQueue.devices) {
-    return next(new Error('this user has no devices at this time.', 404));
+    return next(new AppError('this user has no devices at this time.', 404));
   }
   res.status(200).json({
     data: currentUserQueue.devices
