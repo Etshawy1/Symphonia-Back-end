@@ -354,10 +354,11 @@ exports.recentlyPlayed = catchAsync(async (req, res, next) => {
   if (!history) {
     return next(new Error('this user has no tracks in history.', 404));
   }
+  results = history.items
+    ? _.reverse(history.items.slice(Math.max(history.items.length - 10, 0)))
+    : [];
   res.status(200).json({
-    history: _.reverse(
-      history.items.slice(Math.max(history.items.length - 10, 0))
-    )
+    history: results
   });
 });
 
