@@ -109,15 +109,14 @@ exports.googleOauth = catchAsync(async (req, res, next) => {
     .status(301)
     .redirect(
       `https://thesymphonia.ddns.net/google/${token}/?user=${JSON.stringify(
-        user,
-        replacer
+        user
       )}`
     );
 });
 function replacer (key, value) {
   var maskedValue = value;
-  if (key == '?') {
-    maskedValue = '******';
+  if (key == 'imageFacebookUrl') {
+    maskedValue = deocdeURIComponent(maskedValue);
   }
   return maskedValue;
 }
@@ -139,7 +138,8 @@ exports.facebookOauth = catchAsync(async (req, res, next) => {
     .status(301)
     .redirect(
       `https://thesymphonia.ddns.net/facebook/${token}/?user=${JSON.stringify(
-        user
+        user,
+        replacer
       )}`
     );
 });
