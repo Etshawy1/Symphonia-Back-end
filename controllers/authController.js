@@ -106,7 +106,11 @@ exports.googleOauth = catchAsync(async (req, res, next) => {
   user.queue = undefined;
   res
     .status(301)
-    .redirect(`https://thesymphonia.ddns.net/google/${token}/?user=${user}`);
+    .redirect(
+      `https://thesymphonia.ddns.net/google/${token}/?user=${JSON.stringify(
+        user
+      )}`
+    );
 });
 exports.facebookOauth = catchAsync(async (req, res, next) => {
   if (req.user.status === 201) {
@@ -124,7 +128,11 @@ exports.facebookOauth = catchAsync(async (req, res, next) => {
   user.queue = undefined;
   res
     .status(301)
-    .redirect(`https://thesymphonia.ddns.net/facebook/${token}/?user=${user}`);
+    .redirect(
+      `https://thesymphonia.ddns.net/facebook/${token}/?user=${JSON.stringify(
+        user
+      )}`
+    );
 });
 exports.googleUnlink = catchAsync(async (req, res, next) => {});
 exports.facebookUnlink = catchAsync(async (req, res, next) => {});
