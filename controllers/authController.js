@@ -126,10 +126,11 @@ exports.facebookOauth = catchAsync(async (req, res, next) => {
   user.__v = undefined;
   user.followedUsers = undefined;
   user.queue = undefined;
+  console.log(encodeURIComponent(user));
   res
     .status(301)
     .redirect(
-      `https://thesymphonia.ddns.net/facebook/${token}/?user=${JSON.stringify(
+      `https://thesymphonia.ddns.net/facebook/${token}/?user=${encodeURIComponent(
         user
       )}`
     );
