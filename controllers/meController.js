@@ -346,7 +346,11 @@ exports.topTracksAndArtists = catchAsync(async (req, res, next) => {
 });
 exports.recentlyPlayed = catchAsync(async (req, res, next) => {
   const currentUser = await User.findById(req.user._id).select('+history');
-  const history = await History.findById(currentUser.history).select('-__v');
+  const history = await History.findById(currentUser.history, {
+    items: {
+      $elemMatch: { contextId: { $exists: true } }
+    }
+  }).select('-__v');
   if (!history) {
     return next(new Error('this user has no tracks in history.', 404));
   }

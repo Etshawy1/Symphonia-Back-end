@@ -292,7 +292,7 @@ userSchema.methods.createPlayerToken = function () {
     .update(playerToken)
     .digest('hex');
   // the token to reset the password is valit only for 10 minutes
-  this.playerTokenExpires = Date.now() + 10 * 60 * 1000;
+  this.playerTokenExpires = Date.now() + 20 * 60 * 1000;
   return playerToken;
 };
 
