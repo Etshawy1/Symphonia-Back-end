@@ -131,6 +131,9 @@ exports.playInfo = catchAsync(async (req, res, next) => {
   const currentUser = await User.findById(req.user._id).select('+history');
   const playerToken = currentUser.createPlayerToken();
   const track = await Track.findById(req.params.track_id);
+  if (!track) {
+    return next(new AppError('track not found', 404));
+  }
   if (
     req.body.context_url === undefined &&
     req.body.context_type === undefined
@@ -346,16 +349,15 @@ exports.topTracksAndArtists = catchAsync(async (req, res, next) => {
 });
 exports.recentlyPlayed = catchAsync(async (req, res, next) => {
   const currentUser = await User.findById(req.user._id).select('+history');
-  const history = await History.findById(currentUser.history, {
-    items: {
-      $elemMatch: { contextId: { $exists: true } }
-    }
-  }).select('-__v');
+  const history = await History.findById(currentUser.history).select('-__v');
   if (!history) {
-    return next(new AppError('this user has no tracks in history.', 404));
+    return next(new AppError('this user has no history.', 404));
   }
-  results = history.items
-    ? _.reverse(history.items.slice(Math.max(history.items.length - 10, 0)))
+  history.items = history.items
+    ? _.remove(history.items, i => i.contextId != undefined)
+    : [];
+  const results = history.items
+    ? _.reverse(history.items.slice(Math.max(history.items.length - 6, 0)))
     : [];
   res.status(200).json({
     history: results
