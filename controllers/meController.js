@@ -350,15 +350,17 @@ exports.topTracksAndArtists = catchAsync(async (req, res, next) => {
 exports.recentlyPlayed = catchAsync(async (req, res, next) => {
   const currentUser = await User.findById(req.user._id).select('+history');
   const history = await History.findById(currentUser.history).select('-__v');
-  if (!history) {
-    return next(new AppError('this user has no history.', 404));
+  if (!history || !history.items) {
+    res.status(200).json({
+      history: []
+    });
   }
-  history.items = history.items
-    ? _.remove(history.items, i => i.contextId != undefined)
-    : [];
-  const results = history.items
-    ? _.reverse(history.items.slice(Math.max(history.items.length - 6, 0)))
-    : [];
+  console.log(history.items);
+  history.items = _.uniqBy(history.items, 'contextName');
+  history.items = _.remove(history.items, i => i.contextId != undefined);
+  const results = _.reverse(
+    history.items.slice(Math.max(history.items.length - 6, 0))
+  );
   res.status(200).json({
     history: results
   });
