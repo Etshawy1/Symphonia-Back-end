@@ -146,7 +146,6 @@ exports.getPlaylistTracks = catchAsync(async (req, res, next) => {
   const tracks = await features.query;
   const limit = req.query.limit * 1 || 20;
   const offset = req.query.offset * 1 || 0;
-  console.log(tracks);
   res
     .status(200)
     .json(Responser.getPaging(tracks, 'tracks', req, limit, offset));

@@ -64,14 +64,8 @@ exports.getCurrentUserSavedAlbums = catchAsync(async (req, res, next) => {
 exports.getCurrentUserSavedTracks = catchAsync(async (req, res, next) => {
   // first get the ids of the saved Albums
   ids = req.user.followedTracks;
-  let limit = 20; // the default
-  let offset = 0; // the default
-  if (req.query.offset) {
-    offset = parseInt(req.query.offset);
-  }
-  if (req.query.limit) {
-    limit = parseInt(req.query.limit);
-  }
+  const limit = req.query.limit * 1 || 20;
+  const offset = req.query.offset * 1 || 0;
 
   const features = new APIFeatures(Track.find({ _id: { $in: ids } }), req.query)
     .filter()
@@ -79,7 +73,10 @@ exports.getCurrentUserSavedTracks = catchAsync(async (req, res, next) => {
     .limitFields()
     .offset();
 
-  let tracks = await features.query;
+  let tracks = await features.query.populate([
+    { path: 'artist', select: 'name' },
+    { path: 'album', select: 'name image' }
+  ]);
   res
     .status(200)
     .json(Responser.getPaging(tracks, 'tracks', req, limit, offset));
