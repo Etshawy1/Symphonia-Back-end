@@ -93,16 +93,17 @@ exports.googleOauth = catchAsync(async (req, res, next) => {
     const url = `${req.protocol}://${req.get('host')}`;
     await new Email(req.user, url).sendWelcome();
   }
-  const user = await User.findOne({ googleId: req.user.googleId }).select(
-    '+googleId'
-  );
+  const user = await User.findOne({ googleId: req.user.googleId })
+    .select('+type')
+    .select('+googleId');
   const token = user.signToken();
-  user.googleId = undefined;
-  user.imageGoogleUrl = undefined;
+  user.facebookId = undefined;
+  user.imageFacebookUrl = undefined;
   user.password = undefined;
   user.tracks = undefined;
   user.__v = undefined;
   user.followedUsers = undefined;
+  user.queue = undefined;
   res
     .status(301)
     .redirect(`https://thesymphonia.ddns.net/google/${token}/?user=${user}`);
@@ -114,12 +115,13 @@ exports.facebookOauth = catchAsync(async (req, res, next) => {
   }
   const user = await User.findOne({ facebookId: req.user.facebookId });
   const token = user.signToken();
-  user.facebookId = undefined;
-  user.imageFacebookUrl = undefined;
+  user.googleId = undefined;
+  user.imageGoogleUrl = undefined;
   user.password = undefined;
   user.tracks = undefined;
   user.__v = undefined;
   user.followedUsers = undefined;
+  user.queue = undefined;
   res
     .status(301)
     .redirect(`https://thesymphonia.ddns.net/facebook/${token}/?user=${user}`);
