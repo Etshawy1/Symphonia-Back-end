@@ -164,14 +164,6 @@ exports.playInfo = catchAsync(async (req, res, next) => {
     updatedUser.queue.currentlyPlaying.device = deviceId;
     await updatedUser.save({ validateBeforeSave: false });
   } else {
-    const playlist = await PlayList.findById(req.body.contextId);
-    const item = {
-      track: track._id,
-      played_at: Date.now(),
-      context: playlist,
-      contextUrl: req.body.context_url,
-      contextType: req.body.context_type
-    };
     let context;
     if (req.body.context_type === 'album') {
       context = await Album.findById(req.body.contextId);
@@ -180,6 +172,13 @@ exports.playInfo = catchAsync(async (req, res, next) => {
     } else {
       context = await User.findById(req.body.contextId);
     }
+    const item = {
+      track: track._id,
+      played_at: Date.now(),
+      context,
+      contextUrl: req.body.context_url,
+      contextType: req.body.context_type
+    };
     const TracksUrl = [];
     context.tracks.forEach(tracks => {
       TracksUrl.push(
@@ -336,7 +335,9 @@ exports.recentlyPlayed = catchAsync(async (req, res, next) => {
     return next(new Error('this user has no tracks in history.', 404));
   }
   res.status(200).json({
-    history
+    history: _.reverse(
+      history.items.slice(Math.max(history.items.length - 6, 0))
+    )
   });
 });
 
