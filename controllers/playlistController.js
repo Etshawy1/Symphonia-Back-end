@@ -13,7 +13,7 @@ exports.getPlaylist = factory.getOne(Playlist);
 exports.createPlaylist = catchAsync(async (req, res, next) => {
   let playlistCheck = await User.findById(req.params.id);
 
-  if (!playlistCheck) return res.status(400).send('Invalid User ID');
+  if (!playlistCheck) return next(new AppError('invalid user ID', 400));
 
   const url = `${req.protocol}://${req.get('host')}`;
   let playlist = new Playlist({
@@ -163,15 +163,20 @@ exports.removePlaylistTracks = catchAsync(async (req, res, next) => {
     (!playlistCheck.public || !playlistCheck.collaborative) &&
     playlistCheck.owner != req.user.id
   )
-    return res.status(500).send('This playlist is restricted');
+    return next(new AppError('This playlist is restricted', 401));
 
+  if (!req.query.ids)
+    return next(new AppError('missing ids of tracks to delete', 400));
   const playlist = await Playlist.update(
     { _id: req.params.id },
-    { $unset: { tracks: '' } },
+    {
+      $pull: { tracks: { $in: req.query.ids.split(',') } },
+      owner: req.user.id
+    },
     { multi: true }
   );
 
-  res.status(200).json(playlist);
+  res.status(204).json();
 });
 
 exports.addTracksToPlaylist = catchAsync(async (req, res, next) => {
@@ -186,7 +191,7 @@ exports.addTracksToPlaylist = catchAsync(async (req, res, next) => {
     (!playlistCheck.public || !playlistCheck.collaborative) &&
     playlistCheck.owner != req.user.id
   )
-    return res.status(500).send('This playlist is restricted');
+    return next(new AppError('This playlist is restricted.', 401));
 
   let InputTrackarr = req.body.tracks;
 
@@ -250,7 +255,7 @@ exports.maintainPlaylistTracks = catchAsync(async (req, res, next) => {
     (!playlistCheck.public || !playlistCheck.collaborative) &&
     playlistCheck.owner != req.user.id
   )
-    return res.status(500).send('This playlist is restricted');
+    return next(new AppError('This playlist is restricted.', 401));
 
   if (req.body.rangeStart) {
     let playlistTracks = playlistCheck.tracks;
@@ -290,7 +295,7 @@ exports.maintainPlaylistTracks = catchAsync(async (req, res, next) => {
       await playlist.save();
       res.send(playlist);
     } else {
-      return res.status(400).send('the dimensions is not correct');
+      return next(new AppError('the dimensions are not correct', 400));
     }
   } else {
     let InputTrackarr = req.body.tracks;
@@ -299,7 +304,8 @@ exports.maintainPlaylistTracks = catchAsync(async (req, res, next) => {
     for (let i = 0; i < InputTrackarr.length; i++) {
       let Trackcheck = await Track.findById(InputTrackarr[i]);
 
-      if (!Trackcheck) return res.status(400).send('The Track is not found.');
+      if (!Trackcheck)
+        return next(new AppError('this track was not found', 404));
     }
 
     const playlist = await Playlist.findByIdAndUpdate(
@@ -326,7 +332,7 @@ exports.uploadCustomPlaylistCoverImage = catchAsync(async (req, res, next) => {
     (!playlistCheck.public || !playlistCheck.collaborative) &&
     playlistCheck.owner != req.user.id
   )
-    return res.status(500).send('This playlist is restricted');
+    return next(new AppError('This playlist is restricted.', 401));
 
   const playlist = await Playlist.findByIdAndUpdate(
     req.params.id,
