@@ -2,7 +2,7 @@ const Track = require('./../models/trackModel');
 const factory = require('./handlerFactory');
 
 exports.getTrack = factory.getOne(Track, [
-  { path: 'album', select: 'name' },
+  { path: 'album', select: 'name image' },
   { path: 'category', select: 'name' },
   { path: 'artist', select: 'name' }
 ]);
