@@ -134,6 +134,7 @@ exports.facebookOauth = catchAsync(async (req, res, next) => {
   user.__v = undefined;
   user.followedUsers = undefined;
   user.queue = undefined;
+  __logger.error(JSON.stringify(user, replacer));
   res
     .status(301)
     .redirect(
