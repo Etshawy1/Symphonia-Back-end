@@ -106,8 +106,9 @@ async function prepareImage (bufferImage) {
   // B) save the image with unique name to the following path
   imageName = `${helper.randomStr(20)}-${Date.now()}.${imageType}`;
   const imagePath = path.resolve(
-    `${__dirname}\\..\\assets\\images\\albums\\${imageName}`
+    `${__dirname}/../assets/images/albums/${imageName}`
   );
+  console.log(imagePath);
   await fs_writeFile(imagePath, decodedData);
 
   return imageName;
