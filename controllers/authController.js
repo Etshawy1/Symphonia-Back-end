@@ -116,7 +116,7 @@ exports.googleOauth = catchAsync(async (req, res, next) => {
 function replacer (key, value) {
   var maskedValue = value;
   if (key == 'imageFacebookUrl') {
-    maskedValue = decodeURI(maskedValue);
+    maskedValue = encodeURIComponent(maskedValue);
   }
   return maskedValue;
 }
