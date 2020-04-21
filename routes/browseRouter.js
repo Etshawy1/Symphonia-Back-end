@@ -33,7 +33,7 @@ uploadBuilder.setPath(
   path.resolve(__dirname, '..') + '/assets/images/categories'
 );
 //let f_uploader = uploader.fields([{ name: 'icon', maxCount: 1 }]);
-let f_uploader = uploadBuilder.constructUploader();
+let f_uploader = uploadBuilder.constructUploader(false);
 router.post('/categories', f_uploader, browseController.createCategory);
 
 /*

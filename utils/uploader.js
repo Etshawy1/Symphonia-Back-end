@@ -100,40 +100,46 @@ class UploadBuilder {
     return this.mimeTypes;
   }
   /**
+   * @param {Boolean} manipulate - if set to true the file will be saved to memory not disk and file will be available as buffer
    * @returns {function} the ready to use before route middleware
    */
-  constructUploader () {
+  constructUploader (manipulate) {
     let saveByReqName = this.saveByReqName;
-    this.storage = multer.diskStorage({
-      destination: (req, file, cb) => {
-        cb(null, this.filePath);
-      },
-      filename: function (req, file, cb) {
-        // look for the extension
-        let i = file.mimetype.search('/');
-        let ext = file.mimetype.substring(i + 1, file.mimetype.length);
+    this.storage = manipulate
+      ? multer.memoryStorage()
+      : multer.diskStorage({
+          destination: (req, file, cb) => {
+            cb(null, this.filePath);
+          },
+          filename: function (req, file, cb) {
+            // look for the extension
+            let i = file.mimetype.search('/');
+            let ext = file.mimetype.substring(i + 1, file.mimetype.length);
 
-        const map = new Map(Object.entries(req.body));
-        let uniqueName;
-        if (saveByReqName.get(file.fieldname).saveByReqName == null) {
-          uniqueName = helper.randomStr(20);
-        } else {
-          uniqueName = map.get(saveByReqName.get(file.fieldname).saveByReqName);
-        }
+            const map = new Map(Object.entries(req.body));
+            let uniqueName;
+            if (saveByReqName.get(file.fieldname).saveByReqName == null) {
+              uniqueName = helper.randomStr(20);
+            } else {
+              uniqueName = map.get(
+                saveByReqName.get(file.fieldname).saveByReqName
+              );
+            }
 
-        const f_name =
-          uniqueName +
-          '_' +
-          Date.now() +
-          saveByReqName.get(file.fieldname).prefix;
-        const imName = slugify(f_name, { lower: true }) + '.' + ext;
-        cb(null, imName);
-      }
-    });
+            const f_name =
+              uniqueName +
+              '_' +
+              Date.now() +
+              saveByReqName.get(file.fieldname).prefix;
+            const imName = slugify(f_name, { lower: true }) + '.' + ext;
+            cb(null, imName);
+          }
+        });
     let mimeTypes = this.mimeTypes;
     function filter1 (req, file, next) {
       // reject a file
       // i have the problem to check for fieldTypes
+      console.log(file);
       let found = false;
       if (mimeTypes.length == 0) found = true; // no types to filter
       for (let index = 0; index < mimeTypes.length; index++) {

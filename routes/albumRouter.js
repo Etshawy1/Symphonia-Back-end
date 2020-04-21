@@ -9,6 +9,7 @@ router.get('/:id/tracks', albumController.getAlbumTracks);
 router.post(
   '/',
   albumController.multiPart,
+  albumController.resizeImage,
   authController.protect(true),
   authController.restrictTo('artist'),
   albumController.createAlbum
