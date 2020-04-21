@@ -4,7 +4,6 @@ const albumSchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      unique: true,
       required: [true, 'Album must have name'],
       minlength: 2,
       maxlength: 255

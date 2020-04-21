@@ -7,6 +7,10 @@ const catchAsync = require('../utils/catchAsync').threeArg;
 const factory = require('./handlerFactory');
 const AppError = require('../utils/appError');
 const Responser = require('../utils/responser');
+const fs = require('fs');
+const path = require('path');
+const UploadBuilder = require('../utils/uploader').UploadBuilder;
+const helper = require('../utils/helper');
 
 exports.getManyAlbums = factory.getMany(Album, [
   { path: 'tracks', select: 'name' },
@@ -40,14 +44,34 @@ exports.getAlbumTracks = catchAsync(async (req, res, next) => {
     .json(Responser.getPaging(tracks, 'tracks', req, limit, offset));
 });
 
+exports.multiPart = (req, res, next) => {
+  let uploadBuilder = new UploadBuilder();
+  uploadBuilder.addfileField('image');
+  uploadBuilder.addTypeFilter('image/jpeg');
+  uploadBuilder.addTypeFilter('image/png');
+  uploadBuilder.setPath(
+    path.resolve(__dirname, '..') + '/assets/images/albums'
+  );
+  uploadBuilder.constructUploader()(req, res, next);
+};
+
 exports.createAlbum = catchAsync(async (req, res, next) => {
   const url = `${req.protocol}://${req.get('host')}`;
+  let imageName = `${helper.randomStr(20)}_${Date.now()}.png`;
+  if (req.body.image) {
+    const image = req.body.image;
+    const imagePath = path.resolve(
+      `${__dirname}\\..\\assets\\images\\albums\\${imageName}`
+    );
+    const decodedData = Buffer.from(image, 'base64');
+    fs.writeFileSync(imagePath, decodedData);
+  } else {
+    imageName = req.files.image[0].filename;
+  }
   const album = await Album.create({
     name: req.body.name,
-    year: req.body.year,
-    image: `${url}/api/v1/images/albums/default.png`,
-    artist: req.user._id,
-    category: req.body.category
+    image: `${url}/api/v1/images/albums/${imageName}`,
+    artist: req.user._id
   });
-  res.status(200).send(album);
+  res.status(200).json(album);
 });

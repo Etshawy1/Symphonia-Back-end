@@ -104,7 +104,6 @@ exports.googleOauth = catchAsync(async (req, res, next) => {
   user.__v = undefined;
   user.followedUsers = undefined;
   user.queue = undefined;
-  console.log(JSON.stringify(user, replacer));
   res
     .status(301)
     .redirect(
@@ -134,7 +133,6 @@ exports.facebookOauth = catchAsync(async (req, res, next) => {
   user.__v = undefined;
   user.followedUsers = undefined;
   user.queue = undefined;
-  __logger.error(JSON.stringify(user, replacer));
   res
     .status(301)
     .redirect(
@@ -230,7 +228,6 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
     const resetURL =
       `${req.protocol}://${req.hostname}` +
       `/password-reset/change/${resetToken}`;
-    __logger.info(resetURL);
     await new Email(user, resetURL).sendPasswordReset();
     res.status(200).json({
       status: 'success',
