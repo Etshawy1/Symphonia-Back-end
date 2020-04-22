@@ -63,15 +63,13 @@ exports.getCurrentUserSavedAlbums = catchAsync(async (req, res, next) => {
 
 exports.getCurrentUserSavedTracks = catchAsync(async (req, res, next) => {
   // first get the ids of the saved Albums
-  ids = req.user.followedTracks;
+  const ids = req.user.followedTracks;
   const limit = req.query.limit * 1 || 20;
   const offset = req.query.offset * 1 || 0;
-
-  const features = new APIFeatures(Track.find({ _id: { $in: ids } }), req.query)
-    .filter()
-    .sort()
-    .limitFields()
-    .offset();
+  const features = new APIFeatures(
+    Track.find({ _id: { $in: ids } }),
+    req.query
+  ).offset();
 
   let tracks = await features.query.populate([
     { path: 'artist', select: 'name' },
@@ -193,15 +191,14 @@ exports.saveCurrentUserTracks = catchAsync(async (req, res, next) => {
     return next(error);
   }
   let newUser = req.user;
-  try {
-    ids.forEach(element => {
-      if (newUser.followedTracks.includes(element)) {
-        throw new AppError('Track already exists', 400);
-      }
-    });
-  } catch (error) {
-    return next(error);
+  for (let index = 0; index < ids.length; index++) {
+    if (newUser.followedTracks.includes(ids[index])) {
+      throw new AppError('Track already exists', 400);
+    }
+    if (!(await Track.findById(ids[index])))
+      throw new AppError('Track does not exist', 404);
   }
+
   newUser.followedTracks.push(...ids);
   newUser = await newUser.save({ validateBeforeSave: false });
   res.status(201).json();

@@ -77,7 +77,6 @@ const getPaging = (
 
 const getLinkSPec = (req, limit, offset, url = '') => {
   let LOCAL_HOST = `${req.protocol}://${req.get('host')}`;
-  console.log(req.originalUrl);
   let originalUrl = req.originalUrl;
   if (originalUrl.includes('?')) {
     let index = originalUrl.indexOf('?');
