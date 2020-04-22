@@ -10,7 +10,12 @@ const searchHistory = require('../utils/searchMiddleware');
 
 const router = express.Router();
 router.get('/player/tracks/:track_id/:token', meController.playTrack);
-
+router.get(
+  '/user/:id',
+  authController.protect(false),
+  searchHistory.saveSearchHistory,
+  meController.userProfile
+);
 router.use(authController.protect(true));
 //save shuffle
 router.patch('/player/shuffle', meController.shuffle);
@@ -35,6 +40,7 @@ router.delete('/player/queue', meController.popQueue);
 // delete device
 router.delete('/player/devices', meController.popDevices);
 // get devices
+
 router.get('/player/devices', meController.getDevices);
 // get currently playing
 router.get('/player/currently-playing', meController.getCurrentlyPlaying);
@@ -103,13 +109,6 @@ router.delete('/tracks', libraryController.removeCurrentUserSavedTracks);
 router.put('/albums', libraryController.saveCurrentUserAlbums);
 // Description:Save one or more tracks to the current user’s ‘Your Music’ library.
 router.put('/tracks', libraryController.saveCurrentUserTracks);
-
-router.get(
-  '/:id',
-  authController.protect(false),
-  searchHistory.saveSearchHistory,
-  meController.userProfile
-);
 
 // section: Playlist routes
 
