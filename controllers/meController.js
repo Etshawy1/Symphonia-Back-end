@@ -318,7 +318,7 @@ exports.playTrack = catchAsync(async (req, res, next) => {
   );
 });
 exports.userProfile = catchAsync(async (req, res, next) => {
-  const currentUser = await exports.getProfileInfo(req.params.user_id);
+  const currentUser = await exports.getProfileInfo(req.params.id);
   if (!currentUser) {
     return next(new AppError('No user found', 404));
   }

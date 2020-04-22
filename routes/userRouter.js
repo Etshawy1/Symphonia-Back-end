@@ -4,6 +4,7 @@ const authController = require('../controllers/authController');
 const userController = require('../controllers/userController');
 const playlistController = require('./../controllers/playlistController');
 const trackController = require('./../controllers/trackController');
+const searchHistory = require('../utils/searchMiddleware');
 
 const router = express.Router();
 
@@ -58,7 +59,12 @@ router.delete('/updateMe', userController.deleteMe);
 
 // tracks
 
-router.route('/track/:id').get(trackController.getTrack);
+router.get(
+  '/track/:id',
+  authController.protect(false),
+  searchHistory.saveSearchHistory,
+  trackController.getTrack
+);
 
 router
   .route('/tracks')
