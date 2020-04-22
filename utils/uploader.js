@@ -139,7 +139,6 @@ class UploadBuilder {
     function filter1 (req, file, next) {
       // reject a file
       // i have the problem to check for fieldTypes
-      console.log(file);
       let found = false;
       if (mimeTypes.length == 0) found = true; // no types to filter
       for (let index = 0; index < mimeTypes.length; index++) {

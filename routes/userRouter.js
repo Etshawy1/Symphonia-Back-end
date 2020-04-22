@@ -63,7 +63,12 @@ router.route('/track/:id').get(trackController.getTrack);
 router
   .route('/tracks')
   .get(trackController.getSeveralTacks)
-  .post(trackController.addTrack);
+  .post(
+    authController.protect(true),
+    authController.restrictTo('artist'),
+    trackController.multiPart,
+    trackController.addTrack
+  );
 
 // Playlist section
 

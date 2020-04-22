@@ -151,7 +151,8 @@ const userSchema = new mongoose.Schema({
     defult: true,
     select: false
   },
-  phone: String
+  phone: String,
+  bio: String
 });
 
 userSchema.pre('save', async function (next) {
