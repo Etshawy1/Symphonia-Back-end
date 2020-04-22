@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 const Album = require('../models/albumModel');
 const Track = require('../models/trackModel');
 const APIFeatures = require('../utils/apiFeatures');
@@ -13,6 +12,7 @@ const helper = require('../utils/helper');
 const util = require('util');
 const sizeOf = require('image-size');
 const fs_writeFile = util.promisify(fs.writeFile);
+const fs_makeDir = util.promisify(fs.mkdir);
 const sharp = require('sharp');
 
 /**
@@ -57,13 +57,15 @@ exports.createAlbum = catchAsync(async (req, res, next) => {
 
   if (req.body.image) {
     const image = req.body.image.replace(/^data:image\/[a-z]+;base64,/, '');
-    imageName = await prepareImage(Buffer.from(image, 'base64'));
+    imageName = await prepareImage(Buffer.from(image, 'base64'), req.user);
   } else {
     imageName = req.files.image[0].filename;
   }
   const album = await Album.create({
     name: req.body.name,
-    image: `${url}/api/v1/images/albums/${imageName}`,
+    image: `${url}/api/v1/images/albums/${req.user.name.replace(/ /g, '_')}-${
+      req.user._id
+    }/${imageName}`,
     artist: req.user._id
   });
   res.status(200).json(album);
@@ -71,7 +73,10 @@ exports.createAlbum = catchAsync(async (req, res, next) => {
 
 exports.resizeImage = catchAsync(async (req, res, next) => {
   if (!req.files) return next();
-  req.files.image[0].filename = await prepareImage(req.files.image[0].buffer);
+  req.files.image[0].filename = await prepareImage(
+    req.files.image[0].buffer,
+    req.user
+  );
   next();
 });
 
@@ -87,11 +92,12 @@ exports.multiPart = catchAsync(async (req, res, next) => {
 });
 
 /**
- *
+ * function to prepare the buffer image and manipulate it be resizing to be a sqaure jpeg image and save it
  * @param {Buffer} imageBase64 - Base64 encoded image
+ * @param {Object} user - user object that contains artist's name and id
  * @returns {String} The name of the stored image
  */
-async function prepareImage (bufferImage) {
+async function prepareImage (bufferImage, user) {
   // A1) get image data like the width and height and extension
   const imageData = sizeOf(bufferImage);
   const imageSize = Math.min(imageData.width, imageData.height, 300);
@@ -101,15 +107,17 @@ async function prepareImage (bufferImage) {
     .toFormat('jpeg')
     .jpeg({ quality: 90 })
     .toBuffer();
-
   const imageType = sizeOf(decodedData).type;
+
   // B) save the image with unique name to the following path
-  imageName = `${helper.randomStr(20)}-${Date.now()}.${imageType}`;
+  const imageName = `${helper.randomStr(20)}-${Date.now()}.${imageType}`;
   const imagePath = path.resolve(
-    `${__dirname}/../assets/images/albums/${imageName}`
+    `${__dirname}/../assets/images/albums/${user.name.replace(/ /g, '_')}-${
+      user._id
+    }`
   );
-  console.log(imagePath);
-  await fs_writeFile(imagePath, decodedData);
+  await fs_makeDir(imagePath, { recursive: true });
+  await fs_writeFile(`${imagePath}/${imageName}`, decodedData);
 
   return imageName;
 }

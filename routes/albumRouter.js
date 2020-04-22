@@ -8,10 +8,10 @@ router.get('/:id', albumController.getAlbum);
 router.get('/:id/tracks', albumController.getAlbumTracks);
 router.post(
   '/',
-  albumController.multiPart,
-  albumController.resizeImage,
   authController.protect(true),
   authController.restrictTo('artist'),
+  albumController.multiPart,
+  albumController.resizeImage,
   albumController.createAlbum
 );
 module.exports = router;
