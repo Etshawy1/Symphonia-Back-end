@@ -1,4 +1,9 @@
 const mongoose = require('mongoose');
+const bio = `Eu excepteur velit cillum dolor enim amet dolore magna. Voluptate 
+enim ipsum pariatur est ut proident reprehenderit non et aliquip magna est velit. 
+Consectetur in enim nostrud labore nulla veniam laborum eiusmod quis ex aliqua nisi dolor.
+Aliquip Lorem dolore nulla Lorem exercitation ad tempor cillum consectetur. 
+Ad cillum occaecat aliqua amet pariatur.`;
 const users = [
   {
     _id: mongoose.Types.ObjectId('5e8125dc54660672fd69987f'),
@@ -10,7 +15,7 @@ const users = [
     email: 'generalmohamed1999@gmail.com',
     password: '$2b$12$GDzaxr1IqINkhDi7v67F3OLfD..QeYS7PUsLkIxUg8O4NO8lkP0cS',
     name: 'Muhammad Ahmad Hesham',
-    dateOfBirth: '1999-05-12T00:00:00.000+00:00',
+    dateOfBirth: new Date('1999-05-12T00:00:00.000+00:00'),
     gender: 'male',
     type: 'user',
     last_login: '2020-04-06T10:21:58.141+00:00',
@@ -53,7 +58,7 @@ const users = [
     email: 'test1@test.com',
     password: '$2b$12$GDzaxr1IqINkhDi7v67F3OLfD..QeYS7PUsLkIxUg8O4NO8lkP0cS',
     name: 'user1',
-    dateOfBirth: '1999-06-25T00:00:00.000+00:00',
+    dateOfBirth: new Date('1999-06-25T00:00:00.000+00:00'),
     gender: 'female',
     type: 'user',
     queue: {
@@ -84,7 +89,7 @@ const users = [
     email: 'test2@test.com',
     password: '$2b$12$GDzaxr1IqINkhDi7v67F3OLfD..QeYS7PUsLkIxUg8O4NO8lkP0cS',
     name: 'user2',
-    dateOfBirth: '1986-06-25T00:00:00.000+00:00',
+    dateOfBirth: new Date('1986-06-25T00:00:00.000+00:00'),
     gender: 'male',
     type: 'user',
     queue: {
@@ -119,9 +124,10 @@ const users = [
     email: 'test3@test.com',
     password: '$2b$12$GDzaxr1IqINkhDi7v67F3OLfD..QeYS7PUsLkIxUg8O4NO8lkP0cS',
     name: 'Tame Impala',
-    dateOfBirth: '1978-06-25T00:00:00.000+00:00',
+    dateOfBirth: new Date('1978-06-25T00:00:00.000+00:00'),
     gender: 'male',
     type: 'artist',
+    bio,
     queue: {
       devices: [
         {
@@ -151,9 +157,10 @@ const users = [
     email: 'test4@test.com',
     password: '$2b$12$GDzaxr1IqINkhDi7v67F3OLfD..QeYS7PUsLkIxUg8O4NO8lkP0cS',
     name: 'Interpol',
-    dateOfBirth: '1979-12-25T00:00:00.000+00:00',
+    dateOfBirth: new Date('1979-12-25T00:00:00.000+00:00'),
     gender: 'male',
     type: 'artist',
+    bio,
     queue: {
       devices: [
         {
@@ -182,9 +189,10 @@ const users = [
     email: 'test5@test.com',
     password: '$2b$12$GDzaxr1IqINkhDi7v67F3OLfD..QeYS7PUsLkIxUg8O4NO8lkP0cS',
     name: 'Minuit Machine',
-    dateOfBirth: '1995-06-25T00:00:00.000+00:00',
+    dateOfBirth: new Date('1995-06-25T00:00:00.000+00:00'),
     gender: 'female',
     type: 'artist',
+    bio,
     queue: {
       devices: [
         {
@@ -214,9 +222,10 @@ const users = [
     email: 'test6@test.com',
     password: '$2b$12$GDzaxr1IqINkhDi7v67F3OLfD..QeYS7PUsLkIxUg8O4NO8lkP0cS',
     name: 'TR/ST',
-    dateOfBirth: '1985-12-05T00:00:00.000+00:00',
+    dateOfBirth: new Date('1985-12-05T00:00:00.000+00:00'),
     gender: 'male',
     type: 'artist',
+    bio,
     queue: {
       devices: [
         {
@@ -245,7 +254,7 @@ const users = [
     email: 'test7@test.com',
     password: '$2b$12$GDzaxr1IqINkhDi7v67F3OLfD..QeYS7PUsLkIxUg8O4NO8lkP0cS',
     name: 'Mohamed Alaa',
-    dateOfBirth: '1999-09-09T00:00:00.000+00:00',
+    dateOfBirth: new Date('1999-09-09T00:00:00.000+00:00'),
     gender: 'male',
     type: 'user',
     queue: {
@@ -277,8 +286,7 @@ const users = [
     },
     ownedPlaylists: [],
     imageUrl: 'https://thesymphonia.ddns.net/api/v1/images/users/default.png',
-    followedAlbums: [],
-    history: mongoose.Types.ObjectId('5e8298c93c8b02a9402482bc')
+    followedAlbums: []
   },
   {
     _id: mongoose.Types.ObjectId('5e8c73d82a0e4614b88a4ed0'),
@@ -286,9 +294,10 @@ const users = [
     email: 'test8@test.com',
     password: '$2b$12$GDzaxr1IqINkhDi7v67F3OLfD..QeYS7PUsLkIxUg8O4NO8lkP0cS',
     name: 'Austra',
-    dateOfBirth: '1980-09-09T00:00:00.000+00:00',
+    dateOfBirth: new Date('1980-09-09T00:00:00.000+00:00'),
     gender: 'female',
     type: 'artist',
+    bio,
     queue: {
       devices: [
         {
@@ -310,9 +319,10 @@ const users = [
     email: 'test9@test.com',
     password: '$2b$12$GDzaxr1IqINkhDi7v67F3OLfD..QeYS7PUsLkIxUg8O4NO8lkP0cS',
     name: 'Boy Harsher',
-    dateOfBirth: '1988-05-09T00:00:00.000+00:00',
+    dateOfBirth: new Date('1988-05-09T00:00:00.000+00:00'),
     gender: 'female',
     type: 'artist',
+    bio,
     queue: {
       devices: [
         {
@@ -335,9 +345,10 @@ const users = [
     email: 'test10@test.com',
     password: '$2b$12$GDzaxr1IqINkhDi7v67F3OLfD..QeYS7PUsLkIxUg8O4NO8lkP0cS',
     name: 'Chairlift',
-    dateOfBirth: '1987-05-10T00:00:00.000+00:00',
+    dateOfBirth: new Date('1987-05-10T00:00:00.000+00:00'),
     gender: 'female',
     type: 'artist',
+    bio,
     queue: {
       devices: [
         {
@@ -359,9 +370,10 @@ const users = [
     email: 'test11@test.com',
     password: '$2b$12$GDzaxr1IqINkhDi7v67F3OLfD..QeYS7PUsLkIxUg8O4NO8lkP0cS',
     name: 'Cigarettes After Sex',
-    dateOfBirth: '1997-05-16T00:00:00.000+00:00',
+    dateOfBirth: new Date('1997-05-16T00:00:00.000+00:00'),
     gender: 'male',
     type: 'artist',
+    bio,
     queue: {
       devices: [
         {
@@ -384,9 +396,10 @@ const users = [
     email: 'test12@test.com',
     password: '$2b$12$GDzaxr1IqINkhDi7v67F3OLfD..QeYS7PUsLkIxUg8O4NO8lkP0cS',
     name: 'Clario',
-    dateOfBirth: '1997-05-16T00:00:00.000+00:00',
+    dateOfBirth: new Date('1997-05-16T00:00:00.000+00:00'),
     gender: 'female',
     type: 'artist',
+    bio,
     queue: {
       devices: [
         {
@@ -408,9 +421,10 @@ const users = [
     email: 'test13@test.com',
     password: '$2b$12$GDzaxr1IqINkhDi7v67F3OLfD..QeYS7PUsLkIxUg8O4NO8lkP0cS',
     name: 'Crystal Castles',
-    dateOfBirth: '1997-05-16T00:00:00.000+00:00',
+    dateOfBirth: new Date('1997-05-16T00:00:00.000+00:00'),
     gender: 'female',
     type: 'artist',
+    bio,
     queue: {
       devices: [
         {
@@ -433,9 +447,10 @@ const users = [
     email: 'test14@test.com',
     password: '$2b$12$GDzaxr1IqINkhDi7v67F3OLfD..QeYS7PUsLkIxUg8O4NO8lkP0cS',
     name: 'Current Joys',
-    dateOfBirth: '1987-07-16T00:00:00.000+00:00',
+    dateOfBirth: new Date('1987-07-16T00:00:00.000+00:00'),
     gender: 'male',
     type: 'artist',
+    bio,
     queue: {
       devices: [
         {
@@ -458,9 +473,10 @@ const users = [
     email: 'test15@test.com',
     password: '$2b$12$GDzaxr1IqINkhDi7v67F3OLfD..QeYS7PUsLkIxUg8O4NO8lkP0cS',
     name: 'Drab Majesty',
-    dateOfBirth: '1987-07-16T00:00:00.000+00:00',
+    dateOfBirth: new Date('1987-07-16T00:00:00.000+00:00'),
     gender: 'male',
     type: 'artist',
+    bio,
     queue: {
       devices: [
         {
@@ -483,9 +499,10 @@ const users = [
     email: 'test16@test.com',
     password: '$2b$12$GDzaxr1IqINkhDi7v67F3OLfD..QeYS7PUsLkIxUg8O4NO8lkP0cS',
     name: 'Frank Ocean',
-    dateOfBirth: '1991-07-16T00:00:00.000+00:00',
+    dateOfBirth: new Date('1991-07-16T00:00:00.000+00:00'),
     gender: 'male',
     type: 'artist',
+    bio,
     queue: {
       devices: [
         {
@@ -508,9 +525,10 @@ const users = [
     email: 'test17@test.com',
     password: '$2b$12$GDzaxr1IqINkhDi7v67F3OLfD..QeYS7PUsLkIxUg8O4NO8lkP0cS',
     name: 'Joji',
-    dateOfBirth: '1995-07-16T00:00:00.000+00:00',
+    dateOfBirth: new Date('1995-07-16T00:00:00.000+00:00'),
     gender: 'male',
     type: 'artist',
+    bio,
     queue: {
       devices: [
         {
@@ -532,9 +550,10 @@ const users = [
     email: 'test18@test.com',
     password: '$2b$12$GDzaxr1IqINkhDi7v67F3OLfD..QeYS7PUsLkIxUg8O4NO8lkP0cS',
     name: 'Lana Del Rey',
-    dateOfBirth: '1985-08-16T00:00:00.000+00:00',
+    dateOfBirth: new Date('1985-08-16T00:00:00.000+00:00'),
     gender: 'female',
     type: 'artist',
+    bio,
     queue: {
       devices: [
         {
@@ -557,9 +576,10 @@ const users = [
     email: 'test19@test.com',
     password: '$2b$12$GDzaxr1IqINkhDi7v67F3OLfD..QeYS7PUsLkIxUg8O4NO8lkP0cS',
     name: 'Lebanon Hanover',
-    dateOfBirth: '1995-08-16T00:00:00.000+00:00',
+    dateOfBirth: new Date('1995-08-16T00:00:00.000+00:00'),
     gender: 'female',
     type: 'artist',
+    bio,
     queue: {
       devices: [
         {
@@ -582,9 +602,10 @@ const users = [
     email: 'test20@test.com',
     password: '$2b$12$GDzaxr1IqINkhDi7v67F3OLfD..QeYS7PUsLkIxUg8O4NO8lkP0cS',
     name: 'Lil Peep',
-    dateOfBirth: '1998-08-16T00:00:00.000+00:00',
+    dateOfBirth: new Date('1998-08-16T00:00:00.000+00:00'),
     gender: 'male',
     type: 'artist',
+    bio,
     queue: {
       devices: [
         {
@@ -606,9 +627,10 @@ const users = [
     email: 'test21@test.com',
     password: '$2b$12$GDzaxr1IqINkhDi7v67F3OLfD..QeYS7PUsLkIxUg8O4NO8lkP0cS',
     name: 'Man Without Country',
-    dateOfBirth: '1986-04-11T00:00:00.000+00:00',
+    dateOfBirth: new Date('1986-04-11T00:00:00.000+00:00'),
     gender: 'male',
     type: 'artist',
+    bio,
     queue: {
       devices: [
         {
@@ -631,9 +653,10 @@ const users = [
     email: 'test22@test.com',
     password: '$2b$12$GDzaxr1IqINkhDi7v67F3OLfD..QeYS7PUsLkIxUg8O4NO8lkP0cS',
     name: 'Men I Trust',
-    dateOfBirth: '1991-04-01T00:00:00.000+00:00',
+    dateOfBirth: new Date('1991-04-01T00:00:00.000+00:00'),
     gender: 'female',
     type: 'artist',
+    bio,
     queue: {
       devices: [
         {
@@ -656,9 +679,10 @@ const users = [
     email: 'test23@test.com',
     password: '$2b$12$GDzaxr1IqINkhDi7v67F3OLfD..QeYS7PUsLkIxUg8O4NO8lkP0cS',
     name: 'Pastel Ghost',
-    dateOfBirth: '1995-04-01T00:00:00.000+00:00',
+    dateOfBirth: new Date('1995-04-01T00:00:00.000+00:00'),
     gender: 'female',
     type: 'artist',
+    bio,
     queue: {
       devices: [
         {
@@ -681,9 +705,10 @@ const users = [
     email: 'test24@test.com',
     password: '$2b$12$GDzaxr1IqINkhDi7v67F3OLfD..QeYS7PUsLkIxUg8O4NO8lkP0cS',
     name: 'Purity Ring',
-    dateOfBirth: '1997-04-01T00:00:00.000+00:00',
+    dateOfBirth: new Date('1997-04-01T00:00:00.000+00:00'),
     gender: 'female',
     type: 'artist',
+    bio,
     queue: {
       devices: [
         {
@@ -706,9 +731,10 @@ const users = [
     email: 'test25@test.com',
     password: '$2b$12$GDzaxr1IqINkhDi7v67F3OLfD..QeYS7PUsLkIxUg8O4NO8lkP0cS',
     name: 'Sleep Party People',
-    dateOfBirth: '1989-07-01T00:00:00.000+00:00',
+    dateOfBirth: new Date('1989-07-01T00:00:00.000+00:00'),
     gender: 'male',
     type: 'artist',
+    bio,
     queue: {
       devices: [
         {
@@ -731,9 +757,10 @@ const users = [
     email: 'test26@test.com',
     password: '$2b$12$GDzaxr1IqINkhDi7v67F3OLfD..QeYS7PUsLkIxUg8O4NO8lkP0cS',
     name: 'Soap and Skin',
-    dateOfBirth: '1981-07-01T00:00:00.000+00:00',
+    dateOfBirth: new Date('1981-07-01T00:00:00.000+00:00'),
     gender: 'female',
     type: 'artist',
+    bio,
     queue: {
       devices: [
         {
@@ -756,9 +783,10 @@ const users = [
     email: 'test27@test.com',
     password: '$2b$12$GDzaxr1IqINkhDi7v67F3OLfD..QeYS7PUsLkIxUg8O4NO8lkP0cS',
     name: 'Son Lux',
-    dateOfBirth: '1988-07-01T00:00:00.000+00:00',
+    dateOfBirth: new Date('1988-07-01T00:00:00.000+00:00'),
     gender: 'male',
     type: 'artist',
+    bio,
     queue: {
       devices: [
         {
@@ -780,9 +808,10 @@ const users = [
     email: 'test28@test.com',
     password: '$2b$12$GDzaxr1IqINkhDi7v67F3OLfD..QeYS7PUsLkIxUg8O4NO8lkP0cS',
     name: 'Vansire',
-    dateOfBirth: '1976-12-15T00:00:00.000+00:00',
+    dateOfBirth: new Date('1976-12-15T00:00:00.000+00:00'),
     gender: 'male',
     type: 'artist',
+    bio,
     queue: {
       devices: [
         {
@@ -804,9 +833,10 @@ const users = [
     email: 'test29@test.com',
     password: '$2b$12$GDzaxr1IqINkhDi7v67F3OLfD..QeYS7PUsLkIxUg8O4NO8lkP0cS',
     name: 'Void Vision',
-    dateOfBirth: '1976-12-15T00:00:00.000+00:00',
+    dateOfBirth: new Date('1976-12-15T00:00:00.000+00:00'),
     gender: 'female',
     type: 'artist',
+    bio,
     queue: {
       devices: [
         {
@@ -829,9 +859,10 @@ const users = [
     email: 'test30@test.com',
     password: '$2b$12$GDzaxr1IqINkhDi7v67F3OLfD..QeYS7PUsLkIxUg8O4NO8lkP0cS',
     name: 'Washed Out',
-    dateOfBirth: '1978-12-15T00:00:00.000+00:00',
+    dateOfBirth: new Date('1978-12-15T00:00:00.000+00:00'),
     gender: 'male',
     type: 'artist',
+    bio,
     queue: {
       devices: [
         {
@@ -854,9 +885,10 @@ const users = [
     email: 'test31@test.com',
     password: '$2b$12$GDzaxr1IqINkhDi7v67F3OLfD..QeYS7PUsLkIxUg8O4NO8lkP0cS',
     name: 'XXXTENTACION',
-    dateOfBirth: '1998-12-15T00:00:00.000+00:00',
+    dateOfBirth: new Date('1998-12-15T00:00:00.000+00:00'),
     gender: 'male',
     type: 'artist',
+    bio,
     queue: {
       devices: [
         {
@@ -879,9 +911,10 @@ const users = [
     email: 'test32@test.com',
     password: '$2b$12$GDzaxr1IqINkhDi7v67F3OLfD..QeYS7PUsLkIxUg8O4NO8lkP0cS',
     name: 'Daft Punk',
-    dateOfBirth: '1987-12-15T00:00:00.000+00:00',
+    dateOfBirth: new Date('1987-12-15T00:00:00.000+00:00'),
     gender: 'male',
     type: 'artist',
+    bio,
     queue: {
       devices: [
         {
@@ -903,9 +936,10 @@ const users = [
     email: 'test33@test.com',
     password: '$2b$12$GDzaxr1IqINkhDi7v67F3OLfD..QeYS7PUsLkIxUg8O4NO8lkP0cS',
     name: 'Ladytron',
-    dateOfBirth: '1987-12-15T00:00:00.000+00:00',
+    dateOfBirth: new Date('1987-12-15T00:00:00.000+00:00'),
     gender: 'female',
     type: 'artist',
+    bio,
     queue: {
       devices: [
         {
@@ -927,9 +961,10 @@ const users = [
     email: 'test34@test.com',
     password: '$2b$12$GDzaxr1IqINkhDi7v67F3OLfD..QeYS7PUsLkIxUg8O4NO8lkP0cS',
     name: 'The Knife',
-    dateOfBirth: '1987-12-15T00:00:00.000+00:00',
+    dateOfBirth: new Date('1987-12-15T00:00:00.000+00:00'),
     gender: 'female',
     type: 'artist',
+    bio,
     queue: {
       devices: [
         {
@@ -951,9 +986,10 @@ const users = [
     email: 'test36@test.com',
     password: '$2b$12$GDzaxr1IqINkhDi7v67F3OLfD..QeYS7PUsLkIxUg8O4NO8lkP0cS',
     name: 'Adult',
-    dateOfBirth: '1987-12-15T00:00:00.000+00:00',
+    dateOfBirth: new Date('1987-12-15T00:00:00.000+00:00'),
     gender: 'male',
     type: 'artist',
+    bio,
     queue: {
       devices: [
         {
@@ -975,9 +1011,10 @@ const users = [
     email: 'test37@test.com',
     password: '$2b$12$GDzaxr1IqINkhDi7v67F3OLfD..QeYS7PUsLkIxUg8O4NO8lkP0cS',
     name: 'Light Asylum',
-    dateOfBirth: '1997-12-15T00:00:00.000+00:00',
+    dateOfBirth: new Date('1997-12-15T00:00:00.000+00:00'),
     gender: 'male',
     type: 'artist',
+    bio,
     queue: {
       devices: [
         {
@@ -1000,9 +1037,10 @@ const users = [
     email: 'test38@test.com',
     password: '$2b$12$GDzaxr1IqINkhDi7v67F3OLfD..QeYS7PUsLkIxUg8O4NO8lkP0cS',
     name: 'Fever Ray',
-    dateOfBirth: '1997-12-15T00:00:00.000+00:00',
+    dateOfBirth: new Date('1997-12-15T00:00:00.000+00:00'),
     gender: 'female',
     type: 'artist',
+    bio,
     queue: {
       devices: [
         {

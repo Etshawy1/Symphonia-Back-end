@@ -14,15 +14,9 @@ const staticImages = require('../routes/images');
 const bodyParser = require('body-parser');
 
 module.exports = function (app) {
-  app.use(express.json());
-  app.use(
-    express.urlencoded({
-      extended: false
-    })
-  );
-
   app.set('trust proxy', 'loopback'); // for deployment to get the host in the code
-  app.use(bodyParser.urlencoded({ extended: false }));
+  app.use(bodyParser.json({ limit: '50mb' }));
+  app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 
   // serve static
   app.use('/api/v1/images', staticImages);

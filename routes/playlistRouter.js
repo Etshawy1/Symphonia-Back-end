@@ -1,5 +1,5 @@
 const express = require('express');
-
+const searchHistory = require('../utils/searchMiddleware');
 const playlistController = require('../controllers/playlistController');
 const authController = require('../controllers/authController');
 const followController = require('../controllers/followController');
@@ -24,6 +24,7 @@ router.get(
 router.get(
   '/:id/tracks',
   authController.protect(false),
+  searchHistory.saveSearchHistory,
   playlistController.getPlaylistTracks
 );
 

@@ -4,7 +4,6 @@ const albumSchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      unique: true,
       required: [true, 'Album must have name'],
       minlength: 2,
       maxlength: 255
@@ -31,6 +30,23 @@ const albumSchema = new mongoose.Schema(
         }
       }
     ],
+    type: {
+      type: String,
+      enum: ['album'],
+      defult: 'album'
+    },
+    albumType: {
+      type: String,
+      enum: ['album', 'single'],
+      require: [true, 'please provide album type']
+    },
+    copyrights: {
+      text: String,
+      type: {
+        type: String,
+        enum: ['C', 'P']
+      }
+    },
     releaseDate: {
       type: Date,
       default: Date.now()

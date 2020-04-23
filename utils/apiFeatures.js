@@ -24,7 +24,14 @@ class APIFeatures {
     const queryObj = {
       ...this.queryString
     }; /* this assignment becauese javascript make any object by reference where assignment with just the equal operatour */
-    const excludedFields = ['page', 'sort', 'limit', 'fields', 'offset'];
+    const excludedFields = [
+      'page',
+      'sort',
+      'limit',
+      'fields',
+      'offset',
+      'source'
+    ];
     excludedFields.forEach(el => delete queryObj[el]);
 
     // 1B) Advanced filtering

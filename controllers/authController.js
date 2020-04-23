@@ -51,6 +51,26 @@ exports.signup = catchAsync(async (req, res, next) => {
     imageUrl: `${url}/api/v1/images/users/default.png`
   });
 
+  if (req.body.type == 'artist') {
+    const applicationToken = newUser.createArtistToken();
+    newUser.deleted = true;
+    await newUser.save({
+      validateBeforeSave: false
+    });
+    const activateUrl = `${url}/artist-activation/${applicationToken}`;
+    try {
+      await new Email(newUser, activateUrl).sendArtistApplication();
+      return res
+        .status(200)
+        .json({ status: 'success', message: 'token was sent to email' });
+    } catch (err) {
+      await User.findByIdAndRemove(newUser._id);
+      return next(
+        new AppError('There was an error sending the email. Try again later!'),
+        500
+      );
+    }
+  }
   await new Email(newUser, url).sendWelcome();
 
   createSendToken(newUser, 201, res);
@@ -112,6 +132,13 @@ exports.googleOauth = catchAsync(async (req, res, next) => {
       )}`
     );
 });
+function replacer (key, value) {
+  var maskedValue = value;
+  if (key == 'imageFacebookUrl') {
+    maskedValue = encodeURIComponent(maskedValue);
+  }
+  return maskedValue;
+}
 exports.facebookOauth = catchAsync(async (req, res, next) => {
   if (req.user.status === 201) {
     const url = `${req.protocol}://${req.get('host')}`;
@@ -130,7 +157,8 @@ exports.facebookOauth = catchAsync(async (req, res, next) => {
     .status(301)
     .redirect(
       `https://thesymphonia.ddns.net/facebook/${token}/?user=${JSON.stringify(
-        user
+        user,
+        replacer
       )}`
     );
 });
@@ -220,7 +248,6 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
     const resetURL =
       `${req.protocol}://${req.hostname}` +
       `/password-reset/change/${resetToken}`;
-    __logger.info(resetURL);
     await new Email(user, resetURL).sendPasswordReset();
     res.status(200).json({
       status: 'success',
@@ -280,4 +307,29 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
   // User.findByIdAndUpdate will NOT work as intended!
   // 4) Log user in, send JWT
   createSendToken(user, 200, res);
+});
+
+exports.activateArtist = catchAsync(async (req, res, next) => {
+  // get the artist from the database based on the token
+  const hashedToken = crypto
+    .createHash('sha256')
+    .update(req.params.token)
+    .digest('hex');
+
+  const user = await User.findOneDeleted({
+    artistApplicationToken: hashedToken,
+    artistApplicationExpires: {
+      $gt: Date.now()
+    }
+  });
+  if (!user) {
+    return next(new AppError('Token is invalid or has expired', 400));
+  }
+  user.deleted = undefined;
+  user.artistApplicationToken = undefined;
+  user.artistApplicationExpires = undefined;
+  await user.save({
+    validateBeforeSave: false
+  });
+  createSendToken(user, 201, res);
 });

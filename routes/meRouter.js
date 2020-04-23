@@ -4,10 +4,18 @@ const meController = require('../controllers/meController');
 const followController = require('../controllers/followController');
 const libraryController = require('../controllers/libraryController');
 const playlistController = require('./../controllers/playlistController');
+const searchController = require('./../controllers/searchController');
 const bodyParser = require('body-parser');
+const searchHistory = require('../utils/searchMiddleware');
 
 const router = express.Router();
 router.get('/player/tracks/:track_id/:token', meController.playTrack);
+router.get(
+  '/user/:id',
+  authController.protect(false),
+  searchHistory.saveSearchHistory,
+  meController.userProfile
+);
 router.use(authController.protect(true));
 //save shuffle
 router.patch('/player/shuffle', meController.shuffle);
@@ -32,6 +40,7 @@ router.delete('/player/queue', meController.popQueue);
 // delete device
 router.delete('/player/devices', meController.popDevices);
 // get devices
+
 router.get('/player/devices', meController.getDevices);
 // get currently playing
 router.get('/player/currently-playing', meController.getCurrentlyPlaying);
@@ -110,6 +119,8 @@ router.get(
   playlistController.getCurrentUserDeletedPlaylists
 );
 router.patch('/playlists/:id', playlistController.recoverCurrentUserPlaylists);
-router.get('/:user_id', meController.userProfile);
+// section search history
+
+router.get('/search/history', searchController.getSearchHistory);
 
 module.exports = router;

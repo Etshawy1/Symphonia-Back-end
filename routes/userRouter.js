@@ -4,12 +4,14 @@ const authController = require('../controllers/authController');
 const userController = require('../controllers/userController');
 const playlistController = require('./../controllers/playlistController');
 const trackController = require('./../controllers/trackController');
+const searchHistory = require('../utils/searchMiddleware');
 
 const router = express.Router();
 
 router.post('/email-exist', authController.checkEmail);
 router.post('/signup', authController.signup);
 router.post('/login', authController.login);
+router.patch('/activate/:token', authController.activateArtist);
 
 router.get(
   '/auth/facebook',
@@ -58,12 +60,22 @@ router.delete('/updateMe', userController.deleteMe);
 
 // tracks
 
-router.route('/track/:id').get(trackController.getTrack);
+router.get(
+  '/track/:id',
+  authController.protect(false),
+  searchHistory.saveSearchHistory,
+  trackController.getTrack
+);
 
 router
   .route('/tracks')
   .get(trackController.getSeveralTacks)
-  .post(trackController.addTrack);
+  .post(
+    authController.protect(true),
+    authController.restrictTo('artist'),
+    trackController.multiPart,
+    trackController.addTrack
+  );
 
 // Playlist section
 

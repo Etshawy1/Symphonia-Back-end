@@ -9,6 +9,7 @@ const Album = require('../models/albumModel');
 const Playlist = require('../models/playlistModel');
 const Category = require('../models/categoryModel');
 const Responser = require('../utils/responser');
+const SearchHistory = require('../models/searchHistoryModel');
 
 const getModel = {
   profile: User,
@@ -101,4 +102,25 @@ exports.searchType = catchAsync(async (req, res, next) => {
   res
     .status(200)
     .json(Responser.getPaging(results, req.query.type, req, limit, offset));
+});
+
+exports.getSearchHistory = catchAsync(async (req, res, next) => {
+  const limit = req.query.limit * 1 || 20;
+  const offset = req.query.offset * 1 || 0;
+  const features = new APIFeatures(
+    SearchHistory.find({ userId: req.user._id }).sort('-searchDate'),
+    req.query
+  ).offset();
+
+  const results = await features.query.populate({
+    path: 'context',
+    select: 'name image imageUrl images icons album',
+    populate: {
+      path: 'album',
+      select: 'image'
+    }
+  });
+  res
+    .status(200)
+    .json(Responser.getPaging(results, 'history', req, limit, offset));
 });
