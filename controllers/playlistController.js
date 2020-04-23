@@ -164,15 +164,31 @@ exports.removePlaylistTracks = catchAsync(async (req, res, next) => {
 
   if (!req.query.ids)
     return next(new AppError('missing ids of tracks to delete', 400));
-  const playlist = await Playlist.update(
+  const playlist = await Playlist.findByIdAndUpdate(
     { _id: req.params.id },
     {
       $pull: { tracks: { $in: req.query.ids.split(',') } },
       owner: req.user.id
     },
-    { multi: true }
+    { multi: true, new: true }
   );
-
+  if (playlist.tracks[0]) {
+    let firstTrack = playlist.tracks[0];
+    firstTrack = await Track.findById(firstTrack).populate({
+      path: 'album',
+      select: 'image'
+    });
+    playlist.images[0] = firstTrack.album.image;
+    await Playlist.findByIdAndUpdate(playlist._id, {
+      images: playlist.images
+    });
+  } else {
+    const url = `${req.protocol}://${req.get('host')}`;
+    playlist.images[0] = `${url}/api/v1/images/playlists/default.png`;
+    await Playlist.findByIdAndUpdate(playlist._id, {
+      images: playlist.images
+    });
+  }
   res.status(204).json();
 });
 
@@ -183,7 +199,7 @@ exports.addTracksToPlaylist = catchAsync(async (req, res, next) => {
       .status(404)
       .send('The playlist with the given ID was not found.');
   }
-
+  const playlistTrackCount = playlistCheck.tracks.length;
   if (
     (!playlistCheck.public || !playlistCheck.collaborative) &&
     playlistCheck.owner != req.user.id
@@ -205,15 +221,30 @@ exports.addTracksToPlaylist = catchAsync(async (req, res, next) => {
   let RealTracksArray = InputTrackarr.filter(function (el) {
     return el != null;
   });
-  const playlist = await Playlist.findByIdAndUpdate(
+  let playlist = await Playlist.findByIdAndUpdate(
     req.params.id,
     {
       $push: { tracks: RealTracksArray }
     },
     { new: true }
   );
-
-  await playlist.save();
+  if (playlistTrackCount === 0 && playlist.tracks[0]) {
+    let firstTrack = playlist.tracks[0];
+    firstTrack = await Track.findById(firstTrack).populate({
+      path: 'album',
+      select: 'image'
+    });
+    playlist.images[0] = firstTrack.album.image;
+    playlist = await Playlist.findByIdAndUpdate(
+      playlist._id,
+      {
+        images: playlist.images
+      },
+      {
+        new: true
+      }
+    );
+  }
 
   res.status(200).json(playlist);
 });
