@@ -15,8 +15,8 @@ const bodyParser = require('body-parser');
 
 module.exports = function (app) {
   app.set('trust proxy', 'loopback'); // for deployment to get the host in the code
-  app.use(bodyParser.json({ limit: '5mb' }));
-  app.use(bodyParser.urlencoded({ extended: true, limit: '5mb' }));
+  app.use(bodyParser.json({ limit: '50mb' }));
+  app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 
   // serve static
   app.use('/api/v1/images', staticImages);
