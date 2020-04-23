@@ -57,8 +57,12 @@ const userSchema = new mongoose.Schema({
   },
   type: {
     type: String,
-    enum: ['user', 'premium-user', 'artist'],
+    enum: ['user', 'artist'],
     defult: 'user'
+  },
+  premium: {
+    type: Boolean,
+    default: false
   },
   gender: {
     type: String,
