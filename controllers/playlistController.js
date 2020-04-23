@@ -8,7 +8,10 @@ const AppError = require('../utils/appError');
 const factory = require('./handlerFactory');
 const Responser = require('../utils/responser');
 
-exports.getPlaylist = factory.getOne(Playlist);
+exports.getPlaylist = factory.getOne(Playlist, {
+  path: 'owner',
+  select: 'name'
+});
 
 exports.createPlaylist = catchAsync(async (req, res, next) => {
   let playlistCheck = await User.findById(req.params.id);
