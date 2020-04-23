@@ -16,7 +16,8 @@ exports.createPlaylist = catchAsync(async (req, res, next) => {
   if (!playlistCheck) return next(new AppError('invalid user ID', 400));
 
   const url = `${req.protocol}://${req.get('host')}`;
-  let playlist = new Playlist({
+
+  const playlist = await Playlist.create({
     collaborative: req.body.collaborative,
     name: req.body.name,
     description: req.body.description,
@@ -26,9 +27,6 @@ exports.createPlaylist = catchAsync(async (req, res, next) => {
     followers: req.body.followers,
     category: req.body.category
   });
-
-  playlist = await playlist.save();
-
   let user = await User.findByIdAndUpdate(
     req.params.id,
     {
@@ -37,8 +35,8 @@ exports.createPlaylist = catchAsync(async (req, res, next) => {
     { new: true }
   );
   user.save({ validateBeforeSave: false });
-
-  res.send(playlist);
+  await Playlist.populate(playlist, { path: 'owner', select: 'name' });
+  res.status(200).json(playlist);
 });
 
 exports.getUserPlaylists = catchAsync(async (req, res, next) => {
@@ -207,7 +205,6 @@ exports.addTracksToPlaylist = catchAsync(async (req, res, next) => {
   let RealTracksArray = InputTrackarr.filter(function (el) {
     return el != null;
   });
-
   const playlist = await Playlist.findByIdAndUpdate(
     req.params.id,
     {
