@@ -628,10 +628,12 @@ const createPremiumSubscriptionCheckout = async session => {
 };
 exports.webhookCheckout = catchAsync(async (req, res, next) => {
   const signature = req.headers['stripe-signature'];
+  __log.info(JSON.stringify(req.body));
+  __log.info(JSON.stringify(req.rawBody));
   let event;
   try {
     event = stripe.webhooks.constructEvent(
-      req.body,
+      req.rawBody,
       signature,
       process.env.STRIPE_WEBHOOK_SECRET
     );

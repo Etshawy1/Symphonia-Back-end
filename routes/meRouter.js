@@ -57,13 +57,6 @@ router.get('/', meController.currentUserProfile);
 router.put('/', meController.updateCurrentUserProfile);
 
 // router.batch('/v1/me/player/play',);
-// premium with creditcard
-router.get('/checkout-session', meController.getCheckoutSession);
-router.post(
-  '/webhook-checkout',
-  bodyParser.raw({ type: 'application/json' }),
-  meController.webhookCheckout
-);
 
 // section: follow routes
 // Description: check if the current user follows a another user(partist or normal user)
@@ -122,5 +115,20 @@ router.patch('/playlists/:id', playlistController.recoverCurrentUserPlaylists);
 // section search history
 
 router.get('/search/history', searchController.getSearchHistory);
+
+// premium with creditcard
+app.use(
+  bodyParser.json({
+    verify: (req, res, buf) => {
+      req.rawBody = buf;
+    }
+  })
+);
+router.get('/checkout-session', meController.getCheckoutSession);
+router.post(
+  '/webhook-checkout',
+  bodyParser.raw({ type: 'application/json' }),
+  meController.webhookCheckout
+);
 
 module.exports = router;
