@@ -93,7 +93,7 @@ exports.multiPart = catchAsync(async (req, res, next) => {
 
 /**
  * function to prepare the buffer image and manipulate it be resizing to be a sqaure jpeg image and save it
- * @param {Buffer} imageBase64 - Base64 encoded image
+ * @param {Buffer} bufferImage - Buffer contains image data
  * @param {Object} user - user object that contains artist's name and id
  * @returns {String} The name of the stored image
  */

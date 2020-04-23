@@ -27,14 +27,9 @@ exports.createPlaylist = catchAsync(async (req, res, next) => {
     followers: req.body.followers,
     category: req.body.category
   });
-  let user = await User.findByIdAndUpdate(
-    req.params.id,
-    {
-      $push: { ownedPlaylists: playlist._id }
-    },
-    { new: true }
-  );
-  user.save({ validateBeforeSave: false });
+  await User.findByIdAndUpdate(req.params.id, {
+    $push: { ownedPlaylists: playlist._id }
+  });
   await Playlist.populate(playlist, { path: 'owner', select: 'name' });
   res.status(200).json(playlist);
 });
