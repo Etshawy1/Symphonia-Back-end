@@ -4,6 +4,7 @@ const Joi = require('@hapi/joi').extend(require('@hapi/joi-date'));
 const validator = require('validator');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const mongoose_delete = require('mongoose-delete');
 
 /**
  * @module Models.user
@@ -275,8 +276,8 @@ userSchema.methods.createArtistToken = function () {
     .update(applicationToken)
     .digest('hex');
 
-  // the token to reset the password is valit only for 10 minutes
-  this.artistApplicationExpires = Date.now() + 10 * 60 * 1000;
+  // the token to reset the password is valit only for 1 day
+  this.artistApplicationExpires = Date.now() + 24 * 60 * 60 * 1000;
   return applicationToken;
 };
 /**
@@ -296,6 +297,10 @@ userSchema.methods.createPlayerToken = function () {
   this.playerTokenExpires = Date.now() + 20 * 60 * 1000;
   return playerToken;
 };
+
+userSchema.plugin(mongoose_delete, {
+  overrideMethods: 'all'
+});
 
 const User = mongoose.model('User', userSchema);
 
