@@ -5,7 +5,7 @@ const AppError = require('../utils/appError');
 const APIFeatures = require('./../utils/apiFeatures');
 const mongoose = require('mongoose');
 const admin = require('firebase-admin');
-const serviceAccount = require('./../symphonia.json');
+const serviceAccount = require('../symphonia.json');
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
   databaseURL: 'https://symphonia-272211.firebaseio.com'

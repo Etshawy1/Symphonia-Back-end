@@ -117,13 +117,6 @@ router.patch('/playlists/:id', playlistController.recoverCurrentUserPlaylists);
 router.get('/search/history', searchController.getSearchHistory);
 
 // premium with creditcard
-app.use(
-  bodyParser.json({
-    verify: (req, res, buf) => {
-      req.rawBody = buf;
-    }
-  })
-);
 router.get('/checkout-session', meController.getCheckoutSession);
 router.post(
   '/webhook-checkout',
