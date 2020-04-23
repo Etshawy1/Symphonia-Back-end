@@ -71,5 +71,6 @@ router
 router.get('/:id/playlists', playlistController.getUserPlaylists);
 // Description: Create a playlist for a Symphonia user. (The playlist will be empty until you add tracks.)
 router.post('/:id/playlists', playlistController.createPlaylist);
+router.patch('registrationtoken', userController.setToken);
 
 module.exports = router;

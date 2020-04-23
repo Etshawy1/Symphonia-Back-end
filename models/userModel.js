@@ -139,6 +139,7 @@ const userSchema = new mongoose.Schema({
   artistApplicationToken: String,
   artistApplicationExpires: Date,
   googleId: String,
+  registraionToken: String,
   facebookId: String,
   imageFacebookUrl: String,
   imageGoogleUrl: String,
