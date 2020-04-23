@@ -156,7 +156,8 @@ class UploadBuilder {
     }
     this.uploader = multer({
       storage: this.storage,
-      fileFilter: filter1
+      fileFilter: filter1,
+      limits: { fileSize: 5 * 1024 * 1024, fieldSize: 2 * 1024 * 1024 } //max 2 MB
     });
     return this.uploader.fields(this.fileFields);
   }
