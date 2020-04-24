@@ -61,7 +61,7 @@ exports.signup = catchAsync(async (req, res, next) => {
     try {
       await new Email(newUser, activateUrl).sendArtistApplication();
       return res
-        .status(200)
+        .status(201)
         .json({ status: 'success', message: 'token was sent to email' });
     } catch (err) {
       await User.findByIdAndRemove(newUser._id);
