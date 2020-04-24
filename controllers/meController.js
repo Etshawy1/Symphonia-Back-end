@@ -624,7 +624,7 @@ const createPremiumSubscriptionCheckout = async session => {
   __logger.info(session);
   const user = await User.findOne({ email: session.customer_email });
   user.premium = true;
-  user.save({ validateBeforeSave: false });
+  await user.save({ validateBeforeSave: false });
 };
 exports.webhookCheckout = catchAsync(async (req, res, next) => {
   const signature = req.headers['stripe-signature'];
