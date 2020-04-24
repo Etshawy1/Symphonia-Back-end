@@ -627,9 +627,12 @@ const createPremiumSubscriptionCheckout = async session => {
   await user.save({ validateBeforeSave: false });
 };
 exports.webhookCheckout = catchAsync(async (req, res, next) => {
+ __logger.info("A7A");
+  __logger.info(JSON.stringify(req.body));
   const signature = req.headers['stripe-signature'];
   __logger.info(JSON.stringify(req.body));
   __logger.info(JSON.stringify(req.rawBody));
+  __logger.info("A7A");
   let event;
   try {
     event = stripe.webhooks.constructEvent(
