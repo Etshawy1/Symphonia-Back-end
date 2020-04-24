@@ -118,10 +118,6 @@ router.get('/search/history', searchController.getSearchHistory);
 
 // premium with creditcard
 router.get('/checkout-session', meController.getCheckoutSession);
-router.post(
-  '/webhook-checkout',
-  bodyParser.raw({ type: 'application/json' }),
-  meController.webhookCheckout
-);
+router.post('/webhook-checkout', meController.webhookCheckout);
 
 module.exports = router;
