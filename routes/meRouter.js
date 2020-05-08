@@ -16,6 +16,7 @@ router.get(
   searchHistory.saveSearchHistory,
   meController.userProfile
 );
+router.post('/webhook-checkout', meController.webhookCheckout);
 router.use(authController.protect(true));
 //save shuffle
 router.patch('/player/shuffle', meController.shuffle);
@@ -118,10 +119,6 @@ router.get('/search/history', searchController.getSearchHistory);
 
 // premium with creditcard
 router.get('/checkout-session', meController.getCheckoutSession);
-router.post(
-  '/webhook-checkout',
-  bodyParser.raw({ type: 'application/json' }),
-  meController.webhookCheckout
-);
+
 
 module.exports = router;

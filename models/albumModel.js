@@ -22,18 +22,13 @@ const albumSchema = new mongoose.Schema(
     tracks: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Track',
-        required: true,
-        validate: function (val) {
-          if (Array.isArray(val) && val.length === 0)
-            throw new Error('Album should have track');
-        }
+        ref: 'Track'
       }
     ],
     type: {
       type: String,
       enum: ['album'],
-      defult: 'album'
+      default: 'album'
     },
     albumType: {
       type: String,

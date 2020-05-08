@@ -7,6 +7,7 @@ const AppError = require('../utils/appError');
 const Responser = require('../utils/responser');
 const fs = require('fs');
 const path = require('path');
+const _ = require('lodash');
 const UploadBuilder = require('../utils/uploader').UploadBuilder;
 const helper = require('../utils/helper');
 const util = require('util');
@@ -62,7 +63,11 @@ exports.createAlbum = catchAsync(async (req, res, next) => {
     imageName = req.files.image[0].filename;
   }
   const album = await Album.create({
-    name: req.body.name,
+    ..._.pick(req.body, ['name', 'albumType', 'releaseDate']),
+    copyrights: {
+      text: req.body.copyrightsText,
+      type: req.body.copyrightsType
+    },
     image: `${url}/api/v1/images/albums/${req.user.name.replace(/ /g, '_')}-${
       req.user._id
     }/${imageName}`,
