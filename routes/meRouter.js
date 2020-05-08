@@ -120,5 +120,6 @@ router.get('/search/history', searchController.getSearchHistory);
 // premium with creditcard
 router.get('/checkout-session', meController.getCheckoutSession);
 
-
+// registeration token notifications
+router.patch('/registration-token', meController.setRegistrationToken);
 module.exports = router;

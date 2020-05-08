@@ -641,6 +641,12 @@ exports.webhookCheckout = catchAsync(async (req, res, next) => {
     createPremiumSubscriptionCheckout(event.data.object);
   res.status(200).json({ received: true });
 });
+exports.setRegistrationToken = catchAsync(async (req, res, next) => {
+  const user = await User.findById(req.user._id);
+  user.registraionToken = req.body.token;
+  await user.save({ validateBeforeSave: false });
+  res.status(200).json({ user });
+});
 module.exports.sendResponse = sendResponse;
 module.exports.getMimeNameFromExt = getMimeNameFromExt;
 module.exports.readRangeHeader = readRangeHeader;
