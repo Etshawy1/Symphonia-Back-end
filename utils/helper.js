@@ -28,3 +28,14 @@ module.exports.getPageMeta = req => {
   }
   return { limit, offset };
 };
+
+/**
+ * @author Marait
+ * @param {Array} ids it is an array of ids you want to check their existance in the model
+ * @param {Model} Model it is the model you want to check the existance of the model in it
+ */
+module.exports.checkIDS = async (ids, Model) => {
+  arr = await Model.find({ _id: { $in: ids } });
+  if (arr.length == ids.length) return true;
+  return false;
+};

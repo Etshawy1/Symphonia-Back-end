@@ -9,6 +9,7 @@ const catchAsync = require('./../utils/catchAsync').threeArg;
 const AppError = require('../utils/appError');
 const mongoose = require('mongoose');
 const Responser = require('../utils/responser');
+const Helper = require('../utils/helper');
 // TODO: finish the functions for the end points
 exports.checkUserSavedAlbums = catchAsync(async (req, res, next) => {
   if (!req.query.ids) {
@@ -44,94 +45,33 @@ exports.checkUserSavedTracks = catchAsync(async (req, res, next) => {
   res.status(200).json(isIn);
 });
 
-// TODO: 1. modify teh get Paging to cancell the linkSpec function
-// TODO: 1. modify the getPaging and handle next = null in case there is nothing left to explore
-const getPaging = (
-  items,
-  modelName,
-  limit = null,
-  offset = null,
-  next = null,
-  previous = null,
-  href = null
-) => {
-  if (items.length < limit) {
-    next = null;
-  }
-  let page = {};
-  page[modelName] = {
-    total: items.length,
-    items,
-    limit,
-    offset,
-    next,
-    previous,
-    href
-  };
-  return page;
-};
-const getLinkSPec = (req, limit, offset) => {
-  let LOCAL_HOST = `${req.protocol}://${req.get('host')}`;
-  console.log(req.originalUrl);
-  let originalUrl = req.originalUrl;
-  if (originalUrl.includes('?')) {
-    let index = originalUrl.indexOf('?');
-    originalUrl = originalUrl.substring(0, index);
-  }
-  let href = LOCAL_HOST + originalUrl;
-  let nnext = `${href}?offset=${offset + limit}&limit=${limit}`;
-  let preOffset = offset - limit;
-  if (preOffset < 0) {
-    preOffset = 0;
-  }
-  let previous = `${href}?offset=${preOffset}&limit=${limit}`;
-  if (preOffset == offset) {
-    previous = null;
-  }
-
-  return {
-    href,
-    next: nnext,
-    previous,
-    limit,
-    offset
-  };
-};
 exports.getCurrentUserSavedAlbums = catchAsync(async (req, res, next) => {
   // first get the ids of the saved Albums
   ids = req.user.followedAlbums;
-  let limit = 20; // the default
-  let offset = 0; // the default
-  if (req.query.offset) {
-    offset = parseInt(req.query.offset);
-  }
-  if (req.query.limit) {
-    limit = parseInt(req.query.limit);
-  }
-
+  let pageMeta = Helper.getPageMeta(req);
   const features = new APIFeatures(Album.find({ _id: { $in: ids } }), req.query)
     .filter()
     .sort()
     .limitFields()
     .offset();
   let albums = await features.query;
-  let linkSpec = getLinkSPec(req, limit, offset);
   res
     .status(200)
-    .json(Responser.getPaging(albums, 'Albums', req, limit, offset));
+    .json(
+      Responser.getPaging(
+        albums,
+        'Albums',
+        req,
+        pageMeta.limit,
+        pageMeta.offset
+      )
+    );
 });
 
 exports.getCurrentUserSavedTracks = catchAsync(async (req, res, next) => {
   // first get the ids of the saved Albums
   ids = req.user.followedTracks;
-  let limit = 20; // the default
-  let offset = 0; // the default
-  if (req.query.offset) {
-    offset = parseInt(req.query.offset);
-  }
-  if (req.query.limit) {
-    limit = parseInt(req.query.limit);
-  }
+  let pageMeta = Helper.getPageMeta(req);
 
   const features = new APIFeatures(Track.find({ _id: { $in: ids } }), req.query)
     .filter()
@@ -140,10 +80,17 @@ exports.getCurrentUserSavedTracks = catchAsync(async (req, res, next) => {
     .offset();
 
   let tracks = await features.query;
-  let linkSpec = getLinkSPec(req, limit, offset);
   res
     .status(200)
-    .json(Responser.getPaging(tracks, 'tracks', req, limit, offset));
+    .json(
+      Responser.getPaging(
+        tracks,
+        'tracks',
+        req,
+        pageMeta.limit,
+        pageMeta.offset
+      )
+    );
 });
 
 exports.removeCurrentUserAlbums = catchAsync(async (req, res, next) => {
@@ -153,7 +100,8 @@ exports.removeCurrentUserAlbums = catchAsync(async (req, res, next) => {
   let ids = req.query.ids.split(',');
   isInvalid = false;
 
-  try {
+  // not necessary
+  /*try {
     ids.forEach(element => {
       if (!mongoose.Types.ObjectId.isValid(element)) {
         throw new AppError('invalid ids provided', 400);
@@ -162,6 +110,7 @@ exports.removeCurrentUserAlbums = catchAsync(async (req, res, next) => {
   } catch (error) {
     return next(error);
   }
+*/
 
   // now i have to loop on the ids in the
   ids.forEach(element => {
@@ -185,7 +134,7 @@ exports.removeCurrentUserSavedTracks = catchAsync(async (req, res, next) => {
   let ids = req.query.ids.split(',');
   isInvalid = false;
 
-  try {
+  /*try {
     ids.forEach(element => {
       if (!mongoose.Types.ObjectId.isValid(element)) {
         throw new AppError('invalid ids provided', 400);
@@ -193,7 +142,7 @@ exports.removeCurrentUserSavedTracks = catchAsync(async (req, res, next) => {
     });
   } catch (error) {
     return next(error);
-  }
+  }*/
   // now i have to loop on the ids in the
   ids.forEach(element => {
     index = req.user.followedTracks.indexOf(element);
@@ -208,23 +157,21 @@ exports.removeCurrentUserSavedTracks = catchAsync(async (req, res, next) => {
   await req.user.save({ validateBeforeSave: false });
   res.status(200).json();
 });
-
 // TODO: check that there are albums with these ids
 exports.saveCurrentUserAlbums = catchAsync(async (req, res, next) => {
   if (!req.query.ids) {
     return next(new AppError('please provide the ids parameter', 400));
   }
   let ids = req.query.ids.split(',');
-  isInvalid = false;
-  try {
-    ids.forEach(element => {
-      if (!mongoose.Types.ObjectId.isValid(element)) {
-        throw new AppError('invalid id detected(sent)', 400);
-      }
-    });
-  } catch (error) {
-    return next(error);
-  }
+  // check every id in ids correspond to a real Album
+  let exists = await Helper.checkIDS(ids, Album);
+  if (!exists)
+    return next(
+      new AppError(
+        'one of the ids doesnot correspond to an object or repeated ids',
+        400
+      )
+    );
   let newUser = req.user;
   try {
     ids.forEach(element => {
@@ -246,16 +193,14 @@ exports.saveCurrentUserTracks = catchAsync(async (req, res, next) => {
     return next(new AppError('please provide the ids parameter', 400));
   }
   let ids = req.query.ids.split(',');
-  isInvalid = false;
-  try {
-    ids.forEach(element => {
-      if (!mongoose.Types.ObjectId.isValid(element)) {
-        throw new AppError('invalid id detected(sent)', 400);
-      }
-    });
-  } catch (error) {
-    return next(error);
-  }
+  let exists = await Helper.checkIDS(ids, Track);
+  if (!exists)
+    return next(
+      new AppError(
+        'one of the ids doesnot correspond to an object or repeated ids',
+        400
+      )
+    );
   let newUser = req.user;
   try {
     ids.forEach(element => {

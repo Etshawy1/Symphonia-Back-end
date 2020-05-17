@@ -154,8 +154,6 @@ exports.getUserFollowedArtists = catchAsync(async (req, res, next) => {
     }
   }
 
-  console.log('____________element___________');
-  console.log(typeof limit);
   // get the after after id
   let afterId = null;
   let myNext = null;

@@ -2,7 +2,7 @@ const controller = require('../../../controllers/browseController');
 const Track = require('../../../models/trackModel');
 const Category = require('../../../models/categoryModel');
 const Playlist = require('../../../models/playlistModel');
-const { User } = require('../../../controllers/userController');
+const { User } = require('../../../models/userModel');
 const Responser = require('../../../utils/responser');
 const Helper = require('../../../utils/helper');
 const mongoose = require('mongoose');
@@ -137,7 +137,7 @@ describe('get Newly Released Albums', () => {
 // TODO: there is a problem when assisnging to User.find()
 // NOTE: the problem seems with using exports instead of module.exports
 
-/*describe('get Recommended Artists', () => {
+describe('get Recommended Artists', () => {
   let req, res, next;
   beforeAll(() => {
     res = mockResponse();
@@ -166,4 +166,3 @@ describe('get Newly Released Albums', () => {
     );
   });
 });
-*/
