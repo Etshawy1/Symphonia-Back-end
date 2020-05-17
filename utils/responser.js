@@ -23,7 +23,8 @@ module.exports.getPaging = (
   modelName,
   req,
   limit = null,
-  offset = null
+  offset = null,
+  url = ''
 ) => {
   if (limit == null) {
     if (!req.query.limit) limit = 20;
@@ -31,11 +32,11 @@ module.exports.getPaging = (
   }
 
   if (offset == null) {
-    if (!req.query.offset) offset = 20;
+    if (!req.query.offset) offset = 0;
     else offset = req.query.offset;
   }
 
-  let linkSpec = getLinkSPec(req, limit, offset);
+  let linkSpec = getLinkSPec(req, limit, offset, url);
   return getPaging(
     items,
     modelName,
@@ -74,14 +75,14 @@ const getPaging = (
   return page;
 };
 
-const getLinkSPec = (req, limit, offset) => {
+const getLinkSPec = (req, limit, offset, url = '') => {
   let LOCAL_HOST = `${req.protocol}://${req.get('host')}`;
-  console.log(req.originalUrl);
   let originalUrl = req.originalUrl;
   if (originalUrl.includes('?')) {
     let index = originalUrl.indexOf('?');
     originalUrl = originalUrl.substring(0, index);
   }
+  if (url != '') originalUrl = url;
   let href = LOCAL_HOST + originalUrl;
   let nnext = `${href}?offset=${offset + limit}&limit=${limit}`;
   let preOffset = offset - limit;

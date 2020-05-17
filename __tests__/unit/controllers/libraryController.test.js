@@ -216,8 +216,9 @@ describe('save tracks for current user', () => {
     req.query = { ids: '4,5' };
   });
   it('should save tracks in  current user saved tracks', async () => {
+    req.user.followedTracks.includes = jest.fn().mockReturnValue(false);
+    Track.findById = jest.fn().mockReturnValue(true)
     await controller.saveCurrentUserTracks(req, res, next);
-
     expect(res.status).toHaveBeenCalledWith(201);
     expect(res.json).toHaveBeenCalled();
   });

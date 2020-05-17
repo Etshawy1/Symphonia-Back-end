@@ -4,6 +4,14 @@ const Playlist = require('../models/playlistModel');
 const AppError = require('../utils/appError');
 const APIFeatures = require('./../utils/apiFeatures');
 const mongoose = require('mongoose');
+const admin = require('firebase-admin');
+const serviceAccount = require('./../symphonia.json');
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: 'https://symphonia-272211.firebaseio.com'
+});
+// const fcm = require('fcm-notification');
+// const FCM = new fcm('./../symphonia.json');
 
 exports.FollowUser = catchAsync(async (req, res, next) => {
   if (!req.query.ids) {
@@ -19,6 +27,25 @@ exports.FollowUser = catchAsync(async (req, res, next) => {
       if (req.user.followedUsers.includes(e)) {
         throw new AppError('user is already followed', 400);
       }
+      User.findById(e)
+        .then(user => {
+          const payload = {
+            data: {
+              data: 'كس ام الضحك'
+            },
+            notification: {
+              title: 'Title of notification',
+              body: 'Body of notification',
+              icon: req.user.imageUrl,
+              sound: 'default'
+            },
+            token: user.registraionToken
+          };
+          admin.messaging().sendToDevice(tokens, payload);
+        })
+        .catch(error => {
+          return next(error);
+        });
     });
   } catch (error) {
     return next(error);
@@ -206,7 +233,7 @@ exports.unfollowPlaylist = catchAsync(async (req, res, next) => {
   let playlistId = req.params.id;
   // remove the user from the playlist
   let playlist = await Playlist.findById(playlistId);
-  playlist.followers = playlist.followers.filter(function(value, index, arr) {
+  playlist.followers = playlist.followers.filter(function (value, index, arr) {
     return value != userId;
   });
   await playlist.save();

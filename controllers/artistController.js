@@ -6,6 +6,8 @@ const APIFeatures = require('../utils/apiFeatures');
 const Track = require('../models/trackModel');
 const Email = require('../utils/email');
 const crypto = require('crypto');
+const Album = require('../models/albumModel');
+const Responser = require('../utils/responser');
 
 exports.getArtist = factory.getOne(User);
 exports.getSeveralArtists = factory.getMany(User);
@@ -86,27 +88,39 @@ exports.confirmApplication = catchAsync(async (req, res, next) => {
 });
 
 exports.artistTopTracks = catchAsync(async (req, res, next) => {
-  req.query.fields = 'tracks';
   const features = new APIFeatures(
-    User.findById(req.params.id).sort({ usersCount: -1 }),
+    Track.find({ artist: req.params.id }),
     req.query
   )
     .filter()
-    .limitFields()
-    .paginate();
-  const topTracks = await features.query.populate({
-    path: 'tracks',
-    model: 'Track',
-    populate: {
-      path: 'album',
-      model: 'Album'
-    }
-  });
-  topTracks[0].tracks.forEach((item, index) => {
-    item.previewUrl = item.getPreviewUrl(
-      `${req.protocol}://${req.get('host')}/`
-    );
-  });
+    .sort()
+    .offset();
+  const topTracks = await features.query.populate([
+    { path: 'artist', select: 'name' },
+    { path: 'album', select: 'name image' }
+  ]);
+  const limit = req.query.limit * 1 || 20;
+  const offset = req.query.offset * 1 || 0;
+  res
+    .status(200)
+    .json(Responser.getPaging(topTracks, 'tracks', req, limit, offset));
+});
 
-  res.status(200).json(topTracks);
+exports.getArtistAlbums = catchAsync(async (req, res, next) => {
+  const features = new APIFeatures(
+    Album.find({
+      artist: req.params.id
+    }),
+    req.query
+  )
+    .filter()
+    .sort()
+    .offset();
+
+  const albums = await features.query.populate('artist', 'name');
+  const limit = req.query.limit * 1 || 20;
+  const offset = req.query.offset * 1 || 0;
+  res
+    .status(200)
+    .json(Responser.getPaging(albums, 'albums', req, limit, offset));
 });

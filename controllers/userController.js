@@ -54,3 +54,11 @@ exports.deleteMe = catchAsync(async (req, res, next) => {
     data: null
   });
 });
+exports.setToken = catchAsync(async (req, res, next) => {
+  const user = await User.findByIdAndUpdate(req.user.id, {
+    registraionToken: req.body.token
+  });
+  res.status(200).json({
+    user
+  });
+});

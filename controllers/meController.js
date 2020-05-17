@@ -10,6 +10,7 @@ const { History } = require('./../models/historyModel');
 const APIFeatures = require('./../utils/apiFeatures');
 const _ = require('lodash');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+const crypto = require('crypto');
 
 const mimeNames = {
   '.mp3': 'audio/mpeg',
@@ -128,7 +129,11 @@ function readRangeHeader (range, totalLength) {
 }
 exports.playInfo = catchAsync(async (req, res, next) => {
   const currentUser = await User.findById(req.user._id).select('+history');
+  const playerToken = currentUser.createPlayerToken();
   const track = await Track.findById(req.params.track_id);
+  if (!track) {
+    return next(new AppError('track not found', 404));
+  }
   if (
     req.body.context_url === undefined &&
     req.body.context_type === undefined
@@ -162,22 +167,37 @@ exports.playInfo = catchAsync(async (req, res, next) => {
     updatedUser.queue.currentlyPlaying.device = deviceId;
     await updatedUser.save({ validateBeforeSave: false });
   } else {
-    const playlist = await PlayList.findById(req.body.contextId);
-    const item = {
-      track: track._id,
-      played_at: Date.now(),
-      context: playlist,
-      contextUrl: req.body.context_url,
-      contextType: req.body.context_type
-    };
     let context;
     if (req.body.context_type === 'album') {
       context = await Album.findById(req.body.contextId);
+      context.contextImage = context.image;
+      context.contextName = context.name;
+      context.contextId = context._id;
     } else if (req.body.context_type === 'playlist') {
       context = await PlayList.findById(req.body.contextId);
+      context.contextImage = context.images[0];
+      context.contextName = context.name;
+      context.contextId = context._id;
+      context.contextDescription = context.description;
     } else {
       context = await User.findById(req.body.contextId);
+      context.contextImage = context.imageUrl;
+      context.contextName = context.name;
+      context.contextId = context._id;
     }
+    const item = {
+      track: track._id,
+      played_at: Date.now(),
+      ..._.pick(context, [
+        'contextImage',
+        'contextName',
+        'contextId',
+        'contextDescription'
+      ]),
+      contextUrl: req.body.context_url,
+      contextType: req.body.context_type
+    };
+    console.log(item);
     const TracksUrl = [];
     context.tracks.forEach(tracks => {
       TracksUrl.push(
@@ -227,9 +247,24 @@ exports.playInfo = catchAsync(async (req, res, next) => {
     updatedUser.queue.currentlyPlaying.device = deviceId;
     await updatedUser.save({ validateBeforeSave: false });
   }
-  res.status(204).json({ data: null });
+  res.status(200).json({
+    data: playerToken
+  });
 });
-exports.playTrack = catchAsync(async (req, res) => {
+exports.playTrack = catchAsync(async (req, res, next) => {
+  const hashedToken = crypto
+    .createHash('sha256')
+    .update(req.params.token)
+    .digest('hex');
+  const user = await User.findOne({
+    playerToken: hashedToken,
+    playerTokenExpires: {
+      $gt: Date.now()
+    }
+  });
+  if (!user) {
+    return next(new AppError('Token is invalid or has expired', 400));
+  }
   const track = await Track.findById(req.params.track_id);
   const { trackPath } = track;
   // Check if file exists. If not, will return the 404 'Not Found'.
@@ -283,7 +318,7 @@ exports.playTrack = catchAsync(async (req, res) => {
   );
 });
 exports.userProfile = catchAsync(async (req, res, next) => {
-  const currentUser = await exports.getProfileInfo(req.params.user_id);
+  const currentUser = await exports.getProfileInfo(req.params.id);
   if (!currentUser) {
     return next(new AppError('No user found', 404));
   }
@@ -315,11 +350,17 @@ exports.topTracksAndArtists = catchAsync(async (req, res, next) => {
 exports.recentlyPlayed = catchAsync(async (req, res, next) => {
   const currentUser = await User.findById(req.user._id).select('+history');
   const history = await History.findById(currentUser.history).select('-__v');
-  if (!history) {
-    return next(new Error('this user has no tracks in history.', 404));
+  if (!history || !history.items) {
+    res.status(200).json({
+      history: []
+    });
   }
+  history.items = _.reverse(history.items);
+  history.items = _.uniqBy(history.items, 'contextName');
+  history.items = _.remove(history.items, i => i.contextId != undefined);
+  const results = history.items.slice(Math.max(history.items.length - 6, 0));
   res.status(200).json({
-    history
+    history: results
   });
 });
 
@@ -502,7 +543,7 @@ exports.getDevices = catchAsync(async (req, res, next) => {
   const user = await User.findById(req.user._id);
   const currentUserQueue = user.queue;
   if (!currentUserQueue.devices) {
-    return next(new Error('this user has no devices at this time.', 404));
+    return next(new AppError('this user has no devices at this time.', 404));
   }
   res.status(200).json({
     data: currentUserQueue.devices
@@ -560,8 +601,8 @@ exports.getQueue = catchAsync(async (req, res, next) => {
 exports.getCheckoutSession = catchAsync(async (req, res, next) => {
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ['card'],
-    success_url: `${req.protocol}://${req.get('host')}/api/v1/me`,
-    cancel_url: `${req.protocol}://${req.get('host')}/`,
+    success_url: `${req.protocol}://${req.get('host')}/`,
+    cancel_url: `${req.protocol}://${req.get('host')}/premium`,
     customer_email: req.user.email,
     client_reference_id: req.user.email,
     line_items: [
@@ -569,7 +610,7 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
         name: `Premium Subscription`,
         description: `remove advs and get locked songs`,
         images: [`${req.protocol}://${req.get('host')}/img/defult`],
-        amount: 100 * 100,
+        amount: 50 * 100,
         currency: 'USD',
         quantity: 1
       }
@@ -581,15 +622,15 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
 });
 const createPremiumSubscriptionCheckout = async session => {
   const user = await User.findOne({ email: session.customer_email });
-  user.type = 'premium-user';
-  user.save({ validateBeforeSave: false });
+  user.premium = true;
+  await user.save({ validateBeforeSave: false });
 };
 exports.webhookCheckout = catchAsync(async (req, res, next) => {
   const signature = req.headers['stripe-signature'];
   let event;
   try {
     event = stripe.webhooks.constructEvent(
-      req.body,
+      req.rawBody,
       signature,
       process.env.STRIPE_WEBHOOK_SECRET
     );
@@ -599,6 +640,12 @@ exports.webhookCheckout = catchAsync(async (req, res, next) => {
   if (event.type === 'checkout.session.completed')
     createPremiumSubscriptionCheckout(event.data.object);
   res.status(200).json({ received: true });
+});
+exports.setRegistrationToken = catchAsync(async (req, res, next) => {
+  const user = await User.findById(req.user._id);
+  user.registraionToken = req.body.token;
+  await user.save({ validateBeforeSave: false });
+  res.status(200).json({ user });
 });
 module.exports.sendResponse = sendResponse;
 module.exports.getMimeNameFromExt = getMimeNameFromExt;

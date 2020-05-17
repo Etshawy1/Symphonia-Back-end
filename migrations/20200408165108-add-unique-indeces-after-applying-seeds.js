@@ -3,7 +3,6 @@ module.exports = {
     db.collection('users').createIndex({ email: 1 }, { unique: true });
     db.collection('categories').createIndex({ id: 1 }, { unique: true });
     db.collection('categories').createIndex({ name: 1 }, { unique: true });
-    db.collection('albums').createIndex({ name: 1 }, { unique: true });
   },
 
   async down (db, client) {

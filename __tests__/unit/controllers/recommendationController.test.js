@@ -2,6 +2,7 @@ const controller = require('../../../controllers/recommendationController');
 const Track = require('../../../models/trackModel');
 const Category = require('../../../models/categoryModel');
 const Helper = require('../../../utils/helper');
+const Responser = require('../../../utils/responser');
 const _ = require('lodash');
 const {
   mockResponse,
@@ -35,7 +36,7 @@ describe('get Availabe Genre Seed', () => {
 });
 
 describe('get Recommended Tracks 1', () => {
-  let req, res, next;
+  let req, res, next, tracks, limit, offset;
   beforeAll(() => {
     res = mockResponse();
     next = jest.fn();
@@ -43,10 +44,12 @@ describe('get Recommended Tracks 1', () => {
     tracks = [{ id: 1 }, { id: 2 }, { id: 3 }];
     Track.find = mockQuery(tracks);
     pageMeta = Helper.getPageMeta(req);
+    limit = 20;
+    offset = 0;
   });
   it('should return the playlists in a certain category', async () => {
     await controller.getRecommendedTracks(req, res, next);
     expect(res.status).toHaveBeenCalledWith(200);
-    expect(res.json).toHaveBeenCalledWith({ tracks });
+    expect(res.json).toHaveBeenCalledWith(Responser.getPaging(tracks, 'tracks', req, limit, offset));
   });
 });

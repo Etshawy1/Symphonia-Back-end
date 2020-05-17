@@ -6,16 +6,21 @@ const Track = require('./../models/trackModel');
 const _ = require('lodash');
 const AppError = require('../utils/appError');
 const factory = require('./handlerFactory');
+const Responser = require('../utils/responser');
 
-exports.getPlaylist = factory.getOne(Playlist);
+exports.getPlaylist = factory.getOne(Playlist, {
+  path: 'owner',
+  select: 'name'
+});
 
 exports.createPlaylist = catchAsync(async (req, res, next) => {
   let playlistCheck = await User.findById(req.params.id);
 
-  if (!playlistCheck) return res.status(400).send('Invalid User ID');
+  if (!playlistCheck) return next(new AppError('invalid user ID', 400));
 
   const url = `${req.protocol}://${req.get('host')}`;
-  let playlist = new Playlist({
+
+  const playlist = await Playlist.create({
     collaborative: req.body.collaborative,
     name: req.body.name,
     description: req.body.description,
@@ -25,19 +30,11 @@ exports.createPlaylist = catchAsync(async (req, res, next) => {
     followers: req.body.followers,
     category: req.body.category
   });
-
-  playlist = await playlist.save();
-
-  let user = await User.findByIdAndUpdate(
-    req.params.id,
-    {
-      $push: { ownedPlaylists: playlist._id }
-    },
-    { new: true }
-  );
-  user.save({ validateBeforeSave: false });
-
-  res.send(playlist);
+  await User.findByIdAndUpdate(req.params.id, {
+    $push: { ownedPlaylists: playlist._id }
+  });
+  await Playlist.populate(playlist, { path: 'owner', select: 'name' });
+  res.status(200).json(playlist);
 });
 
 exports.getUserPlaylists = catchAsync(async (req, res, next) => {
@@ -46,31 +43,71 @@ exports.getUserPlaylists = catchAsync(async (req, res, next) => {
     return next(new AppError('the user does not exists', 404));
   }
   const features = new APIFeatures(
-    Playlist.find({ _id: { $in: playlistIds.ownedPlaylists } }),
+    Playlist.find({
+      $or: [
+        { _id: { $in: playlistIds.ownedPlaylists } },
+        {
+          followers: { $elemMatch: { $eq: req.params.id } }
+        }
+      ]
+    }),
     req.query
   )
     .filter()
     .sort()
-    .paginate();
+    .offset();
 
-  const playlists = await features.query;
-
-  res.status(200).json(playlists);
+  const playlists = await features.query.populate('owner', 'name');
+  const limit = req.query.limit * 1 || 20;
+  const offset = req.query.offset * 1 || 0;
+  res
+    .status(200)
+    .json(Responser.getPaging(playlists, 'playlists', req, limit, offset));
 });
 
 exports.getCurrentUserPlaylists = catchAsync(async (req, res, next) => {
   const playlistsIds = await User.findById(req.user._id, 'ownedPlaylists');
+
+  const features = new APIFeatures(
+    Playlist.find({
+      $or: [
+        { _id: { $in: playlistsIds.ownedPlaylists } },
+        {
+          followers: { $elemMatch: { $eq: req.user._id } }
+        }
+      ]
+    }),
+    req.query
+  )
+    .filter()
+    .sort()
+    .offset();
+
+  const playlists = await features.query.populate('owner', 'name');
+  const limit = req.query.limit * 1 || 20;
+  const offset = req.query.offset * 1 || 0;
+  res
+    .status(200)
+    .json(Responser.getPaging(playlists, 'playlists', req, limit, offset));
+});
+
+exports.getCurrentUserOwnedPlaylists = catchAsync(async (req, res, next) => {
+  const playlistsIds = await User.findById(req.user._id, 'ownedPlaylists');
+
   const features = new APIFeatures(
     Playlist.find({ _id: { $in: playlistsIds.ownedPlaylists } }),
     req.query
   )
     .filter()
     .sort()
-    .paginate();
+    .offset();
 
-  const playlists = await features.query;
-
-  res.status(200).json(playlists);
+  const playlists = await features.query.populate('owner', 'name');
+  const limit = req.query.limit * 1 || 20;
+  const offset = req.query.offset * 1 || 0;
+  res
+    .status(200)
+    .json(Responser.getPaging(playlists, 'playlists', req, limit, offset));
 });
 
 exports.getPlaylistCoverImage = catchAsync(async (req, res, next) => {
@@ -93,18 +130,21 @@ exports.getPlaylistTracks = catchAsync(async (req, res, next) => {
   }
   const features = new APIFeatures(
     Track.find({ _id: { $in: playlistTracks.tracks } }).populate([
-      'artist',
-      'album'
+      { path: 'artist', select: 'name' },
+      { path: 'album', select: 'name image' }
     ]),
     req.query
   )
     .filter()
     .sort()
-    .paginate();
+    .offset();
 
   const tracks = await features.query;
-
-  res.status(200).json(tracks);
+  const limit = req.query.limit * 1 || 20;
+  const offset = req.query.offset * 1 || 0;
+  res
+    .status(200)
+    .json(Responser.getPaging(tracks, 'tracks', req, limit, offset));
 });
 
 exports.removePlaylistTracks = catchAsync(async (req, res, next) => {
@@ -118,15 +158,36 @@ exports.removePlaylistTracks = catchAsync(async (req, res, next) => {
     (!playlistCheck.public || !playlistCheck.collaborative) &&
     playlistCheck.owner != req.user.id
   )
-    return res.status(500).send('This playlist is restricted');
+    return next(new AppError('This playlist is restricted', 401));
 
-  const playlist = await Playlist.update(
+  if (!req.query.ids)
+    return next(new AppError('missing ids of tracks to delete', 400));
+  const playlist = await Playlist.findByIdAndUpdate(
     { _id: req.params.id },
-    { $unset: { tracks: '' } },
-    { multi: true }
+    {
+      $pull: { tracks: { $in: req.query.ids.split(',') } },
+      owner: req.user.id
+    },
+    { multi: true, new: true }
   );
-
-  res.send(playlist);
+  if (playlist.tracks[0]) {
+    let firstTrack = playlist.tracks[0];
+    firstTrack = await Track.findById(firstTrack).populate({
+      path: 'album',
+      select: 'image'
+    });
+    playlist.images[0] = firstTrack.album.image;
+    await Playlist.findByIdAndUpdate(playlist._id, {
+      images: playlist.images
+    });
+  } else {
+    const url = `${req.protocol}://${req.get('host')}`;
+    playlist.images[0] = `${url}/api/v1/images/playlists/default.png`;
+    await Playlist.findByIdAndUpdate(playlist._id, {
+      images: playlist.images
+    });
+  }
+  res.status(204).json();
 });
 
 exports.addTracksToPlaylist = catchAsync(async (req, res, next) => {
@@ -136,18 +197,18 @@ exports.addTracksToPlaylist = catchAsync(async (req, res, next) => {
       .status(404)
       .send('The playlist with the given ID was not found.');
   }
-
+  const playlistTrackCount = playlistCheck.tracks.length;
   if (
     (!playlistCheck.public || !playlistCheck.collaborative) &&
     playlistCheck.owner != req.user.id
   )
-    return res.status(500).send('This playlist is restricted');
+    return next(new AppError('This playlist is restricted.', 401));
 
   let InputTrackarr = req.body.tracks;
 
   let trackarr = playlistCheck.tracks;
   for (let i = 0; i < InputTrackarr.length; i++) {
-    let Trackcheck = await Track.Track.findById(InputTrackarr[i]);
+    let Trackcheck = await Track.findById(InputTrackarr[i]);
 
     if (!Trackcheck) return res.status(400).send('The Track is not found.');
 
@@ -155,29 +216,43 @@ exports.addTracksToPlaylist = catchAsync(async (req, res, next) => {
       if (trackarr[j] == InputTrackarr[i]) delete InputTrackarr[i];
     }
   }
-  let RealTracksArray = InputTrackarr.filter(function(el) {
+  let RealTracksArray = InputTrackarr.filter(function (el) {
     return el != null;
   });
-
-  const playlist = await Playlist.findByIdAndUpdate(
+  let playlist = await Playlist.findByIdAndUpdate(
     req.params.id,
     {
       $push: { tracks: RealTracksArray }
     },
     { new: true }
   );
+  if (playlistTrackCount === 0 && playlist.tracks[0]) {
+    let firstTrack = playlist.tracks[0];
+    firstTrack = await Track.findById(firstTrack).populate({
+      path: 'album',
+      select: 'image'
+    });
+    playlist.images[0] = firstTrack.album.image;
+    playlist = await Playlist.findByIdAndUpdate(
+      playlist._id,
+      {
+        images: playlist.images
+      },
+      {
+        new: true
+      }
+    );
+  }
 
-  await playlist.save();
-
-  res.send(playlist);
+  res.status(200).json(playlist);
 });
 
 exports.changePlaylistDetails = catchAsync(async (req, res, next) => {
   let playlistCheck = await Playlist.findById(req.params.id);
   if (!playlistCheck) {
-    return res
-      .status(404)
-      .send('The playlist with the given ID was not found.');
+    return next(
+      new AppError('The playlist with the given ID was not found.', 404)
+    );
   }
 
   if (
@@ -191,7 +266,7 @@ exports.changePlaylistDetails = catchAsync(async (req, res, next) => {
     _.pick(req.body, ['name', 'collaborative', 'public', 'description']),
     { new: true, runValidators: true }
   );
-  res.json(playlist);
+  res.status(200).json(playlist);
 });
 exports.maintainPlaylistTracks = catchAsync(async (req, res, next) => {
   let playlistCheck = await Playlist.findById(req.params.id);
@@ -205,7 +280,7 @@ exports.maintainPlaylistTracks = catchAsync(async (req, res, next) => {
     (!playlistCheck.public || !playlistCheck.collaborative) &&
     playlistCheck.owner != req.user.id
   )
-    return res.status(500).send('This playlist is restricted');
+    return next(new AppError('This playlist is restricted.', 401));
 
   if (req.body.rangeStart) {
     let playlistTracks = playlistCheck.tracks;
@@ -227,7 +302,7 @@ exports.maintainPlaylistTracks = catchAsync(async (req, res, next) => {
         delete playlistTracks[i++];
       }
 
-      playlistTracks = playlistTracks.filter(function(el) {
+      playlistTracks = playlistTracks.filter(function (el) {
         return el != null;
       });
 
@@ -245,16 +320,17 @@ exports.maintainPlaylistTracks = catchAsync(async (req, res, next) => {
       await playlist.save();
       res.send(playlist);
     } else {
-      return res.status(400).send('the dimensions is not correct');
+      return next(new AppError('the dimensions are not correct', 400));
     }
   } else {
     let InputTrackarr = req.body.tracks;
 
     let trackarr = playlistCheck.tracks;
     for (let i = 0; i < InputTrackarr.length; i++) {
-      let Trackcheck = await Track.Track.findById(InputTrackarr[i]);
+      let Trackcheck = await Track.findById(InputTrackarr[i]);
 
-      if (!Trackcheck) return res.status(400).send('The Track is not found.');
+      if (!Trackcheck)
+        return next(new AppError('this track was not found', 404));
     }
 
     const playlist = await Playlist.findByIdAndUpdate(
@@ -281,7 +357,7 @@ exports.uploadCustomPlaylistCoverImage = catchAsync(async (req, res, next) => {
     (!playlistCheck.public || !playlistCheck.collaborative) &&
     playlistCheck.owner != req.user.id
   )
-    return res.status(500).send('This playlist is restricted');
+    return next(new AppError('This playlist is restricted.', 401));
 
   const playlist = await Playlist.findByIdAndUpdate(
     req.params.id,

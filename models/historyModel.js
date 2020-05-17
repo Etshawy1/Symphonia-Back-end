@@ -12,7 +12,10 @@ const historySchema = new mongoose.Schema({
         type: String,
         enum: ['playlist', 'album', 'artist']
       },
-      context: Object
+      contextImage: String,
+      contextName: String,
+      contextDescription: String,
+      contextId: mongoose.Schema.Types.ObjectId
     }
   ]
 });

@@ -4,12 +4,20 @@ const meController = require('../controllers/meController');
 const followController = require('../controllers/followController');
 const libraryController = require('../controllers/libraryController');
 const playlistController = require('./../controllers/playlistController');
+const searchController = require('./../controllers/searchController');
 const bodyParser = require('body-parser');
+const searchHistory = require('../utils/searchMiddleware');
 
 const router = express.Router();
-router.use(authController.protect);
-// don't change anyline of my code again there is no problem to put these routes here if there is a problem with you it must be from your work not from the postion of my routes
-
+router.get('/player/tracks/:track_id/:token', meController.playTrack);
+router.get(
+  '/user/:id',
+  authController.protect(false),
+  searchHistory.saveSearchHistory,
+  meController.userProfile
+);
+router.post('/webhook-checkout', meController.webhookCheckout);
+router.use(authController.protect(true));
 //save shuffle
 router.patch('/player/shuffle', meController.shuffle);
 //save volume
@@ -33,6 +41,7 @@ router.delete('/player/queue', meController.popQueue);
 // delete device
 router.delete('/player/devices', meController.popDevices);
 // get devices
+
 router.get('/player/devices', meController.getDevices);
 // get currently playing
 router.get('/player/currently-playing', meController.getCurrentlyPlaying);
@@ -40,8 +49,6 @@ router.get('/player/currently-playing', meController.getCurrentlyPlaying);
 router.get('/player/queue', meController.getQueue);
 // play the track
 router.post('/player/tracks/:track_id', meController.playInfo);
-router.get('/player/tracks/:track_id', meController.playTrack);
-
 // get top artist and top tracks
 router.get('/top/:type', meController.topTracksAndArtists);
 // get recent tracks
@@ -51,13 +58,6 @@ router.get('/', meController.currentUserProfile);
 router.put('/', meController.updateCurrentUserProfile);
 
 // router.batch('/v1/me/player/play',);
-// premium with creditcard
-router.get('/checkout-session', meController.getCheckoutSession);
-router.post(
-  '/webhook-checkout',
-  bodyParser.raw({ type: 'application/json' }),
-  meController.webhookCheckout
-);
 
 // section: follow routes
 // Description: check if the current user follows a another user(partist or normal user)
@@ -107,11 +107,19 @@ router.put('/tracks', libraryController.saveCurrentUserTracks);
 // section: Playlist routes
 
 router.get('/playlists', playlistController.getCurrentUserPlaylists);
+router.get('/playlists/owned', playlistController.getCurrentUserOwnedPlaylists);
 router.get(
   '/playlists/deleted',
   playlistController.getCurrentUserDeletedPlaylists
 );
 router.patch('/playlists/:id', playlistController.recoverCurrentUserPlaylists);
-router.get('/:user_id', meController.userProfile);
+// section search history
 
+router.get('/search/history', searchController.getSearchHistory);
+
+// premium with creditcard
+router.get('/checkout-session', meController.getCheckoutSession);
+
+// registeration token notifications
+router.patch('/registration-token', meController.setRegistrationToken);
 module.exports = router;

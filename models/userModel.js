@@ -4,6 +4,7 @@ const Joi = require('@hapi/joi').extend(require('@hapi/joi-date'));
 const validator = require('validator');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const mongoose_delete = require('mongoose-delete');
 
 /**
  * @module Models.user
@@ -56,8 +57,12 @@ const userSchema = new mongoose.Schema({
   },
   type: {
     type: String,
-    enum: ['user', 'premium-user', 'artist'],
+    enum: ['user', 'artist'],
     defult: 'user'
+  },
+  premium: {
+    type: Boolean,
+    default: false
   },
   gender: {
     type: String,
@@ -139,17 +144,21 @@ const userSchema = new mongoose.Schema({
   artistApplicationToken: String,
   artistApplicationExpires: Date,
   googleId: String,
+  registraionToken: String,
   facebookId: String,
   imageFacebookUrl: String,
   imageGoogleUrl: String,
   imageUrl: String,
   last_login: Date,
+  playerToken: String,
+  playerTokenExpires: Date,
   active: {
     type: Boolean,
     defult: true,
     select: false
   },
-  phone: String
+  phone: String,
+  bio: String
 });
 
 userSchema.pre('save', async function (next) {
@@ -254,14 +263,14 @@ userSchema.methods.createPasswordResetToken = function () {
     .digest('hex');
 
   // the token to reset the password is valit only for 10 minutes
-  this.passwordResetExpires = Date.now() + 10 * 60 * 1000;
+  this.passwordResetExpires = Date.now() + 60 * 60 * 1000;
 
   return resetToken;
 };
 /**
  * creates a artist application token that is valid for 10 minutes only
  * @function createArtistToken
- * @returns {string} - password reset token
+ * @returns {string} - artist reset token
  */
 
 userSchema.methods.createArtistToken = function () {
@@ -272,11 +281,31 @@ userSchema.methods.createArtistToken = function () {
     .update(applicationToken)
     .digest('hex');
 
-  // the token to reset the password is valit only for 10 minutes
-  this.artistApplicationExpires = Date.now() + 10 * 60 * 1000;
-
+  // the token to reset the password is valit only for 1 day
+  this.artistApplicationExpires = Date.now() + 24 * 60 * 60 * 1000;
   return applicationToken;
 };
+/**
+ * creates a artist application token that is valid for 10 minutes only
+ * @function createPlayerToken
+ * @returns {string} -Trak reset token
+ */
+
+userSchema.methods.createPlayerToken = function () {
+  const playerToken = crypto.randomBytes(32).toString('hex');
+
+  this.playerToken = crypto
+    .createHash('sha256')
+    .update(playerToken)
+    .digest('hex');
+  // the token to reset the password is valit only for 10 minutes
+  this.playerTokenExpires = Date.now() + 20 * 60 * 1000;
+  return playerToken;
+};
+
+userSchema.plugin(mongoose_delete, {
+  overrideMethods: 'all'
+});
 
 const User = mongoose.model('User', userSchema);
 

@@ -51,9 +51,10 @@ passport.use(
             name: profile.displayName,
             googleId: profile.id,
             imageGoogleUrl: `${profile.photos[0].value}`,
-            last_login: Date.now()
+            last_login: Date.now(),
+            type: 'user'
           });
-          newUser.save({
+          await newUser.save({
             validateBeforeSave: false
           });
           newUser.status = 201;
@@ -102,9 +103,10 @@ passport.use(
             name: profile.displayName,
             facebookId: profile.id,
             imageFacebookUrl: `${profile.photos[0].value}`,
-            last_login: Date.now()
+            last_login: Date.now(),
+            type: 'user'
           });
-          newUser.save({
+          await newUser.save({
             validateBeforeSave: false
           });
           newUser.status = 201;

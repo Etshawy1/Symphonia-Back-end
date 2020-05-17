@@ -14,7 +14,7 @@ const playlistSchema = new mongoose.Schema(
     name: {
       type: String,
       required: [true, 'please provide a name for your playlist'],
-      minlength: 2,
+      minlength: 1,
       maxlength: 255
     },
     owner: {
@@ -53,6 +53,11 @@ const playlistSchema = new mongoose.Schema(
     toObject: { virtuals: true }
   }
 );
+
+playlistSchema.virtual('tracksCount').get(function () {
+  if (this.tracks) return this.tracks.length;
+  else return undefined;
+});
 
 playlistSchema.plugin(mongoose_delete, {
   deletedAt: true,

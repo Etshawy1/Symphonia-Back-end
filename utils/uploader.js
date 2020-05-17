@@ -1,6 +1,4 @@
-const path = require('path');
 const multer = require('multer');
-const imagePath = path.resolve(__dirname, '..') + '/assets/images/categories';
 const appError = require('../utils/appError');
 const slugify = require('slugify');
 const helper = require('./helper');
@@ -39,7 +37,7 @@ class UploadBuilder {
   /**
    * @constructor
    */
-  constructor() {
+  constructor () {
     this.fileFilter = [];
     this.storage = null;
     this.mimeTypes = [];
@@ -55,13 +53,13 @@ class UploadBuilder {
    * @param {String} eventEmmiter
    * @param {String} action
    */
-  addEventEmmiter(eventEmmiter, action) {}
+  addEventEmmiter (eventEmmiter, action) {}
   /**
    * @summary - sets the path where the files should be stored
    * @param {String} storePath - the path where the files should be stored
    * @returns {void}
    */
-  setPath(storePath) {
+  setPath (storePath) {
     this.filePath = storePath;
   }
 
@@ -72,7 +70,7 @@ class UploadBuilder {
    * @param {string} prefix optional-any prefix you want to add to the filename: it is added before extension
    * @param {number} maxCount the maximum count of fields to expect in usually one if one file is sent and not an array
    */
-  addfileField(fieldName, saveByReqName = null, prefix = '', maxCount = 1) {
+  addfileField (fieldName, saveByReqName = null, prefix = '', maxCount = 1) {
     this.fileFields.push({
       name: fieldName,
       maxCount: maxCount
@@ -86,54 +84,59 @@ class UploadBuilder {
   /**
    * @returns {Map} it returns a map where key:field name in the request and value:{saveByReqName:'name', maxCount:1, prefix:'md}
    */
-  getFieldsMap() {
+  getFieldsMap () {
     return this.saveByReqName;
   }
   /**
    *@param {string} typeFilter can be  image/jpeg or image/png ...etc
    */
-  addTypeFilter(typeFilter) {
+  addTypeFilter (typeFilter) {
     this.mimeTypes.push(typeFilter);
   }
   /**
    * @returns {Array} - returns the types it is going to filter
    */
-  getTypeFilters() {
+  getTypeFilters () {
     return this.mimeTypes;
   }
   /**
+   * @param {Boolean} manipulate - if set to true the file will be saved to memory not disk and file will be available as buffer
    * @returns {function} the ready to use before route middleware
    */
-  constructUploader() {
+  constructUploader (manipulate) {
     let saveByReqName = this.saveByReqName;
-    this.storage = multer.diskStorage({
-      destination: function(req, file, cb) {
-        cb(null, imagePath);
-      },
-      filename: function(req, file, cb) {
-        // look for the extension
-        let i = file.mimetype.search('/');
-        let ext = file.mimetype.substring(i + 1, file.mimetype.length);
+    this.storage = manipulate
+      ? multer.memoryStorage()
+      : multer.diskStorage({
+          destination: (req, file, cb) => {
+            cb(null, this.filePath);
+          },
+          filename: function (req, file, cb) {
+            // look for the extension
+            let i = file.mimetype.search('/');
+            let ext = file.mimetype.substring(i + 1, file.mimetype.length);
 
-        const map = new Map(Object.entries(req.body));
-        let uniqueName;
-        if (saveByReqName.get(file.fieldname).saveByReqName == null) {
-          uniqueName = helper.randomStr(20);
-        } else {
-          uniqueName = map.get(saveByReqName.get(file.fieldname).saveByReqName);
-        }
+            const map = new Map(Object.entries(req.body));
+            let uniqueName;
+            if (saveByReqName.get(file.fieldname).saveByReqName == null) {
+              uniqueName = helper.randomStr(20);
+            } else {
+              uniqueName = map.get(
+                saveByReqName.get(file.fieldname).saveByReqName
+              );
+            }
 
-        const f_name =
-          uniqueName +
-          '_' +
-          Date.now() +
-          saveByReqName.get(file.fieldname).prefix;
-        const imName = slugify(f_name, { lower: true }) + '.' + ext;
-        cb(null, imName);
-      }
-    });
+            const f_name =
+              uniqueName +
+              '_' +
+              Date.now() +
+              saveByReqName.get(file.fieldname).prefix;
+            const imName = slugify(f_name, { lower: true }) + '.' + ext;
+            cb(null, imName);
+          }
+        });
     let mimeTypes = this.mimeTypes;
-    function filter1(req, file, next) {
+    function filter1 (req, file, next) {
       // reject a file
       // i have the problem to check for fieldTypes
       let found = false;
@@ -153,14 +156,15 @@ class UploadBuilder {
     }
     this.uploader = multer({
       storage: this.storage,
-      fileFilter: filter1
+      fileFilter: filter1,
+      limits: { fileSize: 5 * 1024 * 1024, fieldSize: 2 * 1024 * 1024 } //max 2 MB
     });
     return this.uploader.fields(this.fileFields);
   }
   /**
    * @returns {function} the ready to use before route middleware
    */
-  getUploader() {
+  getUploader () {
     return this.uploader.fields(this.fileFields);
   }
 }
