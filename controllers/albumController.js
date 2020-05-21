@@ -19,6 +19,16 @@ const sharp = require('sharp');
 /**
  * @module albumController
  */
+exports.checkCurrentArtist = catchAsync(async (req, res, next) => {
+  artist = await Album.findById(req.params.id, 'artist');
+  if (artist != req.user.id) {
+    return next(new AppError('Not allowed', 404));
+  } else next();
+});
+
+exports.deleteAlbum = factory.deleteOne(Album);
+
+exports.renameAlbum = factory.Rename(Album);
 
 exports.getManyAlbums = factory.getMany(Album, [
   { path: 'tracks', select: 'name' },
@@ -102,7 +112,7 @@ exports.multiPart = catchAsync(async (req, res, next) => {
  * @param {Object} user - user object that contains artist's name and id
  * @returns {String} The name of the stored image
  */
-async function prepareImage (bufferImage, user) {
+async function prepareImage(bufferImage, user) {
   // A1) get image data like the width and height and extension
   const imageData = sizeOf(bufferImage);
   const imageSize = Math.min(imageData.width, imageData.height, 300);
