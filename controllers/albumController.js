@@ -36,7 +36,7 @@ exports.deleteAlbum = catchAsync(async (req, res, next) => {
   }
   let tracks = album.tracks;
   for (let index = 0; index < tracks.length; index++) {
-    await Track.findByIdAndDelete(tracks[0]._id);
+    await Track.findByIdAndDelete(tracks[index]._id);
   }
   await Album.findByIdAndDelete(req.params.id);
   res.status(200).json(null);
