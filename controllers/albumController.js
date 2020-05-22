@@ -20,15 +20,32 @@ const sharp = require('sharp');
  * @module albumController
  */
 exports.checkCurrentArtist = catchAsync(async (req, res, next) => {
-  artist = await Album.findById(req.params.id, 'artist');
-  if (artist != req.user.id) {
+  const artist = await Album.findById(req.params.id);
+  if (!artist.artist.equals(req.user.id)) {
     return next(new AppError('Not allowed', 404));
   } else next();
 });
 
 exports.deleteAlbum = factory.deleteOne(Album);
 
-exports.renameAlbum = factory.Rename(Album);
+exports.renameAlbum = catchAsync(async (req, res, next) => {
+  const album = await Album.findByIdAndUpdate(
+    req.params.id,
+    {
+      name: req.body.name
+    },
+    {
+      new: true,
+      runValidators: true
+    }
+  );
+
+  if (!album) {
+    return next(new AppError('No document found with that ID', 404));
+  }
+
+  res.status(200).json(album);
+});
 
 exports.getManyAlbums = factory.getMany(Album, [
   { path: 'tracks', select: 'name' },

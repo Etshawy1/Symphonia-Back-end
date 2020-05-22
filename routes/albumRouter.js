@@ -42,7 +42,7 @@ router.delete(
 router.patch(
   '/:id',
   authController.protect(true),
-  authController.restrictTo('artsit'),
+  authController.restrictTo('artist'),
   albumController.checkCurrentArtist,
   albumController.renameAlbum
 );

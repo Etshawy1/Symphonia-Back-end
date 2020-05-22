@@ -111,9 +111,10 @@ exports.deleteAlbumTrack = catchAsync(async (req, res, next) => {
     if (req.params.trackId != tracks[index] && index == tracks.length - 1)
       return next(new AppError('that document does not exist', 404));
   }
+  console.log(tracks);
   await Album.update(
     { _id: req.params.id },
-    { $pull: { tracks: req.params.trackId } }
+    { $pull: { tracks: { _id: req.params.trackId } } }
   );
   // if I delete it from Track Like findByIdandRemove(req.params.trackId)
   // will it removed from the Album as I removed the reference ??
