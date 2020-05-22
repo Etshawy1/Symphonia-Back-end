@@ -26,7 +26,21 @@ exports.checkCurrentArtist = catchAsync(async (req, res, next) => {
   } else next();
 });
 
-exports.deleteAlbum = factory.deleteOne(Album);
+exports.deleteAlbum = catchAsync(async (req, res, next) => {
+  const album = await Album.findById(req.params.id);
+  if (!album) {
+    return next(new AppError('No document found with that ID', 404));
+  }
+  if (!album.artist.equals(req.user.id)) {
+    return next(new AppError('Not allowed', 404));
+  }
+  let tracks = album.tracks;
+  for (let index = 0; index < tracks.length; index++) {
+    await Track.findByIdAndDelete(tracks[0]._id);
+  }
+  await Album.findByIdAndDelete(req.params.id);
+  res.status(200).json(null);
+});
 
 exports.renameAlbum = catchAsync(async (req, res, next) => {
   const album = await Album.findByIdAndUpdate(
