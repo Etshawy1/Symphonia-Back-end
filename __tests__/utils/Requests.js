@@ -26,6 +26,10 @@ module.exports.mockQuery = function(arr) {
   query.skip = jest.fn().mockReturnValue(query);
   query.limit = jest.fn().mockReturnValue(query);
   query.populate = jest.fn().mockReturnValue(query);
+  query.then = jest.fn().mockReturnValue(query);
+  query.catch = jest.fn().mockReturnValue(query);
+
+
   return jest.fn().mockReturnValue(query);
 };
 

@@ -15,6 +15,148 @@ const {
 } = require('../../utils/Requests');
 const Album = require('../../../models/albumModel');
 
+describe('follow User', () => {
+  let req, res, next;
+  beforeAll(() => {
+    res = mockResponse();
+    next = jest.fn();
+    req = mockPageRequest();
+    mongoose.Types.ObjectId.isValid = jest.fn().mockReturnValue(true);
+    req.query = { ids: '6,7' };
+    req.user = { _id: '1', id: '1', followedUsers: ['1', '2', '3', '4', '5'] };
+    req.user.save = jest.fn();
+    User.findById = mockQuery();
+  });
+  it('should follow User', async () => {
+    await controller.FollowUser(req, res, next);
+    expect(req.user.followedUsers).toEqual(expect.arrayContaining(['1', '2', '3', '4', '5', '6', '7']));
+    expect(res.status).toHaveBeenCalledWith(204);
+    expect(res.json).toHaveBeenCalled();
+  });
+  it('shouldnot follow User and display user is already followed message', async () => {
+    
+    req.query = { ids: '1,7' };
+
+    await controller.FollowUser(req, res, next);   
+    expect(next).toHaveBeenCalledWith(new AppError('user is already followed', 400));
+  });
+});
+
+describe('check If User Follower', () => {
+  let req, res, next;
+  beforeAll(() => {
+    res = mockResponse();
+    next = jest.fn();
+    req = mockPageRequest();
+    req.query = { ids: '1,2,7' };
+    req.user = { _id: '1', id: '1', followedUsers: ['1', '2', '3', '4', '5'] };
+    req.user.save = jest.fn();
+
+    User.findById = jest.fn().mockReturnValue(req.user);
+  });
+  it('return which users are followed and which are not', async () => {
+    await controller.checkIfUserFollower(req, res, next);
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith([true, true, false]);
+  });
+  it('return ids field is missing', async () => {
+    req.query.ids = undefined;
+    await controller.checkIfUserFollower(req, res, next);
+    expect(next).toHaveBeenCalledWith(new AppError('ids field is missing', 400));
+  });
+  
+});
+
+
+describe('check If Playlist Follower', () => {
+  let req, res, next;
+  beforeAll(() => {
+    res = mockResponse();
+    next = jest.fn();
+    req = mockPageRequest();
+    req.query = { ids: '1,2,7' };
+    req.user.save = jest.fn();
+    playlist = {id:'1',followers: ['1', '2', '3', '4', '5'] };
+    req.params.id = playlist.id; // playlist id 1
+    Playlist.findById = jest.fn().mockReturnValue(playlist);
+  });
+  it('return which playlists are followed and which are not', async () => {
+    await controller.checkIfPlaylistFollower(req, res, next);
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.send).toHaveBeenCalledWith([true, true, false]);
+  });
+  it('return ids field is missing', async () => {
+    req.query.ids = undefined;
+    await controller.checkIfPlaylistFollower(req, res, next);
+    expect(next).toHaveBeenCalledWith(new AppError('ids field is missing', 400));
+  });
+  
+});
+
+describe('follow Playlist', () => {
+  let req, res, next;
+  beforeAll(() => {
+    res = mockResponse();
+    next = jest.fn();
+    req = mockPageRequest();
+    playlist = {id:'1', followers:['2','3']};
+    req.params.id = playlist.id;
+    req.query = { ids: '6,7' };
+    req.user = { _id: '1', id: '1', followedUsers: ['1', '2', '3', '4', '5'] };
+    req.user.save = jest.fn();
+    Playlist.findOne = jest.fn().mockReturnValue(playlist);
+    Playlist.findByIdAndUpdate = jest.fn();
+
+  });
+  it('should follow User', async () => {
+    await controller.followPlaylist(req, res, next);
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalled();
+  });
+  it('shouldnot follow Plalist and display user is already following the playlist', async () => {
+    playlist.followers.push(req.user._id);
+    await controller.followPlaylist(req, res, next);   
+    expect(next).toHaveBeenCalledWith(new AppError('already following the playlist', 403));
+  });
+});
+
+
+
+
+describe('followed playlist count', () => {
+  let req, res, next;
+  beforeAll(() => {
+    res = mockResponse();
+    next = jest.fn();
+    req = mockPageRequest();
+    req.user = { _id: '1', id: '1', followedUsers: ['1', '2', '3', '4', '5'] };
+    Playlist.count = jest.fn().mockReturnValue(2)
+    });
+  it('should return the count of followed playlists by user', async () => {
+    await controller.followedPlaylistCount(req, res, next);
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith({ FollowedPlaylists: 2 });
+  });
+});
+
+describe('get followed playlist', () => {
+  let req, res, next,playlists;
+  beforeAll(() => {
+    res = mockResponse();
+    next = jest.fn();
+    req = mockPageRequest();
+    req.user = { _id: '1', id: '1', followedUsers: ['1', '2', '3', '4', '5'] };
+    playlists = [{id:1},{id:2},{id:3},{id:4}];
+    Playlist.find = mockQuery(playlists);
+    });
+  it('should return current user\'s followed playlists ', async () => {
+    await controller.followedPlaylist(req, res, next);
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith(playlists);
+  });
+});
+
+
 describe('unfollow User', () => {
   let req, res, next;
   beforeAll(() => {

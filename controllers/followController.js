@@ -31,7 +31,7 @@ exports.FollowUser = catchAsync(async (req, res, next) => {
         .then(user => {
           const payload = {
             data: {
-              data: 'كس ام الضحك'
+              data: '*******************'
             },
             notification: {
               title: 'Title of notification',
@@ -53,7 +53,7 @@ exports.FollowUser = catchAsync(async (req, res, next) => {
   req.user.followedUsers.push(...ids);
   user = await req.user.save({ validateBeforeSave: false });
 
-  res.status(204).json(user);
+  res.status(204).json();
 });
 
 exports.checkIfUserFollower = catchAsync(async (req, res, next) => {
@@ -80,6 +80,7 @@ exports.checkIfPlaylistFollower = catchAsync(async (req, res, next) => {
   if (!req.query.ids) {
     return next(new AppError('ids field is missing', 400)); // bad request
   }
+  
   let userIds = req.query.ids.split(',');
   let playlistId = req.params.id;
   // we have to make
@@ -106,7 +107,7 @@ exports.followPlaylist = catchAsync(async (req, res, next) => {
 
   let oldPlaylist = await Playlist.findOne({ _id: playlistId });
   if (oldPlaylist.followers.includes(userId)) {
-    return next(new AppError('already following the playlist'), 403);
+    return next(new AppError('already following the playlist', 403));
   }
   newPlayist = await Playlist.findByIdAndUpdate(
     playlistId,
@@ -142,6 +143,7 @@ exports.followedPlaylist = catchAsync(async (req, res, next) => {
 });
 
 // TODO: handle the next href and the
+// TODO: remove it entirely and replace with one that has no after functionality
 // TODO: the query must have the type parameter specified and type = artist (i didn't include it)
 exports.getUserFollowedArtists = catchAsync(async (req, res, next) => {
   // filteration stage
