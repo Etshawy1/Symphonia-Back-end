@@ -1,5 +1,6 @@
 const Track = require('./../models/trackModel');
 const { User } = require('../models/userModel');
+const Album = require('../models/albumModel');
 const factory = require('./handlerFactory');
 const catchAsync = require('../utils/catchAsync').threeArg;
 const UploadBuilder = require('../utils/uploader').UploadBuilder;
@@ -62,7 +63,7 @@ exports.addTrack = catchAsync(async (req, res, next) => {
  * @param {Object} user - user object that contains artist's name and id
  * @returns {Object} The name of the stored track and duration of the track in milliseconds
  */
-async function prepareTrack (bufferTrack, user) {
+async function prepareTrack(bufferTrack, user) {
   // A) get the track duration in milliseconds
   const durationMs = (await mp3Duration(bufferTrack)) * 1000;
 
@@ -80,3 +81,42 @@ async function prepareTrack (bufferTrack, user) {
   const trackPath = `${rltvPath}/${trackName}`;
   return { trackPath, durationMs };
 }
+// Relative to Album
+
+exports.renameAlbumTrack = catchAsync(async (req, res, next) => {
+  let tracks = Album.findById(req.params.id, 'tracks');
+  if (!tracks) {
+    return next(new AppError('that document does not exist', 404));
+  }
+
+  for (let index = 0; index < tracks.length; index++) {
+    if (req.params.trackId != tracks[index] && index == tracks.length - 1)
+      return next(new AppError('that document does not exist', 404));
+  }
+  let track = await Track.findByIdAndUpdate(
+    { _id: req.params.trackId },
+    { name: req.body.name },
+    { new: true }
+  );
+  res.status(200).json(track);
+});
+
+exports.deleteAlbumTrack = catchAsync(async (req, res, next) => {
+  let tracks = Album.findById(req.params.id, 'tracks');
+  if (!tracks) {
+    return next(new AppError('that document does not exist', 404));
+  }
+
+  for (let index = 0; index < tracks.length; index++) {
+    if (req.params.trackId != tracks[index] && index == tracks.length - 1)
+      return next(new AppError('that document does not exist', 404));
+  }
+  console.log(tracks);
+  await Album.update(
+    { _id: req.params.id },
+    { $pull: { tracks: { _id: req.params.trackId } } }
+  );
+  // if I delete it from Track Like findByIdandRemove(req.params.trackId)
+  // will it removed from the Album as I removed the reference ??
+  res.status(200).json(null);
+});
