@@ -5,7 +5,6 @@ const followController = require('../controllers/followController');
 const libraryController = require('../controllers/libraryController');
 const playlistController = require('./../controllers/playlistController');
 const searchController = require('./../controllers/searchController');
-const bodyParser = require('body-parser');
 const searchHistory = require('../utils/searchMiddleware');
 
 const router = express.Router();
