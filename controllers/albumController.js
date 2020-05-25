@@ -28,6 +28,7 @@ exports.checkCurrentArtist = catchAsync(async (req, res, next) => {
     return next(new AppError('Access denied', 400));
   } else {
     req.album = album;
+    next();
   }
 });
 

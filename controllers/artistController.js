@@ -117,7 +117,10 @@ exports.getArtistAlbums = catchAsync(async (req, res, next) => {
     .sort()
     .offset();
 
-  const albums = await features.query.populate('artist', 'name');
+  const albums = await features.query.populate([
+    { path: 'artist', select: 'name' },
+    { path: 'tracks', select: 'name' }
+  ]);
   const limit = req.query.limit * 1 || 20;
   const offset = req.query.offset * 1 || 0;
   res
