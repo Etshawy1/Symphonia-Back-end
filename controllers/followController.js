@@ -6,6 +6,8 @@ const APIFeatures = require('./../utils/apiFeatures');
 const mongoose = require('mongoose');
 const admin = require('firebase-admin');
 const serviceAccount = require('./../symphonia.json');
+const Responser = require('../utils/responser');
+
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
   databaseURL: 'https://symphonia-272211.firebaseio.com'
@@ -80,7 +82,7 @@ exports.checkIfPlaylistFollower = catchAsync(async (req, res, next) => {
   if (!req.query.ids) {
     return next(new AppError('ids field is missing', 400)); // bad request
   }
-  
+
   let userIds = req.query.ids.split(',');
   let playlistId = req.params.id;
   // we have to make
@@ -137,9 +139,14 @@ exports.followedPlaylist = catchAsync(async (req, res, next) => {
   )
     .filter()
     .sort()
-    .paginate();
-  const playlists = await features.query;
-  res.status(200).json(playlists);
+    .offset();
+
+  const playlists = await features.query.populate('owner', 'name');
+  const limit = req.query.limit * 1 || 20;
+  const offset = req.query.offset * 1 || 0;
+  res
+    .status(200)
+    .json(Responser.getPaging(playlists, 'playlists', req, limit, offset));
 });
 
 // TODO: handle the next href and the
