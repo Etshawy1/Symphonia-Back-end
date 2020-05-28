@@ -266,6 +266,8 @@ exports.playTrack = catchAsync(async (req, res, next) => {
     return next(new AppError('Token is invalid or has expired', 400));
   }
   const track = await Track.findById(req.params.track_id);
+  track.usersCount++;
+  await track.save({ validateBeforeSave: false });
   const { trackPath } = track;
   // Check if file exists. If not, will return the 404 'Not Found'.
   if (!fs.existsSync(`${trackPath}`)) {

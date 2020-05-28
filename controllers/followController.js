@@ -61,6 +61,7 @@ exports.FollowUser = catchAsync(async (req, res, next) => {
   } catch (error) {
     return next(error);
   }
+  req.user.usersCount += ids.length;
   req.user.followedUsers.push(...ids);
   user = await req.user.save({ validateBeforeSave: false });
   res.status(204).json();
