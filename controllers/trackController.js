@@ -13,7 +13,13 @@ const fs = require('fs');
 const fs_writeFile = util.promisify(fs.writeFile);
 const fs_makeDir = util.promisify(fs.mkdir);
 const mp3Duration = require('mp3-duration');
+const admin = require('firebase-admin');
+const serviceAccount = require('./../symphonia.json');
 
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: 'https://symphonia-272211.firebaseio.com'
+});
 exports.getTrack = factory.getOne(Track, [
   { path: 'album', select: 'name image' },
   { path: 'category', select: 'name' },
@@ -82,10 +88,36 @@ exports.addTrack = catchAsync(async (req, res, next) => {
   );
 
   // add reference to the track in the Artist object
-  await User.findByIdAndUpdate(req.user._id, {
+  const artist = await User.findByIdAndUpdate(req.user._id, {
     $push: { tracks: track._id }
   });
 
+  artist.followedUsers.forEach(user => {
+    const users = {
+      artist: artist._id,
+      follwingUser: user._id
+    };
+    const payload = {
+      data: {
+        data: JSON.stringify(users)
+      },
+      notification: {
+        title: 'Tracks Updated',
+        body: artist.name,
+        sounds: 'default',
+        icon: artist.imageUrl
+      }
+    };
+    admin
+      .messaging()
+      .sendToDevice(user.registraionToken, payload)
+      .then(response => {
+        __logger.info(`${JSON.stringify(response)}`);
+      })
+      .catch(err => {
+        __logger.info(`${err}`);
+      });
+  });
   res.status(200).json(track);
 });
 

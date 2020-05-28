@@ -7,6 +7,13 @@ const _ = require('lodash');
 const AppError = require('../utils/appError');
 const factory = require('./handlerFactory');
 const Responser = require('../utils/responser');
+const admin = require('firebase-admin');
+const serviceAccount = require('./../symphonia.json');
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: 'https://symphonia-272211.firebaseio.com'
+});
 
 exports.getPlaylist = factory.getOne(Playlist, {
   path: 'owner',
@@ -244,6 +251,32 @@ exports.addTracksToPlaylist = catchAsync(async (req, res, next) => {
     );
   }
 
+  playlistCheck.followers.forEach(user => {
+    const ids = {
+      playlist: playlistCheck._id,
+      follwingUser: user._id
+    };
+    const payload = {
+      data: {
+        data: JSON.stringify(ids)
+      },
+      notification: {
+        title: 'PlayList Updated',
+        body: playlistCheck.name,
+        sounds: 'default',
+        icon: playlistCheck.image
+      }
+    };
+    admin
+      .messaging()
+      .sendToDevice(user.registraionToken, payload)
+      .then(response => {
+        __logger.info(`${JSON.stringify(response)}`);
+      })
+      .catch(err => {
+        __logger.info(`${err}`);
+      });
+  });
   res.status(200).json(playlist);
 });
 

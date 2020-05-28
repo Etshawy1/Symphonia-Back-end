@@ -12,8 +12,6 @@ admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
   databaseURL: 'https://symphonia-272211.firebaseio.com'
 });
-// const fcm = require('fcm-notification');
-// const FCM = new fcm('./../symphonia.json');
 
 exports.FollowUser = catchAsync(async (req, res, next) => {
   if (!req.query.ids) {
@@ -31,19 +29,30 @@ exports.FollowUser = catchAsync(async (req, res, next) => {
       }
       User.findById(e)
         .then(user => {
+          const users = {
+            followedUser: user._id,
+            follwingUser: req.user._id
+          };
           const payload = {
             data: {
-              data: '*******************'
+              data: JSON.stringify(users)
             },
             notification: {
-              title: 'Title of notification',
-              body: 'Body of notification',
-              icon: req.user.imageUrl,
-              sound: 'default'
-            },
-            token: user.registraionToken
+              title: 'Following User',
+              body: req.user.name,
+              sounds: 'default',
+              icon: req.user.imageUrl
+            }
           };
-          admin.messaging().sendToDevice(tokens, payload);
+          admin
+            .messaging()
+            .sendToDevice(user.registraionToken, payload)
+            .then(response => {
+              __logger.info(`${JSON.stringify(response)}`);
+            })
+            .catch(err => {
+              __logger.info(`${err}`);
+            });
         })
         .catch(error => {
           return next(error);
@@ -54,7 +63,6 @@ exports.FollowUser = catchAsync(async (req, res, next) => {
   }
   req.user.followedUsers.push(...ids);
   user = await req.user.save({ validateBeforeSave: false });
-
   res.status(204).json();
 });
 
