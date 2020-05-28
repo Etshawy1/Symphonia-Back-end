@@ -14,12 +14,6 @@ const fs_writeFile = util.promisify(fs.writeFile);
 const fs_makeDir = util.promisify(fs.mkdir);
 const mp3Duration = require('mp3-duration');
 const admin = require('firebase-admin');
-const serviceAccount = require('./../symphonia.json');
-
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: 'https://symphonia-272211.firebaseio.com'
-});
 exports.getTrack = factory.getOne(Track, [
   { path: 'album', select: 'name image' },
   { path: 'category', select: 'name' },
@@ -91,8 +85,10 @@ exports.addTrack = catchAsync(async (req, res, next) => {
   const artist = await User.findByIdAndUpdate(req.user._id, {
     $push: { tracks: track._id }
   });
-
-  artist.followedUsers.forEach(user => {
+  for (let index = 0; index < artist.followedUsers.length; index++) {
+    const user = await User.findById(artist.followedUsers[index]).select(
+      '+notification'
+    );
     const users = {
       artist: artist._id,
       follwingUser: user._id
@@ -108,16 +104,18 @@ exports.addTrack = catchAsync(async (req, res, next) => {
         icon: artist.imageUrl
       }
     };
-    admin
-      .messaging()
-      .sendToDevice(user.registraionToken, payload)
-      .then(response => {
-        __logger.info(`${JSON.stringify(response)}`);
-      })
-      .catch(err => {
-        __logger.info(`${err}`);
+    if (user.notification === undefined) {
+      const notification = await Notification.create({
+        items: [payload]
       });
-  });
+      user.notification = notification._id;
+    } else {
+      const notification = await Notification.findById(user.notification);
+      notification.items.push(payload);
+      await notification.save({ validateBeforeSave: false });
+    }
+    await admin.messaging().sendToDevice(user.registraionToken, payload);
+  }
   res.status(200).json(track);
 });
 

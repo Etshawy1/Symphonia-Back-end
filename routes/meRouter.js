@@ -121,4 +121,6 @@ router.get('/checkout-session', meController.getCheckoutSession);
 
 // registeration token notifications
 router.patch('/registration-token', meController.setRegistrationToken);
+router.get('/notifications', playlistController.getNotificationsHistory);
+
 module.exports = router;

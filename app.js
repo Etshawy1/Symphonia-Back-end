@@ -14,6 +14,7 @@ app.use((req, res, next) => {
   next();
 });
 app.use(compression());
+require('./startup/notification');
 require('./startup/passport-setup');
 require('./startup/logging')(app);
 require('./startup/ratelimit')(app);

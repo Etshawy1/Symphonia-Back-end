@@ -11,6 +11,7 @@ const APIFeatures = require('./../utils/apiFeatures');
 const _ = require('lodash');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const crypto = require('crypto');
+const { Notification } = require('../models/notificationsModel');
 
 const mimeNames = {
   '.mp3': 'audio/mpeg',
@@ -648,6 +649,16 @@ exports.setRegistrationToken = catchAsync(async (req, res, next) => {
   user.registraionToken = req.body.token;
   await user.save({ validateBeforeSave: false });
   res.status(200).json({ user });
+});
+exports.getNotificationsHistory = catchAsync(async (req, res, next) => {
+  const user = await User.findById(req.user._id).select('+notifications');
+  if (user.notifications === undefined) {
+    return next(
+      new AppError(`this user doesn't have notifications history`, 404)
+    );
+  }
+  const notifications = await Notification.findById(user.notification);
+  res.status(200).json({ notifications });
 });
 module.exports.sendResponse = sendResponse;
 module.exports.getMimeNameFromExt = getMimeNameFromExt;

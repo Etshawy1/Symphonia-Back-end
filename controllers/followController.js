@@ -5,13 +5,8 @@ const AppError = require('../utils/appError');
 const APIFeatures = require('./../utils/apiFeatures');
 const mongoose = require('mongoose');
 const admin = require('firebase-admin');
-const serviceAccount = require('./../symphonia.json');
 const Responser = require('../utils/responser');
-
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: 'https://symphonia-272211.firebaseio.com'
-});
+const { Notification } = require('../models/notificationsModel');
 
 exports.FollowUser = catchAsync(async (req, res, next) => {
   if (!req.query.ids) {
@@ -19,51 +14,49 @@ exports.FollowUser = catchAsync(async (req, res, next) => {
   }
   const ids = req.query.ids.split(',');
   // NOTE: not tested
-  try {
-    ids.forEach(e => {
-      if (!mongoose.Types.ObjectId.isValid(e)) {
-        throw new AppError('invalid ids provided', 400);
+  for (let i = 0; i < ids.length; i++) {
+    if (!mongoose.Types.ObjectId.isValid(ids[i])) {
+      throw new AppError('invalid ids provided', 400);
+    }
+
+    if (req.user.followedUsers.includes(ids[i])) {
+      throw new AppError('user is already followed', 400);
+    }
+    const user = await User.findById(ids[i]).select('+notification');
+    const users = {
+      followedUser: user._id,
+      follwingUser: req.user._id
+    };
+    const payload = {
+      data: {
+        data: JSON.stringify(users)
+      },
+      notification: {
+        title: 'Following User',
+        body: req.user.name,
+        sounds: 'default',
+        icon: req.user.imageUrl
       }
-      if (req.user.followedUsers.includes(e)) {
-        throw new AppError('user is already followed', 400);
-      }
-      User.findById(e)
-        .then(user => {
-          const users = {
-            followedUser: user._id,
-            follwingUser: req.user._id
-          };
-          const payload = {
-            data: {
-              data: JSON.stringify(users)
-            },
-            notification: {
-              title: 'Following User',
-              body: req.user.name,
-              sounds: 'default',
-              icon: req.user.imageUrl
-            }
-          };
-          admin
-            .messaging()
-            .sendToDevice(user.registraionToken, payload)
-            .then(response => {
-              __logger.info(`${JSON.stringify(response)}`);
-            })
-            .catch(err => {
-              __logger.info(`${err}`);
-            });
-        })
-        .catch(error => {
-          return next(error);
-        });
-    });
-  } catch (error) {
-    return next(error);
+    };
+    if (user.notification === undefined) {
+      const notification = await Notification.create({
+        items: [payload]
+      });
+      user.notification = notification._id;
+    } else {
+      const notification = await Notification.findById(user.notification);
+      notification.items.push(payload);
+      await notification.save({ validateBeforeSave: false });
+    }
+    const result = await admin
+      .messaging()
+      .sendToDevice(user.registraionToken, payload);
+    __logger.info(JSON.stringify(result));
+    await user.save({ validateBeforeSave: false });
   }
   req.user.usersCount += ids.length;
   req.user.followedUsers.push(...ids);
-  user = await req.user.save({ validateBeforeSave: false });
+  await req.user.save({ validateBeforeSave: false });
   res.status(204).json();
 });
 

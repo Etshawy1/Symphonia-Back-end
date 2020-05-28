@@ -8,13 +8,6 @@ const AppError = require('../utils/appError');
 const factory = require('./handlerFactory');
 const Responser = require('../utils/responser');
 const admin = require('firebase-admin');
-const serviceAccount = require('./../symphonia.json');
-
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: 'https://symphonia-272211.firebaseio.com'
-});
-
 exports.getPlaylist = factory.getOne(Playlist, {
   path: 'owner',
   select: 'name'
@@ -251,7 +244,10 @@ exports.addTracksToPlaylist = catchAsync(async (req, res, next) => {
     );
   }
 
-  playlistCheck.followers.forEach(user => {
+  for (let index = 0; index < playlistCheck.followers.length; index++) {
+    const user = await User.findById(playlistCheck.followers[index]).select(
+      '+notification'
+    );
     const ids = {
       playlist: playlistCheck._id,
       follwingUser: user._id
@@ -267,16 +263,18 @@ exports.addTracksToPlaylist = catchAsync(async (req, res, next) => {
         icon: playlistCheck.image
       }
     };
-    admin
-      .messaging()
-      .sendToDevice(user.registraionToken, payload)
-      .then(response => {
-        __logger.info(`${JSON.stringify(response)}`);
-      })
-      .catch(err => {
-        __logger.info(`${err}`);
+    if (user.notification === undefined) {
+      const notification = await Notification.create({
+        items: [payload]
       });
-  });
+      user.notification = notification._id;
+    } else {
+      const notification = await Notification.findById(user.notification);
+      notification.items.push(payload);
+      await notification.save({ validateBeforeSave: false });
+    }
+    await admin.messaging().sendToDevice(user.registraionToken, payload);
+  }
   res.status(200).json(playlist);
 });
 
