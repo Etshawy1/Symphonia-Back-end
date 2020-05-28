@@ -123,6 +123,6 @@ router.get('/checkout-session', meController.getCheckoutSession);
 router.patch('/registration-token', meController.setRegistrationToken);
 
 // get the history of notifications
-router.get('/notifications', playlistController.getNotificationsHistory);
+router.get('/notifications', meController.getNotificationsHistory);
 
 module.exports = router;
