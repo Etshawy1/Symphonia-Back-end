@@ -20,13 +20,13 @@ exports.FollowUser = catchAsync(async (req, res, next) => {
     const user = await User.findById(ids[i]);
     if (!user) throw new AppError('this is not a valid user', 400);
 
-    // if (req.user.followedUsers.includes(ids[i])) {
-    //   throw new AppError('user is already followed', 400);
-    // }
+    if (req.user.followedUsers.includes(ids[i])) {
+      throw new AppError('user is already followed', 400);
+    }
   }
   req.user.usersCount += ids.length;
   req.user.followedUsers.push(...ids);
-  //await req.user.save({ validateBeforeSave: false });
+  await req.user.save({ validateBeforeSave: false });
   notify(
     ids,
     req.user._id,
