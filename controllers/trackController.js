@@ -102,21 +102,40 @@ exports.renameAlbumTrack = catchAsync(async (req, res, next) => {
 });
 
 exports.deleteAlbumTrack = catchAsync(async (req, res, next) => {
-  let tracks = Album.findById(req.params.id, 'tracks');
-  if (!tracks) {
-    return next(new AppError('that document does not exist', 404));
+  let album = Album.findById(req.params.id);
+  if (!album) {
+    return next(new AppError('No document found with that ID', 404));
   }
-
+  if (!album.artist.equals(req.user.id)) {
+    return next(new AppError('Not allowed', 404));
+  }
+  let tracks = album.tracks;
   for (let index = 0; index < tracks.length; index++) {
-    if (req.params.trackId != tracks[index] && index == tracks.length - 1)
+    if (req.params.trackId != tracks[index]._id && index == tracks.length - 1) {
       return next(new AppError('that document does not exist', 404));
+    }
   }
-  console.log(tracks);
   await Album.update(
     { _id: req.params.id },
     { $pull: { tracks: { _id: req.params.trackId } } }
   );
-  // if I delete it from Track Like findByIdandRemove(req.params.trackId)
-  // will it removed from the Album as I removed the reference ??
+  //delete track
   res.status(200).json(null);
+  // let tracks = Album.findById(req.params.id, 'tracks');
+  // if (!tracks) {
+  //   return next(new AppError('that document does not exist', 404));
+  // }
+
+  // for (let index = 0; index < tracks.length; index++) {
+  //   if (req.params.trackId != tracks[index] && index == tracks.length - 1)
+  //     return next(new AppError('that document does not exist', 404));
+  // }
+  // console.log(tracks);
+  // await Album.update(
+  //   { _id: req.params.id },
+  //   { $pull: { tracks: { _id: req.params.trackId } } }
+  // );
+  // // if I delete it from Track Like findByIdandRemove(req.params.trackId)
+  // // will it removed from the Album as I removed the reference ??
+  // res.status(200).json(null);
 });
