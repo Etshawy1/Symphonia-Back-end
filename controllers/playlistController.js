@@ -243,13 +243,12 @@ exports.addTracksToPlaylist = catchAsync(async (req, res, next) => {
       }
     );
   }
-  notify(
+  await notify(
     playlistCheck.followers,
     playlistCheck._id,
     'PlayList Updated',
     playlistCheck.name,
-    playlistCheck.image,
-    next
+    playlistCheck.image
   );
   res.status(200).json(playlist);
 });
