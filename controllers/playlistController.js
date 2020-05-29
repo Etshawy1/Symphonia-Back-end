@@ -134,10 +134,7 @@ exports.getPlaylistTracks = catchAsync(async (req, res, next) => {
       { path: 'album', select: 'name image' }
     ]),
     req.query
-  )
-    .filter()
-    .sort()
-    .offset();
+  ).offset();
 
   const tracks = await features.query;
   const limit = req.query.limit * 1 || 20;
