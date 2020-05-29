@@ -10,7 +10,6 @@ admin.initializeApp({
 exports.notify = async (users, ownerId, title, body, icon, next) => {
   for (let index = 0; index < users.length; index++) {
     const user = await User.findById(users[index]).select('+notification');
-    if (body == null) body = user.name;
     const payload = {
       data: {
         data: JSON.stringify({
