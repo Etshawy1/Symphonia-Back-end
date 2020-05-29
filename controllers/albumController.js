@@ -90,7 +90,10 @@ exports.createAlbum = catchAsync(async (req, res, next) => {
 
   if (req.body.image) {
     const image = req.body.image.replace(/^data:image\/[a-z]+;base64,/, '');
-    imageName = await prepareImage(Buffer.from(image, 'base64'), req.user);
+    imageName = await prepareAndSaveImage(
+      Buffer.from(image, 'base64'),
+      req.user
+    );
   } else {
     imageName = req.files.image[0].filename;
   }
@@ -100,9 +103,7 @@ exports.createAlbum = catchAsync(async (req, res, next) => {
       text: req.body.copyrightsText,
       type: req.body.copyrightsType
     },
-    image: `${url}/api/v1/images/albums/${req.user.name.replace(/ /g, '_')}-${
-      req.user._id
-    }/${imageName}`,
+    image: `${url}/api/v1/images/albums/${req.user._id}/${imageName}`,
     artist: req.user._id
   });
   res.status(200).json(album);
@@ -110,7 +111,7 @@ exports.createAlbum = catchAsync(async (req, res, next) => {
 
 exports.resizeImage = catchAsync(async (req, res, next) => {
   if (!req.files) return next();
-  req.files.image[0].filename = await prepareImage(
+  req.files.image[0].filename = await prepareAndSaveImage(
     req.files.image[0].buffer,
     req.user
   );
@@ -134,7 +135,7 @@ exports.multiPart = catchAsync(async (req, res, next) => {
  * @param {Object} user - user object that contains artist's name and id
  * @returns {String} The name of the stored image
  */
-async function prepareImage (bufferImage, user) {
+async function prepareAndSaveImage (bufferImage, user) {
   // A1) get image data like the width and height and extension
   const imageData = sizeOf(bufferImage);
   const imageSize = Math.min(imageData.width, imageData.height, 300);
@@ -149,9 +150,7 @@ async function prepareImage (bufferImage, user) {
   // B) save the image with unique name to the following path
   const imageName = `${helper.randomStr(20)}-${Date.now()}.${imageType}`;
   const imagePath = path.resolve(
-    `${__dirname}/../assets/images/albums/${user.name.replace(/ /g, '_')}-${
-      user._id
-    }`
+    `${__dirname}/../assets/images/albums/${user._id}`
   );
   await fs_makeDir(imagePath, { recursive: true });
   await fs_writeFile(`${imagePath}/${imageName}`, decodedData);

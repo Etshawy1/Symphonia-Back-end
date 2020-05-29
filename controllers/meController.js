@@ -12,6 +12,11 @@ const _ = require('lodash');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const crypto = require('crypto');
 const { Notification } = require('../models/notificationsModel');
+const helper = require('../utils/helper');
+const util = require('util');
+const sizeOf = require('image-size');
+const fs_writeFile = util.promisify(fs.writeFile);
+const sharp = require('sharp');
 
 const mimeNames = {
   '.mp3': 'audio/mpeg',
@@ -328,10 +333,26 @@ exports.userProfile = catchAsync(async (req, res, next) => {
   res.status(200).json(currentUser);
 });
 exports.updateCurrentUserProfile = catchAsync(async (req, res, next) => {
+  if (req.body.image) {
+    const url = `${req.protocol}://${req.get('host')}`;
+    const image = req.body.image.replace(/^data:image\/[a-z]+;base64,/, '');
+    imageName = await prepareAndSaveImage(
+      Buffer.from(image, 'base64'),
+      req.user
+    );
+    req.body.imageUrl = `${url}/api/v1/images/users/${imageName}`;
+  }
   const user = await User.findByIdAndUpdate(
     req.user._id,
     {
-      ..._.pick(req.body, ['email', 'dateOfBirth', 'gender', 'phone', 'name'])
+      ..._.pick(req.body, [
+        'email',
+        'dateOfBirth',
+        'gender',
+        'phone',
+        'name',
+        'imageUrl'
+      ])
     },
     { new: true, runValidators: true }
   );
@@ -660,6 +681,33 @@ exports.getNotificationsHistory = catchAsync(async (req, res, next) => {
   const notifications = await Notification.findById(user.notification);
   res.status(200).json({ notifications });
 });
+
+/**
+ * function to prepare the buffer image and manipulate it be resizing to be a sqaure jpeg image and save it
+ * @param {Buffer} bufferImage - Buffer contains image data
+ * @param {Object} user - user object that contains user's name and id
+ * @returns {String} The name of the stored image
+ */
+async function prepareAndSaveImage (bufferImage, user) {
+  // A1) get image data like the width and height and extension
+  const imageData = sizeOf(bufferImage);
+  const imageSize = Math.min(imageData.width, imageData.height, 300);
+  // A2) manipulate the image to be square
+  const decodedData = await sharp(bufferImage)
+    .resize(imageSize, imageSize, { kernel: 'cubic' })
+    .toFormat('jpeg')
+    .jpeg({ quality: 90 })
+    .toBuffer();
+  const imageType = sizeOf(decodedData).type;
+
+  // B) save the image with unique name to the following path
+  const imageName = `${helper.randomStr(20)}-${Date.now()}.${imageType}`;
+  const imagePath = path.resolve(`${__dirname}/../assets/images/users`);
+  await fs_writeFile(`${imagePath}/${imageName}`, decodedData);
+
+  return imageName;
+}
+
 module.exports.sendResponse = sendResponse;
 module.exports.getMimeNameFromExt = getMimeNameFromExt;
 module.exports.readRangeHeader = readRangeHeader;

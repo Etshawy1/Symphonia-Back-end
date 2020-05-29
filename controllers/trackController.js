@@ -14,6 +14,8 @@ const fs_writeFile = util.promisify(fs.writeFile);
 const fs_makeDir = util.promisify(fs.mkdir);
 const mp3Duration = require('mp3-duration');
 const admin = require('firebase-admin');
+const { Notification } = require('../models/notificationsModel');
+
 exports.getTrack = factory.getOne(Track, [
   { path: 'album', select: 'name image' },
   { path: 'category', select: 'name' },
@@ -114,7 +116,8 @@ exports.addTrack = catchAsync(async (req, res, next) => {
       notification.items.push(payload);
       await notification.save({ validateBeforeSave: false });
     }
-    await admin.messaging().sendToDevice(user.registraionToken, payload);
+    if (user.regregistraionToken)
+      await admin.messaging().sendToDevice(user.registraionToken, payload);
   }
   res.status(200).json(track);
 });
@@ -132,7 +135,7 @@ async function prepareTrack (bufferTrack, user) {
   // B1) generate a unique name for the track
   const trackName = `${helper.randomStr(20)}-${Date.now()}.mp3`;
   // B2) get the path where the track will be saved
-  const rltvPath = `assets/tracks/${user.name.replace(/ /g, '_')}-${user._id}`;
+  const rltvPath = `assets/tracks/${user._id}`;
   const absolutePath = path.resolve(`${__dirname}/../${rltvPath}`);
 
   // C1) make the directory for the artist tracks if doesn't exist
