@@ -678,7 +678,7 @@ exports.setRegistrationToken = catchAsync(async (req, res, next) => {
   res.status(200).json({ user });
 });
 exports.getNotificationsHistory = catchAsync(async (req, res, next) => {
-  const user = await User.findById(req.user._id).select('+notifications');
+  const user = await User.findById(req.user._id).select('+notification');
   if (user.notification === undefined) {
     return next(
       new AppError(`this user doesn't have notifications history`, 404)
