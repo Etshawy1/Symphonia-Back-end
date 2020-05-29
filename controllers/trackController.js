@@ -86,14 +86,14 @@ exports.addTrack = catchAsync(async (req, res, next) => {
   const artist = await User.findByIdAndUpdate(req.user._id, {
     $push: { tracks: track._id }
   });
-  // notify(
-  //   artist.followedUsers,
-  //   artist._id,
-  //   'Tracks Updated',
-  //   artist.name,
-  //   artist.imageUrl,
-  //   next
-  // );
+  notify(
+    artist.followedUsers,
+    artist._id,
+    'Tracks Updated',
+    artist.name,
+    artist.imageUrl,
+    next
+  );
   res.status(200).json(track);
 });
 
