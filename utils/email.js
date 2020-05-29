@@ -94,6 +94,12 @@ class Email {
     await this.send('artist', 'You are applying to be an artist!');
   }
   /**
+   * @summary the function that send user token to user to be preimum for android
+   */
+  async sendPremiumToken () {
+    await this.send('premium', 'You are applying to be an premium user!');
+  }
+  /**
    * @summary the function that send user an email contains token to reset his password .
    */
 

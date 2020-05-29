@@ -146,6 +146,8 @@ const userSchema = new mongoose.Schema({
   passwordChangedAt: Date,
   passwordResetToken: String,
   passwordResetExpires: Date,
+  premiumToken: String,
+  premiumExpires: Date,
   artistApplicationToken: String,
   artistApplicationExpires: Date,
   googleId: String,
@@ -271,6 +273,24 @@ userSchema.methods.createPasswordResetToken = function () {
   this.passwordResetExpires = Date.now() + 60 * 60 * 1000;
 
   return resetToken;
+};
+/**
+ * creates a premium  token that is valid for 10 minutes only
+ * @function createPremiumToken
+ * @returns {string} - premium token
+ */
+
+userSchema.methods.createPremiumToken = function () {
+  const premiumToken = crypto.randomBytes(32).toString('hex');
+  this.premiumToken = crypto
+    .createHash('sha256')
+    .update(premiumToken)
+    .digest('hex');
+
+  // the token to be preimum is valit only for 10 minutes
+  this.premiumExpires = Date.now() + 60 * 60 * 1000;
+
+  return premiumToken;
 };
 /**
  * creates a artist application token that is valid for 10 minutes only

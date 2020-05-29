@@ -644,6 +644,12 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
     session
   });
 });
+
+/**
+ * function make the user premium for sript
+ * @param {Object} session - user checkout session
+ * @returns {void}
+ */
 const createPremiumSubscriptionCheckout = async session => {
   const user = await User.findOne({ email: session.customer_email });
   user.premium = true;
@@ -680,6 +686,56 @@ exports.getNotificationsHistory = catchAsync(async (req, res, next) => {
   }
   const notifications = await Notification.findById(user.notification);
   res.status(200).json({ notifications });
+});
+exports.applyPremium = catchAsync(async (req, res, next) => {
+  const user = await User.findById(req.user._id);
+  const Token = user.createPremiumToken();
+  await user.save({
+    validateBeforeSave: false
+  });
+  // 3) Send it to user's email
+  try {
+    const premiumURL =
+      `${req.protocol}://${req.hostname}` + `/apply-premium/${Token}`;
+    await new Email(user, premiumURL).sendPasswordReset();
+    res.status(200).json({
+      status: 'success',
+      message: 'Token sent to email!'
+    });
+  } catch (err) {
+    user.premiumToken = undefined;
+    user.premiumExpires = undefined;
+    await user.save({
+      validateBeforeSave: false
+    });
+    return next(
+      new AppError('There was an error sending the email. Try again later!'),
+      500
+    );
+  }
+});
+exports.premium = catchAsync(async (req, res, next) => {
+  // 1) Get user based on the token
+  const hashedToken = crypto
+    .createHash('sha256')
+    .update(req.params.token)
+    .digest('hex');
+  const user = await User.findOne({
+    premiumToken: hashedToken,
+    premiumExpires: {
+      $gt: Date.now()
+    }
+  });
+  // 2) If token has not expired, and there is user, set the new password
+  if (!user) {
+    return next(new AppError('Token is invalid or has expired', 400));
+  }
+  user.premiumToken = undefined;
+  user.premiumExpires = undefined;
+  user.premium = true;
+  await user.save({ validateBeforeSave: false });
+  // 3) Update changedPasswordAt property for the user
+  res.status(201).json({ message: 'User is now premium!' });
 });
 
 /**
