@@ -7,7 +7,7 @@ const _ = require('lodash');
 const AppError = require('../utils/appError');
 const factory = require('./handlerFactory');
 const Responser = require('../utils/responser');
-const admin = require('firebase-admin');
+const { notify } = require('../startup/notification');
 exports.getPlaylist = factory.getOne(Playlist, {
   path: 'owner',
   select: 'name'
@@ -243,38 +243,14 @@ exports.addTracksToPlaylist = catchAsync(async (req, res, next) => {
       }
     );
   }
-
-  for (let index = 0; index < playlistCheck.followers.length; index++) {
-    const user = await User.findById(playlistCheck.followers[index]).select(
-      '+notification'
-    );
-    const ids = {
-      playlist: playlistCheck._id,
-      follwingUser: user._id
-    };
-    const payload = {
-      data: {
-        data: JSON.stringify(ids)
-      },
-      notification: {
-        title: 'PlayList Updated',
-        body: playlistCheck.name,
-        sounds: 'default',
-        icon: playlistCheck.image
-      }
-    };
-    if (user.notification === undefined) {
-      const notification = await Notification.create({
-        items: [payload]
-      });
-      user.notification = notification._id;
-    } else {
-      const notification = await Notification.findById(user.notification);
-      notification.items.push(payload);
-      await notification.save({ validateBeforeSave: false });
-    }
-    await admin.messaging().sendToDevice(user.registraionToken, payload);
-  }
+  // notify(
+  //   playlistCheck.followers,
+  //   playlistCheck._id,
+  //   'PlayList Updated',
+  //   playlistCheck.name,
+  //   playlistCheck.image,
+  //   next
+  // );
   res.status(200).json(playlist);
 });
 

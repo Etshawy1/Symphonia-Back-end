@@ -13,8 +13,7 @@ const fs = require('fs');
 const fs_writeFile = util.promisify(fs.writeFile);
 const fs_makeDir = util.promisify(fs.mkdir);
 const mp3Duration = require('mp3-duration');
-const admin = require('firebase-admin');
-const { Notification } = require('../models/notificationsModel');
+const { notify } = require('../startup/notification');
 
 exports.getTrack = factory.getOne(Track, [
   { path: 'album', select: 'name image' },
@@ -87,38 +86,14 @@ exports.addTrack = catchAsync(async (req, res, next) => {
   const artist = await User.findByIdAndUpdate(req.user._id, {
     $push: { tracks: track._id }
   });
-  for (let index = 0; index < artist.followedUsers.length; index++) {
-    const user = await User.findById(artist.followedUsers[index]).select(
-      '+notification'
-    );
-    const users = {
-      artist: artist._id,
-      follwingUser: user._id
-    };
-    const payload = {
-      data: {
-        data: JSON.stringify(users)
-      },
-      notification: {
-        title: 'Tracks Updated',
-        body: artist.name,
-        sounds: 'default',
-        icon: artist.imageUrl
-      }
-    };
-    if (user.notification === undefined) {
-      const notification = await Notification.create({
-        items: [payload]
-      });
-      user.notification = notification._id;
-    } else {
-      const notification = await Notification.findById(user.notification);
-      notification.items.push(payload);
-      await notification.save({ validateBeforeSave: false });
-    }
-    if (user.regregistraionToken)
-      await admin.messaging().sendToDevice(user.registraionToken, payload);
-  }
+  // notify(
+  //   artist.followedUsers,
+  //   artist._id,
+  //   'Tracks Updated',
+  //   artist.name,
+  //   artist.imageUrl,
+  //   next
+  // );
   res.status(200).json(track);
 });
 

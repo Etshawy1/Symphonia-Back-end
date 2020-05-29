@@ -4,9 +4,8 @@ const Playlist = require('../models/playlistModel');
 const AppError = require('../utils/appError');
 const APIFeatures = require('./../utils/apiFeatures');
 const mongoose = require('mongoose');
-const admin = require('firebase-admin');
 const Responser = require('../utils/responser');
-const { Notification } = require('../models/notificationsModel');
+const { notify } = require('../startup/notification');
 
 exports.FollowUser = catchAsync(async (req, res, next) => {
   if (!req.query.ids) {
@@ -18,45 +17,24 @@ exports.FollowUser = catchAsync(async (req, res, next) => {
     if (!mongoose.Types.ObjectId.isValid(ids[i])) {
       throw new AppError('invalid ids provided', 400);
     }
+    const user = await User.findById(ids[i]);
+    if (!user) throw new AppError('this is not a valid user', 400);
 
-    if (req.user.followedUsers.includes(ids[i])) {
-      throw new AppError('user is already followed', 400);
-    }
-    const user = await User.findById(ids[i]).select('+notification');
-    const users = {
-      followedUser: user._id,
-      follwingUser: req.user._id
-    };
-    const payload = {
-      data: {
-        data: JSON.stringify(users)
-      },
-      notification: {
-        title: 'Following User',
-        body: req.user.name,
-        sounds: 'default',
-        icon: req.user.imageUrl
-      }
-    };
-    if (user.notification === undefined) {
-      const notification = await Notification.create({
-        items: [payload]
-      });
-      user.notification = notification._id;
-    } else {
-      const notification = await Notification.findById(user.notification);
-      notification.items.push(payload);
-      await notification.save({ validateBeforeSave: false });
-    }
-    const result = await admin
-      .messaging()
-      .sendToDevice(user.registraionToken, payload);
-    __logger.info(JSON.stringify(result));
-    await user.save({ validateBeforeSave: false });
+    // if (req.user.followedUsers.includes(ids[i])) {
+    //   throw new AppError('user is already followed', 400);
+    // }
   }
   req.user.usersCount += ids.length;
   req.user.followedUsers.push(...ids);
-  await req.user.save({ validateBeforeSave: false });
+  //await req.user.save({ validateBeforeSave: false });
+  notify(
+    ids,
+    req.user._id,
+    'Following User',
+    req.user.name,
+    req.user.imageUrl,
+    next
+  );
   res.status(204).json();
 });
 
