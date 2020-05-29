@@ -15,7 +15,7 @@ router.get(
   searchHistory.saveSearchHistory,
   meController.userProfile
 );
-router.patch('/premium/:token', authController.premium);
+router.patch('/premium/:token', meController.premium);
 router.post('/webhook-checkout', meController.webhookCheckout);
 router.use(authController.protect(true));
 //save shuffle
