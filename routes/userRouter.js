@@ -60,12 +60,25 @@ router.delete('/updateMe', userController.deleteMe);
 
 // tracks
 
-router.get(
-  '/track/:id',
-  authController.protect(false),
-  searchHistory.saveSearchHistory,
-  trackController.getTrack
-);
+router
+  .route('/track/:id')
+  .get(
+    authController.protect(false),
+    searchHistory.saveSearchHistory,
+    trackController.getTrack
+  )
+  .patch(
+    authController.protect(true),
+    authController.restrictTo('artist'),
+    trackController.checkCurrentArtist,
+    trackController.renameTrack
+  )
+  .delete(
+    authController.protect(true),
+    authController.restrictTo('artist'),
+    trackController.checkCurrentArtist,
+    trackController.deleteTrack
+  );
 
 router
   .route('/tracks')

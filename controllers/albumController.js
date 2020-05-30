@@ -20,26 +20,22 @@ const sharp = require('sharp');
  * @module albumController
  */
 exports.checkCurrentArtist = catchAsync(async (req, res, next) => {
-  const artist = await Album.findById(req.params.id);
-  if (!artist.artist.equals(req.user.id)) {
-    return next(new AppError('Not allowed', 404));
-  } else next();
+  const album = await Album.findById(req.params.id);
+  if (!album) {
+    return next(new AppError('No album found with that ID', 404));
+  }
+  if (!album.artist.equals(req.user.id)) {
+    return next(new AppError('Access denied', 400));
+  } else {
+    req.album = album;
+    next();
+  }
 });
 
 exports.deleteAlbum = catchAsync(async (req, res, next) => {
-  const album = await Album.findById(req.params.id);
-  if (!album) {
-    return next(new AppError('No document found with that ID', 404));
-  }
-  if (!album.artist.equals(req.user.id)) {
-    return next(new AppError('Not allowed', 404));
-  }
-  let tracks = album.tracks;
-  for (let index = 0; index < tracks.length; index++) {
-    await Track.findByIdAndDelete(tracks[index]._id);
-  }
+  await Track.remove({ _id: { $in: req.album.tracks } });
   await Album.findByIdAndDelete(req.params.id);
-  res.status(200).json(null);
+  res.status(204).json();
 });
 
 exports.renameAlbum = catchAsync(async (req, res, next) => {
@@ -53,11 +49,6 @@ exports.renameAlbum = catchAsync(async (req, res, next) => {
       runValidators: true
     }
   );
-
-  if (!album) {
-    return next(new AppError('No document found with that ID', 404));
-  }
-
   res.status(200).json(album);
 });
 
@@ -80,10 +71,7 @@ exports.getAlbumTracks = catchAsync(async (req, res, next) => {
       { path: 'album', select: 'name image' }
     ]),
     req.query
-  )
-    .filter()
-    .sort()
-    .offset();
+  ).offset();
   const limit = req.query.limit * 1 || 20;
   const offset = req.query.offset * 1 || 0;
   const tracks = await features.query;
@@ -99,7 +87,10 @@ exports.createAlbum = catchAsync(async (req, res, next) => {
 
   if (req.body.image) {
     const image = req.body.image.replace(/^data:image\/[a-z]+;base64,/, '');
-    imageName = await prepareImage(Buffer.from(image, 'base64'), req.user);
+    imageName = await prepareAndSaveImage(
+      Buffer.from(image, 'base64'),
+      req.user
+    );
   } else {
     imageName = req.files.image[0].filename;
   }
@@ -109,9 +100,7 @@ exports.createAlbum = catchAsync(async (req, res, next) => {
       text: req.body.copyrightsText,
       type: req.body.copyrightsType
     },
-    image: `${url}/api/v1/images/albums/${req.user.name.replace(/ /g, '_')}-${
-      req.user._id
-    }/${imageName}`,
+    image: `${url}/api/v1/images/albums/${req.user._id}/${imageName}`,
     artist: req.user._id
   });
   res.status(200).json(album);
@@ -119,7 +108,7 @@ exports.createAlbum = catchAsync(async (req, res, next) => {
 
 exports.resizeImage = catchAsync(async (req, res, next) => {
   if (!req.files) return next();
-  req.files.image[0].filename = await prepareImage(
+  req.files.image[0].filename = await prepareAndSaveImage(
     req.files.image[0].buffer,
     req.user
   );
@@ -143,7 +132,7 @@ exports.multiPart = catchAsync(async (req, res, next) => {
  * @param {Object} user - user object that contains artist's name and id
  * @returns {String} The name of the stored image
  */
-async function prepareImage(bufferImage, user) {
+async function prepareAndSaveImage (bufferImage, user) {
   // A1) get image data like the width and height and extension
   const imageData = sizeOf(bufferImage);
   const imageSize = Math.min(imageData.width, imageData.height, 300);
@@ -158,9 +147,7 @@ async function prepareImage(bufferImage, user) {
   // B) save the image with unique name to the following path
   const imageName = `${helper.randomStr(20)}-${Date.now()}.${imageType}`;
   const imagePath = path.resolve(
-    `${__dirname}/../assets/images/albums/${user.name.replace(/ /g, '_')}-${
-      user._id
-    }`
+    `${__dirname}/../assets/images/albums/${user._id}`
   );
   await fs_makeDir(imagePath, { recursive: true });
   await fs_writeFile(`${imagePath}/${imageName}`, decodedData);

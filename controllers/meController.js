@@ -200,11 +200,12 @@ exports.playInfo = catchAsync(async (req, res, next) => {
     console.log(item);
     const TracksUrl = [];
     context.tracks.forEach(tracks => {
-      TracksUrl.push(
-        `${req.protocol}://${req.get('host')}/api/v1/me/player/tracks/${
-          tracks._id
-        }`
-      );
+      if (req.user.premium || !track.premium)
+        TracksUrl.push(
+          `${req.protocol}://${req.get('host')}/api/v1/me/player/tracks/${
+            tracks._id
+          }`
+        );
     });
     const indexOfCurrentTrack = context.tracks.indexOf(track._id);
     const indexOfPreviousTrack =
@@ -620,6 +621,12 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
     session
   });
 });
+
+/**
+ * function make the user premium for sript
+ * @param {Object} session - user checkout session
+ * @returns {void}
+ */
 const createPremiumSubscriptionCheckout = async session => {
   const user = await User.findOne({ email: session.customer_email });
   user.premium = true;
@@ -647,6 +654,93 @@ exports.setRegistrationToken = catchAsync(async (req, res, next) => {
   await user.save({ validateBeforeSave: false });
   res.status(200).json({ user });
 });
+exports.getNotificationsHistory = catchAsync(async (req, res, next) => {
+  const user = await User.findById(req.user._id).select('+notification');
+  if (user.notification === undefined) {
+    return next(
+      new AppError(`this user doesn't have notifications history`, 404)
+    );
+  }
+  const notifications = await Notification.findById(user.notification);
+  res.status(200).json({ notifications });
+});
+exports.applyPremium = catchAsync(async (req, res, next) => {
+  const user = await User.findById(req.user._id);
+  const Token = user.createPremiumToken();
+  await user.save({
+    validateBeforeSave: false
+  });
+  // 3) Send it to user's email
+  try {
+    const premiumURL =
+      `${req.protocol}://${req.hostname}` + `/apply-premium/${Token}`;
+    await new Email(user, premiumURL).sendPasswordReset();
+    res.status(200).json({
+      status: 'success',
+      message: 'Token sent to email!'
+    });
+  } catch (err) {
+    user.premiumToken = undefined;
+    user.premiumExpires = undefined;
+    await user.save({
+      validateBeforeSave: false
+    });
+    return next(
+      new AppError('There was an error sending the email. Try again later!'),
+      500
+    );
+  }
+});
+exports.premium = catchAsync(async (req, res, next) => {
+  // 1) Get user based on the token
+  const hashedToken = crypto
+    .createHash('sha256')
+    .update(req.params.token)
+    .digest('hex');
+  const user = await User.findOne({
+    premiumToken: hashedToken,
+    premiumExpires: {
+      $gt: Date.now()
+    }
+  });
+  // 2) If token has not expired, and there is user, set the new password
+  if (!user) {
+    return next(new AppError('Token is invalid or has expired', 400));
+  }
+  user.premiumToken = undefined;
+  user.premiumExpires = undefined;
+  user.premium = true;
+  await user.save({ validateBeforeSave: false });
+  // 3) Update changedPasswordAt property for the user
+  res.status(201).json({ message: 'User is now premium!' });
+});
+
+/**
+ * function to prepare the buffer image and manipulate it be resizing to be a sqaure jpeg image and save it
+ * @param {Buffer} bufferImage - Buffer contains image data
+ * @param {Object} user - user object that contains user's name and id
+ * @returns {String} The name of the stored image
+ */
+async function prepareAndSaveImage (bufferImage, user) {
+  // A1) get image data like the width and height and extension
+  const imageData = sizeOf(bufferImage);
+  const imageSize = Math.min(imageData.width, imageData.height, 300);
+  // A2) manipulate the image to be square
+  const decodedData = await sharp(bufferImage)
+    .resize(imageSize, imageSize, { kernel: 'cubic' })
+    .toFormat('jpeg')
+    .jpeg({ quality: 90 })
+    .toBuffer();
+  const imageType = sizeOf(decodedData).type;
+
+  // B) save the image with unique name to the following path
+  const imageName = `${helper.randomStr(20)}-${Date.now()}.${imageType}`;
+  const imagePath = path.resolve(`${__dirname}/../assets/images/users`);
+  await fs_writeFile(`${imagePath}/${imageName}`, decodedData);
+
+  return imageName;
+}
+
 module.exports.sendResponse = sendResponse;
 module.exports.getMimeNameFromExt = getMimeNameFromExt;
 module.exports.readRangeHeader = readRangeHeader;

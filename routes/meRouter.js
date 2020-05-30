@@ -16,6 +16,7 @@ router.get(
   searchHistory.saveSearchHistory,
   meController.userProfile
 );
+router.patch('/premium/:token', meController.premium);
 router.post('/webhook-checkout', meController.webhookCheckout);
 router.use(authController.protect(true));
 //save shuffle
@@ -122,4 +123,11 @@ router.get('/checkout-session', meController.getCheckoutSession);
 
 // registeration token notifications
 router.patch('/registration-token', meController.setRegistrationToken);
+
+// get the history of notifications
+router.get('/notifications', meController.getNotificationsHistory);
+
+// apply premium
+router.post('/apply-premium', meController.applyPremium);
+
 module.exports = router;
