@@ -99,6 +99,15 @@ exports.followPlaylist = catchAsync(async (req, res, next) => {
     },
     { new: true }
   );
+  const ids = [];
+  ids.push(oldPlaylist.owner);
+  await notify(
+    ids,
+    req.user._id,
+    'Like Playlist',
+    req.user.name,
+    req.user.imageUrl
+  );
   res.status(200).json();
 });
 
