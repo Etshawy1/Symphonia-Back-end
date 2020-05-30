@@ -58,9 +58,8 @@ async function getProfileInfo (userId) {
 
 async function getTopArtistsAndTracks (Model, query) {
   const top = new APIFeatures(Model.find().sort({ usersCount: -1 }), query)
-    .filter()
-    .limitFields()
-    .paginate();
+    .offset()
+    .limitFields();
   return await top.query;
 }
 

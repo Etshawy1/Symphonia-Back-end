@@ -37,9 +37,7 @@ module.exports.getRecommendedTracks = catchAsync(async (req, res, next) => {
       _id: { $nin: req.user.followedTracks }
     }),
     req.query
-  )
-    .sort()
-    .offset();
+  ).offset();
 
   let tracks = await features.query.populate([
     {

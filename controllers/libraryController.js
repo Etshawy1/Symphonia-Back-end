@@ -51,7 +51,6 @@ exports.getCurrentUserSavedAlbums = catchAsync(async (req, res, next) => {
   let pageMeta = Helper.getPageMeta(req);
   const features = new APIFeatures(Album.find({ _id: { $in: ids } }), req.query)
     .filter()
-    .sort()
     .limitFields()
     .offset();
   let albums = await features.query.populate([

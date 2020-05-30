@@ -54,7 +54,6 @@ exports.getUserPlaylists = catchAsync(async (req, res, next) => {
     req.query
   )
     .filter()
-    .sort()
     .offset();
 
   const playlists = await features.query.populate('owner', 'name');
@@ -80,7 +79,6 @@ exports.getCurrentUserPlaylists = catchAsync(async (req, res, next) => {
     req.query
   )
     .filter()
-    .sort()
     .offset();
 
   const playlists = await features.query.populate('owner', 'name');
@@ -99,7 +97,6 @@ exports.getCurrentUserOwnedPlaylists = catchAsync(async (req, res, next) => {
     req.query
   )
     .filter()
-    .sort()
     .offset();
 
   const playlists = await features.query.populate('owner', 'name');
@@ -404,7 +401,6 @@ exports.getCurrentUserDeletedPlaylists = catchAsync(async (req, res, next) => {
     req.query
   )
     .filter()
-    .sort()
     .offset();
 
   const deleted = await features.query;
