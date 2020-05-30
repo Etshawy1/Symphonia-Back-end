@@ -17,6 +17,7 @@ const util = require('util');
 const sizeOf = require('image-size');
 const fs_writeFile = util.promisify(fs.writeFile);
 const sharp = require('sharp');
+const Email = require('../utils/email');
 
 const mimeNames = {
   '.mp3': 'audio/mpeg',
@@ -697,7 +698,10 @@ exports.applyPremium = catchAsync(async (req, res, next) => {
   try {
     const premiumURL =
       `${req.protocol}://${req.hostname}` + `/apply-premium/${Token}`;
-    await new Email(user, premiumURL).sendPasswordReset();
+
+    await new Email(user, premiumURL).sendPremiumToken();
+    __logger.info('user');
+
     res.status(200).json({
       status: 'success',
       message: 'Token sent to email!'
