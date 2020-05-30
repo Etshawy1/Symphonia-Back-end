@@ -40,8 +40,8 @@ const trackSchema = new mongoose.Schema({
   ],
   album: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Album'
-    // required: [true, "track should be in Album"]
+    ref: 'Album',
+    required: [true, 'track should be in Album']
   },
   artist: {
     type: mongoose.Schema.Types.ObjectId,

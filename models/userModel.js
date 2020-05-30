@@ -80,6 +80,11 @@ const userSchema = new mongoose.Schema({
     ref: 'History',
     select: false
   },
+  notification: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Notification',
+    select: false
+  },
   queue: {
     queueTracks: [String],
     currentlyPlaying: {

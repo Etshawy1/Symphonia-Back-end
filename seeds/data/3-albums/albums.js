@@ -1,4 +1,8 @@
 const mongoose = require('mongoose');
+const copyrights = {
+  text: `Eu excepteur velit cillum dolor enim amet dolore magna. Voluptate enim ipsum pariatur est ut proident reprehenderit non et aliquip magna est velit. Consectetur in enim nostrud labore nulla veniam laborum eiusmod quis ex aliqua nisi dolor.Aliquip Lorem dolore nulla Lorem exercitation ad tempor cillum consectetur. Ad cillum occaecat aliqua amet pariatur.`,
+  type: 'C'
+};
 const albums = [
   {
     _id: mongoose.Types.ObjectId('5e701f4d2672a63a60573a02'),
@@ -13,14 +17,7 @@ const albums = [
     ],
     type: 'album',
     albumType: 'album',
-    copyrights: {
-      text: `Eu excepteur velit cillum dolor enim amet dolore magna. Voluptate 
-      enim ipsum pariatur est ut proident reprehenderit non et aliquip magna est velit. 
-      Consectetur in enim nostrud labore nulla veniam laborum eiusmod quis ex aliqua nisi dolor.
-      Aliquip Lorem dolore nulla Lorem exercitation ad tempor cillum consectetur. 
-      Ad cillum occaecat aliqua amet pariatur.`,
-      type: 'C'
-    }
+    copyrights
   },
   {
     _id: mongoose.Types.ObjectId('5e701fdf2672a63a60573a06'),
@@ -36,14 +33,7 @@ const albums = [
     ],
     type: 'album',
     albumType: 'album',
-    copyrights: {
-      text: `Eu excepteur velit cillum dolor enim amet dolore magna. Voluptate 
-      enim ipsum pariatur est ut proident reprehenderit non et aliquip magna est velit. 
-      Consectetur in enim nostrud labore nulla veniam laborum eiusmod quis ex aliqua nisi dolor.
-      Aliquip Lorem dolore nulla Lorem exercitation ad tempor cillum consectetur. 
-      Ad cillum occaecat aliqua amet pariatur.`,
-      type: 'C'
-    }
+    copyrights
   },
   {
     _id: mongoose.Types.ObjectId('5e794163c01c024ecc3c31d3'),
@@ -59,14 +49,7 @@ const albums = [
     ],
     type: 'album',
     albumType: 'album',
-    copyrights: {
-      text: `Eu excepteur velit cillum dolor enim amet dolore magna. Voluptate 
-      enim ipsum pariatur est ut proident reprehenderit non et aliquip magna est velit. 
-      Consectetur in enim nostrud labore nulla veniam laborum eiusmod quis ex aliqua nisi dolor.
-      Aliquip Lorem dolore nulla Lorem exercitation ad tempor cillum consectetur. 
-      Ad cillum occaecat aliqua amet pariatur.`,
-      type: 'C'
-    }
+    copyrights
   },
   {
     _id: mongoose.Types.ObjectId('5e89f33375bcc40cc4b5a736'),
@@ -81,14 +64,7 @@ const albums = [
     ],
     type: 'album',
     albumType: 'album',
-    copyrights: {
-      text: `Eu excepteur velit cillum dolor enim amet dolore magna. Voluptate 
-      enim ipsum pariatur est ut proident reprehenderit non et aliquip magna est velit. 
-      Consectetur in enim nostrud labore nulla veniam laborum eiusmod quis ex aliqua nisi dolor.
-      Aliquip Lorem dolore nulla Lorem exercitation ad tempor cillum consectetur. 
-      Ad cillum occaecat aliqua amet pariatur.`,
-      type: 'C'
-    }
+    copyrights
   }
 ];
 

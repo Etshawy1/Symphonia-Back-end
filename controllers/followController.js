@@ -4,14 +4,8 @@ const Playlist = require('../models/playlistModel');
 const AppError = require('../utils/appError');
 const APIFeatures = require('./../utils/apiFeatures');
 const mongoose = require('mongoose');
-const admin = require('firebase-admin');
-const serviceAccount = require('./../symphonia.json');
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: 'https://symphonia-272211.firebaseio.com'
-});
-// const fcm = require('fcm-notification');
-// const FCM = new fcm('./../symphonia.json');
+const Responser = require('../utils/responser');
+const { notify } = require('../startup/notification');
 
 exports.FollowUser = catchAsync(async (req, res, next) => {
   if (!req.query.ids) {
@@ -19,41 +13,28 @@ exports.FollowUser = catchAsync(async (req, res, next) => {
   }
   const ids = req.query.ids.split(',');
   // NOTE: not tested
-  try {
-    ids.forEach(e => {
-      if (!mongoose.Types.ObjectId.isValid(e)) {
-        throw new AppError('invalid ids provided', 400);
-      }
-      if (req.user.followedUsers.includes(e)) {
-        throw new AppError('user is already followed', 400);
-      }
-      User.findById(e)
-        .then(user => {
-          const payload = {
-            data: {
-              data: 'كس ام الضحك'
-            },
-            notification: {
-              title: 'Title of notification',
-              body: 'Body of notification',
-              icon: req.user.imageUrl,
-              sound: 'default'
-            },
-            token: user.registraionToken
-          };
-          admin.messaging().sendToDevice(tokens, payload);
-        })
-        .catch(error => {
-          return next(error);
-        });
-    });
-  } catch (error) {
-    return next(error);
-  }
-  req.user.followedUsers.push(...ids);
-  user = await req.user.save({ validateBeforeSave: false });
+  for (let i = 0; i < ids.length; i++) {
+    if (!mongoose.Types.ObjectId.isValid(ids[i])) {
+      throw new AppError('invalid ids provided', 400);
+    }
+    const user = await User.findById(ids[i]);
+    if (!user) throw new AppError('this is not a valid user', 400);
 
-  res.status(204).json(user);
+    if (req.user.followedUsers.includes(ids[i])) {
+      throw new AppError('user is already followed', 400);
+    }
+  }
+  req.user.usersCount += ids.length;
+  req.user.followedUsers.push(...ids);
+  await req.user.save({ validateBeforeSave: false });
+  await notify(
+    ids,
+    req.user._id,
+    'Following User',
+    req.user.name,
+    req.user.imageUrl
+  );
+  res.status(204).json();
 });
 
 exports.checkIfUserFollower = catchAsync(async (req, res, next) => {
@@ -80,6 +61,7 @@ exports.checkIfPlaylistFollower = catchAsync(async (req, res, next) => {
   if (!req.query.ids) {
     return next(new AppError('ids field is missing', 400)); // bad request
   }
+
   let userIds = req.query.ids.split(',');
   let playlistId = req.params.id;
   // we have to make
@@ -106,7 +88,7 @@ exports.followPlaylist = catchAsync(async (req, res, next) => {
 
   let oldPlaylist = await Playlist.findOne({ _id: playlistId });
   if (oldPlaylist.followers.includes(userId)) {
-    return next(new AppError('already following the playlist'), 403);
+    return next(new AppError('already following the playlist', 403));
   }
   newPlayist = await Playlist.findByIdAndUpdate(
     playlistId,
@@ -136,12 +118,18 @@ exports.followedPlaylist = catchAsync(async (req, res, next) => {
   )
     .filter()
     .sort()
-    .paginate();
-  const playlists = await features.query;
-  res.status(200).json(playlists);
+    .offset();
+
+  const playlists = await features.query.populate('owner', 'name');
+  const limit = req.query.limit * 1 || 20;
+  const offset = req.query.offset * 1 || 0;
+  res
+    .status(200)
+    .json(Responser.getPaging(playlists, 'playlists', req, limit, offset));
 });
 
 // TODO: handle the next href and the
+// TODO: remove it entirely and replace with one that has no after functionality
 // TODO: the query must have the type parameter specified and type = artist (i didn't include it)
 exports.getUserFollowedArtists = catchAsync(async (req, res, next) => {
   // filteration stage

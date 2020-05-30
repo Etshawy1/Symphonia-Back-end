@@ -7,7 +7,7 @@ const _ = require('lodash');
 const AppError = require('../utils/appError');
 const factory = require('./handlerFactory');
 const Responser = require('../utils/responser');
-
+const { notify } = require('../startup/notification');
 exports.getPlaylist = factory.getOne(Playlist, {
   path: 'owner',
   select: 'name'
@@ -134,10 +134,7 @@ exports.getPlaylistTracks = catchAsync(async (req, res, next) => {
       { path: 'album', select: 'name image' }
     ]),
     req.query
-  )
-    .filter()
-    .sort()
-    .offset();
+  ).offset();
 
   const tracks = await features.query;
   const limit = req.query.limit * 1 || 20;
@@ -243,7 +240,13 @@ exports.addTracksToPlaylist = catchAsync(async (req, res, next) => {
       }
     );
   }
-
+  await notify(
+    playlistCheck.followers,
+    playlistCheck._id,
+    'PlayList Updated',
+    playlistCheck.name,
+    playlistCheck.image
+  );
   res.status(200).json(playlist);
 });
 
@@ -402,11 +405,14 @@ exports.getCurrentUserDeletedPlaylists = catchAsync(async (req, res, next) => {
   )
     .filter()
     .sort()
-    .limitFields()
-    .paginate();
-  const deleted = await features.query;
+    .offset();
 
-  res.status(200).json(deleted);
+  const deleted = await features.query;
+  const limit = req.query.limit * 1 || 20;
+  const offset = req.query.offset * 1 || 0;
+  res
+    .status(200)
+    .json(Responser.getPaging(deleted, 'playlists', req, limit, offset));
 });
 
 exports.recoverCurrentUserPlaylists = catchAsync(async (req, res, next) => {

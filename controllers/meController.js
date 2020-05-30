@@ -11,6 +11,12 @@ const APIFeatures = require('./../utils/apiFeatures');
 const _ = require('lodash');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const crypto = require('crypto');
+const { Notification } = require('../models/notificationsModel');
+const helper = require('../utils/helper');
+const util = require('util');
+const sizeOf = require('image-size');
+const fs_writeFile = util.promisify(fs.writeFile);
+const sharp = require('sharp');
 
 const mimeNames = {
   '.mp3': 'audio/mpeg',
@@ -272,6 +278,8 @@ exports.playTrack = catchAsync(async (req, res, next) => {
     return next(new AppError('Token is invalid or has expired', 400));
   }
   const track = await Track.findById(req.params.track_id);
+  track.usersCount++;
+  await track.save({ validateBeforeSave: false });
   const { trackPath } = track;
   // Check if file exists. If not, will return the 404 'Not Found'.
   if (!fs.existsSync(`${trackPath}`)) {
@@ -331,10 +339,26 @@ exports.userProfile = catchAsync(async (req, res, next) => {
   res.status(200).json(currentUser);
 });
 exports.updateCurrentUserProfile = catchAsync(async (req, res, next) => {
+  if (req.body.image) {
+    const url = `${req.protocol}://${req.get('host')}`;
+    const image = req.body.image.replace(/^data:image\/[a-z]+;base64,/, '');
+    imageName = await prepareAndSaveImage(
+      Buffer.from(image, 'base64'),
+      req.user
+    );
+    req.body.imageUrl = `${url}/api/v1/images/users/${imageName}`;
+  }
   const user = await User.findByIdAndUpdate(
     req.user._id,
     {
-      ..._.pick(req.body, ['email', 'dateOfBirth', 'gender', 'phone', 'name'])
+      ..._.pick(req.body, [
+        'email',
+        'dateOfBirth',
+        'gender',
+        'phone',
+        'name',
+        'imageUrl'
+      ])
     },
     { new: true, runValidators: true }
   );
@@ -607,7 +631,7 @@ exports.getQueue = catchAsync(async (req, res, next) => {
 exports.getCheckoutSession = catchAsync(async (req, res, next) => {
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ['card'],
-    success_url: `${req.protocol}://${req.get('host')}/`,
+    success_url: `${req.protocol}://${req.get('host')}/webhome/home`,
     cancel_url: `${req.protocol}://${req.get('host')}/premium`,
     customer_email: req.user.email,
     client_reference_id: req.user.email,
