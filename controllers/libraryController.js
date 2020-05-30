@@ -54,7 +54,10 @@ exports.getCurrentUserSavedAlbums = catchAsync(async (req, res, next) => {
     .sort()
     .limitFields()
     .offset();
-  let albums = await features.query;
+  let albums = await features.query.populate([
+    { path: 'artist', select: 'name' },
+    { path: 'tracks', select: 'name' }
+  ]);
   res
     .status(200)
     .json(
@@ -75,11 +78,13 @@ exports.getCurrentUserSavedTracks = catchAsync(async (req, res, next) => {
 
   const features = new APIFeatures(Track.find({ _id: { $in: ids } }), req.query)
     .filter()
-    .sort()
     .limitFields()
     .offset();
 
-  let tracks = await features.query;
+  let tracks = await features.query.populate([
+    { path: 'artist', select: 'name' },
+    { path: 'album', select: 'name image' }
+  ]);
   res
     .status(200)
     .json(

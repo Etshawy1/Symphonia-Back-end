@@ -206,11 +206,12 @@ exports.playInfo = catchAsync(async (req, res, next) => {
     console.log(item);
     const TracksUrl = [];
     context.tracks.forEach(tracks => {
-      TracksUrl.push(
-        `${req.protocol}://${req.get('host')}/api/v1/me/player/tracks/${
-          tracks._id
-        }`
-      );
+      if (req.user.premium || !track.premium)
+        TracksUrl.push(
+          `${req.protocol}://${req.get('host')}/api/v1/me/player/tracks/${
+            tracks._id
+          }`
+        );
     });
     const indexOfCurrentTrack = context.tracks.indexOf(track._id);
     const indexOfPreviousTrack =
