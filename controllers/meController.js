@@ -168,7 +168,13 @@ exports.playInfo = catchAsync(async (req, res, next) => {
     await updatedUser.save({ validateBeforeSave: false });
   } else {
     let context;
-    if (req.body.context_type === 'album') {
+    if (req.body.context_type === 'liked') {
+      context.contextImage = `${req.protocol}://${req.get(
+        'host'
+      )}/api/v1/images/playlists/liked.png`;
+      context.contextName = `Liked Songs`;
+      context.tracks = req.user.followedTracks;
+    } else if (req.body.context_type === 'album') {
       context = await Album.findById(req.body.contextId);
       context.contextImage = context.image;
       context.contextName = context.name;
@@ -197,7 +203,6 @@ exports.playInfo = catchAsync(async (req, res, next) => {
       contextUrl: req.body.context_url,
       contextType: req.body.context_type
     };
-    console.log(item);
     const TracksUrl = [];
     context.tracks.forEach(tracks => {
       if (req.user.premium || !track.premium)
