@@ -91,10 +91,7 @@ exports.artistTopTracks = catchAsync(async (req, res, next) => {
   const features = new APIFeatures(
     Track.find({ artist: req.params.id }),
     req.query
-  )
-    .filter()
-    .sort()
-    .offset();
+  ).offset();
   const topTracks = await features.query.populate([
     { path: 'artist', select: 'name' },
     { path: 'album', select: 'name image' }
@@ -114,7 +111,6 @@ exports.getArtistAlbums = catchAsync(async (req, res, next) => {
     req.query
   )
     .filter()
-    .sort()
     .offset();
 
   const albums = await features.query.populate([

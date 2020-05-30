@@ -10,7 +10,7 @@ const historySchema = new mongoose.Schema({
       contextUrl: String,
       contextType: {
         type: String,
-        enum: ['playlist', 'album', 'artist']
+        enum: ['playlist', 'album', 'artist', 'liked']
       },
       contextImage: String,
       contextName: String,

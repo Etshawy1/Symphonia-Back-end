@@ -126,7 +126,6 @@ exports.followedPlaylist = catchAsync(async (req, res, next) => {
     req.query
   )
     .filter()
-    .sort()
     .offset();
 
   const playlists = await features.query.populate('owner', 'name');

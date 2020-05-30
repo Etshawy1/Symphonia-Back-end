@@ -58,9 +58,8 @@ async function getProfileInfo (userId) {
 
 async function getTopArtistsAndTracks (Model, query) {
   const top = new APIFeatures(Model.find().sort({ usersCount: -1 }), query)
-    .filter()
-    .limitFields()
-    .paginate();
+    .offset()
+    .limitFields();
   return await top.query;
 }
 
@@ -174,7 +173,7 @@ exports.playInfo = catchAsync(async (req, res, next) => {
     updatedUser.queue.currentlyPlaying.device = deviceId;
     await updatedUser.save({ validateBeforeSave: false });
   } else {
-    let context;
+    let context = {};
     if (req.body.context_type === 'liked') {
       context.contextImage = `${req.protocol}://${req.get(
         'host'

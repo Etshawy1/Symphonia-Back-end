@@ -42,7 +42,6 @@ exports.getCategoriesPlaylists = catchAsync(async (req, res, next) => {
     req.query
   )
     .filter()
-    .sort()
     .limitFields()
     .offset();
 
@@ -56,7 +55,6 @@ exports.getCategoriesTemp = catchAsync(async (req, res, next) => {
   pageMeta = Helper.getPageMeta(req);
   const features = new APIFeatures(Category.find(), req.query)
     .filter()
-    .sort()
     .limitFields()
     .paginate();
   let categorys = await features.query;
@@ -81,7 +79,6 @@ exports.getCategories = catchAsync(async (req, res, next) => {
   pageMeta = Helper.getPageMeta(req);
   const features = new APIFeatures(Category.find(), req.query)
     .filter()
-    .sort()
     .limitFields()
     .offset();
   //console.log(typeof features.query)
@@ -119,7 +116,6 @@ exports.getRecommendedArtists = catchAsync(async (req, res, next) => {
     req.query
   )
     .filter()
-    .sort()
     .limitFields()
     .offset();
 
