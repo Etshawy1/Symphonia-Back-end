@@ -235,7 +235,9 @@ exports.playInfo = catchAsync(async (req, res, next) => {
       previousTrack:
         indexOfPreviousTrack !== -1 ? TracksUrl[indexOfPreviousTrack] : null,
       nextTrack: indexOfNextTrack !== -1 ? TracksUrl[indexOfNextTrack] : null,
-      devices: [{ devicesName: req.body.device }]
+      devices: [{ devicesName: req.body.device }],
+      contextId: context.contextId,
+      contextType: req.body.context_type
     };
     if (currentUser.history === undefined) {
       const history = await History.create({

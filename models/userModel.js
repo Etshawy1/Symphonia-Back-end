@@ -107,6 +107,8 @@ const userSchema = new mongoose.Schema({
         devicesName: String
       }
     ],
+    contextId: String,
+    contextType: String,
     repeatOnce: { type: Boolean, default: false },
     select: false
   },
