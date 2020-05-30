@@ -173,7 +173,7 @@ exports.playInfo = catchAsync(async (req, res, next) => {
     updatedUser.queue.currentlyPlaying.device = deviceId;
     await updatedUser.save({ validateBeforeSave: false });
   } else {
-    let context;
+    let context = {};
     if (req.body.context_type === 'liked') {
       context.contextImage = `${req.protocol}://${req.get(
         'host'
