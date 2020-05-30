@@ -387,7 +387,7 @@ exports.recentlyPlayed = catchAsync(async (req, res, next) => {
   }
   history.items = _.reverse(history.items);
   history.items = _.uniqBy(history.items, 'contextName');
-  history.items = _.remove(history.items, i => i.contextName != undefined);
+  history.items = _.remove(history.items, i => i.contextId != undefined);
   const results = history.items.slice(0, Math.min(history.items.length, 6));
   res.status(200).json({
     history: results
