@@ -381,14 +381,14 @@ exports.recentlyPlayed = catchAsync(async (req, res, next) => {
   const currentUser = await User.findById(req.user._id).select('+history');
   const history = await History.findById(currentUser.history).select('-__v');
   if (!history || !history.items) {
-    res.status(200).json({
+    return res.status(200).json({
       history: []
     });
   }
   history.items = _.reverse(history.items);
   history.items = _.uniqBy(history.items, 'contextName');
-  history.items = _.remove(history.items, i => i.contextId != undefined);
-  const results = history.items.slice(Math.max(history.items.length - 6, 0));
+  history.items = _.remove(history.items, i => i.contextName != undefined);
+  const results = history.items.slice(0, Math.min(history.items.length, 6));
   res.status(200).json({
     history: results
   });
