@@ -16,7 +16,7 @@ describe('dumb', () => {
     expect(1).toEqual(1);
   });
 });
-module.exports.mockQuery = function(arr) {
+module.exports.mockQuery = function (arr) {
   let query = (async () => {
     return arr;
   })();
@@ -28,7 +28,6 @@ module.exports.mockQuery = function(arr) {
   query.populate = jest.fn().mockReturnValue(query);
   query.then = jest.fn().mockReturnValue(query);
   query.catch = jest.fn().mockReturnValue(query);
-
 
   return jest.fn().mockReturnValue(query);
 };
