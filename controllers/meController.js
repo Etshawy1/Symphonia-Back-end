@@ -140,6 +140,9 @@ exports.playInfo = catchAsync(async (req, res, next) => {
   if (!track) {
     return next(new AppError('track not found', 404));
   }
+  if (track.premium && !req.user.premium) {
+    return next(new AppError('this track is for premium users only', 400));
+  }
   if (
     req.body.context_url === undefined &&
     req.body.context_type === undefined
@@ -210,16 +213,19 @@ exports.playInfo = catchAsync(async (req, res, next) => {
       contextType: req.body.context_type
     };
     const TracksUrl = [];
-    context.tracks.forEach(async tracks => {
-      const track = await Track.findById(tracks);
+    for (let i = 0; i < context.tracks.length; i++) {
+      const track = await Track.findById(context.tracks[i]);
       if (req.user.premium || !track.premium) {
         TracksUrl.push(
           `${req.protocol}://${req.get('host')}/api/v1/me/player/tracks/${
-            tracks._id
+            context.tracks[i]._id
           }`
         );
+      } else {
+        context.tracks.splice(i, 1);
       }
-    });
+    }
+    console.log(context.tracks);
     const indexOfCurrentTrack = context.tracks.indexOf(track._id);
     const indexOfPreviousTrack =
       indexOfCurrentTrack === 0 ? -1 : indexOfCurrentTrack - 1;
