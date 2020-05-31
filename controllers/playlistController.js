@@ -241,7 +241,7 @@ exports.addTracksToPlaylist = catchAsync(async (req, res, next) => {
     playlistCheck.followers,
     playlistCheck._id,
     'PlayList Updated',
-    playlistCheck.name,
+    `${playlistCheck.name} is updated with new tracks`,
     playlistCheck.image
   );
   res.status(200).json(playlist);

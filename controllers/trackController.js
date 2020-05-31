@@ -90,8 +90,8 @@ exports.addTrack = catchAsync(async (req, res, next) => {
     artist.followedUsers,
     req.body.album,
     'Tracks Updated',
-    artist.name,
-    artist.imageUrl
+    `${artist.name} has uploded a new track called ${track.name}`,
+    `${album.image}`
   );
   res.status(200).json(track);
 });
