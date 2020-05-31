@@ -31,7 +31,7 @@ exports.FollowUser = catchAsync(async (req, res, next) => {
     ids,
     req.user._id,
     'Following User',
-    `${req.user.name} start following you`,
+    `${req.user.name} started following you`,
     req.user.imageUrl
   );
   res.status(204).json();
