@@ -223,9 +223,9 @@ exports.playInfo = catchAsync(async (req, res, next) => {
         );
       } else {
         context.tracks.splice(i, 1);
+        i--;
       }
     }
-    console.log(context.tracks);
     const indexOfCurrentTrack = context.tracks.indexOf(track._id);
     const indexOfPreviousTrack =
       indexOfCurrentTrack === 0 ? -1 : indexOfCurrentTrack - 1;
