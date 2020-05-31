@@ -210,13 +210,15 @@ exports.playInfo = catchAsync(async (req, res, next) => {
       contextType: req.body.context_type
     };
     const TracksUrl = [];
-    context.tracks.forEach(tracks => {
-      if (req.user.premium || !track.premium)
+    context.tracks.forEach(async tracks => {
+      const track = await Track.findById(tracks);
+      if (req.user.premium || !track.premium) {
         TracksUrl.push(
           `${req.protocol}://${req.get('host')}/api/v1/me/player/tracks/${
             tracks._id
           }`
         );
+      }
     });
     const indexOfCurrentTrack = context.tracks.indexOf(track._id);
     const indexOfPreviousTrack =
