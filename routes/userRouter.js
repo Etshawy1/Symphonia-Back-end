@@ -28,7 +28,11 @@ router.get(
   }),
   authController.facebookOauth
 );
-router.post('/auth/facebook/Symphonia', authController.facebookOauthAndroid);
+router.post(
+  '/auth/facebook/Symphonia',
+  passport.authenticate('facebookToken', { session: false }),
+  authController.facebookOauth
+);
 
 router.get(
   '/auth/google',
