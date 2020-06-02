@@ -127,6 +127,8 @@ passport.use(
       profileFields: ['id', 'displayName', 'name', 'photos', 'email']
     },
     catchAsync(async (accessToken, refreshToken, profile, done) => {
+      __logger.info(accessToken);
+      __logger.info(JSON.stringify(profile));
       const existingUser = await User.findOne({
         facebookId: profile.id
       });
