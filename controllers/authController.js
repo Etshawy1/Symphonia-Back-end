@@ -162,6 +162,50 @@ exports.facebookOauth = catchAsync(async (req, res, next) => {
       )}`
     );
 });
+exports.facebookOauthAndroid = catchAsync(async (req, res, next) => {
+  const existingUser = await User.findOne({ facebookId: req.body.facebookId });
+  existingUser.googleId = undefined;
+  existingUser.imageGoogleUrl = undefined;
+  existingUser.password = undefined;
+  existingUser.tracks = undefined;
+  existingUser.__v = undefined;
+  existingUser.followedUsers = undefined;
+  existingUser.queue = undefined;
+  if (existingUser) {
+    existingUser.last_login = Date.now();
+    await existingUser.save({
+      validateBeforeSave: false
+    });
+    createSendToken(existingUser, 200, res);
+  } else {
+    const existedEmail = await User.findOne({
+      email: req.body.email
+    });
+    if (existedEmail) {
+      existedEmail.facebookId = req.body.id;
+      existedEmail.imageFacebookUrl = req.body.image;
+      existedEmail.last_login = Date.now();
+      await existedEmail.save({
+        validateBeforeSave: false
+      });
+    } else {
+      const newUser = new User({
+        email: req.body.email,
+        name: req.body.displayName,
+        facebookId: req.body.id,
+        imageFacebookUrl: req.body.image,
+        last_login: Date.now(),
+        type: 'user'
+      });
+      await newUser.save({
+        validateBeforeSave: false
+      });
+      const url = `${req.protocol}://${req.get('host')}`;
+      await new Email(newUser, url).sendWelcome();
+      createSendToken(existedEmail, 201, res);
+    }
+  }
+});
 exports.googleUnlink = catchAsync(async (req, res, next) => {});
 exports.facebookUnlink = catchAsync(async (req, res, next) => {});
 

@@ -28,6 +28,7 @@ router.get(
   }),
   authController.facebookOauth
 );
+router.post('/auth/facebook/Symphonia', authController.facebookOauthAndroid);
 
 router.get(
   '/auth/google',
