@@ -10,8 +10,7 @@ const mongoose = require('mongoose');
 const AppError = require('../../../utils/appError');
 const _ = require('lodash');
 
-//const { notify } = require('../../../startup/notification');
-const noti = require('../../../startup/notification');
+const { notify } = require('../../../startup/notification');
 const {
   mockResponse,
   mockQuery,
@@ -21,6 +20,10 @@ const Album = require('../../../models/albumModel');
 
 describe('follow User', () => {
   let req, res, next;
+  beforeEach(() => {
+    jest.resetModules();
+
+  });
   beforeAll(() => {
     res = mockResponse();
     next = jest.fn();
@@ -32,10 +35,7 @@ describe('follow User', () => {
     //User.findById = mockQuery();
     User.findById = jest.fn().mockReturnValue(req.user);
     mongoose.Types.ObjectId.isValid = jest.fn().mockReturnValue(true);
-    //notify = jest.fn();
-    
-    noti.notify = jest.fn();
-   });
+    });
   it('should follow User', async () => {
     await controller.FollowUser(req, res, next);
     expect(req.user.followedUsers).toEqual(
@@ -50,6 +50,14 @@ describe('follow User', () => {
     await controller.FollowUser(req, res, next);
     expect(next).toHaveBeenCalledWith(
       new AppError('user is already followed', 400)
+    );
+  });
+  it('should say ids field is missing', async () => {
+    req.query = {  };
+
+    await controller.FollowUser(req, res, next);
+    expect(next).toHaveBeenCalledWith(
+      new AppError('ids field is missing', 400)
     );
   });
 });
@@ -120,7 +128,7 @@ describe('follow Playlist', () => {
     Playlist.findOne = jest.fn().mockReturnValue(playlist);
     Playlist.findByIdAndUpdate = jest.fn();
   });
-  it('should follow User', async () => {
+  it('should follow Playlist', async () => {
     await controller.followPlaylist(req, res, next);
     expect(res.status).toHaveBeenCalledWith(200);
     expect(res.json).toHaveBeenCalled();
@@ -132,6 +140,7 @@ describe('follow Playlist', () => {
       new AppError('already following the playlist', 403)
     );
   });
+
 });
 
 describe('followed playlist count', () => {
@@ -163,7 +172,7 @@ describe('get followed playlist', () => {
   it("should return current user's followed playlists ", async () => {
     await controller.followedPlaylist(req, res, next);
     expect(res.status).toHaveBeenCalledWith(200);
-    expect(res.json).toHaveBeenCalledWith(playlists);
+    expect(res.json).toHaveBeenCalledWith(Responser.getPaging(playlists, 'playlists', req));
   });
 });
 
