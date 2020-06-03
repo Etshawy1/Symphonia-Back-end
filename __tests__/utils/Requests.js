@@ -16,6 +16,7 @@ describe('dumb', () => {
     expect(1).toEqual(1);
   });
 });
+
 module.exports.mockQuery = function (arr) {
   let query = (async () => {
     return arr;
