@@ -10,7 +10,6 @@ const AppError = require('../utils/appError');
 const mongoose = require('mongoose');
 const Responser = require('../utils/responser');
 const Helper = require('../utils/helper');
-// TODO: finish the functions for the end points
 exports.checkUserSavedAlbums = catchAsync(async (req, res, next) => {
   if (!req.query.ids) {
     return next(new AppError('please provide the ids parameter', 400));
@@ -102,19 +101,7 @@ exports.removeCurrentUserAlbums = catchAsync(async (req, res, next) => {
     return next(new AppError('please provide the ids parameter', 400));
   }
   let ids = req.query.ids.split(',');
-  isInvalid = false;
-
-  // not necessary
-  /*try {
-    ids.forEach(element => {
-      if (!mongoose.Types.ObjectId.isValid(element)) {
-        throw new AppError('invalid ids provided', 400);
-      }
-    });
-  } catch (error) {
-    return next(error);
-  }
-*/
+  isInvalid = false;   
 
   // now i have to loop on the ids in the
   ids.forEach(element => {
@@ -137,16 +124,7 @@ exports.removeCurrentUserSavedTracks = catchAsync(async (req, res, next) => {
   }
   let ids = req.query.ids.split(',');
   isInvalid = false;
-
-  /*try {
-    ids.forEach(element => {
-      if (!mongoose.Types.ObjectId.isValid(element)) {
-        throw new AppError('invalid ids provided', 400);
-      }
-    });
-  } catch (error) {
-    return next(error);
-  }*/
+ 
   // now i have to loop on the ids in the
   ids.forEach(element => {
     index = req.user.followedTracks.indexOf(element);
@@ -161,7 +139,6 @@ exports.removeCurrentUserSavedTracks = catchAsync(async (req, res, next) => {
   await req.user.save({ validateBeforeSave: false });
   res.status(200).json();
 });
-// TODO: check that there are albums with these ids
 exports.saveCurrentUserAlbums = catchAsync(async (req, res, next) => {
   if (!req.query.ids) {
     return next(new AppError('please provide the ids parameter', 400));
@@ -191,12 +168,12 @@ exports.saveCurrentUserAlbums = catchAsync(async (req, res, next) => {
   res.status(201).json();
 });
 
-// TODO: check that there are Tracks with these ids
 exports.saveCurrentUserTracks = catchAsync(async (req, res, next) => {
   if (!req.query.ids) {
     return next(new AppError('please provide the ids parameter', 400));
   }
   let ids = req.query.ids.split(',');
+  // check that there are Tracks with these ids
   let exists = await Helper.checkIDS(ids, Track);
   if (!exists)
     return next(

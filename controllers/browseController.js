@@ -59,13 +59,7 @@ exports.getCategoriesTemp = catchAsync(async (req, res, next) => {
     .paginate();
   let categorys = await features.query;
   let LOCAL_HOST = `${req.protocol}://${req.get('host')}/`;
-
-  // TODO: adding .href to  the objects doesn't work
-  /*
-  categorys = categorys.forEach(element => {
-    element.href = 'toto';
-  });
-*/
+ 
   res.status(200).json({
     status: 'success',
     results: categorys.length,
@@ -83,12 +77,7 @@ exports.getCategories = catchAsync(async (req, res, next) => {
     .offset();
   //console.log(typeof features.query)
   let categorys = await features.query;
-  // TODO: adding .href to  the objects doesn't work
-  /*
-  categorys = categorys.forEach(element => {
-    element.href = 'toto';
-  });
-*/
+  
   res
     .status(200)
     .json(
@@ -133,14 +122,7 @@ exports.getRecommendedArtists = catchAsync(async (req, res, next) => {
       )
     );
 });
-
-//TODO: remove this if not needed
-exports.getFeaturedPlaylists = catchAsync(async (req, res, next) => {
-  res.status(200).json({
-    message: 'not implementedd yet getFeaturedPlaylists'
-  });
-});
-
+ 
 exports.getNewRelease = catchAsync(async (req, res, next) => {
   const limit = req.query.limit * 1 || 20;
   const offset = req.query.offset * 1 || 0;
@@ -157,13 +139,7 @@ exports.getNewRelease = catchAsync(async (req, res, next) => {
     .status(200)
     .json(Responser.getPaging(albums, 'albums', req, limit, offset));
 });
-
-//TODO: remove this if not needed
-exports.getRecommendations = catchAsync(async (req, res, next) => {
-  res.status(200).json({
-    message: 'not implementedd yet getRecommendations'
-  });
-});
+ 
 // NOTE: it is better to do an itegeration testing for it
 exports.createCategory = catchAsync(async (req, res, next) => {
   let category = await Category.create({
