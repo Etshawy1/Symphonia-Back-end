@@ -119,9 +119,14 @@ exports.googleOauth = catchAsync(async (req, res, next) => {
   user.imageFacebookUrl = undefined;
   user.password = undefined;
   user.tracks = undefined;
-  user.__v = undefined;
+  user.ownedPlaylists = undefined;
+  user.followedAlbums = undefined;
+  user.followedTracks = undefined;
+  user.followedUsers = undefined;
   user.followedUsers = undefined;
   user.queue = undefined;
+  user.deleted = undefined;
+  user.__v = undefined;
   createSendToken(user, req.user.status, res);
 });
 exports.facebookOauth = catchAsync(async (req, res, next) => {
@@ -136,9 +141,13 @@ exports.facebookOauth = catchAsync(async (req, res, next) => {
   user.imageGoogleUrl = undefined;
   user.password = undefined;
   user.tracks = undefined;
-  user.__v = undefined;
+  user.ownedPlaylists = undefined;
+  user.followedAlbums = undefined;
+  user.followedTracks = undefined;
   user.followedUsers = undefined;
   user.queue = undefined;
+  user.deleted = undefined;
+  user.__v = undefined;
   createSendToken(user, req.user.status, res);
 });
 
