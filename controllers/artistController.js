@@ -9,8 +9,21 @@ const crypto = require('crypto');
 const Album = require('../models/albumModel');
 const Responser = require('../utils/responser');
 
-exports.getArtist = factory.getOne(User);
 exports.getSeveralArtists = factory.getMany(User);
+exports.getArtist = catchAsync(async (req, res, next) => {
+  const artist = await User.findById(req.params.id);
+  if (!artist) {
+    return next(new AppError('that document does not exist', 404));
+  }
+  const followersCount = await User.find({
+    followedUsers: { $elemMatch: { $eq: req.params.id } }
+  }).count();
+
+  res.status(200).json({
+    ...artist._doc,
+    followersCount
+  });
+});
 exports.relatedArtists = catchAsync(async (req, res, next) => {
   const artist = await User.findById(req.params.id);
   if (!artist || artist.type !== 'artist') {
