@@ -7,7 +7,7 @@ admin.initializeApp({
   databaseURL: 'https://symphonia-272211.firebaseio.com'
 });
 
-exports.notify = async (users, ownerId, title, body, icon, next) => {
+exports.notify = async (users, ownerId, title, body, icon) => {
   for (let index = 0; index < users.length; index++) {
     const user = await User.findById(users[index]).select('+notification');
     const payload = {

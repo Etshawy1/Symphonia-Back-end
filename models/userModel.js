@@ -161,6 +161,7 @@ const userSchema = new mongoose.Schema({
   last_login: Date,
   playerToken: String,
   playerTokenExpires: Date,
+  preiumExpires: Date,
   active: {
     type: Boolean,
     defult: true,
