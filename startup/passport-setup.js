@@ -1,6 +1,6 @@
 const passport = require('passport');
-const GoogleStrategy = require('passport-google-oauth20');
-const FeacbookStrategy = require('passport-facebook');
+const googleStrategy = require('passport-google-plus-token');
+const feacbookStrategy = require('passport-facebook-token');
 const catchAsync = require('./../utils/catchAsync').fourArg;
 const { User } = require('./../models/userModel');
 
@@ -13,10 +13,9 @@ passport.deserializeUser(function (user, done) {
 });
 
 passport.use(
-  new GoogleStrategy(
+  'googleToken',
+  new googleStrategy(
     {
-      callbackURL:
-        'https://thesymphonia.ddns.net/api/v1/users/auth/google/Symphonia',
       clientID: process.env.CLIENT_ID_GOOGLE,
       clientSecret: process.env.CLIENT_SECRET_GOOGLE
     },
@@ -26,6 +25,13 @@ passport.use(
       });
 
       if (existingUser) {
+        if (
+          existingUser.imagUrl == undefined ||
+          existingUser.imageUrl ==
+            'https://thesymphonia.ddns.net/api/v1/images/users/default.png'
+        ) {
+          existingUser.imageUrl = profile.photos[0].value;
+        }
         existingUser.last_login = Date.now();
         await existingUser.save({
           validateBeforeSave: false
@@ -37,6 +43,13 @@ passport.use(
           email: profile.emails[0].value
         });
         if (existedEmail) {
+          if (
+            existedEmail.imagUrl == undefined ||
+            existedEmail.imageUrl ==
+              'https://thesymphonia.ddns.net/api/v1/images/users/default.png'
+          ) {
+            existedEmail.imageUrl = profile.photos[0].value;
+          }
           existedEmail.googleId = profile.id;
           existedEmail.imageGoogleUrl = profile.photos[0].value;
           existedEmail.last_login = Date.now();
@@ -51,6 +64,7 @@ passport.use(
             name: profile.displayName,
             googleId: profile.id,
             imageGoogleUrl: `${profile.photos[0].value}`,
+            imageUrl: `${profile.photos[0].value}`,
             last_login: Date.now(),
             type: 'user'
           });
@@ -65,10 +79,9 @@ passport.use(
   )
 );
 passport.use(
-  new FeacbookStrategy(
+  'facebookToken',
+  new feacbookStrategy(
     {
-      callbackURL:
-        'https://thesymphonia.ddns.net/api/v1/users/auth/facebook/Symphonia',
       clientID: process.env.CLIENT_ID_FACEBOOK,
       clientSecret: process.env.CLIENT_SECRET_FACEBOOK,
       profileFields: ['id', 'displayName', 'name', 'photos', 'email']
@@ -78,6 +91,13 @@ passport.use(
         facebookId: profile.id
       });
       if (existingUser) {
+        if (
+          existingUser.imagUrl == undefined ||
+          existingUser.imageUrl ==
+            'https://thesymphonia.ddns.net/api/v1/images/users/default.png'
+        ) {
+          existingUser.imageUrl = profile.photos[0].value;
+        }
         existingUser.last_login = Date.now();
         await existingUser.save({
           validateBeforeSave: false
@@ -89,6 +109,13 @@ passport.use(
           email: profile.emails[0].value
         });
         if (existedEmail) {
+          if (
+            existedEmail.imagUrl == undefined ||
+            existedEmail.imageUrl ==
+              'https://thesymphonia.ddns.net/api/v1/images/users/default.png'
+          ) {
+            existedEmail.imageUrl = profile.photos[0].value;
+          }
           existedEmail.facebookId = profile.id;
           existedEmail.imageFacebookUrl = profile.photos[0].value;
           existedEmail.last_login = Date.now();
@@ -103,6 +130,7 @@ passport.use(
             name: profile.displayName,
             facebookId: profile.id,
             imageFacebookUrl: `${profile.photos[0].value}`,
+            imageUrl: `${profile.photos[0].value}`,
             last_login: Date.now(),
             type: 'user'
           });

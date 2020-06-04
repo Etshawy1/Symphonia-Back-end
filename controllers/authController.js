@@ -1,7 +1,6 @@
 const crypto = require('crypto');
 const { promisify } = require('util');
 const _ = require('lodash');
-const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const { User, validate } = require('../models/userModel');
 const catchAsync = require('../utils/catchAsync').threeArg;
@@ -116,54 +115,41 @@ exports.googleOauth = catchAsync(async (req, res, next) => {
   const user = await User.findOne({ googleId: req.user.googleId })
     .select('+type')
     .select('+googleId');
-  const token = user.signToken();
   user.facebookId = undefined;
   user.imageFacebookUrl = undefined;
   user.password = undefined;
   user.tracks = undefined;
-  user.__v = undefined;
+  user.ownedPlaylists = undefined;
+  user.followedAlbums = undefined;
+  user.followedTracks = undefined;
+  user.followedUsers = undefined;
   user.followedUsers = undefined;
   user.queue = undefined;
-  res
-    .status(301)
-    .redirect(
-      `https://thesymphonia.ddns.net/google/${token}/?user=${JSON.stringify(
-        user
-      )}`
-    );
+  user.deleted = undefined;
+  user.__v = undefined;
+  createSendToken(user, req.user.status, res);
 });
-function replacer (key, value) {
-  var maskedValue = value;
-  if (key == 'imageFacebookUrl') {
-    maskedValue = encodeURIComponent(maskedValue);
-  }
-  return maskedValue;
-}
 exports.facebookOauth = catchAsync(async (req, res, next) => {
   if (req.user.status === 201) {
     const url = `${req.protocol}://${req.get('host')}`;
     await new Email(req.user, url).sendWelcome();
   }
-  const user = await User.findOne({ facebookId: req.user.facebookId });
-  const token = user.signToken();
+  const user = await User.findOne({ facebookId: req.user.facebookId })
+    .select('+type')
+    .select('+facebookId');
   user.googleId = undefined;
   user.imageGoogleUrl = undefined;
   user.password = undefined;
   user.tracks = undefined;
-  user.__v = undefined;
+  user.ownedPlaylists = undefined;
+  user.followedAlbums = undefined;
+  user.followedTracks = undefined;
   user.followedUsers = undefined;
   user.queue = undefined;
-  res
-    .status(301)
-    .redirect(
-      `https://thesymphonia.ddns.net/facebook/${token}/?user=${JSON.stringify(
-        user,
-        replacer
-      )}`
-    );
+  user.deleted = undefined;
+  user.__v = undefined;
+  createSendToken(user, req.user.status, res);
 });
-exports.googleUnlink = catchAsync(async (req, res, next) => {});
-exports.facebookUnlink = catchAsync(async (req, res, next) => {});
 
 exports.protect = blocking => {
   return catchAsync(async (req, res, next) => {
@@ -213,6 +199,10 @@ exports.protect = blocking => {
           )
         );
       else return next();
+    }
+    if (Date.now() > currentUser.preiumExpires) {
+      currentUser.preium = false;
+      currentUser.save({ validateBeforeSave: false });
     }
     // GRANT ACCESS TO PROTECTED ROUTE
     req.user = currentUser;

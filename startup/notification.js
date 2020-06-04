@@ -7,7 +7,7 @@ admin.initializeApp({
   databaseURL: 'https://symphonia-272211.firebaseio.com'
 });
 
-exports.notify = async (users, ownerId, title, body, icon, next) => {
+exports.notify = async (users, ownerId, title, body, icon) => {
   for (let index = 0; index < users.length; index++) {
     const user = await User.findById(users[index]).select('+notification');
     const payload = {
@@ -24,7 +24,7 @@ exports.notify = async (users, ownerId, title, body, icon, next) => {
         icon: icon
       }
     };
-    if (user.notification === undefined) {
+    if (user.notification == undefined) {
       const notification = await Notification.create({
         items: [payload]
       });
@@ -36,5 +36,6 @@ exports.notify = async (users, ownerId, title, body, icon, next) => {
     }
     if (user.registraionToken)
       await admin.messaging().sendToDevice(user.registraionToken, payload);
+    await user.save({ validateBeforeSave: false });
   }
 };

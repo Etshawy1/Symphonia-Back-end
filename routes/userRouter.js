@@ -13,34 +13,19 @@ router.post('/signup', authController.signup);
 router.post('/login', authController.login);
 router.patch('/activate/:token', authController.activateArtist);
 
-router.get(
-  '/auth/facebook',
-  passport.authenticate('facebook', {
-    session: false,
-    scope: ['email']
-  })
-);
-router.get(
+router.post(
   '/auth/facebook/Symphonia',
-  passport.authenticate('facebook', {
-    failureRedirect: '/login',
-    scope: ['email']
+  passport.authenticate('facebookToken', {
+    session: false,
+    scope: ['profile', 'email']
   }),
   authController.facebookOauth
 );
 
-router.get(
-  '/auth/google',
-  passport.authenticate('google', {
-    session: false,
-    scope: ['profile', 'email']
-  })
-);
-
-router.get(
+router.post(
   '/auth/google/Symphonia',
-  passport.authenticate('google', {
-    failureRedirect: '/login',
+  passport.authenticate('googleToken', {
+    session: false,
     scope: ['profile', 'email']
   }),
   authController.googleOauth
@@ -52,8 +37,6 @@ router.patch('/resetpassword/:token', authController.resetPassword);
 // any endpoint written after the following line is protected
 router.use(authController.protect(true));
 
-router.post('/unlinkfacebook', authController.facebookUnlink);
-router.post('/unlinkfacebook', authController.googleUnlink);
 router.patch('/updatepassword', authController.updatePassword);
 router.patch('/updateMe', userController.updateMe);
 router.delete('/updateMe', userController.deleteMe);
