@@ -200,6 +200,10 @@ exports.protect = blocking => {
         );
       else return next();
     }
+    if (Date.now() > currentUser.preiumExpires) {
+      currentUser.preium = false;
+      currentUser.save({ validateBeforeSave: false });
+    }
     // GRANT ACCESS TO PROTECTED ROUTE
     req.user = currentUser;
     next();

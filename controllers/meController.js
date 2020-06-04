@@ -669,6 +669,7 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
 const createPremiumSubscriptionCheckout = async session => {
   const user = await User.findOne({ email: session.customer_email });
   user.premium = true;
+  user.premiumExpires = Date.now() + 60 * 60 * 6000 * 24 * 30;
   await user.save({ validateBeforeSave: false });
 };
 exports.webhookCheckout = catchAsync(async (req, res, next) => {
@@ -752,6 +753,7 @@ exports.premium = catchAsync(async (req, res, next) => {
   user.premiumToken = undefined;
   user.premiumExpires = undefined;
   user.premium = true;
+  user.premiumExpires = Date.now() + 60 * 60 * 6000 * 24 * 30;
   await user.save({ validateBeforeSave: false });
   // 3) Update changedPasswordAt property for the user
   res.status(201).json({ message: 'User is now premium!' });
