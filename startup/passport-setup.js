@@ -20,6 +20,9 @@ passport.use(
       clientSecret: process.env.CLIENT_SECRET_GOOGLE
     },
     catchAsync(async (accessToken, refreshToken, profile, done) => {
+      if (!profile.emails[0].value) {
+        profile.emails[0].value = profile._json.email;
+      }
       const existingUser = await User.findOne({
         googleId: profile.id
       });
@@ -87,6 +90,10 @@ passport.use(
       profileFields: ['id', 'displayName', 'name', 'photos', 'email']
     },
     catchAsync(async (accessToken, refreshToken, profile, done) => {
+      __logger.info(JSON.stringify(profile));
+      if (!profile.emails[0].value) {
+        profile.emails[0].value = profile._json.email;
+      }
       const existingUser = await User.findOne({
         facebookId: profile.id
       });
