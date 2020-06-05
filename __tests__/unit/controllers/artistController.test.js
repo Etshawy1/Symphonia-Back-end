@@ -1,9 +1,10 @@
 const controller = require('../../../controllers/artistController');
 const { User } = require('../../../models/userModel');
+const Track = require('../../../models/trackModel');
 const mongoose = require('mongoose');
 const AppError = require('../../../utils/appError');
 const _ = require('lodash');
-const { mockResponse } = require('../../utils/Requests');
+const { mockResponse, mockPageRequest } = require('../../utils/Requests');
 const { mockQuery } = require('../../utils/apiFeatures');
 
 describe('relatedArtists', () => {
@@ -81,18 +82,17 @@ describe('artistTopTracks', () => {
       { tracks: [{ getPreviewUrl: jest.fn().mockReturnValue('') }] }
     ];
     query.populate = jest.fn().mockReturnValue(toptracks);
-    req = {
-      params: { id: mongoose.Types.ObjectId() },
-      query: { gte: '1' },
-      protocol: 'http',
-      get: jest.fn().mockReturnValue('localhost')
-    };
-    User.findById = jest.fn().mockReturnValue(query);
+    const artistId = mongoose.Types.ObjectId();
+    req = mockPageRequest(`/api/v1/artists/${artistId}/top-tracks`);
+    req.params.id = artistId;
+    Track.find = jest.fn().mockReturnValue(query);
   });
   it('should return followers and their count', async () => {
     await controller.artistTopTracks(req, res, next);
 
     expect(res.status).toHaveBeenCalledWith(200);
-    expect(res.json).toHaveBeenCalledWith(toptracks);
+    expect(res.json).toHaveBeenCalledWith({
+      tracks: expect.objectContaining({ items: toptracks })
+    });
   });
 });

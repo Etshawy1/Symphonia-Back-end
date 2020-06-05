@@ -4,7 +4,7 @@ const Track = require('../../../models/trackModel');
 const mongoose = require('mongoose');
 const AppError = require('../../../utils/appError');
 const _ = require('lodash');
-const { mockResponse } = require('../../utils/Requests');
+const { mockResponse, mockPageRequest } = require('../../utils/Requests');
 const { mockQuery } = require('../../utils/apiFeatures');
 
 describe('getAllAlbums', () => {
@@ -41,10 +41,9 @@ describe('getAlbumTracks', () => {
     res = mockResponse();
     query = mockQuery();
     next = jest.fn();
-    req = {
-      params: { id: mongoose.Types.ObjectId() },
-      query: {}
-    };
+    const albumId = mongoose.Types.ObjectId();
+    req = mockPageRequest(`/api/v1/albums/${albumId}/tracks`);
+    req.params.id = albumId;
     tracks = [
       { _id: mongoose.Types.ObjectId() },
       { _id: mongoose.Types.ObjectId() }
@@ -57,7 +56,9 @@ describe('getAlbumTracks', () => {
   it('Should return album tracks', async () => {
     await controller.getAlbumTracks(req, res, next);
     expect(res.status).toHaveBeenCalledWith(200);
-    expect(res.json).toHaveBeenCalledWith(query);
+    expect(res.json).toHaveBeenCalledWith({
+      tracks: expect.objectContaining({ items: query })
+    });
   });
   it('Should return error if album id not found', async () => {
     Album.findById = jest.fn().mockReturnValue(null);

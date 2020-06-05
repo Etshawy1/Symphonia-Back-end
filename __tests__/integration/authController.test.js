@@ -10,7 +10,7 @@ describe('/signup', () => {
     await User.deleteMany({});
   });
   let user;
-  beforeEach(() => {
+  beforeEach(async () => {
     user = {
       name: 'etsh',
       email: 'test52@test.com',

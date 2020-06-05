@@ -22,7 +22,7 @@ describe('auth middleware', () => {
   const exec = async () => {
     res = {};
     next = jest.fn();
-    await protect(req, res, next);
+    await protect(true)(req, res, next);
   };
 
   it('should populate request with user if a valid token provided', async () => {

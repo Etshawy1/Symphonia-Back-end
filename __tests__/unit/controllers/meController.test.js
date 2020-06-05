@@ -283,7 +283,7 @@ describe('meController.topTracksAndArtists', () => {
     History.findById = jest.fn().mockReturnValue(hist);
     await exec();
     expect(res.status).toHaveBeenCalledWith(200);
-    expect(res.json).toHaveBeenCalledWith({ history: 'history' });
+    expect(res.json).toHaveBeenCalledWith({ history: [] });
   });
 });
 
