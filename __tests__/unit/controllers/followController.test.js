@@ -6,8 +6,12 @@ const { User } = require('../../../models/userModel');
 const Responser = require('../../../utils/responser');
 const Helper = require('../../../utils/helper');
 const mongoose = require('mongoose');
+
 const AppError = require('../../../utils/appError');
 const _ = require('lodash');
+
+//const { notify } = require('../../../startup/notification');
+const noti = require('../../../startup/notification');
 const {
   mockResponse,
   mockQuery,
@@ -25,8 +29,13 @@ describe('follow User', () => {
     req.query = { ids: '6,7' };
     req.user = { _id: '1', id: '1', followedUsers: ['1', '2', '3', '4', '5'] };
     req.user.save = jest.fn();
-    User.findById = mockQuery();
-  });
+    //User.findById = mockQuery();
+    User.findById = jest.fn().mockReturnValue(req.user);
+    mongoose.Types.ObjectId.isValid = jest.fn().mockReturnValue(true);
+    //notify = jest.fn();
+    
+    noti.notify = jest.fn();
+   });
   it('should follow User', async () => {
     await controller.FollowUser(req, res, next);
     expect(req.user.followedUsers).toEqual(
@@ -35,7 +44,7 @@ describe('follow User', () => {
     expect(res.status).toHaveBeenCalledWith(204);
     expect(res.json).toHaveBeenCalled();
   });
-  it('shouldnot follow User and display user is already followed message', async () => {
+  it('should not follow User and display user is already followed message', async () => {
     req.query = { ids: '1,7' };
 
     await controller.FollowUser(req, res, next);

@@ -133,6 +133,8 @@ describe('GoogleOauthCallback', () => {
       status: 201,
       name: 'test'
     };
+    user.select = jest.fn().mockReturnValue(user);
+    User.findOne = jest.fn().mockReturnValue(user);
     req = {
       protocol: 'http',
       get: jest.fn().mockReturnValue('localhost'),
@@ -140,7 +142,6 @@ describe('GoogleOauthCallback', () => {
     };
   });
   it('should return user data with token', async () => {
-    const email = new Email(req.user, 'url');
     await controller.googleOauth(req, res, next);
 
     expect(res.status).toHaveBeenCalledWith(201);
@@ -161,6 +162,8 @@ describe('FacebookOauthCallback', () => {
       status: 201,
       name: 'test'
     };
+    user.select = jest.fn().mockReturnValue(user);
+    User.findOne = jest.fn().mockReturnValue(user);
     req = {
       protocol: 'http',
       get: jest.fn().mockReturnValue('localhost'),

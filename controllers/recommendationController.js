@@ -26,7 +26,7 @@ module.exports.getAvailabeGenreSeed = catchAsync(async (req, res, next) => {
 });
 
 /**
- * @summary all it does is to some random tracks
+ * @summary all it does is to return some random recommended tracks tracks
  */
 module.exports.getRecommendedTracks = catchAsync(async (req, res, next) => {
   const limit = req.query.limit * 1 || 20;

@@ -55,6 +55,11 @@ class Email {
 
   // Send the actual email
   async send (template, subject) {
+    if (process.env.NODE_ENV === 'test') {
+      if (!process.env.TEST_REJECT) return;
+      else return Promise.reject(new Error('fail'));
+    }
+
     // 1) Render HTML based on a pug template
     const html = pug.renderFile(`${__dirname}/../views/email/${template}.pug`, {
       firstName: this.firstName,
@@ -71,10 +76,6 @@ class Email {
     };
 
     // 3) Create a transport and send email
-    if (process.env.NODE_ENV === 'test') {
-      if (!process.env.TEST_REJECT) return;
-      else return Promise.reject(new Error('fail'));
-    }
     if (process.env.NODE_ENV === 'development') return;
     await this.newTransport().sendMail(mailOptions);
   }

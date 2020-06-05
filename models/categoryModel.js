@@ -26,9 +26,7 @@ categorySchema.pre('save', function() {
   this.id = slugify(this.name, { lower: true });
 });
 
-categorySchema.virtual('href').get(function() {
-  return 'totot';
-});
+
 
 const Category = mongoose.model('Category', categorySchema);
 module.exports = Category;
