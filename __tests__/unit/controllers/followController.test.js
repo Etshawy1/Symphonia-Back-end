@@ -3,15 +3,12 @@ const Track = require('../../../models/trackModel');
 const Category = require('../../../models/categoryModel');
 const Playlist = require('../../../models/playlistModel');
 const { User } = require('../../../models/userModel');
+const { Notification } = require('../../../models/notificationsModel');
 const Responser = require('../../../utils/responser');
 const Helper = require('../../../utils/helper');
 const mongoose = require('mongoose');
-
 const AppError = require('../../../utils/appError');
 const _ = require('lodash');
-
-//const { notify } = require('../../../startup/notification');
-const noti = require('../../../startup/notification');
 const {
   mockResponse,
   mockQuery,
@@ -28,14 +25,14 @@ describe('follow User', () => {
     mongoose.Types.ObjectId.isValid = jest.fn().mockReturnValue(true);
     req.query = { ids: '6,7' };
     req.user = { _id: '1', id: '1', followedUsers: ['1', '2', '3', '4', '5'] };
+    req.user.select = jest.fn().mockReturnValue(req.user);
     req.user.save = jest.fn();
-    //User.findById = mockQuery();
+    const notification = { _id: '', items: [], save: jest.fn() };
+    Notification.create = jest.fn().mockReturnValue(notification);
+    Notification.findById = jest.fn().mockReturnValue(notification);
     User.findById = jest.fn().mockReturnValue(req.user);
     mongoose.Types.ObjectId.isValid = jest.fn().mockReturnValue(true);
-    //notify = jest.fn();
-    
-    noti.notify = jest.fn();
-   });
+  });
   it('should follow User', async () => {
     await controller.FollowUser(req, res, next);
     expect(req.user.followedUsers).toEqual(
@@ -112,15 +109,20 @@ describe('follow Playlist', () => {
     res = mockResponse();
     next = jest.fn();
     req = mockPageRequest();
-    playlist = { id: '1', followers: ['2', '3'] };
+    playlist = { id: '1', followers: ['2', '3'], owner: '' };
     req.params.id = playlist.id;
     req.query = { ids: '6,7' };
     req.user = { _id: '1', id: '1', followedUsers: ['1', '2', '3', '4', '5'] };
     req.user.save = jest.fn();
+    req.user.select = jest.fn().mockReturnValue(req.user);
+    const notification = { _id: '', items: [], save: jest.fn() };
+    Notification.create = jest.fn().mockReturnValue(notification);
+    Notification.findById = jest.fn().mockReturnValue(notification);
+    User.findById = jest.fn().mockReturnValue(req.user);
     Playlist.findOne = jest.fn().mockReturnValue(playlist);
     Playlist.findByIdAndUpdate = jest.fn();
   });
-  it('should follow User', async () => {
+  it('should follow playlist', async () => {
     await controller.followPlaylist(req, res, next);
     expect(res.status).toHaveBeenCalledWith(200);
     expect(res.json).toHaveBeenCalled();
@@ -163,7 +165,9 @@ describe('get followed playlist', () => {
   it("should return current user's followed playlists ", async () => {
     await controller.followedPlaylist(req, res, next);
     expect(res.status).toHaveBeenCalledWith(200);
-    expect(res.json).toHaveBeenCalledWith(playlists);
+    expect(res.json).toHaveBeenCalledWith({
+      playlists: expect.objectContaining({ items: playlists })
+    });
   });
 });
 

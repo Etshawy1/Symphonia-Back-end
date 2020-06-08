@@ -90,7 +90,6 @@ passport.use(
       profileFields: ['id', 'displayName', 'name', 'photos', 'email']
     },
     catchAsync(async (accessToken, refreshToken, profile, done) => {
-      __logger.info(JSON.stringify(profile));
       if (!profile.emails[0].value) {
         profile.emails[0].value = profile._json.email;
       }
