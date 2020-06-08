@@ -25,36 +25,45 @@ async function getSearchQuery (
   additionalConditions,
   keyword,
   limit,
-  offset = 0
+  offset,
+  popOptions
 ) {
   const Model = getModel[type];
   if (!Model) return null;
-  return Model.find({
+  let query = Model.find({
     name: { $regex: keyword, $options: 'i' },
     ...additionalConditions
   })
     .limit(limit)
     .skip(offset);
+  if (popOptions) query = query.populate(popOptions);
+  return query;
 }
 
 exports.searchGeneric = catchAsync(async (req, res, next) => {
+  const offset = 0;
   const limit = req.query.limit * 1 || 16;
   const keyword = req.params.keyword;
   const profiles = await getSearchQuery(
     'profile',
     { type: 'user' },
     keyword,
-    limit
+    limit,
+    offset
   );
   const artists = await getSearchQuery(
     'artist',
     { type: 'artist' },
     keyword,
-    limit
+    limit,
+    offset
   );
-  const tracks = await getSearchQuery('track', {}, keyword, limit);
-  const albums = await getSearchQuery('album', {}, keyword, limit);
-  const category = await getSearchQuery('category', {}, keyword, limit);
+  const tracks = await getSearchQuery('track', {}, keyword, limit, offset, [
+    { path: 'artist', select: 'name' },
+    { path: 'album', select: 'name image' }
+  ]);
+  const albums = await getSearchQuery('album', {}, keyword, limit, offset);
+  const category = await getSearchQuery('category', {}, keyword, limit, offset);
   const playlist = await getSearchQuery(
     'playlist',
     {
@@ -64,7 +73,8 @@ exports.searchGeneric = catchAsync(async (req, res, next) => {
       ]
     },
     keyword,
-    limit
+    limit,
+    offset
   );
   res
     .status(200)
@@ -80,6 +90,7 @@ exports.searchType = catchAsync(async (req, res, next) => {
   const limit = req.query.limit * 1 || 20;
   const offset = req.query.offset * 1 || 0;
   const additionalConditions = {};
+  let popOptions;
   if (req.query.type === 'profile' || req.query.type === 'artist')
     additionalConditions.type = req.query.type;
   else if (req.query.type === 'playlist')
@@ -87,13 +98,19 @@ exports.searchType = catchAsync(async (req, res, next) => {
       { public: true },
       { owner: req.user ? req.user.id : mongoose.Types.ObjectId() }
     ];
+  else if (req.query.type === 'track')
+    popOptions = [
+      { path: 'artist', select: 'name' },
+      { path: 'album', select: 'name image' }
+    ];
   const features = new APIFeatures(
     getSearchQuery(
       req.query.type,
       additionalConditions,
       req.query.q,
       limit,
-      offset
+      offset,
+      popOptions
     ),
     req.query
   );
