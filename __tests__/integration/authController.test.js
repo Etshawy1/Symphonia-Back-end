@@ -6,11 +6,8 @@ const Email = require('./../../utils/email');
 
 jest.setTimeout(10000);
 describe('/signup', () => {
-  afterEach(async () => {
-    await User.deleteMany({});
-  });
   let user;
-  beforeEach(async () => {
+  beforeAll(() => {
     user = {
       name: 'etsh',
       email: 'test52@test.com',
@@ -34,7 +31,7 @@ describe('/signup', () => {
         user: expect.objectContaining({
           _id: expect.any(String),
           ..._.omit(
-            user,
+            { ...user },
             'password',
             'passwordConfirm',
             'dateOfBirth',
@@ -46,27 +43,31 @@ describe('/signup', () => {
   });
 
   it('should not sign up a user with existing email in DB', async () => {
-    newUser = new User(user);
+    const user1 = { ...user };
+    user1.email = user1.emailConfirm = 'test53@test.com';
+    const newUser = new User(user1);
     await newUser.save({
       validateBeforeSave: false
     });
+    console.log(newUser);
     const res = await request(app)
       .post('/api/v1/users/signup')
-      .send({ ...user })
+      .send({ ...user1 })
       .expect(400);
     expect(res.body).toEqual(
       expect.objectContaining({
         status: 'fail',
-        message: expect.stringContaining(`${user.email}`)
+        message: expect.stringContaining(`${user1.email}`)
       })
     );
   });
 
   it('should not sign up a user if data is in wrong format', async () => {
-    user.name = 'l';
+    const newUser = { ...user };
+    newUser.name = 'l';
     const res = await request(app)
       .post('/api/v1/users/signup')
-      .send({ ...user })
+      .send({ ...newUser })
       .expect(400);
     expect(res.body).toEqual(
       expect.objectContaining({
@@ -77,11 +78,12 @@ describe('/signup', () => {
   });
 
   it('should not sign up a user if email is in wrong format', async () => {
-    user.email = 'l@l.com';
-    user.emailConfirm = user.emal;
+    const newUser = { ...user };
+    newUser.email = 'l@l.l';
+    newUser.emailConfirm = newUser.email;
     const res = await request(app)
       .post('/api/v1/users/signup')
-      .send({ ...user })
+      .send({ ...newUser })
       .expect(400);
     expect(res.body).toEqual(
       expect.objectContaining({
@@ -93,27 +95,28 @@ describe('/signup', () => {
 });
 
 describe('/login', () => {
-  afterEach(async () => {
-    await User.deleteMany({});
+  let user;
+  beforeAll(() => {
+    user = {
+      name: 'etsh',
+      email: 'test52@test.com',
+      emailConfirm: 'test52@test.com',
+      password: 'password',
+      dateOfBirth: '1999-12-31',
+      gender: 'male',
+      type: 'user'
+    };
   });
-
-  const user = {
-    name: 'etsh',
-    email: 'test52@test.com',
-    emailConfirm: 'test52@test.com',
-    password: 'password',
-    dateOfBirth: '1999-12-31',
-    gender: 'male',
-    type: 'user'
-  };
   it('should return user with token if valid data provided', async () => {
-    newUser = new User(user);
+    const user1 = { ...user };
+    user1.email = user1.emailConfirm = 'test54@test.com';
+    const newUser = new User({ ...user1 });
     await newUser.save({
       validateBeforeSave: false
     });
     const res = await request(app)
       .post('/api/v1/users/login')
-      .send(_.pick(user, ['email', 'password']))
+      .send(_.pick(user1, ['email', 'password']))
       .expect('Content-Type', /json/)
       .expect(200);
     expect(res.body).toEqual(
@@ -122,7 +125,7 @@ describe('/login', () => {
         user: expect.objectContaining({
           _id: expect.any(String),
           ..._.omit(
-            user,
+            user1,
             'password',
             'passwordConfirm',
             'dateOfBirth',
@@ -134,9 +137,11 @@ describe('/login', () => {
   });
 
   it('should return error if mail does not exist', async () => {
+    const user1 = { ...user };
+    user1.email = user1.emailConfirm = 'test55@test.com';
     const res = await request(app)
       .post('/api/v1/users/login')
-      .send(_.pick(user, ['email', 'password']))
+      .send(_.pick(user1, ['email', 'password']))
       .expect('Content-Type', /json/)
       .expect(401);
     expect(res.body).toEqual(
@@ -148,13 +153,15 @@ describe('/login', () => {
   });
 
   it('should return error if password is wrong', async () => {
-    newUser = new User(user);
+    const user1 = { ...user };
+    user1.email = user1.emailConfirm = 'test56@test.com';
+    const newUser = new User(user1);
     await newUser.save({
       validateBeforeSave: false
     });
     const res = await request(app)
       .post('/api/v1/users/login')
-      .send({ ..._.pick(user, ['email']), password: 'wrong12345' })
+      .send({ ..._.pick(user1, ['email']), password: 'wrong12345' })
       .expect('Content-Type', /json/)
       .expect(401);
     expect(res.body).toEqual(
@@ -180,27 +187,29 @@ describe('/login', () => {
 });
 
 describe('/forgotpassword', () => {
-  afterEach(async () => {
-    await User.deleteMany({});
+  let user;
+  beforeAll(() => {
+    user = {
+      name: 'etsh',
+      email: 'test52@test.com',
+      emailConfirm: 'test52@test.com',
+      password: 'password',
+      dateOfBirth: '1999-12-31',
+      gender: 'male',
+      type: 'user'
+    };
   });
 
-  const user = {
-    name: 'etsh',
-    email: 'test52@test.com',
-    emailConfirm: 'test52@test.com',
-    password: 'password',
-    dateOfBirth: '1999-12-31',
-    gender: 'male',
-    type: 'user'
-  };
   it('should return 200 and respond with message saying token sent to email', async () => {
-    newUser = new User(user);
+    const user1 = { ...user };
+    user1.email = user1.emailConfirm = 'test57@test.com';
+    const newUser = new User({ ...user1 });
     await newUser.save({
       validateBeforeSave: false
     });
     const res = await request(app)
       .post('/api/v1/users/forgotpassword')
-      .send(_.pick(user, ['email']))
+      .send(_.pick(user1, ['email']))
       .expect('Content-Type', /json/)
       .expect(200);
     expect(res.body).toEqual(
@@ -225,14 +234,16 @@ describe('/forgotpassword', () => {
   });
 
   it('should respond that an error occured and nothing sent to email', async () => {
-    newUser = new User(user);
+    const user1 = { ...user };
+    user1.email = user1.emailConfirm = 'test58@test.com';
+    const newUser = new User({ ...user1 });
     await newUser.save({
       validateBeforeSave: false
     });
     process.env.TEST_REJECT = true;
     const res = await request(app)
       .post('/api/v1/users/forgotpassword')
-      .send(_.pick(user, ['email']))
+      .send(_.pick(user1, ['email']))
       .expect('Content-Type', /json/)
       .expect(500);
     expect(res.body).toEqual(
