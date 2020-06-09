@@ -65,6 +65,122 @@ const albums = [
     type: 'album',
     albumType: 'album',
     copyrights
+  },
+  {
+    _id: mongoose.Types.ObjectId('5edf5a442aa9b365682e46f9'),
+    name: 'Born To Die',
+    releaseDate: new Date('2020-01-01T00:00:00.000+00:00'),
+    image:
+      'https://thesymphonia.ddns.net/api/v1/images/albums/5e8c77c1e37ac11ac4f0135f/1904eb2d71d68b03da21-1591695940637.jpg',
+    artist: mongoose.Types.ObjectId('5e8c77c1e37ac11ac4f0135f'),
+    tracks: [
+      mongoose.Types.ObjectId('5edf60d72aa9b365682e4746'),
+      mongoose.Types.ObjectId('5edf60e82aa9b365682e4747'),
+      mongoose.Types.ObjectId('5edf60f62aa9b365682e474c')
+    ],
+    type: 'album',
+    albumType: 'album',
+    copyrights
+  },
+  {
+    _id: mongoose.Types.ObjectId('5edf5b112aa9b365682e4704'),
+    name: 'Lust For Life',
+    releaseDate: new Date('2017-01-03T00:00:00.000+00:00'),
+    image:
+      'https://thesymphonia.ddns.net/api/v1/images/albums/5e8c77c1e37ac11ac4f0135f/dca5e2fc7010bdb8da59-1591696145131.jpg',
+    artist: mongoose.Types.ObjectId('5e8c77c1e37ac11ac4f0135f'),
+    tracks: [
+      mongoose.Types.ObjectId('5edf5fe72aa9b365682e4729'),
+      mongoose.Types.ObjectId('5edf5ffe2aa9b365682e472a'),
+      mongoose.Types.ObjectId('5edf60102aa9b365682e4731')
+    ],
+    type: 'album',
+    albumType: 'album',
+    copyrights
+  },
+  {
+    _id: mongoose.Types.ObjectId('5edf5b742aa9b365682e4705'),
+    name: 'Paradise',
+    releaseDate: new Date('2012-09-06T00:00:00.000+00:00'),
+    image:
+      'https://thesymphonia.ddns.net/api/v1/images/albums/5e8c77c1e37ac11ac4f0135f/24de38f2b1ffe0f06f06-1591696244687.jpg',
+    artist: mongoose.Types.ObjectId('5e8c77c1e37ac11ac4f0135f'),
+    tracks: [
+      mongoose.Types.ObjectId('5edf602d2aa9b365682e473a'),
+      mongoose.Types.ObjectId('5edf603f2aa9b365682e473b'),
+      mongoose.Types.ObjectId('5edf60582aa9b365682e473c')
+    ],
+    type: 'album',
+    albumType: 'album',
+    copyrights
+  },
+  {
+    _id: mongoose.Types.ObjectId('5edf5bb92aa9b365682e4706'),
+    name: 'Honeymoon',
+    releaseDate: new Date('2015-02-03T00:00:00.000+00:00'),
+    image:
+      'https://thesymphonia.ddns.net/api/v1/images/albums/5e8c77c1e37ac11ac4f0135f/c8b32eabe8f3992f0b35-1591696313511.jpg',
+    artist: mongoose.Types.ObjectId('5e8c77c1e37ac11ac4f0135f'),
+    tracks: [
+      mongoose.Types.ObjectId('5edf5f952aa9b365682e4726'),
+      mongoose.Types.ObjectId('5edf5fac2aa9b365682e4727'),
+      mongoose.Types.ObjectId('5edf5fbc2aa9b365682e4728')
+    ],
+    type: 'album',
+    albumType: 'album',
+    copyrights
+  },
+  {
+    _id: mongoose.Types.ObjectId('5edf5bfb2aa9b365682e4707'),
+    name: 'Ultraviolence',
+    releaseDate: new Date('2014-10-09T00:00:00.000+00:00'),
+    image:
+      'https://thesymphonia.ddns.net/api/v1/images/albums/5e8c77c1e37ac11ac4f0135f/74d0422d342f3efe4fed-1591696379797.jpg',
+    artist: mongoose.Types.ObjectId('5e8c77c1e37ac11ac4f0135f'),
+    tracks: [
+      mongoose.Types.ObjectId('5edf608c2aa9b365682e473d'),
+      mongoose.Types.ObjectId('5edf609d2aa9b365682e473e'),
+      mongoose.Types.ObjectId('5edf60b52aa9b365682e4741')
+    ],
+    type: 'album',
+    albumType: 'album',
+    copyrights
+  },
+  {
+    _id: mongoose.Types.ObjectId('5edf62692aa9b365682e4760'),
+    name: 'Blue Velvet',
+    releaseDate: new Date('2012-02-08T00:00:00.000+00:00'),
+    image:
+      'https://thesymphonia.ddns.net/api/v1/images/albums/5e8c77c1e37ac11ac4f0135f/5623f4e837d690770082-1591698025929.jpg',
+    artist: mongoose.Types.ObjectId('5e8c77c1e37ac11ac4f0135f'),
+    tracks: [mongoose.Types.ObjectId('5edf62882aa9b365682e4769')],
+    type: 'album',
+    albumType: 'single',
+    copyrights
+  },
+  {
+    _id: mongoose.Types.ObjectId('5edf63122aa9b365682e4776'),
+    name: 'Dark Paradise',
+    releaseDate: new Date('2013-02-06T00:00:00.000+00:00'),
+    image:
+      'https://thesymphonia.ddns.net/api/v1/images/albums/5e8c77c1e37ac11ac4f0135f/68680e7f1d5c695c129c-1591698194213.jpg',
+    artist: mongoose.Types.ObjectId('5e8c77c1e37ac11ac4f0135f'),
+    tracks: [mongoose.Types.ObjectId('5edf63922aa9b365682e4777')],
+    type: 'album',
+    albumType: 'single',
+    copyrights
+  },
+  {
+    _id: mongoose.Types.ObjectId('5edf63f22aa9b365682e477c'),
+    name: 'Brooklyn Baby',
+    releaseDate: new Date('2014-02-04T00:00:00.000+00:00'),
+    image:
+      'https://thesymphonia.ddns.net/api/v1/images/albums/5e8c77c1e37ac11ac4f0135f/0494c444166b2b9c95d6-1591698418594.jpg',
+    artist: mongoose.Types.ObjectId('5e8c77c1e37ac11ac4f0135f'),
+    tracks: [mongoose.Types.ObjectId('5edf666d2aa9b365682e4784')],
+    type: 'album',
+    albumType: 'single',
+    copyrights
   }
 ];
 
