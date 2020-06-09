@@ -7,7 +7,7 @@ const Email = require('./../../utils/email');
 jest.setTimeout(10000);
 describe('/signup', () => {
   let user;
-  beforeAll(() => {
+  beforeAll(async () => {
     user = {
       name: 'etsh',
       email: 'test52@test.com',
@@ -17,6 +17,7 @@ describe('/signup', () => {
       gender: 'male',
       type: 'user'
     };
+    await User.deleteMany({});
   });
 
   it('should sign up the valid user and return its data and a JWT token', async () => {
@@ -44,12 +45,11 @@ describe('/signup', () => {
 
   it('should not sign up a user with existing email in DB', async () => {
     const user1 = { ...user };
-    user1.email = user1.emailConfirm = 'test53@test.com';
+    user1.email = user1.emailConfirm = new Date().getTime() + '@test.com';
     const newUser = new User(user1);
     await newUser.save({
       validateBeforeSave: false
     });
-    console.log(newUser);
     const res = await request(app)
       .post('/api/v1/users/signup')
       .send({ ...user1 })
@@ -109,7 +109,7 @@ describe('/login', () => {
   });
   it('should return user with token if valid data provided', async () => {
     const user1 = { ...user };
-    user1.email = user1.emailConfirm = 'test54@test.com';
+    user1.email = user1.emailConfirm = new Date().getTime() + '@test.com';
     const newUser = new User({ ...user1 });
     await newUser.save({
       validateBeforeSave: false
@@ -138,7 +138,7 @@ describe('/login', () => {
 
   it('should return error if mail does not exist', async () => {
     const user1 = { ...user };
-    user1.email = user1.emailConfirm = 'test55@test.com';
+    user1.email = user1.emailConfirm = new Date().getTime() + '@test.com';
     const res = await request(app)
       .post('/api/v1/users/login')
       .send(_.pick(user1, ['email', 'password']))
@@ -154,7 +154,7 @@ describe('/login', () => {
 
   it('should return error if password is wrong', async () => {
     const user1 = { ...user };
-    user1.email = user1.emailConfirm = 'test56@test.com';
+    user1.email = user1.emailConfirm = new Date().getTime() + '@test.com';
     const newUser = new User(user1);
     await newUser.save({
       validateBeforeSave: false
@@ -202,7 +202,7 @@ describe('/forgotpassword', () => {
 
   it('should return 200 and respond with message saying token sent to email', async () => {
     const user1 = { ...user };
-    user1.email = user1.emailConfirm = 'test57@test.com';
+    user1.email = user1.emailConfirm = new Date().getTime() + '@test.com';
     const newUser = new User({ ...user1 });
     await newUser.save({
       validateBeforeSave: false
@@ -235,7 +235,7 @@ describe('/forgotpassword', () => {
 
   it('should respond that an error occured and nothing sent to email', async () => {
     const user1 = { ...user };
-    user1.email = user1.emailConfirm = 'test58@test.com';
+    user1.email = user1.emailConfirm = new Date().getTime() + '@test.com';
     const newUser = new User({ ...user1 });
     await newUser.save({
       validateBeforeSave: false

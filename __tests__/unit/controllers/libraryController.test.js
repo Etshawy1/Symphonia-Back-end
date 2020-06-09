@@ -1,11 +1,7 @@
 const controller = require('../../../controllers/libraryController');
 const Track = require('../../../models/trackModel');
-const Category = require('../../../models/categoryModel');
-const Playlist = require('../../../models/playlistModel');
-const { User } = require('../../../controllers/userController');
 const Responser = require('../../../utils/responser');
 const Helper = require('../../../utils/helper');
-const mongoose = require('mongoose');
 const AppError = require('../../../utils/appError');
 const _ = require('lodash');
 const {
@@ -217,7 +213,7 @@ describe('save tracks for current user', () => {
   });
   it('should save tracks in  current user saved tracks', async () => {
     req.user.followedTracks.includes = jest.fn().mockReturnValue(false);
-    Track.findById = jest.fn().mockReturnValue(true)
+    Track.findById = jest.fn().mockReturnValue(true);
     await controller.saveCurrentUserTracks(req, res, next);
     expect(res.status).toHaveBeenCalledWith(201);
     expect(res.json).toHaveBeenCalled();

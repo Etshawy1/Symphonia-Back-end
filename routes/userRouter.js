@@ -38,8 +38,6 @@ router.patch('/resetpassword/:token', authController.resetPassword);
 router.use(authController.protect(true));
 
 router.patch('/updatepassword', authController.updatePassword);
-router.patch('/updateMe', userController.updateMe);
-router.delete('/updateMe', userController.deleteMe);
 
 // tracks
 

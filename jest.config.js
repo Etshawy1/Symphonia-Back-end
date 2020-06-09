@@ -4,6 +4,7 @@ module.exports = {
     '**/controllers/**',
     '**/startup/**',
     '!**/startup/db.js',
+    '!**/controllers/indexController.js',
     '!**/startup/passport-setup.js',
     '**/models/**',
     '**/routes/**',

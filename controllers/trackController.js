@@ -26,6 +26,7 @@ exports.getSeveralTacks = factory.getMany(Track, [
   { path: 'artist', select: 'name' }
 ]);
 
+/* istanbul ignore next */
 exports.multiPart = catchAsync(async (req, res, next) => {
   let uploadBuilder = new UploadBuilder();
   uploadBuilder.addfileField('track');
@@ -48,8 +49,6 @@ exports.deleteTrack = catchAsync(async (req, res, next) => {
     { _id: req.track.album },
     { $pull: { tracks: req.track._id } }
   );
-  // if I delete it from Track Like findByIdandRemove(req.params.trackId)
-  // will it removed from the Album as I removed the reference ??
   res.status(204).json();
 });
 
@@ -61,7 +60,7 @@ exports.addTrack = catchAsync(async (req, res, next) => {
   if (!trackBuffer)
     return next(new AppError('please provide an mp3 track', 400));
 
-  trackMeta = await prepareTrack(trackBuffer, req.user);
+  trackMeta = await exports.prepareTrack(trackBuffer, req.user);
 
   const album = await Album.findById(req.body.album);
   if (!album) {
@@ -96,13 +95,14 @@ exports.addTrack = catchAsync(async (req, res, next) => {
   res.status(200).json(track);
 });
 
+/* istanbul ignore next */
 /**
  * function to prepare the buffer tracks get its duration and then save it
  * @param {Buffer} bufferTrack - Buffer contains track data
  * @param {Object} user - user object that contains artist's name and id
  * @returns {Object} The name of the stored track and duration of the track in milliseconds
  */
-async function prepareTrack (bufferTrack, user) {
+exports.prepareTrack = async function prepareTrack (bufferTrack, user) {
   // A) get the track duration in milliseconds
   const durationMs = (await mp3Duration(bufferTrack)) * 1000;
 
@@ -119,7 +119,7 @@ async function prepareTrack (bufferTrack, user) {
 
   const trackPath = `${rltvPath}/${trackName}`;
   return { trackPath, durationMs };
-}
+};
 
 exports.checkCurrentArtist = catchAsync(async (req, res, next) => {
   const track = await Track.findById(req.params.id);
