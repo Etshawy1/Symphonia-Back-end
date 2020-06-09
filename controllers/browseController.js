@@ -124,7 +124,7 @@ exports.getRecommendedArtists = catchAsync(async (req, res, next) => {
 });
 
 exports.getNewRelease = catchAsync(async (req, res, next) => {
-  const limit = req.query.limit * 1 || 20;
+  const limit = req.query.limit * 1 || 12;
   const offset = req.query.offset * 1 || 0;
   const features = new APIFeatures(
     Album.find().sort('-releaseDate'),

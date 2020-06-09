@@ -54,11 +54,15 @@
     "stripe": "^8.39.0",
     "validator": "^12.2.0",
     "winston": "^3.2.1",
-    "xss-clean": "^0.1.1"
-  },
-  "devDependencies": {
+    "xss-clean": "^0.1.1",
     "@babel/core": "^7.10.2",
     "@shelf/jest-mongodb": "^1.1.5",
+    "jest": "^25.2.7",
+    "jest-environment-node": "^25.2.1",
+    "superagent": "^5.2.2",
+    "supertest": "^4.0.2"
+  },
+  "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.7.0",
     "eslint": "^6.8.0",
@@ -72,13 +76,9 @@
     "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-react": "^7.19.0",
     "eslint-plugin-react-hooks": "^1.7.0",
-    "jest": "^25.2.7",
-    "jest-environment-node": "^25.2.1",
     "jsdoc": "^3.6.3",
     "ndb": "^1.1.5",
     "prettier": "^1.19.1",
-    "semistandard": "^14.2.0",
-    "superagent": "^5.2.2",
-    "supertest": "^4.0.2"
+    "semistandard": "^14.2.0"
   }
 }
