@@ -47,7 +47,6 @@ describe('/signup', () => {
     const artist = { ...user };
     artist.email = artist.emailConfirm = new Date().getTime() + '@test.com';
     artist.type = 'artist';
-    console.log({ ...artist });
     const res = await request(app)
       .post('/api/v1/users/signup')
       .send({ ...artist })

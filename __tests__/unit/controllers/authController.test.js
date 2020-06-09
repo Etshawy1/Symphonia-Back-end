@@ -120,6 +120,40 @@ describe('updatePassword', () => {
   });
 });
 
+describe('activateArtistAccount', () => {
+  let req, res, next, user, newToken;
+  beforeEach(() => {
+    res = mockResponse();
+    next = jest.fn();
+    const _id = mongoose.Types.ObjectId();
+    newToken = 'new-jwt-generated-token';
+    user = {
+      _id,
+      save: jest.fn(),
+      signToken: jest.fn().mockReturnValue(newToken)
+    };
+    req = {
+      params: {
+        token: 'artistApplicationToken'
+      }
+    };
+    User.findOneDeleted = jest.fn().mockReturnValue(user);
+  });
+  it('should respond with the user data and a new JWT token and activate artist if provided artist activation token is valid', async () => {
+    await controller.activateArtist(req, res, next);
+    expect(user.premium).toEqual(true);
+    expect(res.status).toHaveBeenCalledWith(201);
+    expect(res.json).toHaveBeenCalledWith({ user, token: newToken });
+  });
+  it('should respond with 400 if activation token is invalid', async () => {
+    User.findOneDeleted = jest.fn().mockReturnValue(undefined);
+    await controller.activateArtist(req, res, next);
+    expect(next).toHaveBeenCalledWith(
+      new AppError('Token is invalid or has expired', 400)
+    );
+  });
+});
+
 describe('GoogleOauthCallback', () => {
   let req, res, next, user, newToken;
   beforeEach(() => {

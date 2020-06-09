@@ -110,6 +110,7 @@ exports.checkEmail = catchAsync(async (req, res, next) => {
   res.status(200).json({ exists: true, type: user.type });
 });
 exports.googleOauth = catchAsync(async (req, res, next) => {
+  /* istanbul ignore else */
   if (req.user.status === 201) {
     const url = `${req.protocol}://${req.get('host')}`;
     await new Email(req.user, url).sendWelcome();
@@ -132,6 +133,7 @@ exports.googleOauth = catchAsync(async (req, res, next) => {
   createSendToken(user, req.user.status, res);
 });
 exports.facebookOauth = catchAsync(async (req, res, next) => {
+  /* istanbul ignore else */
   if (req.user.status === 201) {
     const url = `${req.protocol}://${req.get('host')}`;
     await new Email(req.user, url).sendWelcome();

@@ -57,7 +57,7 @@ describe('auth middleware', () => {
     expect(next).toHaveBeenCalledWith(error);
   });
   it('should check if user premium has expired', async () => {
-    user.preiumExpires = Date.now();
+    user.preiumExpires = Date.now() - 10000;
     user.save = jest.fn();
     await protect(true)(req, res, next);
     expect(user.premium).toEqual(false);
