@@ -85,8 +85,12 @@ exports.addTrack = catchAsync(async (req, res, next) => {
   const artist = await User.findByIdAndUpdate(req.user._id, {
     $push: { tracks: track._id }
   });
+
+  const followers = await User.find({
+    followedUsers: { $elemMatch: { $eq: artist._id } }
+  }).distinct('_id');
   await notify(
-    artist.followedUsers,
+    followers,
     req.body.album,
     'Tracks Updated',
     `${artist.name} has uploded a new track called ${track.name}`,
