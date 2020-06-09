@@ -50,12 +50,10 @@ const albumSchema = new mongoose.Schema(
 
 albumSchema.virtual('tracksCount').get(function () {
   if (this.tracks) return this.tracks.length;
-  else return undefined;
 });
 
 albumSchema.virtual('year').get(function () {
   if (this.releaseDate) return this.releaseDate.getFullYear();
-  else return undefined;
 });
 
 const Album = mongoose.model('Album', albumSchema);
