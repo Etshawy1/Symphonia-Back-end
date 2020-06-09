@@ -90,7 +90,6 @@ class Email {
     await this.send('welcome', 'Welcome to the Symphonia Family!');
   }
 
-  /* istanbul ignore next */
   /**
    * @summary the function that send Artist Application email if a user want to become an artist
    */

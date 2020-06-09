@@ -63,7 +63,9 @@ exports.signup = catchAsync(async (req, res, next) => {
         .status(201)
         .json({ status: 'success', message: 'token was sent to email' });
     } catch (err) {
+      /* istanbul ignore next */
       await User.findByIdAndRemove(newUser._id);
+      /* istanbul ignore next */
       return next(
         new AppError('There was an error sending the email. Try again later!'),
         500
@@ -180,28 +182,24 @@ exports.protect = blocking => {
     // 3) Check if user still exists
     const currentUser = await User.findById(decoded.id);
     if (!currentUser) {
-      if (blocking)
-        return next(
-          new AppError(
-            'The user belonging to this token does no longer exist.',
-            401
-          )
-        );
-      else return next();
+      return next(
+        new AppError(
+          'The user belonging to this token does no longer exist.',
+          401
+        )
+      );
     }
     // 4) Check if user changed password after the token was issued
     if (currentUser.changedPasswordAfter(decoded.iat)) {
-      if (blocking)
-        return next(
-          new AppError(
-            'User recently changed password! Please log in again.',
-            401
-          )
-        );
-      else return next();
+      return next(
+        new AppError(
+          'User recently changed password! Please log in again.',
+          401
+        )
+      );
     }
     if (Date.now() > currentUser.preiumExpires) {
-      currentUser.preium = false;
+      currentUser.premium = false;
       currentUser.save({ validateBeforeSave: false });
     }
     // GRANT ACCESS TO PROTECTED ROUTE

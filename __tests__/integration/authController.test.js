@@ -43,6 +43,23 @@ describe('/signup', () => {
     );
   });
 
+  it('should sign up the artist and send activation email', async () => {
+    const artist = { ...user };
+    artist.email = artist.emailConfirm = new Date().getTime() + '@test.com';
+    artist.type = 'artist';
+    console.log({ ...artist });
+    const res = await request(app)
+      .post('/api/v1/users/signup')
+      .send({ ...artist })
+      .expect('Content-Type', /json/)
+      .expect(201);
+    expect(res.body).toEqual(
+      expect.objectContaining({
+        message: 'token was sent to email'
+      })
+    );
+  });
+
   it('should not sign up a user with existing email in DB', async () => {
     const user1 = { ...user };
     user1.email = user1.emailConfirm = new Date().getTime() + '@test.com';
