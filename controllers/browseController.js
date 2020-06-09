@@ -127,7 +127,7 @@ exports.getNewRelease = catchAsync(async (req, res, next) => {
   const limit = req.query.limit * 1 || 12;
   const offset = req.query.offset * 1 || 0;
   const features = new APIFeatures(
-    Album.find().sort('-releaseDate'),
+    Album.find({ tracks: { $not: { $size: 0 } } }).sort('-releaseDate'),
     req.query
   ).offset();
   const albums = await features.query;
