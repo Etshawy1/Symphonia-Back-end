@@ -126,14 +126,23 @@ exports.getPlaylistTracks = catchAsync(async (req, res, next) => {
     return next(new AppError('that document does not exist', 404));
   }
   const features = new APIFeatures(
-    Track.find({ _id: { $in: playlistTracks.tracks } }).populate([
-      { path: 'artist', select: 'name' },
-      { path: 'album', select: 'name image' }
+    Track.aggregate([
+      { $match: { _id: { $in: playlistTracks.tracks } } },
+      {
+        $addFields: {
+          __order: { $indexOfArray: [playlistTracks.tracks, '$_id'] }
+        }
+      },
+      { $sort: { __order: 1 } }
     ]),
     req.query
   ).offset();
 
   const tracks = await features.query;
+  await Track.populate(tracks, [
+    { path: 'artist', select: 'name' },
+    { path: 'album', select: 'name image' }
+  ]);
   const limit = req.query.limit * 1 || 20;
   const offset = req.query.offset * 1 || 0;
   res
