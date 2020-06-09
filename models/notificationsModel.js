@@ -10,7 +10,8 @@ const notificationSchema = new mongoose.Schema({
         body: String,
         sounds: String,
         icon: String
-      }
+      },
+      date: Date
     }
   ]
 });

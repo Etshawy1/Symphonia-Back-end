@@ -25,13 +25,17 @@ exports.notify = async (users, ownerId, title, body, icon) => {
       }
     };
     if (user.notification == undefined) {
+      payload.date = Date.now();
       const notification = await Notification.create({
         items: [payload]
       });
+      payload.date = undefined;
       user.notification = notification._id;
     } else {
       const notification = await Notification.findById(user.notification);
+      payload.date = Date.now();
       notification.items.push(payload);
+      payload.date = undefined;
       await notification.save({ validateBeforeSave: false });
     }
     if (user.registraionToken)

@@ -1,5 +1,6 @@
 const controller = require('./../../../controllers/meController');
 const { User } = require('./../../../models/userModel');
+const Track = require('./../../../models/trackModel');
 const mongoose = require('mongoose');
 const AppError = require('../../../utils/appError');
 const { mockResponse } = require('../../utils/Requests');
@@ -916,3 +917,65 @@ describe('meController.popQueue', () => {
     expect(next).toHaveBeenCalledWith(error);
   });
 });
+
+// describe('meController.playInfo', () => {
+//   let req, res, next, user, track;
+//   track = {
+//     _id: '5e7d2e023429e24340ff1398',
+//     premium: true,
+//     type: 'track'
+//   };
+//   user = {
+//     save: jest.fn().mockResolvedValue(1),
+//     createPlayerToken: jest
+//       .fn()
+//       .mockResolvedValue(
+//         '82c2579f5ce1c3177a657df01742016bcd2ad24cd95d26ab1166946f844c846a'
+//       ),
+//     _id: '5e84b966681ae439edfc1d6f',
+//     queue: {
+//       queueTracks: [
+//         'https://thesymphonia.ddns.net/api/v1/me/player/tracks/5e7d2e023429e24340ff1398',
+//         'https://thesymphonia.ddns.net/api/v1/me/player/tracks/5e8a1e767937ec4d40c6debc',
+//         'https://thesymphonia.ddns.net/api/v1/me/player/tracks/5e8a1e0f7937ec4d40c6deba'
+//       ],
+//       currentlyPlaying: {
+//         currentTrack:
+//           'https://thesymphonia.ddns.net/api/v1/me/player/tracks/5e8a1e0f7937ec4d40c6deba',
+//         device: '5edfb6d3bf2a1b231598e77a'
+//       },
+//       previousTrack:
+//         'https://thesymphonia.ddns.net/api/v1/me/player/tracks/5e8a1e767937ec4d40c6debc',
+//       nextTrack: null,
+//       devices: [{ _id: '5edfb6d3bf2a1b231598e77a', devicesName: 'Chrome' }],
+//       contextId: null,
+//       contextType: 'liked'
+//     },
+//     premium: true,
+//     history: '5edf960fb9674a075be8e74e',
+//     playerToken:
+//       '82c2579f5ce1c3177a657df01742016bcd2ad24cd95d26ab1166946f844c846a',
+//     playerTokenExpires: Date('1591720835775')
+//   };
+//   user.select = jest.fn().mockReturnValue(user);
+//   const exec = async () => {
+//     res = mockResponse();
+//     next = jest.fn();
+//     await controller.playInfo(req, res, next);
+//   };
+//   it('should return not found error', async () => {
+//     req = {
+//       user,
+//       body: {},
+//       params: { track_id: '5' }
+//     };
+
+//     User.findById = jest.fn().mockResolvedValue(user);
+//     Track.findById = jest.fn().mockResolvedValue(track);
+
+//     await exec();
+//     expect(next).toHaveBeenCalledWith(
+//       new AppError('this track is for premium users only', 400)
+//     );
+//   });
+// });
