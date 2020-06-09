@@ -318,6 +318,7 @@ exports.activateArtist = catchAsync(async (req, res, next) => {
   user.deleted = undefined;
   user.artistApplicationToken = undefined;
   user.artistApplicationExpires = undefined;
+  user.premium = true;
   await user.save({
     validateBeforeSave: false
   });

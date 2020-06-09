@@ -87,7 +87,7 @@ exports.createAlbum = catchAsync(async (req, res, next) => {
 
   if (req.body.image) {
     const image = req.body.image.replace(/^data:image\/[a-z]+;base64,/, '');
-    imageName = await prepareAndSaveImage(
+    imageName = await exports.prepareAndSaveImage(
       Buffer.from(image, 'base64'),
       req.user
     );
@@ -108,7 +108,7 @@ exports.createAlbum = catchAsync(async (req, res, next) => {
 
 exports.resizeImage = catchAsync(async (req, res, next) => {
   if (!req.files) return next();
-  req.files.image[0].filename = await prepareAndSaveImage(
+  req.files.image[0].filename = await exports.prepareAndSaveImage(
     req.files.image[0].buffer,
     req.user
   );
@@ -126,13 +126,17 @@ exports.multiPart = catchAsync(async (req, res, next) => {
   uploadBuilder.constructUploader(true)(req, res, next);
 });
 
+/* istanbul ignore next */
 /**
  * function to prepare the buffer image and manipulate it be resizing to be a sqaure jpeg image and save it
  * @param {Buffer} bufferImage - Buffer contains image data
  * @param {Object} user - user object that contains artist's name and id
  * @returns {String} The name of the stored image
  */
-async function prepareAndSaveImage (bufferImage, user) {
+exports.prepareAndSaveImage = async function prepareAndSaveImage (
+  bufferImage,
+  user
+) {
   // A1) get image data like the width and height and extension
   const imageData = sizeOf(bufferImage);
   const imageSize = Math.min(imageData.width, imageData.height, 300);
@@ -153,4 +157,4 @@ async function prepareAndSaveImage (bufferImage, user) {
   await fs_writeFile(`${imagePath}/${imageName}`, decodedData);
 
   return imageName;
-}
+};

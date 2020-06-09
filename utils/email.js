@@ -21,6 +21,7 @@ class Email {
     this.from = `Muhammad Alaa <${process.env.EMAIL_FROM}>`;
   }
 
+  /* istanbul ignore next */
   /**
    * @summary the function that handle configuration use the server to send the email
    * @returns {nodemailer_Transport} this function return a nodemailer_Transport that have premesstion from server to send emails
@@ -53,6 +54,7 @@ class Email {
    * @returns {void}
    */
 
+  /* istanbul ignore next */
   // Send the actual email
   async send (template, subject) {
     if (process.env.NODE_ENV === 'test') {
@@ -88,12 +90,15 @@ class Email {
     await this.send('welcome', 'Welcome to the Symphonia Family!');
   }
 
+  /* istanbul ignore next */
   /**
    * @summary the function that send Artist Application email if a user want to become an artist
    */
   async sendArtistApplication () {
     await this.send('artist', 'You are applying to be an artist!');
   }
+
+  /* istanbul ignore next */
   /**
    * @summary the function that send user token to user to be preimum for android
    */

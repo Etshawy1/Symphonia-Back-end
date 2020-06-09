@@ -5,6 +5,8 @@ module.exports.threeArg = fn => {
     await fn(req, res, next).catch(next);
   };
 };
+
+/* istanbul ignore next */
 module.exports.fourArg = fn => {
   return (accessToken, freshToken, profile, done) => {
     // catch rejected promise (inside a function that takes three arguments)
