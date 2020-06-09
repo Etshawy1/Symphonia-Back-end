@@ -11,7 +11,10 @@ const notificationSchema = new mongoose.Schema({
         sounds: String,
         icon: String
       },
-      date: Date
+      date: {
+        type: Date,
+        default: Date.now()
+      }
     }
   ]
 });
