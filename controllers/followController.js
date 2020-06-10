@@ -199,25 +199,6 @@ exports.getUserFollowedArtists = catchAsync(async (req, res, next) => {
     totalFollowed: originalTotal
   });
 });
-// under construction
-exports.getUserFollowedArtists_v2 = catchAsync(async (req, res, next) => {
-  let limit = Number(req.query.limit || 20);
-  let offset = Number(req.query.offset || 0); 
-  let user = await User.findOne({ _id: req.user._id }).populate({
-    path: 'followedUsers',
-    match: { type: 'artist' },
-    options:{
-      limit ,
-      skip:offset
-    }
-    });
-  let artists = user.followedUsers;
-
-  res.status(200).json(Responser.getPaging(artists, 'artists', req, limit, offset));
-
-
-});
-
 // removes the users with ids from current user
 exports.unfollowUser = catchAsync(async (req, res, next) => {
   if (!req.query.ids) {

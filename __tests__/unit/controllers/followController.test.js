@@ -201,6 +201,12 @@ describe('unfollow User', () => {
     expect(res.status).toHaveBeenCalledWith(204);
     expect(res.json).toHaveBeenCalled();
   });
+
+  it('should return ids field not found', async () => {
+    req.query.ids = undefined;
+    await controller.unfollowUser(req, res, next);
+   expect(next).toHaveBeenCalledWith(new AppError('ids field is missing', 400));
+  });
 });
 
 describe('unfollow Playlist', () => {
