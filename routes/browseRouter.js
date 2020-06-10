@@ -20,7 +20,7 @@ router.get(
   browseController.getCategoriesPlaylists
 );
 
-router.get('/featured-playlists', browseController.getCategoriesPlaylists);
+router.get('/featured-playlists/:id', browseController.getCategoriesPlaylists);
 router.use(authController.protect(true));
 router.get('/artists', browseController.getRecommendedArtists);
 // TODO: solve the problem of disappearing fields

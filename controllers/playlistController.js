@@ -219,7 +219,7 @@ exports.addTracksToPlaylist = catchAsync(async (req, res, next) => {
       if (trackarr[j] == InputTrackarr[i]) delete InputTrackarr[i];
     }
   }
-  let RealTracksArray = InputTrackarr.filter(function(el) {
+  let RealTracksArray = InputTrackarr.filter(function (el) {
     return el != null;
   });
   let playlist = await Playlist.findByIdAndUpdate(
@@ -247,11 +247,11 @@ exports.addTracksToPlaylist = catchAsync(async (req, res, next) => {
     );
   }
   await notify(
-    playlistCheck.followers,
-    playlistCheck._id,
+    playlist.followers,
+    playlist._id,
     'PlayList Updated',
-    `${playlistCheck.name} is updated with new tracks`,
-    playlistCheck.images[0]
+    `${playlist.name} is updated with new tracks`,
+    playlist.images[0]
   );
   res.status(200).json(playlist);
 });
@@ -311,7 +311,7 @@ exports.maintainPlaylistTracks = catchAsync(async (req, res, next) => {
         delete playlistTracks[i++];
       }
 
-      playlistTracks = playlistTracks.filter(function(el) {
+      playlistTracks = playlistTracks.filter(function (el) {
         return el != null;
       });
 

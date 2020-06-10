@@ -329,7 +329,7 @@ userSchema.methods.createPlayerToken = function () {
     .createHash('sha256')
     .update(playerToken)
     .digest('hex');
-  // the token to reset the password is valit only for 10 minutes
+  // the token to reset the password is valit only for 20 minutes
   this.playerTokenExpires = Date.now() + 20 * 60 * 1000;
   return playerToken;
 };
