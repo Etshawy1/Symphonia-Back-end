@@ -200,13 +200,14 @@ exports.addTracksToPlaylist = catchAsync(async (req, res, next) => {
       .status(404)
       .send('The playlist with the given ID was not found.');
   }
-  const playlistTrackCount = playlistCheck.tracks.length;
+
   if (
     (!playlistCheck.public || !playlistCheck.collaborative) &&
     playlistCheck.owner != req.user.id
   )
     return next(new AppError('This playlist is restricted.', 401));
 
+  const playlistTrackCount = playlistCheck.tracks.length;
   let InputTrackarr = req.body.tracks;
 
   let trackarr = playlistCheck.tracks;
@@ -326,7 +327,6 @@ exports.maintainPlaylistTracks = catchAsync(async (req, res, next) => {
         },
         { new: true }
       );
-      await playlist.save();
       res.send(playlist);
     } else {
       return next(new AppError('the dimensions are not correct', 400));
@@ -349,7 +349,6 @@ exports.maintainPlaylistTracks = catchAsync(async (req, res, next) => {
       },
       { new: true }
     );
-    await playlist.save();
     res.send(playlist);
   }
 });
@@ -376,7 +375,6 @@ exports.uploadCustomPlaylistCoverImage = catchAsync(async (req, res, next) => {
     { new: true }
   );
 
-  await playlist.save();
   res.send(playlist);
 });
 exports.getRandomPlaylist = catchAsync(async (req, res, next) => {

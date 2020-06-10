@@ -354,7 +354,7 @@ exports.updateCurrentUserProfile = catchAsync(async (req, res, next) => {
   if (req.body.image) {
     const url = `${req.protocol}://${req.get('host')}`;
     const image = req.body.image.replace(/^data:image\/[a-z]+;base64,/, '');
-    imageName = await prepareAndSaveImage(
+    imageName = await exports.prepareAndSaveImage(
       Buffer.from(image, 'base64'),
       req.user
     );
@@ -674,6 +674,8 @@ const createPremiumSubscriptionCheckout = async session => {
   user.premiumExpires = Date.now() + 60 * 60 * 6000 * 24 * 30;
   await user.save({ validateBeforeSave: false });
 };
+
+/* istanbul ignore next */
 exports.webhookCheckout = catchAsync(async (req, res, next) => {
   const signature = req.headers['stripe-signature'];
   let event;
@@ -718,7 +720,6 @@ exports.applyPremium = catchAsync(async (req, res, next) => {
       `${req.protocol}://${req.hostname}` + `/apply-premium/${Token}`;
 
     await new Email(user, premiumURL).sendPremiumToken();
-    __logger.info('user');
 
     res.status(200).json({
       status: 'success',
@@ -731,8 +732,10 @@ exports.applyPremium = catchAsync(async (req, res, next) => {
       validateBeforeSave: false
     });
     return next(
-      new AppError('There was an error sending the email. Try again later!'),
-      500
+      new AppError(
+        'There was an error sending the email. Try again later!',
+        500
+      )
     );
   }
 });
@@ -768,7 +771,10 @@ exports.premium = catchAsync(async (req, res, next) => {
  * @param {Object} user - user object that contains user's name and id
  * @returns {String} The name of the stored image
  */
-async function prepareAndSaveImage (bufferImage, user) {
+exports.prepareAndSaveImage = async function prepareAndSaveImage (
+  bufferImage,
+  user
+) {
   // A1) get image data like the width and height and extension
   const imageData = sizeOf(bufferImage);
   const imageSize = Math.min(imageData.width, imageData.height, 300);
@@ -782,11 +788,13 @@ async function prepareAndSaveImage (bufferImage, user) {
 
   // B) save the image with unique name to the following path
   const imageName = `${helper.randomStr(20)}-${Date.now()}.${imageType}`;
-  const imagePath = path.resolve(`${__dirname}/../assets/images/users`);
+  const imagePath = path.resolve(
+    `${__dirname}/../assets/images/users/${user._id}`
+  );
   await fs_writeFile(`${imagePath}/${imageName}`, decodedData);
 
   return imageName;
-}
+};
 
 module.exports.sendResponse = sendResponse;
 module.exports.getMimeNameFromExt = getMimeNameFromExt;

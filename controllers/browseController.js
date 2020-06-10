@@ -29,7 +29,7 @@ exports.getCategoriesPlaylists = catchAsync(async (req, res, next) => {
   let myCat = await Category.findOne({ id: req.params.id });
 
   if (!myCat) {
-    return next(new AppError("category is n't found "), 404);
+    return next(new AppError("category is n't found ", 404));
   }
   const features = new APIFeatures(
     Playlist.find({
@@ -49,24 +49,6 @@ exports.getCategoriesPlaylists = catchAsync(async (req, res, next) => {
   res
     .status(200)
     .json(Responser.getPaging(playlists, 'playlists', req, limit, offset));
-});
-
-exports.getCategoriesTemp = catchAsync(async (req, res, next) => {
-  pageMeta = Helper.getPageMeta(req);
-  const features = new APIFeatures(Category.find(), req.query)
-    .filter()
-    .limitFields()
-    .paginate();
-  let categorys = await features.query;
-  let LOCAL_HOST = `${req.protocol}://${req.get('host')}/`;
-
-  res.status(200).json({
-    status: 'success',
-    results: categorys.length,
-    data: {
-      categorys
-    }
-  });
 });
 
 exports.getCategories = catchAsync(async (req, res, next) => {
@@ -136,6 +118,7 @@ exports.getNewRelease = catchAsync(async (req, res, next) => {
     .json(Responser.getPaging(albums, 'albums', req, limit, offset));
 });
 
+/* istanbul ignore next */
 // NOTE: it is better to do an itegeration testing for it
 exports.createCategory = catchAsync(async (req, res, next) => {
   let category = await Category.create({

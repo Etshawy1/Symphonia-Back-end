@@ -15,18 +15,19 @@ exports.FollowUser = catchAsync(async (req, res, next) => {
   // NOTE: not tested
   for (let i = 0; i < ids.length; i++) {
     if (!mongoose.Types.ObjectId.isValid(ids[i])) {
-      throw new AppError('invalid ids provided', 400);
+      return next(new AppError('invalid ids provided', 400));
     }
     const user = await User.findById(ids[i]);
-    if (!user) throw new AppError('this is not a valid user', 400);
+    if (!user) return next(new AppError('this is not a valid user', 400));
 
     if (req.user.followedUsers.includes(ids[i])) {
-      throw new AppError('user is already followed', 400);
+      return next(new AppError('user is already followed', 400));
     }
   }
   req.user.usersCount += ids.length;
   req.user.followedUsers.push(...ids);
   await req.user.save({ validateBeforeSave: false });
+  res.status(204).json();
   await notify(
     ids,
     req.user._id,
@@ -34,7 +35,6 @@ exports.FollowUser = catchAsync(async (req, res, next) => {
     `${req.user.name} started following you`,
     req.user.imageUrl
   );
-  res.status(204).json();
 });
 
 exports.checkIfUserFollower = catchAsync(async (req, res, next) => {
@@ -101,6 +101,7 @@ exports.followPlaylist = catchAsync(async (req, res, next) => {
   );
   const ids = [];
   ids.push(oldPlaylist.owner);
+  res.status(200).json();
   await notify(
     ids,
     req.user._id,
@@ -108,7 +109,6 @@ exports.followPlaylist = catchAsync(async (req, res, next) => {
     `${req.user.name} liked your playlist ${oldPlaylist.name}`,
     req.user.imageUrl
   );
-  res.status(200).json();
 });
 
 exports.followedPlaylistCount = catchAsync(async (req, res, next) => {
@@ -136,25 +136,18 @@ exports.followedPlaylist = catchAsync(async (req, res, next) => {
     .json(Responser.getPaging(playlists, 'playlists', req, limit, offset));
 });
 
-// TODO: handle the next href and the
-// TODO: remove it entirely and replace with one that has no after functionality
-// TODO: the query must have the type parameter specified and type = artist (i didn't include it)
+// for the a next better version of this api we need to do the following
+// 1: handle the next href and the
+// 2: remove it entirely and replace with one that has no after functionality
+// 3: the query must have the type parameter specified and type = artist (i didn't include it)
+// replace the this function with the second version of it
 exports.getUserFollowedArtists = catchAsync(async (req, res, next) => {
   // filteration stage
   let limit = 20;
   if (req.query.limit) {
-    limit = parseInt(req.query.limit);
+    limit = parseInt(req.query.limit) || 20;
   }
-  // TODO suppport pagination with limit
-  /*
-  let user = await User.findOne({ _id: req.user._id }).populate({
-    path: 'followedUsers',
-    match: { type: 'artist' },
-    options: {
-      limit: limit
-    }
-  });
-*/
+
   let user = await User.findOne({ _id: req.user._id }).populate({
     path: 'followedUsers',
     match: { type: 'artist' }
