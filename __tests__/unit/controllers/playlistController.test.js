@@ -491,15 +491,17 @@ describe('maintainPlaylistTracks', () => {
     expect(res.send).toHaveBeenCalledWith(playlist);
   });
 
-  /* it('Should return Error for unfounded Tracks', async () => {
+  it('Should return Error for unfounded Tracks', async () => {
     req = {
       params: { id: mongoose.Types.ObjectId() },
       user: { id: mongoose.Types.ObjectId() },
-      body: { tracks: mongoose.Types.ObjectId() }
+      body: { tracks: [mongoose.Types.ObjectId()] }
     };
     playlist = {
       _id: mongoose.Types.ObjectId(),
       owner: req.user.id,
+      public: true,
+      collaborative: true,
       tracks: [mongoose.Types.ObjectId()]
     };
     Playlist.findById = jest.fn().mockReturnValue(playlist);
@@ -508,7 +510,7 @@ describe('maintainPlaylistTracks', () => {
     await controller.maintainPlaylistTracks(req, res, next);
     const error = new AppError('this track was not found', 404);
     expect(next).toHaveBeenCalledWith(error);
-  }); */
+  });
 });
 
 describe('addTracksToPlaylist', () => {
