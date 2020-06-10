@@ -341,6 +341,10 @@ describe('removePlaylistTracks', () => {
   });
 
   it('Should return error if playlist id not found', async () => {
+    req = {
+      params: { id: mongoose.Types.ObjectId() },
+      user: { id: mongoose.Types.ObjectId() }
+    };
     Playlist.findById = jest.fn().mockReturnValue(null);
     await controller.removePlaylistTracks(req, res, next);
     expect(res.status).toHaveBeenCalledWith(404);
