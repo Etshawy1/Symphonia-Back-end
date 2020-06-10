@@ -220,7 +220,7 @@ exports.addTracksToPlaylist = catchAsync(async (req, res, next) => {
       if (trackarr[j] == InputTrackarr[i]) delete InputTrackarr[i];
     }
   }
-  let RealTracksArray = InputTrackarr.filter(function(el) {
+  let RealTracksArray = InputTrackarr.filter(function (el) {
     return el != null;
   });
   let playlist = await Playlist.findByIdAndUpdate(
@@ -312,7 +312,7 @@ exports.maintainPlaylistTracks = catchAsync(async (req, res, next) => {
         delete playlistTracks[i++];
       }
 
-      playlistTracks = playlistTracks.filter(function(el) {
+      playlistTracks = playlistTracks.filter(function (el) {
         return el != null;
       });
 
