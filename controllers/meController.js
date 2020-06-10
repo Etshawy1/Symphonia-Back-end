@@ -133,6 +133,8 @@ function readRangeHeader (range, totalLength) {
 
   return result;
 }
+/* istanbul ignore next */
+
 exports.playInfo = catchAsync(async (req, res, next) => {
   const currentUser = await User.findById(req.user._id).select('+history');
   const playerToken = currentUser.createPlayerToken();

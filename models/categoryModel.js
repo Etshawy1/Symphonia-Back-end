@@ -22,6 +22,7 @@ const categorySchema = new mongoose.Schema(
   }
 );
 
+/* istanbul ignore next */
 categorySchema.pre('save', function () {
   this.id = slugify(this.name, { lower: true });
 });

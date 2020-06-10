@@ -22,7 +22,7 @@ module.exports = function (app) {
       new winston.transports.File({ filename: './logs/exceptions.log' })
     ]
   });
-
+  /* istanbul ignore else */
   if (process.env.NODE_ENV !== 'production') {
     logger.add(
       new winston.transports.Console({
@@ -34,6 +34,7 @@ module.exports = function (app) {
       })
     );
   }
+  /* istanbul ignore next */
   process.on('unhandledRejection', ex => {
     throw ex;
   });
