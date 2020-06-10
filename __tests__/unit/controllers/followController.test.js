@@ -211,6 +211,36 @@ describe('get followed playlist', () => {
   });
 });
 
+describe('get User Followed Artists', () => {
+  let req, res, next, playlists, limit = 20, offset = 0 ;
+  beforeAll(() => {
+    res = mockResponse();
+    next = jest.fn();
+    req = mockPageRequest('url');
+    req.user = { _id: '1', id: '1', followedUsers: ['1', '2', '3', '4', '5'] };
+    User.findOne = mockQuery(req.user)
+
+
+  });
+  it("should return current user's followed artists ", async () => {
+    await controller.getUserFollowedArtists(req, res, next);
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith({
+      artists: {
+        items: req.user.followedUsers
+      },
+      limit,
+      total: req.user.followedUsers.length,
+      next: null,
+      cursors: {
+        after: null
+      },
+      totalFollowed: req.user.followedUsers.length
+    });
+  });
+});
+
+
 describe('unfollow User', () => {
   let req, res, next;
   beforeAll(() => {
