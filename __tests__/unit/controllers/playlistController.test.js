@@ -134,8 +134,8 @@ describe('uploadCustomPlaylistCoverImage', () => {
       user: { id: mongoose.Types.ObjectId() },
       body: { images: [String] }
     };
-    playlist.save = jest.fn().mockReturnValue(playlist);
-    Playlist.findByIdAndUpdate = jest.fn.mockReturnValue(playlist);
+    playlist = { save: jest.fn().mockReturnValue(playlist) };
+    Playlist.findByIdAndUpdate = jest.fn().mockReturnValue(playlist);
   });
   /* it('Should upload playlist cover image', async () => {
     playlist = {
