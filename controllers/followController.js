@@ -15,13 +15,13 @@ exports.FollowUser = catchAsync(async (req, res, next) => {
   // NOTE: not tested
   for (let i = 0; i < ids.length; i++) {
     if (!mongoose.Types.ObjectId.isValid(ids[i])) {
-      throw new AppError('invalid ids provided', 400);
+      return next(new AppError('invalid ids provided', 400));
     }
     const user = await User.findById(ids[i]);
-    if (!user) throw new AppError('this is not a valid user', 400);
+    if (!user) return next(new AppError('this is not a valid user', 400));
 
     if (req.user.followedUsers.includes(ids[i])) {
-      throw new AppError('user is already followed', 400);
+      return next(new AppError('user is already followed', 400));
     }
   }
   req.user.usersCount += ids.length;
@@ -145,7 +145,7 @@ exports.getUserFollowedArtists = catchAsync(async (req, res, next) => {
   // filteration stage
   let limit = 20;
   if (req.query.limit) {
-    limit = parseInt(req.query.limit);
+    limit = parseInt(req.query.limit) || 20;
   }
 
   let user = await User.findOne({ _id: req.user._id }).populate({

@@ -45,14 +45,41 @@ describe('follow User', () => {
     expect(res.status).toHaveBeenCalledWith(204);
     expect(res.json).toHaveBeenCalled();
   });
+  
   it('should not follow User and display user is already followed message', async () => {
     req.query = { ids: '1,7' };
 
     await controller.FollowUser(req, res, next);
     expect(next).toHaveBeenCalledWith(
       new AppError('user is already followed', 400)
-    );
+    );        
   });
+  it('should return user not found', async () => {
+     User.findById = jest.fn().mockReturnValue(undefined);
+
+    await controller.FollowUser(req, res, next);
+    expect(next).toHaveBeenCalledWith(
+      new AppError('this is not a valid user', 400)
+    );        
+  });
+it('should return this is not a valid user', async () => {
+  User.findById = jest.fn().mockReturnValue(undefined);
+  req.query = { ids: '1,7' };
+  mongoose.Types.ObjectId.isValid = jest.fn().mockReturnValue(false);
+  await controller.FollowUser(req, res, next);
+  expect(next).toHaveBeenCalledWith(
+    new AppError('invalid ids provided', 400)
+  );    
+});
+  it('should throw invalid ids provided', async () => {
+    req.query = { ids: '1,7' };
+    mongoose.Types.ObjectId.isValid = jest.fn().mockReturnValue(false);
+    await controller.FollowUser(req, res, next);
+    expect(next).toHaveBeenCalledWith(
+      new AppError('invalid ids provided', 400)
+    );    
+  });
+
   it('should say ids field is missing', async () => {
     req.query = {  };
 
