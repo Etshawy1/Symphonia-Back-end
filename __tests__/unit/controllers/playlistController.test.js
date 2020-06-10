@@ -1,6 +1,7 @@
 const controller = require('../../../controllers/playlistController');
 const Playlist = require('../../../models/playlistModel');
 const Track = require('../../../models/trackModel');
+const { User } = require('../../../models/userModel');
 const mongoose = require('mongoose');
 const AppError = require('../../../utils/appError');
 const _ = require('lodash');
@@ -258,5 +259,160 @@ describe('getPlaylistCoverImage', () => {
     await controller.getPlaylistCoverImage(req, res, next);
     expect(res.status).toHaveBeenCalledWith(401);
     expect(res.send).toHaveBeenCalledWith('This playlist is not Public');
+  });
+});
+
+describe('getCurrentUserDeletedPlaylists', () => {
+  let req, res, next, query;
+  beforeAll(() => {
+    res = mockResponse();
+    next = jest.fn();
+    req = mockPageRequest();
+    req.params = { id: mongoose.Types.ObjectId() };
+    req.user = { id: mongoose.Types.ObjectId() };
+    query = mockQuery();
+    Playlist.findDeleted = jest.fn().mockReturnValue(query);
+  });
+
+  it('Should restore playlist ', async () => {
+    await controller.getCurrentUserDeletedPlaylists(req, res, next);
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith({
+      playlists: expect.objectContaining({ items: query })
+    });
+  });
+});
+
+describe('getCurrentUserDeletedPlaylists', () => {
+  let req, res, next, query;
+  beforeAll(() => {
+    res = mockResponse();
+    next = jest.fn();
+    req = mockPageRequest();
+    req.params = { id: mongoose.Types.ObjectId() };
+    req.user = { id: mongoose.Types.ObjectId() };
+    query = mockQuery();
+    Playlist.findDeleted = jest.fn().mockReturnValue(query);
+  });
+
+  it('Should restore playlist ', async () => {
+    await controller.getCurrentUserDeletedPlaylists(req, res, next);
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith({
+      playlists: expect.objectContaining({ items: query })
+    });
+  });
+});
+
+describe('getPlaylistTracks', () => {
+  let req, res, next, playlist, query;
+  beforeAll(() => {
+    res = mockResponse();
+    query = mockQuery();
+    next = jest.fn();
+    req = mockPageRequest();
+    req.params = { id: mongoose.Types.ObjectId() };
+    req.query = {};
+    playlist = { _id: mongoose.Types.ObjectId() };
+    query.populate = jest.fn();
+    Playlist.findById = jest.fn().mockReturnValue(playlist);
+    Track.aggregate = jest.fn().mockReturnValue(query);
+    Track.populate = jest.fn();
+  });
+
+  it('Should return playlist tracks', async () => {
+    await controller.getPlaylistTracks(req, res, next);
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith({
+      tracks: expect.objectContaining({ items: query })
+    });
+  });
+  it('Should return error if playlist does not exist', async () => {
+    Playlist.findById = jest.fn().mockReturnValue(undefined);
+    await controller.getPlaylistTracks(req, res, next);
+    expect(next).toHaveBeenCalledWith(
+      new AppError('that document does not exist', 404)
+    );
+  });
+});
+
+describe('getCurrentUserOwnedPlaylists', () => {
+  let req, res, next, playlist, query;
+  beforeAll(() => {
+    res = mockResponse();
+    query = mockQuery();
+    next = jest.fn();
+    req = mockPageRequest();
+    req.params = { id: mongoose.Types.ObjectId() };
+    req.query = {};
+    playlist = { _id: mongoose.Types.ObjectId() };
+    query.populate = jest.fn().mockReturnValue(query);
+    User.findById = jest.fn().mockReturnValue({});
+    Playlist.find = jest.fn().mockReturnValue(query);
+  });
+
+  it('Should return current user owned playlists', async () => {
+    await controller.getCurrentUserOwnedPlaylists(req, res, next);
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith({
+      playlists: expect.objectContaining({ items: query })
+    });
+  });
+});
+
+describe('getCurrentUserPlaylists', () => {
+  let req, res, next, playlist, query;
+  beforeAll(() => {
+    res = mockResponse();
+    query = mockQuery();
+    next = jest.fn();
+    req = mockPageRequest();
+    req.params = { id: mongoose.Types.ObjectId() };
+    req.query = {};
+    req.user = {};
+    playlist = { _id: mongoose.Types.ObjectId() };
+    query.populate = jest.fn().mockReturnValue(query);
+    User.findById = jest.fn().mockReturnValue({});
+    Playlist.find = jest.fn().mockReturnValue(query);
+  });
+
+  it('Should return current user playlists', async () => {
+    await controller.getCurrentUserPlaylists(req, res, next);
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith({
+      playlists: expect.objectContaining({ items: query })
+    });
+  });
+});
+
+describe('getUserPlaylists', () => {
+  let req, res, next, playlist, query;
+  beforeAll(() => {
+    res = mockResponse();
+    query = mockQuery();
+    next = jest.fn();
+    req = mockPageRequest();
+    req.params = { id: mongoose.Types.ObjectId() };
+    req.query = {};
+    req.user = {};
+    playlist = { _id: mongoose.Types.ObjectId() };
+    query.populate = jest.fn().mockReturnValue(query);
+    User.findById = jest.fn().mockReturnValue({ _id: '1' });
+    Playlist.find = jest.fn().mockReturnValue(query);
+  });
+
+  it('Should return a user playlists', async () => {
+    await controller.getUserPlaylists(req, res, next);
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith({
+      playlists: expect.objectContaining({ items: query })
+    });
+  });
+  it('Should return error if user does not exist', async () => {
+    User.findById = jest.fn().mockReturnValue(undefined);
+    await controller.getUserPlaylists(req, res, next);
+    expect(next).toHaveBeenCalledWith(
+      new AppError(`the user does not exists`, 404)
+    );
   });
 });
