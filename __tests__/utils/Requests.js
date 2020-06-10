@@ -44,6 +44,7 @@ module.exports.mockPageRequest = originalUrl => {
     query: {},
     originalUrl: q.pathname,
     protocol: q.protocol,
-    get: jest.fn().mockReturnValue(q.host)
+    get: jest.fn().mockReturnValue(q.host),
+    body:{}
   };
 };

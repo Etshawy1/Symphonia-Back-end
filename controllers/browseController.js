@@ -29,7 +29,7 @@ exports.getCategoriesPlaylists = catchAsync(async (req, res, next) => {
   let myCat = await Category.findOne({ id: req.params.id });
 
   if (!myCat) {
-    return next(new AppError("category is n't found "), 404);
+    return next(new AppError("category is n't found ", 404));
   }
   const features = new APIFeatures(
     Playlist.find({
