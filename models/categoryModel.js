@@ -22,11 +22,9 @@ const categorySchema = new mongoose.Schema(
   }
 );
 
-categorySchema.pre('save', function() {
+categorySchema.pre('save', function () {
   this.id = slugify(this.name, { lower: true });
 });
-
-
 
 const Category = mongoose.model('Category', categorySchema);
 module.exports = Category;

@@ -101,3 +101,19 @@ describe('signToken', () => {
     expect(token).toBeDefined();
   });
 });
+
+describe('createPremiumToken', () => {
+  it('should return a valid token', async () => {
+    const user = new User({ _id: mongoose.Types.ObjectId() });
+    const token = user.createPremiumToken();
+    expect(token).toBeDefined();
+  });
+});
+
+describe('createPlayerToken', () => {
+  it('should return a valid token', async () => {
+    const user = new User({ _id: mongoose.Types.ObjectId() });
+    const token = user.createPlayerToken();
+    expect(token).toBeDefined();
+  });
+});

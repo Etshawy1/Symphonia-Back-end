@@ -30,12 +30,7 @@ const trackSchema = new mongoose.Schema({
     {
       type: [mongoose.Schema.Types.ObjectId],
       ref: 'Category',
-      required: true,
-      validate: function (val) {
-        if (Array.isArray(val) && val.length === 0) {
-          throw new Error('track should have a Category');
-        }
-      }
+      required: true
     }
   ],
   album: {

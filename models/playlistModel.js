@@ -55,8 +55,8 @@ const playlistSchema = new mongoose.Schema(
 );
 
 playlistSchema.virtual('tracksCount').get(function () {
+  /* istanbul ignore else */
   if (this.tracks) return this.tracks.length;
-  else return undefined;
 });
 
 playlistSchema.plugin(mongoose_delete, {
