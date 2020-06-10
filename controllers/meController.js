@@ -133,6 +133,8 @@ function readRangeHeader (range, totalLength) {
 
   return result;
 }
+/* istanbul ignore next */
+
 exports.playInfo = catchAsync(async (req, res, next) => {
   const currentUser = await User.findById(req.user._id).select('+history');
   const playerToken = currentUser.createPlayerToken();
@@ -746,7 +748,6 @@ exports.premium = catchAsync(async (req, res, next) => {
       $gt: Date.now()
     }
   });
-  // 2) If token has not expired, and there is user, set the new password
   if (!user) {
     return next(new AppError('Token is invalid or has expired', 400));
   }
@@ -758,6 +759,8 @@ exports.premium = catchAsync(async (req, res, next) => {
   // 3) Update changedPasswordAt property for the user
   res.status(201).json({ message: 'User is now premium!' });
 });
+
+/* istanbul ignore next */
 
 /**
  * function to prepare the buffer image and manipulate it be resizing to be a sqaure jpeg image and save it

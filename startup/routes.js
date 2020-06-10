@@ -42,6 +42,7 @@ module.exports = function (app) {
   app.use('/api/v1/search', searchRouter);
   app.use('/api/v1/recommendations', recommendationRouter);
 
+  /* istanbul ignore next */
   // if any link is visited and not mentioned above will go to that next middleware
   app.all('*', (req, res, next) => {
     next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));

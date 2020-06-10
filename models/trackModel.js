@@ -20,7 +20,7 @@ const trackSchema = new mongoose.Schema({
     type: Number,
     validate: {
       // This only works on CREATE and SAVE
-      validator: function (el) {
+      validator: /* istanbul ignore next */ function (el) {
         return el > 3000;
       },
       message: 'Duration must be More than 3000 milleseconds!'

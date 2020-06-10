@@ -918,6 +918,39 @@ describe('meController.popQueue', () => {
   });
 });
 
+describe('activatePremium', () => {
+  let req, res, next, user, newToken;
+  beforeEach(() => {
+    res = mockResponse();
+    next = jest.fn();
+    const _id = mongoose.Types.ObjectId();
+    newToken = 'new-jwt-generated-token';
+    user = {
+      _id,
+      save: jest.fn()
+    };
+    req = {
+      params: {
+        token: 'premiumToken'
+      }
+    };
+    User.findOne = jest.fn().mockReturnValue(user);
+  });
+  it('should respond with success message if provided artist activation token is valid', async () => {
+    await controller.premium(req, res, next);
+    expect(user.premium).toEqual(true);
+    expect(res.status).toHaveBeenCalledWith(201);
+    expect(res.json).toHaveBeenCalledWith({ message: 'User is now premium!' });
+  });
+  it('should respond with 400 if activation token is invalid', async () => {
+    User.findOne = jest.fn().mockReturnValue(undefined);
+    await controller.premium(req, res, next);
+    expect(next).toHaveBeenCalledWith(
+      new AppError('Token is invalid or has expired', 400)
+    );
+  });
+});
+
 // describe('meController.playInfo', () => {
 //   let req, res, next, user, track;
 //   track = {
