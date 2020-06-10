@@ -118,6 +118,7 @@ exports.getNewRelease = catchAsync(async (req, res, next) => {
     .json(Responser.getPaging(albums, 'albums', req, limit, offset));
 });
 
+/* istanbul ignore next */
 // NOTE: it is better to do an itegeration testing for it
 exports.createCategory = catchAsync(async (req, res, next) => {
   let category = await Category.create({
