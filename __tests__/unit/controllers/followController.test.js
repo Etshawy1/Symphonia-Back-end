@@ -186,6 +186,7 @@ describe('followed playlist count', () => {
     Playlist.count = jest.fn().mockReturnValue(2);
   });
   it('should return the count of followed playlists by user', async () => {
+    
     await controller.followedPlaylistCount(req, res, next);
     expect(res.status).toHaveBeenCalledWith(200);
     expect(res.json).toHaveBeenCalledWith({ FollowedPlaylists: 2 });
@@ -223,6 +224,8 @@ describe('get User Followed Artists', () => {
 
   });
   it("should return current user's followed artists ", async () => {
+    req.query.limit = 'toto'; // it tests if limit isn't a number
+   req.query.after = '1';
     await controller.getUserFollowedArtists(req, res, next);
     expect(res.status).toHaveBeenCalledWith(200);
     expect(res.json).toHaveBeenCalledWith({
