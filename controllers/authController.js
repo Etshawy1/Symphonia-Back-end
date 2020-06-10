@@ -1,7 +1,6 @@
 const crypto = require('crypto');
 const { promisify } = require('util');
 const _ = require('lodash');
-const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const { User, validate } = require('../models/userModel');
 const catchAsync = require('../utils/catchAsync').threeArg;
@@ -64,7 +63,9 @@ exports.signup = catchAsync(async (req, res, next) => {
         .status(201)
         .json({ status: 'success', message: 'token was sent to email' });
     } catch (err) {
+      /* istanbul ignore next */
       await User.findByIdAndRemove(newUser._id);
+      /* istanbul ignore next */
       return next(
         new AppError('There was an error sending the email. Try again later!'),
         500
@@ -109,6 +110,7 @@ exports.checkEmail = catchAsync(async (req, res, next) => {
   res.status(200).json({ exists: true, type: user.type });
 });
 exports.googleOauth = catchAsync(async (req, res, next) => {
+  /* istanbul ignore else */
   if (req.user.status === 201) {
     const url = `${req.protocol}://${req.get('host')}`;
     await new Email(req.user, url).sendWelcome();
@@ -116,54 +118,42 @@ exports.googleOauth = catchAsync(async (req, res, next) => {
   const user = await User.findOne({ googleId: req.user.googleId })
     .select('+type')
     .select('+googleId');
-  const token = user.signToken();
   user.facebookId = undefined;
   user.imageFacebookUrl = undefined;
   user.password = undefined;
   user.tracks = undefined;
-  user.__v = undefined;
+  user.ownedPlaylists = undefined;
+  user.followedAlbums = undefined;
+  user.followedTracks = undefined;
+  user.followedUsers = undefined;
   user.followedUsers = undefined;
   user.queue = undefined;
-  res
-    .status(301)
-    .redirect(
-      `https://thesymphonia.ddns.net/google/${token}/?user=${JSON.stringify(
-        user
-      )}`
-    );
+  user.deleted = undefined;
+  user.__v = undefined;
+  createSendToken(user, req.user.status, res);
 });
-function replacer (key, value) {
-  var maskedValue = value;
-  if (key == 'imageFacebookUrl') {
-    maskedValue = encodeURIComponent(maskedValue);
-  }
-  return maskedValue;
-}
 exports.facebookOauth = catchAsync(async (req, res, next) => {
+  /* istanbul ignore else */
   if (req.user.status === 201) {
     const url = `${req.protocol}://${req.get('host')}`;
     await new Email(req.user, url).sendWelcome();
   }
-  const user = await User.findOne({ facebookId: req.user.facebookId });
-  const token = user.signToken();
+  const user = await User.findOne({ facebookId: req.user.facebookId })
+    .select('+type')
+    .select('+facebookId');
   user.googleId = undefined;
   user.imageGoogleUrl = undefined;
   user.password = undefined;
   user.tracks = undefined;
-  user.__v = undefined;
+  user.ownedPlaylists = undefined;
+  user.followedAlbums = undefined;
+  user.followedTracks = undefined;
   user.followedUsers = undefined;
   user.queue = undefined;
-  res
-    .status(301)
-    .redirect(
-      `https://thesymphonia.ddns.net/facebook/${token}/?user=${JSON.stringify(
-        user,
-        replacer
-      )}`
-    );
+  user.deleted = undefined;
+  user.__v = undefined;
+  createSendToken(user, req.user.status, res);
 });
-exports.googleUnlink = catchAsync(async (req, res, next) => {});
-exports.facebookUnlink = catchAsync(async (req, res, next) => {});
 
 exports.protect = blocking => {
   return catchAsync(async (req, res, next) => {
@@ -194,25 +184,25 @@ exports.protect = blocking => {
     // 3) Check if user still exists
     const currentUser = await User.findById(decoded.id);
     if (!currentUser) {
-      if (blocking)
-        return next(
-          new AppError(
-            'The user belonging to this token does no longer exist.',
-            401
-          )
-        );
-      else return next();
+      return next(
+        new AppError(
+          'The user belonging to this token does no longer exist.',
+          401
+        )
+      );
     }
     // 4) Check if user changed password after the token was issued
     if (currentUser.changedPasswordAfter(decoded.iat)) {
-      if (blocking)
-        return next(
-          new AppError(
-            'User recently changed password! Please log in again.',
-            401
-          )
-        );
-      else return next();
+      return next(
+        new AppError(
+          'User recently changed password! Please log in again.',
+          401
+        )
+      );
+    }
+    if (Date.now() > currentUser.preiumExpires) {
+      currentUser.premium = false;
+      currentUser.save({ validateBeforeSave: false });
     }
     // GRANT ACCESS TO PROTECTED ROUTE
     req.user = currentUser;
@@ -328,6 +318,7 @@ exports.activateArtist = catchAsync(async (req, res, next) => {
   user.deleted = undefined;
   user.artistApplicationToken = undefined;
   user.artistApplicationExpires = undefined;
+  user.premium = true;
   await user.save({
     validateBeforeSave: false
   });

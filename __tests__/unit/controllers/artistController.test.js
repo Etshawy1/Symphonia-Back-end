@@ -1,9 +1,11 @@
 const controller = require('../../../controllers/artistController');
 const { User } = require('../../../models/userModel');
+const Track = require('../../../models/trackModel');
+const Album = require('../../../models/albumModel');
 const mongoose = require('mongoose');
 const AppError = require('../../../utils/appError');
 const _ = require('lodash');
-const { mockResponse } = require('../../utils/Requests');
+const { mockResponse, mockPageRequest } = require('../../utils/Requests');
 const { mockQuery } = require('../../utils/apiFeatures');
 
 describe('relatedArtists', () => {
@@ -81,18 +83,73 @@ describe('artistTopTracks', () => {
       { tracks: [{ getPreviewUrl: jest.fn().mockReturnValue('') }] }
     ];
     query.populate = jest.fn().mockReturnValue(toptracks);
-    req = {
-      params: { id: mongoose.Types.ObjectId() },
-      query: { gte: '1' },
-      protocol: 'http',
-      get: jest.fn().mockReturnValue('localhost')
-    };
-    User.findById = jest.fn().mockReturnValue(query);
+    const artistId = mongoose.Types.ObjectId();
+    req = mockPageRequest(`/api/v1/artists/${artistId}/top-tracks`);
+    req.params.id = artistId;
+    Track.find = jest.fn().mockReturnValue(query);
   });
-  it('should return followers and their count', async () => {
+  it('should return top tracks for the artist', async () => {
     await controller.artistTopTracks(req, res, next);
 
     expect(res.status).toHaveBeenCalledWith(200);
-    expect(res.json).toHaveBeenCalledWith(toptracks);
+    expect(res.json).toHaveBeenCalledWith({
+      tracks: expect.objectContaining({ items: toptracks })
+    });
+  });
+});
+
+describe('getArtistAlbums', () => {
+  let req, res, next, albums, query;
+  beforeAll(() => {
+    query = mockQuery();
+    res = mockResponse();
+    next = jest.fn();
+    albums = [{ albums: [{}] }];
+    query.populate = jest.fn().mockReturnValue(albums);
+    req = mockPageRequest();
+    req.params.id = mongoose.Types.ObjectId();
+    Album.find = jest.fn().mockReturnValue(query);
+  });
+  it('should return artist albums', async () => {
+    await controller.getArtistAlbums(req, res, next);
+
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith({
+      albums: expect.objectContaining({ items: albums })
+    });
+  });
+});
+
+describe('get artist', () => {
+  let req, res, next, artist, followers;
+  const followersCount = 5;
+  beforeAll(() => {
+    res = mockResponse();
+    next = jest.fn();
+    artist = { _doc: { _id: mongoose.Types.ObjectId() } };
+    followers = {
+      user1: mongoose.Types.ObjectId(),
+      user2: mongoose.Types.ObjectId(),
+      user3: mongoose.Types.ObjectId(),
+      count: jest.fn().mockReturnValue(followersCount)
+    };
+    req = { params: { id: artist._doc._id } };
+    User.findById = jest.fn().mockReturnValue(artist);
+    User.find = jest.fn().mockReturnValue(followers);
+  });
+  it('should return artist with number of followers if the id provided exists in the database', async () => {
+    await controller.getArtist(req, res, next);
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith(
+      expect.objectContaining(artist._doc, followersCount)
+    );
+  });
+
+  it('should return error if the id provided is not in the database', async () => {
+    User.findById = jest.fn().mockReturnValue(undefined);
+    await controller.getArtist(req, res, next);
+    expect(next).toHaveBeenCalledWith(
+      new AppError('that document does not exist', 404)
+    );
   });
 });

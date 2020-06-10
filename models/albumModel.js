@@ -8,11 +8,6 @@ const albumSchema = new mongoose.Schema(
       minlength: 2,
       maxlength: 255
     },
-    year: {
-      type: Number,
-      min: 1800,
-      max: 3000
-    },
     image: String,
     artist: {
       type: mongoose.Schema.Types.ObjectId,
@@ -54,19 +49,15 @@ const albumSchema = new mongoose.Schema(
 );
 
 albumSchema.virtual('tracksCount').get(function () {
+  /* istanbul ignore else */
   if (this.tracks) return this.tracks.length;
-  else return undefined;
+});
+
+albumSchema.virtual('year').get(function () {
+  /* istanbul ignore else */
+  if (this.releaseDate) return this.releaseDate.getFullYear();
 });
 
 const Album = mongoose.model('Album', albumSchema);
 
-// function validateAlbum(album){
-//   const schema = {
-//     artist: Joi.ObjectId.required(),
-//     tracks: [Joi.ObjectId.required()]
-//   };
-//   return Joi.validate(album, schema);
-// }
-
 module.exports = Album;
-//module.exports = validateAlbum;

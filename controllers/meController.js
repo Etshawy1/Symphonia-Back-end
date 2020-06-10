@@ -133,6 +133,8 @@ function readRangeHeader (range, totalLength) {
 
   return result;
 }
+/* istanbul ignore next */
+
 exports.playInfo = catchAsync(async (req, res, next) => {
   const currentUser = await User.findById(req.user._id).select('+history');
   const playerToken = currentUser.createPlayerToken();
@@ -669,6 +671,7 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
 const createPremiumSubscriptionCheckout = async session => {
   const user = await User.findOne({ email: session.customer_email });
   user.premium = true;
+  user.premiumExpires = Date.now() + 60 * 60 * 6000 * 24 * 30;
   await user.save({ validateBeforeSave: false });
 };
 exports.webhookCheckout = catchAsync(async (req, res, next) => {
@@ -745,17 +748,19 @@ exports.premium = catchAsync(async (req, res, next) => {
       $gt: Date.now()
     }
   });
-  // 2) If token has not expired, and there is user, set the new password
   if (!user) {
     return next(new AppError('Token is invalid or has expired', 400));
   }
   user.premiumToken = undefined;
   user.premiumExpires = undefined;
   user.premium = true;
+  user.premiumExpires = Date.now() + 60 * 60 * 6000 * 24 * 30;
   await user.save({ validateBeforeSave: false });
   // 3) Update changedPasswordAt property for the user
   res.status(201).json({ message: 'User is now premium!' });
 });
+
+/* istanbul ignore next */
 
 /**
  * function to prepare the buffer image and manipulate it be resizing to be a sqaure jpeg image and save it

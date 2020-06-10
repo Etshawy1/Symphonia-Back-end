@@ -9,7 +9,9 @@ describe('auth middleware', () => {
   beforeAll(() => {
     process.env.JWT_SECRET_KEY = 'testingkey';
     process.env.JWT_VALID_FOR = '30d';
-    user = { _id: mongoose.Types.ObjectId() };
+    user = { _id: mongoose.Types.ObjectId(), premium: true };
+    res = {};
+    next = jest.fn();
   });
   beforeEach(() => {
     const token = new User(user).signToken();
@@ -19,22 +21,22 @@ describe('auth middleware', () => {
     User.findById = jest.fn().mockReturnValue(user);
     user.changedPasswordAfter = jest.fn().mockReturnValue(false);
   });
-  const exec = async () => {
-    res = {};
-    next = jest.fn();
-    await protect(req, res, next);
-  };
 
   it('should populate request with user if a valid token provided', async () => {
-    await exec();
+    await protect(true)(req, res, next);
 
     expect(req.user).toMatchObject(user);
+  });
+  it('should call next without errors if it is non protective (store user data only if there was a token)', async () => {
+    req.headers.authorization = undefined;
+    await protect(false)(req, res, next);
+    expect(next).toHaveBeenCalledWith();
   });
 
   it('should return unauthorized if auth header is not set', async () => {
     req.headers = {};
 
-    await exec();
+    await protect(true)(req, res, next);
 
     const error = new AppError(
       'You are not logged in! Please log in to get access.',
@@ -46,7 +48,7 @@ describe('auth middleware', () => {
   it('should return unauthorized if user no longer in the DB', async () => {
     User.findById = jest.fn().mockReturnValue(null);
 
-    await exec();
+    await protect(true)(req, res, next);
 
     const error = new AppError(
       'The user belonging to this token does no longer exist.',
@@ -54,11 +56,16 @@ describe('auth middleware', () => {
     );
     expect(next).toHaveBeenCalledWith(error);
   });
-
+  it('should check if user premium has expired', async () => {
+    user.preiumExpires = Date.now() - 10000;
+    user.save = jest.fn();
+    await protect(true)(req, res, next);
+    expect(user.premium).toEqual(false);
+  });
   it('should return unauthorized if user changed password and needs re login', async () => {
     user.changedPasswordAfter = jest.fn().mockReturnValue(true);
 
-    await exec();
+    await protect(true)(req, res, next);
 
     const error = new AppError(
       'User recently changed password! Please log in again.',

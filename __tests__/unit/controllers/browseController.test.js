@@ -122,15 +122,9 @@ describe('get Newly Released Albums', () => {
   it('should return the playlists in a certain category', async () => {
     await controller.getNewRelease(req, res, next);
     expect(res.status).toHaveBeenCalledWith(200);
-    expect(res.json).toHaveBeenCalledWith(
-      Responser.getPaging(
-        albums,
-        'albums',
-        req,
-        pageMeta.limit,
-        pageMeta.offset
-      )
-    );
+    expect(res.json).toHaveBeenCalledWith({
+      albums: expect.objectContaining({ items: albums })
+    });
   });
 });
 

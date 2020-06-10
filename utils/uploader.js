@@ -49,12 +49,6 @@ class UploadBuilder {
   }
 
   /**
-   * @summary not working right now
-   * @param {String} eventEmmiter
-   * @param {String} action
-   */
-  addEventEmmiter (eventEmmiter, action) {}
-  /**
    * @summary - sets the path where the files should be stored
    * @param {String} storePath - the path where the files should be stored
    * @returns {void}
@@ -99,6 +93,7 @@ class UploadBuilder {
   getTypeFilters () {
     return this.mimeTypes;
   }
+  /* istanbul ignore next */
   /**
    * @param {Boolean} manipulate - if set to true the file will be saved to memory not disk and file will be available as buffer
    * @returns {function} the ready to use before route middleware
@@ -161,6 +156,7 @@ class UploadBuilder {
     });
     return this.uploader.fields(this.fileFields);
   }
+  /* istanbul ignore next */
   /**
    * @returns {function} the ready to use before route middleware
    */

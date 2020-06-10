@@ -161,6 +161,7 @@ const userSchema = new mongoose.Schema({
   last_login: Date,
   playerToken: String,
   playerTokenExpires: Date,
+  preiumExpires: Date,
   active: {
     type: Boolean,
     defult: true,
@@ -183,11 +184,14 @@ userSchema.pre('save', async function (next) {
 });
 
 userSchema.pre('save', function (next) {
+  /* istanbul ignore else */
   if (!this.isModified('password') || this.isNew) return next();
 
+  /* istanbul ignore next */
   // to make sure the token is created after the password has been modified
   // because saving to the database is a bit slower than making the token
   this.passwordChangedAt = Date.now() - 1000;
+  /* istanbul ignore next */
   next();
 });
 
