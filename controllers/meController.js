@@ -236,10 +236,8 @@ exports.playInfo = catchAsync(async (req, res, next) => {
     if (indexOfCurrentTrack == -1) {
       return next(new AppError('this track does not exist', 404));
     }
-    console.log(indexOfCurrentTrack);
     const indexOfPreviousTrack =
       indexOfCurrentTrack === 0 ? -1 : indexOfCurrentTrack - 1;
-    console.log(typeof track._id, typeof context.tracks[0]);
     const indexOfNextTrack =
       indexOfCurrentTrack === context.tracks.length - 1
         ? -1
@@ -304,11 +302,9 @@ exports.playTrack = catchAsync(async (req, res, next) => {
   const { trackPath } = track;
   // Check if file exists. If not, will return the 404 'Not Found'.
   if (!fs.existsSync(`${trackPath}`)) {
-    __logger.error(`track at ${trackPath} doesn't exist`);
     sendResponse(res, 404, null, null);
     return null;
   }
-  __logger.error(`track at ${trackPath} exists`);
   const responseHeaders = {};
   const stat = fs.statSync(trackPath);
   const rangeRequest = readRangeHeader(req.headers.range, stat.size);

@@ -14,7 +14,6 @@ const mongoose = require('mongoose');
  */
 
 exports.getCategory = catchAsync(async (req, res, next) => {
-  console.log(req.params);
   category = await Category.findOne({
     id: req.params.id
   }).select('-_id -__v');
@@ -57,7 +56,6 @@ exports.getCategories = catchAsync(async (req, res, next) => {
     .filter()
     .limitFields()
     .offset();
-  //console.log(typeof features.query)
   let categorys = await features.query;
 
   res

@@ -46,7 +46,6 @@ exports.checkIfUserFollower = catchAsync(async (req, res, next) => {
   // find if userIds includes one of them
   user = req.user;
   let isFollowingArr = [];
-  console.log(user.followedUsers);
   userIds.map((value, index, arr) => {
     if (user.followedUsers.includes(value)) {
       isFollowingArr.push(true);
@@ -162,7 +161,6 @@ exports.getUserFollowedArtists = catchAsync(async (req, res, next) => {
     id_after = req.query.after;
     for (let index = 0; index < followedUsers.length; index++) {
       const element = followedUsers[index];
-      console.log(element._id);
       if (element._id == id_after) {
         afterIndex = index;
         break;
