@@ -47,7 +47,7 @@ const categories = [
     icons: [
       {
         url:
-          'https://thesymphonia.ddns.net/api/v1/browse/categories/images/Electronic.jpg',
+          'https://thesymphonia.ddns.net/api/v1/browse/categories/images/Electornic.jpg',
         width: 300,
         height: 300
       }
