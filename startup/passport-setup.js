@@ -31,9 +31,7 @@ passport.use(
         if (
           existingUser.imagUrl == undefined ||
           existingUser.imageUrl ==
-            `${req.protocol}://${req.get(
-              'host'
-            )}/api/v1/images/users/default.png`
+            'https://thesymphonia.ddns.net/api/v1/images/users/default.png'
         ) {
           existingUser.imageUrl = profile.photos[0].value;
         }
@@ -51,9 +49,7 @@ passport.use(
           if (
             existedEmail.imagUrl == undefined ||
             existedEmail.imageUrl ==
-              `${req.protocol}://${req.get(
-                'host'
-              )}/api/v1/images/users/default.png`
+              'https://thesymphonia.ddns.net/api/v1/images/users/default.png'
           ) {
             existedEmail.imageUrl = profile.photos[0].value;
           }
@@ -104,9 +100,7 @@ passport.use(
         if (
           existingUser.imagUrl == undefined ||
           existingUser.imageUrl ==
-            `${req.protocol}://${req.get(
-              'host'
-            )}/api/v1/images/users/default.png`
+            'https://thesymphonia.ddns.net/api/v1/images/users/default.png'
         ) {
           existingUser.imageUrl = profile.photos[0].value;
         }
@@ -124,9 +118,7 @@ passport.use(
           if (
             existedEmail.imagUrl == undefined ||
             existedEmail.imageUrl ==
-              `${req.protocol}://${req.get(
-                'host'
-              )}/api/v1/images/users/default.png`
+              'https://thesymphonia.ddns.net/api/v1/images/users/default.png'
           ) {
             existedEmail.imageUrl = profile.photos[0].value;
           }
