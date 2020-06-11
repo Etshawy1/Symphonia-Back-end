@@ -1,6 +1,6 @@
 # Symphonia-Back-end
 
-![logo](./assets/icons/logo.png)
+![logo](./assets/icons/icon.png)
 
 The back end of Symphonia website (a spotify-like music streaming application)
 
@@ -23,7 +23,7 @@ These instructions will get you a copy of the project up and running on your loc
 
       npm i
 
-- then you will need a file called `.env` without a name only an extension to exist in the root directory the file `example.env` has the kind of variables you need to have.
+- then you will need a file called `.env` without a name only an extension to exist in the root directory the file `example.env` has the kind of variables you need to have, also you will need a file called `symphonia.json` in the root directory for the notifications there is an example provided with the name `example-symphonia.json` to show the necessary content for the file.
 
 - we use npm package `winston` for logging so, you need to make a folder called `logs` in the root directory and make 3 files:
 
