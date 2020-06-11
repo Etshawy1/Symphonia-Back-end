@@ -649,7 +649,9 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
       {
         name: `Premium Subscription`,
         description: `remove advs and get locked songs`,
-        images: [`${req.protocol}://${req.get('host')}/img/defult`],
+        images: [
+          `${req.protocol}://${req.get('host')}/api/v1/images/icons/icon.png`
+        ],
         amount: 50 * 100,
         currency: 'USD',
         quantity: 1
