@@ -795,9 +795,7 @@ exports.prepareAndSaveImage = async function prepareAndSaveImage (
 
   // B) save the image with unique name to the following path
   const imageName = `${helper.randomStr(20)}-${Date.now()}.${imageType}`;
-  const imagePath = path.resolve(
-    `${__dirname}/../assets/images/users/${user._id}`
-  );
+  const imagePath = path.resolve(`${__dirname}/../assets/images/users/`);
   await fs_writeFile(`${imagePath}/${imageName}`, decodedData);
 
   return imageName;
