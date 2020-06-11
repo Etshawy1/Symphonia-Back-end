@@ -1,10 +1,17 @@
 # Symphonia-Back-end
 
-<p align="center"> 
-<img src="https://raw.githubusercontent.com/Etshawy1/Symphonia-Back-end/master/assets/icons/icon.png?token=AKF6D74HQOTUQYB3H6B67YK6TMPSQ">
-</p>
+![logo](./assets/icons/logo.png)
 
 The back end of Symphonia website (a spotify-like music streaming application)
+
+## Tools used
+
+- Server: [NodeJs](https://nodejs.org/en/download/) with [Express](https://expressjs.com/) as framework.
+- database: [mongoDB](https://www.mongodb.com/).
+- Unit testing: [jest](https://jestjs.io/).
+- Function documentation: [jsdoc](https://jsdoc.app/).
+- API documentation: [postman](https://documenter.getpostman.com/view/10629897/SzRw3C6L?version=latest)
+- Code Style: [airbnb](https://github.com/airbnb/javascript)
 
 ## Getting Started
 
@@ -16,7 +23,7 @@ These instructions will get you a copy of the project up and running on your loc
 
       npm i
 
-- then you will need a file called `.env` without a name only an extension to exist in the root directory you should find it in the delivered folder in google drive or you should contact us as this file contains all our secrets.
+- then you will need a file called `.env` without a name only an extension to exist in the root directory the file `example.env` has the kind of variables you need to have.
 
 - we use npm package `winston` for logging so, you need to make a folder called `logs` in the root directory and make 3 files:
 
@@ -27,10 +34,6 @@ These instructions will get you a copy of the project up and running on your loc
   3. `combined.log` this contains same content as `error.log` but has more data like the links visited tracked by npm package `morgan` and any thing we want to debug.
 
 - for running the project you can `npm i -g nodemon` then type `nodemon` it will run the project and refresh at any change of code on saving .
-
-### Note about the database
-
-- we are running the project on an online database whose link is in the `.env` file contained in `DATABASE` variable this variable in the `.env` determines the connected database when you run the project, so if you add a link to a local mongodb it will work normally.
 
 ### migrations & seeds
 
@@ -54,8 +57,11 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Unit testing
 
-- to run the unit test type `npm test` that will run a script written to run test of npm package `jest`.
-- to have coverage report you should go to package.json and modify `npm test` script by adding `--coverage` if it doesn't exsit to the script, then running a test automatically generates a coverage report named coverage in folder `./coverage`.
+- type the following command:
+
+      npm test
+
+- running a test automatically generates a coverage report named coverage in folder `./coverage`.
 
 ### development vs production
 
@@ -63,9 +69,26 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### functional documentation
 
-- run the script `npm i -g jsdoc` then to generate documentation write `npm run doc` which is a script to generate documentation of all files generating files in a folder named `./docs`.
+- type the following commadns
+
+       npm i -g jsdoc
+       npm run doc
+
+- first command to download the documentating pacakge second command will generate documentation of all files generating files in a folder named `./docs`.
 
 ### api documentation
 
-- we used postman documentation you can find the post man collection in the root of the repo in json format you can import it in postman application also if you the link of the current documentation, updated with real time example responses from seeds, but description of the returned objects to be updated.
-  <https://documenter.getpostman.com/view/10629897/SzRw3C6L?version=latest>
+- we used postman documentation you can find the post man collection in the root of the repo in json format you can import it in postman application also if you the link of the current documentation, updated with real time example responses from seeds.
+  you can find it [here](https://documenter.getpostman.com/view/10629897/SzRw3C6L?version=latest).
+
+## License
+
+- Licensed under the [MIT License](./License).
+
+### Note
+
+This product is strictly for educational purposes, the music on the platform is subjected to copyrights and are not to be shared or distributed.
+
+## Acknowledgments
+
+some concepts and some files (`./utils/apiFeatures`, `./utils/appError`, `./utils/catchAsync`, `./controllers/handlerFactory`, `./controllers/errorController`) in the code were adapted from a udemy course provided by Jonas Schmedtmann you can visit the [course repo here](https://github.com/leonardo-ono/Assembly8086SBHardwareLevelDspProgrammingTest). we highly recommend it for those who want to learn back-end Api develpment with [Express](https://expressjs.com/)
