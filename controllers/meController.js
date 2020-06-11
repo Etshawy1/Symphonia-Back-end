@@ -215,11 +215,11 @@ exports.playInfo = catchAsync(async (req, res, next) => {
       contextType: req.body.context_type
     };
     const TracksUrl = [];
-    const tracksFound = await Track.find({
+    context.tracks = await Track.find({
       _id: { $in: context.tracks }
     });
-    for (let i = 0; i < tracksFound.length; i++) {
-      const track = tracksFound[i];
+    for (let i = 0; i < context.tracks.length; i++) {
+      const track = context.tracks[i];
       if (track && (req.user.premium || !track.premium)) {
         TracksUrl.push(
           `${req.protocol}://${req.get('host')}/api/v1/me/player/tracks/${
