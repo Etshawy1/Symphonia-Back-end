@@ -1,6 +1,6 @@
 const controller = require('./../../../controllers/meController');
 const { User } = require('./../../../models/userModel');
-const Track = require('./../../../models/trackModel');
+const { Notification } = require('./../../../models/notificationsModel');
 const mongoose = require('mongoose');
 const AppError = require('../../../utils/appError');
 const { mockResponse } = require('../../utils/Requests');
@@ -217,13 +217,16 @@ describe('meController.updateCurrentUserProfile', () => {
   const exec = async () => {
     res = mockResponse();
     next = jest.fn();
+    req = {
+      user,
+      body: { image: 'base64ImageBuffer' },
+      protocol: 'https',
+      get: jest.fn().mockReturnValue('thesymphonia.ddns.net')
+    };
     await controller.updateCurrentUserProfile(req, res, next);
   };
   it('should return new user public profile data after update', async () => {
-    req = {
-      user,
-      body: {}
-    };
+    controller.prepareAndSaveImage = jest.fn();
     User.findByIdAndUpdate = jest.fn().mockResolvedValue(user);
     await exec();
     expect(res.status).toHaveBeenCalledWith(200);
@@ -915,6 +918,144 @@ describe('meController.popQueue', () => {
     await exec();
     const error = new AppError('This Track is not in your current queue', 404);
     expect(next).toHaveBeenCalledWith(error);
+  });
+});
+
+describe('activatePremium', () => {
+  let req, res, next, user, newToken;
+  beforeEach(() => {
+    res = mockResponse();
+    next = jest.fn();
+    const _id = mongoose.Types.ObjectId();
+    newToken = 'new-jwt-generated-token';
+    user = {
+      _id,
+      save: jest.fn()
+    };
+    req = {
+      params: {
+        token: 'premiumToken'
+      }
+    };
+    User.findOne = jest.fn().mockReturnValue(user);
+  });
+  it('should respond with success message if provided activation token is valid', async () => {
+    await controller.premium(req, res, next);
+    expect(user.premium).toEqual(true);
+    expect(res.status).toHaveBeenCalledWith(201);
+    expect(res.json).toHaveBeenCalledWith({ message: 'User is now premium!' });
+  });
+  it('should respond with 400 if activation token is invalid', async () => {
+    User.findOne = jest.fn().mockReturnValue(undefined);
+    await controller.premium(req, res, next);
+    expect(next).toHaveBeenCalledWith(
+      new AppError('Token is invalid or has expired', 400)
+    );
+  });
+});
+
+describe('setRegistrationToken', () => {
+  let req, res, next, user;
+  beforeEach(() => {
+    res = mockResponse();
+    next = jest.fn();
+    const _id = mongoose.Types.ObjectId();
+    user = {
+      _id,
+      save: jest.fn()
+    };
+    req = {
+      user,
+      body: {
+        token: 'registrationToken'
+      }
+    };
+    User.findById = jest.fn().mockReturnValue(user);
+  });
+  it('should add the provided reg token in the body to the user object', async () => {
+    await controller.setRegistrationToken(req, res, next);
+    expect(user.registraionToken).toEqual(req.body.token);
+    expect(user.save).toHaveBeenCalled();
+  });
+});
+
+describe('getNotificationHistory', () => {
+  let req, res, next, user, notifications;
+  beforeEach(() => {
+    res = mockResponse();
+    next = jest.fn();
+    const _id = mongoose.Types.ObjectId();
+    notifications = { _id: mongoose.Types.ObjectId() };
+    user = {
+      _id,
+      notification: '1',
+      save: jest.fn()
+    };
+    req = {
+      user,
+      body: {
+        token: 'registrationToken'
+      }
+    };
+    Notification.findById = jest.fn().mockReturnValue(notifications);
+    const query = { select: jest.fn().mockReturnValue(user) };
+    User.findById = jest.fn().mockReturnValue(query);
+  });
+  it('should return the notifications of the user successfully', async () => {
+    await controller.getNotificationsHistory(req, res, next);
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith({ notifications });
+  });
+
+  it('should return error if no user has not activated notifications', async () => {
+    user.notification = undefined;
+    await controller.getNotificationsHistory(req, res, next);
+    expect(next).toHaveBeenCalledWith(
+      new AppError(`this user doesn't have notifications history`, 404)
+    );
+  });
+});
+
+describe('applyPremium', () => {
+  let req, res, next, user, notifications;
+  beforeEach(() => {
+    res = mockResponse();
+    next = jest.fn();
+    const _id = mongoose.Types.ObjectId();
+    notifications = { _id: mongoose.Types.ObjectId() };
+    user = {
+      name: 'premium',
+      _id,
+      createPremiumToken: jest.fn().mockReturnValue('premiumTokenEmail'),
+      save: jest.fn()
+    };
+    req = {
+      user,
+      protocol: 'https',
+      hostname: 'thesymphonia.ddns.net'
+    };
+
+    User.findById = jest.fn().mockReturnValue(user);
+  });
+  it('should send email with the premium token and return status 200', async () => {
+    await controller.applyPremium(req, res, next);
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith({
+      message: 'Token sent to email!',
+      status: 'success'
+    });
+  });
+
+  it('should return error if sending email was not successful', async () => {
+    process.env.TEST_REJECT = true;
+    await controller.applyPremium(req, res, next);
+    process.env.TEST_REJECT = undefined;
+    expect(next).toHaveBeenCalledWith(
+      new AppError(
+        `There was an error sending the email. Try again later!`,
+        500
+      )
+    );
   });
 });
 

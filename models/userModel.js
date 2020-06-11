@@ -184,11 +184,14 @@ userSchema.pre('save', async function (next) {
 });
 
 userSchema.pre('save', function (next) {
+  /* istanbul ignore else */
   if (!this.isModified('password') || this.isNew) return next();
 
+  /* istanbul ignore next */
   // to make sure the token is created after the password has been modified
   // because saving to the database is a bit slower than making the token
   this.passwordChangedAt = Date.now() - 1000;
+  /* istanbul ignore next */
   next();
 });
 
@@ -326,7 +329,7 @@ userSchema.methods.createPlayerToken = function () {
     .createHash('sha256')
     .update(playerToken)
     .digest('hex');
-  // the token to reset the password is valit only for 10 minutes
+  // the token to reset the password is valit only for 20 minutes
   this.playerTokenExpires = Date.now() + 20 * 60 * 1000;
   return playerToken;
 };

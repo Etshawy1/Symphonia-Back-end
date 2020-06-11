@@ -12,7 +12,7 @@ const AppError = require('../utils/appError');
 const globalErrorHandler = require('../controllers/errorController');
 const staticImages = require('../routes/images');
 const bodyParser = require('body-parser');
-
+const meRouter_v2 = require('../routes_v2/meRouter');
 module.exports = function (app) {
   app.set('trust proxy', 'loopback'); // for deployment to get the host in the code
   app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
@@ -42,6 +42,7 @@ module.exports = function (app) {
   app.use('/api/v1/search', searchRouter);
   app.use('/api/v1/recommendations', recommendationRouter);
 
+  /* istanbul ignore next */
   // if any link is visited and not mentioned above will go to that next middleware
   app.all('*', (req, res, next) => {
     next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));

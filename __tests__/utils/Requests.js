@@ -16,6 +16,7 @@ describe('dumb', () => {
     expect(1).toEqual(1);
   });
 });
+
 module.exports.mockQuery = function (arr) {
   let query = (async () => {
     return arr;
@@ -43,6 +44,7 @@ module.exports.mockPageRequest = originalUrl => {
     query: {},
     originalUrl: q.pathname,
     protocol: q.protocol,
-    get: jest.fn().mockReturnValue(q.host)
+    get: jest.fn().mockReturnValue(q.host),
+    body:{}
   };
 };

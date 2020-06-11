@@ -115,7 +115,7 @@ exports.getPlaylistCoverImage = catchAsync(async (req, res, next) => {
       .send('The playlist with the given ID was not found.');
   }
   if (!playlistCheck.public && playlistCheck.owner != req.user.id)
-    return res.status(500).send('This playlist is not Public');
+    return res.status(401).send('This playlist is not Public');
 
   res.send(playlistCheck.images);
 });
@@ -200,13 +200,14 @@ exports.addTracksToPlaylist = catchAsync(async (req, res, next) => {
       .status(404)
       .send('The playlist with the given ID was not found.');
   }
-  const playlistTrackCount = playlistCheck.tracks.length;
+
   if (
     (!playlistCheck.public || !playlistCheck.collaborative) &&
     playlistCheck.owner != req.user.id
   )
     return next(new AppError('This playlist is restricted.', 401));
 
+  const playlistTrackCount = playlistCheck.tracks.length;
   let InputTrackarr = req.body.tracks;
 
   let trackarr = playlistCheck.tracks;
@@ -247,11 +248,11 @@ exports.addTracksToPlaylist = catchAsync(async (req, res, next) => {
     );
   }
   await notify(
-    playlistCheck.followers,
-    playlistCheck._id,
+    playlist.followers,
+    playlist._id,
     'PlayList Updated',
-    `${playlistCheck.name} is updated with new tracks`,
-    playlistCheck.image
+    `${playlist.name} is updated with new tracks`,
+    playlist.images[0]
   );
   res.status(200).json(playlist);
 });
@@ -326,7 +327,6 @@ exports.maintainPlaylistTracks = catchAsync(async (req, res, next) => {
         },
         { new: true }
       );
-      await playlist.save();
       res.send(playlist);
     } else {
       return next(new AppError('the dimensions are not correct', 400));
@@ -349,7 +349,6 @@ exports.maintainPlaylistTracks = catchAsync(async (req, res, next) => {
       },
       { new: true }
     );
-    await playlist.save();
     res.send(playlist);
   }
 });
@@ -376,7 +375,6 @@ exports.uploadCustomPlaylistCoverImage = catchAsync(async (req, res, next) => {
     { new: true }
   );
 
-  await playlist.save();
   res.send(playlist);
 });
 exports.getRandomPlaylist = catchAsync(async (req, res, next) => {

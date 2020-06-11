@@ -22,11 +22,10 @@ const categorySchema = new mongoose.Schema(
   }
 );
 
-categorySchema.pre('save', function() {
+/* istanbul ignore next */
+categorySchema.pre('save', function () {
   this.id = slugify(this.name, { lower: true });
 });
-
-
 
 const Category = mongoose.model('Category', categorySchema);
 module.exports = Category;

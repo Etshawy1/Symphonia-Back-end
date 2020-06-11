@@ -34,6 +34,7 @@ exports.notify = async (users, ownerId, title, body, icon) => {
       notification.items.push({ ...payload, date: Date.now() });
       await notification.save({ validateBeforeSave: false });
     }
+    /* istanbul ignore next */
     if (user.registraionToken)
       await admin.messaging().sendToDevice(user.registraionToken, payload);
     await user.save({ validateBeforeSave: false });

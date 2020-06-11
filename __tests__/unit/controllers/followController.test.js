@@ -18,6 +18,10 @@ const Album = require('../../../models/albumModel');
 
 describe('follow User', () => {
   let req, res, next;
+  beforeEach(() => {
+    jest.resetModules();
+
+  });
   beforeAll(() => {
     res = mockResponse();
     next = jest.fn();
@@ -41,12 +45,47 @@ describe('follow User', () => {
     expect(res.status).toHaveBeenCalledWith(204);
     expect(res.json).toHaveBeenCalled();
   });
+  
   it('should not follow User and display user is already followed message', async () => {
     req.query = { ids: '1,7' };
 
     await controller.FollowUser(req, res, next);
     expect(next).toHaveBeenCalledWith(
       new AppError('user is already followed', 400)
+    );        
+  });
+  it('should return user not found', async () => {
+     User.findById = jest.fn().mockReturnValue(undefined);
+
+    await controller.FollowUser(req, res, next);
+    expect(next).toHaveBeenCalledWith(
+      new AppError('this is not a valid user', 400)
+    );        
+  });
+it('should return this is not a valid user', async () => {
+  User.findById = jest.fn().mockReturnValue(undefined);
+  req.query = { ids: '1,7' };
+  mongoose.Types.ObjectId.isValid = jest.fn().mockReturnValue(false);
+  await controller.FollowUser(req, res, next);
+  expect(next).toHaveBeenCalledWith(
+    new AppError('invalid ids provided', 400)
+  );    
+});
+  it('should throw invalid ids provided', async () => {
+    req.query = { ids: '1,7' };
+    mongoose.Types.ObjectId.isValid = jest.fn().mockReturnValue(false);
+    await controller.FollowUser(req, res, next);
+    expect(next).toHaveBeenCalledWith(
+      new AppError('invalid ids provided', 400)
+    );    
+  });
+
+  it('should say ids field is missing', async () => {
+    req.query = {  };
+
+    await controller.FollowUser(req, res, next);
+    expect(next).toHaveBeenCalledWith(
+      new AppError('ids field is missing', 400)
     );
   });
 });
@@ -134,6 +173,7 @@ describe('follow Playlist', () => {
       new AppError('already following the playlist', 403)
     );
   });
+
 });
 
 describe('followed playlist count', () => {
@@ -146,6 +186,7 @@ describe('followed playlist count', () => {
     Playlist.count = jest.fn().mockReturnValue(2);
   });
   it('should return the count of followed playlists by user', async () => {
+    
     await controller.followedPlaylistCount(req, res, next);
     expect(res.status).toHaveBeenCalledWith(200);
     expect(res.json).toHaveBeenCalledWith({ FollowedPlaylists: 2 });
@@ -171,6 +212,38 @@ describe('get followed playlist', () => {
   });
 });
 
+describe('get User Followed Artists', () => {
+  let req, res, next, playlists, limit = 20, offset = 0 ;
+  beforeAll(() => {
+    res = mockResponse();
+    next = jest.fn();
+    req = mockPageRequest('url');
+    req.user = { _id: '1', id: '1', followedUsers: ['1', '2', '3', '4', '5'] };
+    User.findOne = mockQuery(req.user)
+
+
+  });
+  it("should return current user's followed artists ", async () => {
+    req.query.limit = 'toto'; // it tests if limit isn't a number
+   req.query.after = '1';
+    await controller.getUserFollowedArtists(req, res, next);
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith({
+      artists: {
+        items: req.user.followedUsers
+      },
+      limit,
+      total: req.user.followedUsers.length,
+      next: null,
+      cursors: {
+        after: null
+      },
+      totalFollowed: req.user.followedUsers.length
+    });
+  });
+});
+
+
 describe('unfollow User', () => {
   let req, res, next;
   beforeAll(() => {
@@ -187,6 +260,12 @@ describe('unfollow User', () => {
     await controller.unfollowUser(req, res, next);
     expect(res.status).toHaveBeenCalledWith(204);
     expect(res.json).toHaveBeenCalled();
+  });
+
+  it('should return ids field not found', async () => {
+    req.query.ids = undefined;
+    await controller.unfollowUser(req, res, next);
+   expect(next).toHaveBeenCalledWith(new AppError('ids field is missing', 400));
   });
 });
 

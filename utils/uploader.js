@@ -156,6 +156,7 @@ class UploadBuilder {
     });
     return this.uploader.fields(this.fileFields);
   }
+  /* istanbul ignore next */
   /**
    * @returns {function} the ready to use before route middleware
    */

@@ -18,6 +18,7 @@ const users = [
     dateOfBirth: new Date('1999-05-12T00:00:00.000+00:00'),
     gender: 'male',
     type: 'user',
+    premium: false,
     last_login: '2020-04-06T10:21:58.141+00:00',
     passwordChangedAt: '2020-04-01T15:38:48.450+00:00',
     queue: {
@@ -61,6 +62,7 @@ const users = [
     dateOfBirth: new Date('1999-06-25T00:00:00.000+00:00'),
     gender: 'female',
     type: 'user',
+    premium: false,
     queue: {
       devices: [
         {
@@ -92,6 +94,7 @@ const users = [
     dateOfBirth: new Date('1986-06-25T00:00:00.000+00:00'),
     gender: 'male',
     type: 'user',
+    premium: false,
     queue: {
       devices: [
         {
@@ -127,6 +130,7 @@ const users = [
     dateOfBirth: new Date('1978-06-25T00:00:00.000+00:00'),
     gender: 'male',
     type: 'artist',
+    premium: true,
     bio,
     queue: {
       devices: [
@@ -160,6 +164,7 @@ const users = [
     dateOfBirth: new Date('1979-12-25T00:00:00.000+00:00'),
     gender: 'male',
     type: 'artist',
+    premium: true,
     bio,
     queue: {
       devices: [
@@ -192,6 +197,7 @@ const users = [
     dateOfBirth: new Date('1995-06-25T00:00:00.000+00:00'),
     gender: 'female',
     type: 'artist',
+    premium: true,
     bio,
     queue: {
       devices: [
@@ -225,6 +231,7 @@ const users = [
     dateOfBirth: new Date('1985-12-05T00:00:00.000+00:00'),
     gender: 'male',
     type: 'artist',
+    premium: true,
     bio,
     queue: {
       devices: [
@@ -257,6 +264,7 @@ const users = [
     dateOfBirth: new Date('1999-09-09T00:00:00.000+00:00'),
     gender: 'male',
     type: 'user',
+    premium: true,
     queue: {
       queueTracks: [
         'https://thesymphonia.ddns.net/api/v1/me/player/tracks/5e7d2dc03429e24340ff1396',
@@ -297,6 +305,7 @@ const users = [
     dateOfBirth: new Date('1980-09-09T00:00:00.000+00:00'),
     gender: 'female',
     type: 'artist',
+    premium: true,
     bio,
     queue: {
       devices: [
@@ -322,6 +331,7 @@ const users = [
     dateOfBirth: new Date('1988-05-09T00:00:00.000+00:00'),
     gender: 'female',
     type: 'artist',
+    premium: true,
     bio,
     queue: {
       devices: [
@@ -348,6 +358,7 @@ const users = [
     dateOfBirth: new Date('1987-05-10T00:00:00.000+00:00'),
     gender: 'female',
     type: 'artist',
+    premium: true,
     bio,
     queue: {
       devices: [
@@ -373,6 +384,7 @@ const users = [
     dateOfBirth: new Date('1997-05-16T00:00:00.000+00:00'),
     gender: 'male',
     type: 'artist',
+    premium: true,
     bio,
     queue: {
       devices: [
@@ -399,6 +411,7 @@ const users = [
     dateOfBirth: new Date('1997-05-16T00:00:00.000+00:00'),
     gender: 'female',
     type: 'artist',
+    premium: true,
     bio,
     queue: {
       devices: [
@@ -424,6 +437,7 @@ const users = [
     dateOfBirth: new Date('1997-05-16T00:00:00.000+00:00'),
     gender: 'female',
     type: 'artist',
+    premium: true,
     bio,
     queue: {
       devices: [
@@ -450,6 +464,7 @@ const users = [
     dateOfBirth: new Date('1987-07-16T00:00:00.000+00:00'),
     gender: 'male',
     type: 'artist',
+    premium: true,
     bio,
     queue: {
       devices: [
@@ -476,6 +491,7 @@ const users = [
     dateOfBirth: new Date('1987-07-16T00:00:00.000+00:00'),
     gender: 'male',
     type: 'artist',
+    premium: true,
     bio,
     queue: {
       devices: [
@@ -502,6 +518,7 @@ const users = [
     dateOfBirth: new Date('1991-07-16T00:00:00.000+00:00'),
     gender: 'male',
     type: 'artist',
+    premium: true,
     bio,
     queue: {
       devices: [
@@ -528,6 +545,7 @@ const users = [
     dateOfBirth: new Date('1995-07-16T00:00:00.000+00:00'),
     gender: 'male',
     type: 'artist',
+    premium: true,
     bio,
     queue: {
       devices: [
@@ -553,6 +571,7 @@ const users = [
     dateOfBirth: new Date('1985-08-16T00:00:00.000+00:00'),
     gender: 'female',
     type: 'artist',
+    premium: true,
     bio,
     queue: {
       devices: [
@@ -579,6 +598,7 @@ const users = [
     dateOfBirth: new Date('1995-08-16T00:00:00.000+00:00'),
     gender: 'female',
     type: 'artist',
+    premium: true,
     bio,
     queue: {
       devices: [
@@ -605,6 +625,7 @@ const users = [
     dateOfBirth: new Date('1998-08-16T00:00:00.000+00:00'),
     gender: 'male',
     type: 'artist',
+    premium: true,
     bio,
     queue: {
       devices: [
@@ -630,6 +651,7 @@ const users = [
     dateOfBirth: new Date('1986-04-11T00:00:00.000+00:00'),
     gender: 'male',
     type: 'artist',
+    premium: true,
     bio,
     queue: {
       devices: [
@@ -656,6 +678,7 @@ const users = [
     dateOfBirth: new Date('1991-04-01T00:00:00.000+00:00'),
     gender: 'female',
     type: 'artist',
+    premium: true,
     bio,
     queue: {
       devices: [
@@ -682,6 +705,7 @@ const users = [
     dateOfBirth: new Date('1995-04-01T00:00:00.000+00:00'),
     gender: 'female',
     type: 'artist',
+    premium: true,
     bio,
     queue: {
       devices: [
@@ -708,6 +732,7 @@ const users = [
     dateOfBirth: new Date('1997-04-01T00:00:00.000+00:00'),
     gender: 'female',
     type: 'artist',
+    premium: true,
     bio,
     queue: {
       devices: [
@@ -734,6 +759,7 @@ const users = [
     dateOfBirth: new Date('1989-07-01T00:00:00.000+00:00'),
     gender: 'male',
     type: 'artist',
+    premium: true,
     bio,
     queue: {
       devices: [
@@ -760,6 +786,7 @@ const users = [
     dateOfBirth: new Date('1981-07-01T00:00:00.000+00:00'),
     gender: 'female',
     type: 'artist',
+    premium: true,
     bio,
     queue: {
       devices: [
@@ -786,6 +813,7 @@ const users = [
     dateOfBirth: new Date('1988-07-01T00:00:00.000+00:00'),
     gender: 'male',
     type: 'artist',
+    premium: true,
     bio,
     queue: {
       devices: [
@@ -811,6 +839,7 @@ const users = [
     dateOfBirth: new Date('1976-12-15T00:00:00.000+00:00'),
     gender: 'male',
     type: 'artist',
+    premium: true,
     bio,
     queue: {
       devices: [
@@ -836,6 +865,7 @@ const users = [
     dateOfBirth: new Date('1976-12-15T00:00:00.000+00:00'),
     gender: 'female',
     type: 'artist',
+    premium: true,
     bio,
     queue: {
       devices: [
@@ -862,6 +892,7 @@ const users = [
     dateOfBirth: new Date('1978-12-15T00:00:00.000+00:00'),
     gender: 'male',
     type: 'artist',
+    premium: true,
     bio,
     queue: {
       devices: [
@@ -888,6 +919,7 @@ const users = [
     dateOfBirth: new Date('1998-12-15T00:00:00.000+00:00'),
     gender: 'male',
     type: 'artist',
+    premium: true,
     bio,
     queue: {
       devices: [
@@ -914,6 +946,7 @@ const users = [
     dateOfBirth: new Date('1987-12-15T00:00:00.000+00:00'),
     gender: 'male',
     type: 'artist',
+    premium: true,
     bio,
     queue: {
       devices: [
@@ -939,6 +972,7 @@ const users = [
     dateOfBirth: new Date('1987-12-15T00:00:00.000+00:00'),
     gender: 'female',
     type: 'artist',
+    premium: true,
     bio,
     queue: {
       devices: [
@@ -964,6 +998,7 @@ const users = [
     dateOfBirth: new Date('1987-12-15T00:00:00.000+00:00'),
     gender: 'female',
     type: 'artist',
+    premium: true,
     bio,
     queue: {
       devices: [
@@ -989,6 +1024,7 @@ const users = [
     dateOfBirth: new Date('1987-12-15T00:00:00.000+00:00'),
     gender: 'male',
     type: 'artist',
+    premium: true,
     bio,
     queue: {
       devices: [
@@ -1014,6 +1050,7 @@ const users = [
     dateOfBirth: new Date('1997-12-15T00:00:00.000+00:00'),
     gender: 'male',
     type: 'artist',
+    premium: true,
     bio,
     queue: {
       devices: [
@@ -1040,6 +1077,7 @@ const users = [
     dateOfBirth: new Date('1997-12-15T00:00:00.000+00:00'),
     gender: 'female',
     type: 'artist',
+    premium: true,
     bio,
     queue: {
       devices: [

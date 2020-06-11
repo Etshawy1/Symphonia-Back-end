@@ -49,10 +49,12 @@ const albumSchema = new mongoose.Schema(
 );
 
 albumSchema.virtual('tracksCount').get(function () {
+  /* istanbul ignore else */
   if (this.tracks) return this.tracks.length;
 });
 
 albumSchema.virtual('year').get(function () {
+  /* istanbul ignore else */
   if (this.releaseDate) return this.releaseDate.getFullYear();
 });
 

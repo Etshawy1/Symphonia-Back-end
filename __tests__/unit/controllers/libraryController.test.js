@@ -26,6 +26,11 @@ describe("Check User's Saved Albums", () => {
     expect(res.status).toHaveBeenCalledWith(200);
     expect(res.json).toHaveBeenCalledWith(isIn);
   });
+  it('should return ids parameter isnot found', async () => {
+    req.query = {};
+    await controller.checkUserSavedAlbums(req, res, next);
+    expect(next).toHaveBeenCalledWith(new AppError('please provide the ids parameter', 400));
+  });
 });
 
 describe("Check User's Saved Tracks", () => {
