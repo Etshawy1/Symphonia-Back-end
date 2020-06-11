@@ -1,3 +1,5 @@
+// Acknowledgments: code adapted from https://github.com/jonasschmedtmann/complete-node-bootcamp
+
 const catchAsync = require('./../utils/catchAsync').threeArg;
 const AppError = require('./../utils/appError');
 const APIFeatures = require('./../utils/apiFeatures');

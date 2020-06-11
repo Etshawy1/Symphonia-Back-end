@@ -91,4 +91,4 @@ This product is strictly for educational purposes, the music on the platform is 
 
 ## Acknowledgments
 
-some concepts and some files (`./utils/apiFeatures`, `./utils/appError`, `./utils/catchAsync`, `./controllers/handlerFactory`, `./controllers/errorController`) in the code were adapted from a udemy course provided by Jonas Schmedtmann you can visit the [course repo here](https://github.com/leonardo-ono/Assembly8086SBHardwareLevelDspProgrammingTest). we highly recommend it for those who want to learn back-end Api develpment with [Express](https://expressjs.com/)
+some concepts and some files (`./utils/apiFeatures`, `./utils/appError`, `./utils/catchAsync`, `./controllers/handlerFactory`, `./controllers/errorController`) in the code were adapted from a udemy course provided by Jonas Schmedtmann you can visit the [course repo here](https://github.com/jonasschmedtmann/complete-node-bootcamp). we highly recommend it for those who want to learn back-end Api develpment with [Express](https://expressjs.com/)

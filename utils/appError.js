@@ -1,3 +1,5 @@
+// Acknowledgments: code adapted from https://github.com/jonasschmedtmann/complete-node-bootcamp
+
 /**
  * Class contains errors that happen in the application with custom message and status code.
  * @extends Error

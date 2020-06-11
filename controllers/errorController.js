@@ -1,3 +1,5 @@
+// Acknowledgments: code adapted from https://github.com/jonasschmedtmann/complete-node-bootcamp
+
 const AppError = require('./../utils/appError');
 
 const handleCastErrorDB = err => {

@@ -215,25 +215,31 @@ exports.playInfo = catchAsync(async (req, res, next) => {
       contextType: req.body.context_type
     };
     const TracksUrl = [];
-    context.tracks = await Track.find({
-      _id: { $in: context.tracks }
-    });
+
+    context.tracks = req.user.premium
+      ? await Track.find({
+          _id: { $in: context.tracks }
+        }).distinct('_id')
+      : await Track.find({
+          _id: { $in: context.tracks },
+          premium: false
+        }).distinct('_id');
+    let indexOfCurrentTrack = -1;
     for (let i = 0; i < context.tracks.length; i++) {
-      const track = context.tracks[i];
-      if (track && (req.user.premium || !track.premium)) {
-        TracksUrl.push(
-          `${req.protocol}://${req.get('host')}/api/v1/me/player/tracks/${
-            context.tracks[i]._id
-          }`
-        );
-      } else {
-        context.tracks.splice(i, 1);
-        i--;
-      }
+      if (context.tracks[i].equals(track._id)) indexOfCurrentTrack = i;
+      TracksUrl.push(
+        `${req.protocol}://${req.get('host')}/api/v1/me/player/tracks/${
+          context.tracks[i]
+        }`
+      );
     }
-    const indexOfCurrentTrack = context.tracks.indexOf(track._id);
+    if (indexOfCurrentTrack == -1) {
+      return next(new AppError('this track does not exist', 404));
+    }
+    console.log(indexOfCurrentTrack);
     const indexOfPreviousTrack =
       indexOfCurrentTrack === 0 ? -1 : indexOfCurrentTrack - 1;
+    console.log(typeof track._id, typeof context.tracks[0]);
     const indexOfNextTrack =
       indexOfCurrentTrack === context.tracks.length - 1
         ? -1

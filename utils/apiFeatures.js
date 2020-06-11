@@ -1,3 +1,5 @@
+// Acknowledgments: code adapted from https://github.com/jonasschmedtmann/complete-node-bootcamp
+
 /**
  * Class contains features for out apis to handel pagiantion and limitation and sorting.
  * @class APIFeatures

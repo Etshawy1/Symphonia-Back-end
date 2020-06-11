@@ -1,3 +1,5 @@
+// Acknowledgments: code adapted from https://github.com/jonasschmedtmann/complete-node-bootcamp
+
 module.exports.threeArg = fn => {
   return async (req, res, next) => {
     // catch rejected promise (inside a function that takes three arguments)
