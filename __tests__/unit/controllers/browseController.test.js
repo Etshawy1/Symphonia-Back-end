@@ -167,31 +167,3 @@ describe('get Recommended Artists', () => {
     );
   });
 });
-
-// problem with mocking the create category
-/*
-describe('create Category', () => {
-  let req, res, next, category;
-  beforeAll(() => {
-    res = mockResponse();
-    next = jest.fn();
-    const id = 'rocky_has_12';
-    category = { id, _id: 1 };
-    req = mockPageRequest('api/v1/browse/categories');
-    req.files = {icon:[{filename:'icon0', path:'E://'}]};
-    req.body.name=id;
-     
-   
-    Category.create = jest.fn().mockReturnValue(category);
-    Category.findByIdAndUpdate = jest.fn().mockReturnValue(category);
-
-  });
-  it('should return the playlists in a certain category', async () => {
-   
-
-    await controller.createCategory(req, res, next);
-    expect(res.status).toHaveBeenCalledWith(200);
-    expect(res.json).toHaveBeenCalledWith({category});
-  });
-});
-*/
