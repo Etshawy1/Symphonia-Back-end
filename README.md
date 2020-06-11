@@ -4,6 +4,12 @@
 
 The back end of Symphonia website (a spotify-like music streaming application)
 
+[![GitHub contributors](https://img.shields.io/github/contributors/Etshawy1/Symphonia-Back-end)](https://github.com/Etshawy1/Symphonia-Back-end/graphs/contributors)
+[![GitHub issues](https://img.shields.io/github/issues/Etshawy1/Symphonia-Back-end)](https://github.com/Etshawy1/Symphonia-Back-end/issues)
+[![GitHub forks](https://img.shields.io/github/forks/Etshawy1/Symphonia-Back-end)](https://github.com/Etshawy1/Symphonia-Back-end/network/members)
+[![GitHub stars](https://img.shields.io/github/stars/Etshawy1/Symphonia-Back-end)](https://github.com/Etshawy1/Symphonia-Back-end/stargazers)
+[![GitHub license](https://img.shields.io/github/license/Etshawy1/Symphonia-Back-end)](https://github.com/Etshawy1/Symphonia-Back-end/blob/master/License)
+
 ## Tools used
 
 - Server: [NodeJs](https://nodejs.org/en/download/) with [Express](https://expressjs.com/) as framework.
