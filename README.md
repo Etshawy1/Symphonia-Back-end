@@ -35,7 +35,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 - for running the project you can `npm i -g nodemon` then type `nodemon` it will run the project and refresh at any change of code on saving .
 
-### migrations & seeds
+### Migrations & Seeds
 
 - to run seeds you need to type those commands:
 
@@ -63,11 +63,11 @@ These instructions will get you a copy of the project up and running on your loc
 
 - running a test automatically generates a coverage report named coverage in folder `./coverage`.
 
-### development vs production
+### Development vs Production
 
 - to run in developer env you should go to the root directory and find the `.env` file which has a variable with name `NODE_ENV` you can give it value `production` or `development` according to your needs.
 
-### functional documentation
+### Functional documentation
 
 - type the following commadns
 
@@ -76,10 +76,18 @@ These instructions will get you a copy of the project up and running on your loc
 
 - first command to download the documentating pacakge second command will generate documentation of all files generating files in a folder named `./docs`.
 
-### api documentation
+### API documentation
 
 - we used postman documentation you can find the post man collection in the root of the repo in json format you can import it in postman application also if you the link of the current documentation, updated with real time example responses from seeds.
   you can find it [here](https://documenter.getpostman.com/view/10629897/SzRw3C6L?version=latest).
+
+## Authors
+
+- [Muhammad Ahmad Hesham](https://github.com/Etshawy1)
+- [Muhammad Alaa Abdel-Khaliq](https://github.com/MuhammeedAlaa)
+- [Muhammad Ibrahim Gab-Allah](https://github.com/marait123)
+- [Omar Tarek Muhammad](https://github.com/omar9984)
+- [Ahmad Attia](https://github.com/A00x40) (devOps)
 
 ## License
 
@@ -91,4 +99,4 @@ This product is strictly for educational purposes, the music on the platform is 
 
 ## Acknowledgments
 
-some concepts and some files (`./utils/apiFeatures`, `./utils/appError`, `./utils/catchAsync`, `./controllers/handlerFactory`, `./controllers/errorController`) in the code were adapted from a udemy course provided by Jonas Schmedtmann you can visit the [course repo here](https://github.com/jonasschmedtmann/complete-node-bootcamp). we highly recommend it for those who want to learn back-end Api develpment with [Express](https://expressjs.com/)
+some concepts and some files (`./utils/apiFeatures`, `./utils/appError`, `./utils/catchAsync`, `./controllers/handlerFactory`, `./controllers/errorController`) in the code were adapted from a udemy course provided by [Jonas Schmedtmann](https://github.com/jonasschmedtmann) you can visit the [course repo here](https://github.com/jonasschmedtmann/complete-node-bootcamp). we highly recommend it for those who want to learn back-end Api develpment with [Express](https://expressjs.com/)
