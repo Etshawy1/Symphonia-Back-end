@@ -126,15 +126,7 @@ exports.getPlaylistTracks = catchAsync(async (req, res, next) => {
     return next(new AppError('that document does not exist', 404));
   }
   const features = new APIFeatures(
-    Track.aggregate([
-      { $match: { _id: { $in: playlistTracks.tracks } } },
-      {
-        $addFields: {
-          __order: { $indexOfArray: [playlistTracks.tracks, '$_id'] }
-        }
-      },
-      { $sort: { __order: 1 } }
-    ]),
+    Track.find({ _id: { $in: playlistTracks.tracks } }),
     req.query
   ).offset();
 

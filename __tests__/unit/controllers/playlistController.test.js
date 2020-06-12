@@ -507,7 +507,7 @@ describe('getPlaylistTracks', () => {
     playlist = { _id: mongoose.Types.ObjectId() };
     query.populate = jest.fn();
     Playlist.findById = jest.fn().mockReturnValue(playlist);
-    Track.aggregate = jest.fn().mockReturnValue(query);
+    Track.find = jest.fn().mockReturnValue(query);
     Track.populate = jest.fn();
   });
 
