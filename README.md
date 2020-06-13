@@ -1,6 +1,6 @@
 # Symphonia-Back-end
 
-![logo](./assets/icons/TheLogo.png)
+![logo](./assets/icons/SymphoniaLogo.svg)
 
 The back end of Symphonia website (a spotify-like music streaming application)
 
