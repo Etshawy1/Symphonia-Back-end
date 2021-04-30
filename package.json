@@ -46,7 +46,7 @@
     "passport-facebook-token": "^3.3.0",
     "passport-google-oauth20": "^2.0.0",
     "passport-google-plus-token": "^2.1.0",
-    "pug": "^2.0.4",
+    "pug": "^3.0.1",
     "reinstall": "^2.0.0",
     "sharp": "^0.25.2",
     "slugify": "^1.4.0",
