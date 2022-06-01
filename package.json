@@ -48,7 +48,7 @@
     "passport-google-plus-token": "^2.1.0",
     "pug": "^3.0.1",
     "reinstall": "^2.0.0",
-    "sharp": "^0.25.2",
+    "sharp": "^0.30.5",
     "slugify": "^1.4.0",
     "socket.io": "^2.3.0",
     "stripe": "^8.39.0",
